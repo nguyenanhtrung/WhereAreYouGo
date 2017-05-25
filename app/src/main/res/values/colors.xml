@@ -14,4 +14,5 @@
 
   <color name="color_pressed">#F06292</color>
   <color name="color_ripple">#EF9A9A</color>
+  <color name="color_divider">#616161</color>
 </resources>

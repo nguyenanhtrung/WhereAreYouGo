@@ -5,4 +5,7 @@
   <dimen name="height_edit_text_search_venue">40dp</dimen>
   <dimen name="width_search_venue_loading">30dp</dimen>
   <dimen name="height_search_venue_loading">30dp</dimen>
+  <dimen name="width_user_image">100dp</dimen>
+  <dimen name="height_user_image">100dp</dimen>
+  <dimen name="margin_top_label_setting">40dp</dimen>
 </resources>

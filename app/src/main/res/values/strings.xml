@@ -86,7 +86,7 @@
   <string name="save_info_success">Lưu thông tin thành công!</string>
   <string name="save_info_fail">Lưu thông tin thất bại</string>
   <string name="user_name_map">Tôi</string>
-  <string name="title_minivenues_dialog">Danh sách địa điểm</string>khoảng
+  <string name="title_venues_dialog">Danh sách địa điểm</string>
   <string name="button_close_dialog">Đóng cửa sổ</string>
   <string name="text_num_of_result">Số địa điểm tìm được</string>
   <string name="venude_distance">Cách bạn  </string>
