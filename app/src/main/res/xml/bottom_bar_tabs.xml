@@ -1,0 +1,33 @@
+<tabs>
+  <tab
+    id="@+id/tab_home"
+    icon="@drawable/ic_map"
+    title="@string/bottom_tab_map"
+    />
+  <tab
+    id="@+id/tab_search"
+    icon="@drawable/ic_search"
+    title="@string/bottom_tab_search"
+
+    />
+  <tab
+    id="@+id/tab_notification"
+    icon="@drawable/ic_notifications"
+    title="@string/bottom_tab_notification"
+
+    />
+
+  <tab
+    id="@+id/tab_friends_on_map"
+    icon="@drawable/ic_friends_on_map"
+    title="@string/bottom_tab_friend_on_map"
+
+    />
+
+  <tab
+    id="@+id/tab_list_friend"
+    icon="@drawable/ic_friends"
+    title="@string/bottom_tab_list_friend"
+
+    />
+</tabs>

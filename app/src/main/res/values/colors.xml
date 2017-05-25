@@ -9,4 +9,9 @@
   <color name="colorActionBarText">#FCFCFC</color>
   
   <color name="login_background">#9CCC65</color>
+  <color name="active_tab_color">#FCFCFC</color>
+  <color name="inactive_tab_color">#212121</color>
+
+  <color name="color_pressed">#F06292</color>
+  <color name="color_ripple">#EF9A9A</color>
 </resources>

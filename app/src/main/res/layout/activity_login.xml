@@ -62,8 +62,8 @@
 
   <com.beardedhen.androidbootstrap.BootstrapButton
     android:id="@+id/button_sign_in"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_width="@dimen/width_button"
+    android:layout_height="@dimen/height_button"
     android:text="@string/button_sign_in"
     style="@style/ButtonLogin"
     android:layout_marginTop="57dp"
@@ -74,8 +74,8 @@
 
   <com.beardedhen.androidbootstrap.BootstrapButton
     android:id="@+id/button_sign_up"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_width="@dimen/width_button"
+    android:layout_height="@dimen/height_button"
     android:text="@string/button_sign_up"
     style="@style/ButtonLogin"
     android:layout_marginTop="57dp"

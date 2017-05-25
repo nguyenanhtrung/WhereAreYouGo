@@ -1,18 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:app="http://schemas.android.com/apk/res-auto"
   xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
-  tools:context="com.example.android.whereareyougo.MainActivity">
+  android:orientation="vertical"
+  tools:context="com.example.android.whereareyougo.ui.main.MainActivity">
 
-  <TextView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="Hello World!"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintLeft_toLeftOf="parent"
-    app:layout_constraintRight_toRightOf="parent"
-    app:layout_constraintTop_toTopOf="parent" />
+  <android.support.v7.widget.Toolbar
+    android:id="@+id/toolbar"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_weight="1"
+    android:background="@color/colorPrimary"
+    android:minHeight="?attr/actionBarSize">
 
-</android.support.constraint.ConstraintLayout>
+    <android.support.constraint.ConstraintLayout
+      android:layout_width="match_parent"
+      android:layout_height="?attr/actionBarSize">
+      <ImageButton
+        android:id="@+id/button_user_setting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:contentDescription="@string/contentDescriptor"
+        android:src="@drawable/ic_account_box_white_24dp"
+        android:background="?android:attr/selectableItemBackground"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+      <TextView
+        android:id="@+id/text_title_toolbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:text="@string/title_main_view"
+        style="@style/TitleActionBar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.378"
+        app:layout_constraintLeft_toRightOf="@+id/button_user_setting"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.523" />
+
+
+    </android.support.constraint.ConstraintLayout>
+
+  </android.support.v7.widget.Toolbar>
+
+  <!--<fragment
+    android:id="@+id/fragment_map"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_weight="7"
+    android:name="com.example.nguyenanhtrung.whereareyougo.ui.main.MapFragment"
+    tools:layout="@layout/fragment_map2"
+    />-->
+  <FrameLayout
+    android:id="@+id/fragment_container_layout"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_weight="8" />
+
+
+  <com.roughike.bottombar.BottomBar
+    android:id="@+id/bottom_bar"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_weight="1"
+    android:background="@color/colorPrimary"
+    app:bb_activeTabColor="@color/active_tab_color"
+    app:bb_inActiveTabColor="@color/inactive_tab_color"
+    app:bb_showShadow="false"
+    app:bb_tabXmlResource="@xml/bottom_bar_tabs"
+    />
+
+
+</LinearLayout>

@@ -12,7 +12,7 @@
   <string name="list_friend_menu">Danh sách bạn bè</string>
   <string name="title_main_view">Giao diện chính </string>
   <string name="user_menu">Thiết lập người dùng</string>
-  <string name="bottom_tab_home">Bản đồ </string>
+  <string name="bottom_tab_map">Bản đồ </string>
   <string name="bottom_tab_search">Tìm kiếm</string>
   <string name="bottom_tab_notification">Thông báo</string>
   <string name="bottom_tab_friend_on_map">Vị trí bạn bè</string>
@@ -74,7 +74,7 @@
   <string name="follower_list">Danh sách theo dõi bạn</string>
   <string name="following_list">Danh sách đang theo dõi</string>
   <string name="sign_out">Đăng xuất</string>
-  <string name="search_location">Tìm kiếm địa điểm</string>
+  <string name="search_venue">Tìm kiếm địa điểm</string>
   <string name="google_map_key">AIzaSyBD0vAcubNpaXhvKtlidA9ew0hXBXCtuzY</string>
   <string name="float_button_message">Gửi tin nhắn </string>
   <string name="float_button_call">Gọi nhanh</string>
@@ -114,4 +114,5 @@
   <string name="text_result">Kết quả</string>
   <string name="text_venue_photos_empty">Địa điểm này chưa có</string>
   <string name="imageContentDescription">"No Image"</string>
+  <string name="text_sign_up">Đăng ký</string>
 </resources>

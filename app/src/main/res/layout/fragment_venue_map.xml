@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:fab="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent">
+
+
+  <com.google.android.gms.maps.MapView
+    android:id="@+id/map_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:apiKey="@string/google_map_key"
+    android:clickable="true" />
+
+  <EditText
+    android:id="@+id/edit_text_search_venue"
+    style="@style/EditTextSearch"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/height_edit_text_search_venue"
+    android:layout_marginTop="8dp"
+    android:layout_marginStart="16dp"
+    android:layout_marginEnd="16dp"
+    android:layout_marginLeft="16dp"
+    android:layout_marginRight="16dp"
+    android:hint="@string/search_venue" />
+
+
+  <ImageButton
+    android:id="@+id/image_button_search"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="16dp"
+    android:layout_marginEnd="16dp"
+    android:layout_marginRight="16dp"
+    android:layout_gravity="end"
+    android:contentDescription="@string/contentDescriptor"
+    android:background="?attr/selectableItemBackground"
+    android:src="@drawable/ic_search_black_24dp" />
+
+
+  <com.wang.avi.AVLoadingIndicatorView
+    android:id="@+id/search_loading"
+    android:layout_width="@dimen/width_search_venue_loading"
+    android:layout_height="@dimen/height_search_venue_loading"
+    android:layout_marginTop="8dp"
+    android:layout_marginEnd="32dp"
+    android:layout_marginRight="32dp"
+    android:layout_gravity="end"
+    android:paddingTop="8dp"
+    app:indicatorColor="@color/colorAccent"
+    app:indicatorName="LineSpinFadeLoaderIndicator" />
+
+
+  <com.github.clans.fab.FloatingActionMenu
+    android:id="@+id/float_button_help"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom|end"
+    app:fab_label=""
+    style="@style/FloatingActionButton"
+    app:menu_colorNormal="@color/colorAccent"
+    fab:menu_icon="@drawable/ic_help_white_48dp">
+
+    <com.github.clans.fab.FloatingActionButton
+      android:id="@+id/button_send_message"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:src="@drawable/ic_send_white_24dp"
+      app:fab_colorNormal="@color/colorPrimary"
+      fab:fab_label="@string/float_button_message"
+      fab:fab_size="mini" />
+
+    <com.github.clans.fab.FloatingActionButton
+      android:id="@+id/button_call"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:src="@drawable/ic_call_white_24dp"
+      fab:fab_label="@string/float_button_call"
+      fab:fab_size="mini" />
+
+
+  </com.github.clans.fab.FloatingActionMenu>
+
+
+</FrameLayout>
