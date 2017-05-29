@@ -23,7 +23,7 @@
   <string name="button_offline">offline</string>
   <string name="button_online">online</string>
   <string name="text_online">ONLINE</string>
-  <string name="label_place_name">Tên địa điểm</string>
+  <string name="label_venue_name">Tên</string>
   <string name="label_distance">Khoảng cách</string>
   <string name="label_vote">Điểm nhiều nhất</string>
   <string name="label_status">Trạng thái</string>
@@ -87,7 +87,7 @@
   <string name="save_info_fail">Lưu thông tin thất bại</string>
   <string name="user_name_map">Tôi</string>
   <string name="title_venues_dialog">Danh sách địa điểm</string>
-  <string name="button_close_dialog">Đóng cửa sổ</string>
+  <string name="button_close_dialog">Đóng</string>
   <string name="text_num_of_result">Số địa điểm tìm được</string>
   <string name="venude_distance">Cách bạn  </string>
   <string name="search_place_empty">Dữ liệu nhập vào trống!Mời nhập lại!</string>
@@ -115,4 +115,7 @@
   <string name="text_venue_photos_empty">Địa điểm này chưa có</string>
   <string name="imageContentDescription">"No Image"</string>
   <string name="text_sign_up">Đăng ký</string>
+  <string name="tile_venue_detail_dialog">Chi tiết địa điểm</string>
+  <string name="text_num_of_like">thích</string>
+  <string name="text_label_point">điểm</string>
 </resources>

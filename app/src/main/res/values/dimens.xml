@@ -8,4 +8,6 @@
   <dimen name="width_user_image">100dp</dimen>
   <dimen name="height_user_image">100dp</dimen>
   <dimen name="margin_top_label_setting">40dp</dimen>
+  <dimen name="width_recycler_view_photos">200dp</dimen>
+  <dimen name="height_recycler_view_photos">150dp</dimen>
 </resources>

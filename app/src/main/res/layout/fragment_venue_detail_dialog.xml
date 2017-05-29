@@ -1,0 +1,389 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent">
+
+  <TextView
+    android:id="@+id/text_title_dialog"
+    style="@style/TitleDialog"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:background="@color/colorPrimary"
+    android:text="@string/tile_venue_detail_dialog"
+    app:layout_constraintLeft_toLeftOf="parent"
+    app:layout_constraintRight_toRightOf="parent"
+    app:layout_constraintTop_toTopOf="parent" />
+
+  <com.marshalchen.ultimaterecyclerview.UltimateRecyclerView
+    android:id="@+id/recycler_venue_photos"
+    android:layout_width="200dp"
+    android:layout_height="150dp"
+    android:layout_marginTop="8dp"
+    app:layout_constraintLeft_toLeftOf="parent"
+    app:layout_constraintRight_toRightOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/text_title_dialog" />
+
+  <View
+    android:id="@+id/divider_photos"
+    android:layout_width="0dp"
+    android:layout_height="1dp"
+    android:layout_marginTop="27dp"
+    android:layout_marginStart="16dp"
+    android:layout_marginEnd="16dp"
+    android:layout_marginLeft="16dp"
+    android:layout_marginRight="16dp"
+    android:background="@color/bootstrap_dropdown_divider"
+    app:layout_constraintLeft_toLeftOf="parent"
+    app:layout_constraintRight_toRightOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/recycler_venue_photos" />
+
+  <android.support.constraint.ConstraintLayout
+    android:id="@+id/constraintLayout"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="16dp"
+    android:layout_marginStart="16dp"
+    android:layout_marginEnd="16dp"
+    android:layout_marginLeft="16dp"
+    android:layout_marginRight="16dp"
+    android:paddingBottom="8dp"
+    android:background="@drawable/background_venue_infos"
+    app:layout_constraintHorizontal_bias="0.0"
+    app:layout_constraintLeft_toLeftOf="parent"
+    app:layout_constraintRight_toRightOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/divider_photos">
+
+    <ImageView
+      android:id="@+id/image_name"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="8dp"
+      android:contentDescription="@string/contentDescriptor"
+      android:src="@drawable/ic_info_light_green_500_24dp"
+      app:layout_constraintLeft_toLeftOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+
+      />
+
+    <TextView
+      android:id="@+id/text_label_name"
+      style="@style/TextLabel"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="12dp"
+      android:text="@string/label_venue_name"
+      app:layout_constraintLeft_toRightOf="@+id/image_name"
+      app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+      android:id="@+id/text_venue_name"
+      style="@style/TextView"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="8dp"
+      android:layout_marginLeft="8dp"
+      android:ellipsize="end"
+      android:maxLines="1"
+      android:scrollHorizontally="true"
+      android:text="Highlands Coffee"
+      app:layout_constraintBaseline_toBaselineOf="@+id/text_label_name"
+      app:layout_constraintLeft_toRightOf="@+id/text_label_name" />
+
+    <View
+      android:id="@+id/divider_name"
+      android:layout_width="0dp"
+      android:layout_height="1dp"
+      android:layout_marginTop="8dp"
+      android:background="@color/colorAccent"
+      app:layout_constraintLeft_toLeftOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/text_label_name" />
+
+    <ImageView
+      android:id="@+id/image_venue_address"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="8dp"
+      android:contentDescription="@string/contentDescriptor"
+      android:src="@drawable/ic_home_light_green_500_24dp"
+      app:layout_constraintLeft_toLeftOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/divider_name" />
+
+    <TextView
+      android:id="@+id/text_label_address"
+      style="@style/TextLabel"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="12dp"
+      android:text="@string/label_address"
+      app:layout_constraintLeft_toRightOf="@+id/image_venue_address"
+      app:layout_constraintTop_toBottomOf="@+id/divider_name" />
+
+    <TextView
+      android:id="@+id/text_venue_address"
+      style="@style/TextView"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="8dp"
+      android:layout_marginLeft="8dp"
+      android:text="5 Dinh Tien Hoang"
+      app:layout_constraintBaseline_toBaselineOf="@+id/text_label_address"
+      app:layout_constraintLeft_toRightOf="@+id/text_label_address" />
+
+    <View
+      android:id="@+id/divider_address"
+      android:layout_width="0dp"
+      android:layout_height="1dp"
+      android:layout_marginTop="8dp"
+      android:background="@color/colorAccent"
+      app:layout_constraintLeft_toLeftOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/text_label_address" />
+
+    <ImageView
+      android:id="@+id/image_price"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="8dp"
+      android:contentDescription="@string/contentDescriptor"
+      android:src="@drawable/ic_attach_money_light_green_500_24dp"
+      app:layout_constraintLeft_toLeftOf="parent"
+
+      app:layout_constraintTop_toBottomOf="@+id/divider_address" />
+
+    <TextView
+      android:id="@+id/text_label_price"
+      style="@style/TextLabel"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="12dp"
+      android:text="@string/text_price_level"
+
+      app:layout_constraintLeft_toRightOf="@+id/image_price"
+      app:layout_constraintTop_toBottomOf="@+id/divider_address" />
+
+    <TextView
+      android:id="@+id/text_price_level"
+      style="@style/TextView"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="8dp"
+      android:layout_marginLeft="8dp"
+      android:text="Trung binh"
+      app:layout_constraintBaseline_toBaselineOf="@+id/text_label_price"
+      app:layout_constraintLeft_toRightOf="@+id/text_label_price" />
+
+    <View
+      android:id="@+id/divider_price_level"
+      android:layout_width="0dp"
+      android:layout_height="1dp"
+      android:layout_marginTop="8dp"
+      android:background="@color/colorAccent"
+      app:layout_constraintLeft_toLeftOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/text_label_price" />
+
+    <ImageView
+      android:id="@+id/image_rating"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="8dp"
+      android:contentDescription="@string/contentDescriptor"
+      android:src="@drawable/ic_rate_review_light_green_500_24dp"
+      app:layout_constraintLeft_toLeftOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/divider_price_level" />
+
+    <TextView
+      android:id="@+id/text_label_rating"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="12dp"
+      android:text="@string/text_rating"
+      app:layout_constraintLeft_toRightOf="@+id/image_rating"
+      app:layout_constraintTop_toBottomOf="@+id/divider_price_level" />
+
+    <TextView
+      android:id="@+id/text_num_of_like"
+      style="@style/TextView"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="16dp"
+      android:layout_marginLeft="16dp"
+      android:text="365"
+      app:layout_constraintBaseline_toBaselineOf="@+id/text_label_rating"
+      app:layout_constraintLeft_toRightOf="@+id/text_label_rating" />
+
+    <TextView
+      android:id="@+id/text_label_like"
+      style="@style/TextLabel"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="8dp"
+      android:layout_marginLeft="8dp"
+      android:text="@string/text_num_of_like"
+      app:layout_constraintBaseline_toBaselineOf="@+id/text_label_rating"
+      app:layout_constraintLeft_toRightOf="@+id/text_num_of_like" />
+
+    <TextView
+      android:id="@+id/text_point"
+      style="@style/TextView"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="32dp"
+      android:layout_marginLeft="32dp"
+      android:text="9.5"
+      app:layout_constraintBaseline_toBaselineOf="@+id/text_label_rating"
+      app:layout_constraintLeft_toRightOf="@+id/text_label_like" />
+
+    <TextView
+      android:id="@+id/text_label_point"
+      style="@style/TextLabel"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="8dp"
+      android:layout_marginLeft="8dp"
+      android:text="@string/text_label_point"
+      app:layout_constraintBaseline_toBaselineOf="@+id/text_label_rating"
+      app:layout_constraintLeft_toRightOf="@+id/text_point" />
+
+    <View
+      android:id="@+id/divider_rating"
+      android:layout_width="0dp"
+      android:layout_height="1dp"
+      android:layout_marginTop="8dp"
+      android:background="@color/colorAccent"
+      app:layout_constraintLeft_toLeftOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/text_label_rating" />
+
+    <ImageView
+      android:id="@+id/image_phone"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="8dp"
+
+      android:contentDescription="@string/contentDescriptor"
+      android:src="@drawable/ic_phone_android_light_green_500_24dp"
+      app:layout_constraintLeft_toLeftOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/divider_rating" />
+
+    <TextView
+      android:id="@+id/text_label_phone"
+      style="@style/TextLabel"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="12dp"
+      android:text="@string/label_phone"
+      app:layout_constraintLeft_toRightOf="@+id/image_phone"
+      app:layout_constraintTop_toBottomOf="@+id/divider_rating" />
+
+    <TextView
+      android:id="@+id/text_venue_phone"
+      style="@style/TextView"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="8dp"
+      android:layout_marginLeft="8dp"
+
+      android:text="01663559931"
+      app:layout_constraintBaseline_toBaselineOf="@+id/text_label_phone"
+      app:layout_constraintLeft_toRightOf="@+id/text_label_phone" />
+
+
+
+
+  </android.support.constraint.ConstraintLayout>
+
+  <RelativeLayout
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="16dp"
+    android:layout_marginLeft="16dp"
+    android:layout_marginRight="16dp"
+    app:layout_constraintLeft_toLeftOf="parent"
+    app:layout_constraintRight_toRightOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
+    android:layout_marginStart="16dp"
+    android:layout_marginEnd="16dp"
+    android:id="@+id/relativeLayout">
+
+    <ImageButton
+      android:id="@+id/image_button_call"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="32dp"
+      android:layout_marginLeft="32dp"
+      android:contentDescription="@string/contentDescriptor"
+      android:background="?attr/selectableItemBackground"
+      android:src="@drawable/ic_call_phone" />
+
+    <TextView
+      android:id="@+id/text_label_call"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginLeft="40dp"
+      android:layout_marginStart="40dp"
+      style="@style/TextActionCall"
+      android:layout_below="@id/image_button_call"
+      android:text="@string/button_call" />
+
+    <ImageButton
+      android:id="@+id/image_button_find_way"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:contentDescription="@string/contentDescriptor"
+      android:layout_marginStart="32dp"
+      android:layout_marginLeft="32dp"
+      android:layout_centerHorizontal="true"
+      android:background="?attr/selectableItemBackground"
+      android:src="@drawable/ic_directions" />
+
+    <TextView
+      android:id="@+id/text_label_find_way"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_centerHorizontal="true"
+      style="@style/TextActionFind"
+      android:layout_below="@id/image_button_find_way"
+      android:text="@string/button_find_location" />
+
+    <ImageButton
+      android:id="@+id/image_button_save"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginEnd="32dp"
+      android:layout_marginRight="32dp"
+      android:contentDescription="@string/contentDescriptor"
+      android:layout_alignParentRight="true"
+      android:layout_alignParentEnd="true"
+      android:background="?attr/selectableItemBackground"
+      android:src="@drawable/ic_save" />
+
+    <TextView
+      android:id="@+id/text_label_save"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_alignParentRight="true"
+      android:layout_alignParentEnd="true"
+      android:layout_marginRight="32dp"
+      android:layout_marginEnd="32dp"
+      style="@style/TextActionSave"
+      android:layout_below="@id/image_button_save"
+      android:text="@string/button_save" />
+
+
+  </RelativeLayout>
+
+  <com.beardedhen.androidbootstrap.BootstrapButton
+    android:id="@+id/button_close"
+    android:layout_width="@dimen/width_button"
+    android:layout_height="wrap_content"
+    android:text="@string/button_close_dialog"
+    android:layout_marginBottom="16dp"
+    app:layout_constraintLeft_toLeftOf="parent"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintRight_toRightOf="parent"
+    app:layout_constraintHorizontal_bias="0.501"
+    style="@style/Button"
+    android:layout_marginTop="16dp"
+    app:layout_constraintTop_toBottomOf="@+id/relativeLayout" />
+
+
+</android.support.constraint.ConstraintLayout>
