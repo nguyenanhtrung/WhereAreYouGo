@@ -5,9 +5,17 @@
   <dimen name="height_edit_text_search_venue">40dp</dimen>
   <dimen name="width_search_venue_loading">30dp</dimen>
   <dimen name="height_search_venue_loading">30dp</dimen>
-  <dimen name="width_user_image">100dp</dimen>
-  <dimen name="height_user_image">100dp</dimen>
+
   <dimen name="margin_top_label_setting">40dp</dimen>
   <dimen name="width_recycler_view_photos">200dp</dimen>
   <dimen name="height_recycler_view_photos">150dp</dimen>
+  <dimen name="height_recycler_view_categories">100dp</dimen>
+
+  <!-- recycler view friends row -->
+  <dimen name="width_friend_image">48dp</dimen>
+  <dimen name="height_friend_image">48dp</dimen>
+
+  <!-- fragment profile dialog -->
+  <dimen name="width_user_image">100dp</dimen>
+  <dimen name="height_user_image">100dp</dimen>
 </resources>

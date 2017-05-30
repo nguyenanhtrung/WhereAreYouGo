@@ -15,4 +15,8 @@
   <color name="color_pressed">#F06292</color>
   <color name="color_ripple">#EF9A9A</color>
   <color name="color_divider">#616161</color>
+
+  <color name="color_num_of_friend">#7E57C2</color>
+  <color name="color_num_of_favor_venue">#03A9F4</color>
+  <color name="color_num_of_follower">#EC407A</color>
 </resources>

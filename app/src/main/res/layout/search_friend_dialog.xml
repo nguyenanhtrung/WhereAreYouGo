@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  android:orientation="vertical"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:background="@drawable/bg_round_corner_dialog">
+
+  <TextView
+    android:id="@+id/text_title_dialog"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorPrimary"
+    android:text="@string/search_friend_title_dialog"
+    style="@style/TitleDialog"
+    />
+
+  <TextView
+    android:id="@+id/text_label_name"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="8dp"
+    android:layout_gravity="center_horizontal"
+    android:text="@string/label_friend_name"
+    style="@style/TextLabel"
+    />
+
+  <com.rengwuxian.materialedittext.MaterialEditText
+    android:id="@+id/edit_text_search_name"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="8dp"
+    android:layout_marginLeft="16dp"
+    android:layout_marginStart="16dp"
+    android:hint="@string/hint_text_search_name"
+    style="@style/EditTextSearch"
+    />
+
+  <TextView
+    android:id="@+id/text_label_phone"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="8dp"
+    android:layout_gravity="center_horizontal"
+    android:text="@string/label_phone"
+    style="@style/TextLabel"
+    />
+
+  <com.rengwuxian.materialedittext.MaterialEditText
+    android:id="@+id/edit_text_search_phone"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="8dp"
+    android:layout_marginLeft="16dp"
+    android:layout_marginStart="16dp"
+    android:hint="@string/hint_search_by_phone"
+    style="@style/EditTextSearch"
+    />
+
+  <RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="16dp"
+    >
+
+    <Button
+      android:id="@+id/button_close_dialog"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_alignParentRight="true"
+      android:layout_alignParentEnd="true"
+      android:background="?attr/selectableItemBackground"
+      android:textColor="@color/colorAccent"
+      android:text="@string/button_close_dialog"
+      />
+
+    <Button
+      android:id="@+id/button_search_friend"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginRight="8dp"
+      android:layout_marginEnd="8dp"
+      android:layout_toStartOf="@id/button_close_dialog"
+      android:layout_toLeftOf="@id/button_close_dialog"
+      android:background="?attr/selectableItemBackground"
+      android:textColor="@color/colorAccent"
+      android:text="@string/button_search"
+      />
+
+
+  </RelativeLayout>
+
+
+
+</LinearLayout>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="wrap_content">
+
+  <de.hdodenhof.circleimageview.CircleImageView
+    android:id="@+id/circle_image_friend"
+    android:layout_width="@dimen/width_friend_image"
+    android:layout_height="@dimen/height_friend_image"
+    android:contentDescription="@string/contentDescriptor"
+    app:layout_constraintTop_toTopOf="parent"
+    android:layout_marginTop="8dp"
+    android:layout_marginBottom="8dp"
+    android:layout_marginLeft="16dp"
+    android:layout_marginStart="16dp"
+    app:layout_constraintLeft_toLeftOf="parent" />
+
+  <TextView
+    android:id="@+id/text_friend_name"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Nguyen Anh Trung"
+    style="@style/TextFriendName"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintLeft_toRightOf="@+id/circle_image_friend"
+    android:layout_marginLeft="16dp"
+    app:layout_constraintVertical_bias="0.5"
+    android:layout_marginStart="16dp"
+    app:layout_constraintBottom_toBottomOf="parent"
+    />
+
+  <TextView
+    android:id="@+id/text_friend_status"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="@string/text_online"
+    android:layout_marginRight="16dp"
+    android:layout_marginEnd="16dp"
+    style="@style/TextOnline"
+    app:layout_constraintRight_toRightOf="parent"
+    app:layout_constraintBaseline_toBaselineOf="@+id/text_friend_name"
+    />
+
+</android.support.constraint.ConstraintLayout>

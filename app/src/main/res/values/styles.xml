@@ -200,6 +200,38 @@
 
   </style>
 
+  <!-- Radio Button -->
+  <style name="RadioButton">
+    <item name="android:textColor">#FCFCFC</item>
+    <item name="android:textSize">14sp</item>
 
+  </style>
 
+  <style name="RadioButtonClose" parent="RadioButton">
+    <item name="android:background">@color/colorAccent</item>
+  </style>
+
+  <style name="RadioButtonClosest" parent="RadioButton">
+    <item name="android:background">@color/colorPrimary</item>
+  </style>
+
+  <style name="RadioButtonCity" parent="RadioButton">
+    <item name="android:background">#FF9800</item>
+  </style>
+
+  <!-- recycler view friends row -->
+  <style name="TextFriendName" parent="TextView">
+    <item name="android:textStyle">bold</item>
+  </style>
+
+  <style name="TextOnline" parent="TextView">
+    <item name="android:textColor">@color/colorPrimary</item>
+    <item name="android:textStyle">bold</item>
+  </style>
+  
+  <!-- fragment profile dialog -->
+  <style name="TextUserName" parent="TextView">
+    <item name="android:textSize">18sp</item>
+    <item name="android:textStyle">bold</item>
+  </style>
 </resources>

@@ -104,7 +104,7 @@
   <string name="text_hint_radius">Nhập bán kính(mét)</string>
   <string name="text_label_city">Thành phố</string>
   <string name="text_hint_city">Nhập tên thành phố</string>
-  <string name="text_hint_search_friend">Tìm kiếm bạn trong danh sách</string>
+  <string name="text_hint_search_friend">Nhập họ tên người bạn cần tìm</string>
   <string name="button_add_friend">Thêm bạn</string>
   <string name="text_offline">OFFLINE</string>
   <string name="text_all">TẤT CẢ</string>
@@ -118,4 +118,20 @@
   <string name="tile_venue_detail_dialog">Chi tiết địa điểm</string>
   <string name="text_num_of_like">thích</string>
   <string name="text_label_point">điểm</string>
+  <string name="hint_search_venue_name">Nhập tên địa điểm</string>
+
+  <!-- Search Venue Dialog-->
+  <string name="text_label_area">Phạm vi</string>
+  <string name="button_city">Thành phố</string>
+
+  <!-- Fragment Friends -->
+  <string name="text_display_mode">Hiển thị danh sách</string>
+
+  <!-- Fragment Profile Dialog -->
+  <string name="title_profile_dialog">Thông tin</string>
+
+  <!-- Search Friend Dialog -->
+  <string name="search_friend_title_dialog">Tìm kiếm bạn</string>
+  <string name="label_friend_name">Họ tên</string>
+  <string name="hint_search_by_phone">Nhập số điện thoại</string>
 </resources>
