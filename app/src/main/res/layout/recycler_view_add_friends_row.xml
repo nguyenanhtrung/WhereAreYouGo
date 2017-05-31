@@ -32,14 +32,14 @@
     app:layout_constraintBottom_toBottomOf="parent"
     />
 
-  <TextView
-    android:id="@+id/text_friend_status"
+  <com.beardedhen.androidbootstrap.BootstrapButton
+    android:id="@+id/button_add_friend"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:text="@string/text_online"
+    android:text="@string/button_add_friend"
     android:layout_marginRight="16dp"
     android:layout_marginEnd="16dp"
-    style="@style/TextOnline"
+    style="@style/Button"
     app:layout_constraintRight_toRightOf="parent"
     app:layout_constraintBaseline_toBaselineOf="@+id/text_friend_name"
     />

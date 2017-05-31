@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:orientation="vertical" android:layout_width="match_parent"
+  android:layout_height="match_parent">
+
+  <TextView
+    android:id="@+id/text_title_dialog"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="@string/text_title_add_friend"
+    android:background="@color/colorPrimary"
+    style="@style/TitleDialog"
+    />
+
+  <TextView
+    android:id="@+id/text_label_result"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="8dp"
+    android:text="@string/text_result"
+    android:layout_gravity="center_horizontal"
+    style="@style/TextLabel"
+    />
+
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_marginTop="8dp"
+    android:layout_marginLeft="16dp"
+    android:layout_marginRight="16dp"
+    >
+
+    <com.marshalchen.ultimaterecyclerview.UltimateRecyclerView
+      android:id="@+id/recycler_view_seach_friends"
+      android:layout_width="match_parent"
+      android:layout_height="0dp"
+      android:layout_weight="4"
+      android:layout_marginBottom="16dp"
+      />
+
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="0dp"
+      android:layout_weight="3"
+      android:orientation="vertical"
+      >
+
+      <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/search_friend_title_dialog"
+        />
+
+      <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        >
+
+        <TextView
+          android:id="@+id/text_label_name"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginLeft="8dp"
+          android:layout_marginTop="8dp"
+          android:layout_marginStart="8dp"
+          android:text="@string/label_friend_name"
+          />
+
+        <com.rengwuxian.materialedittext.MaterialEditText
+          android:id="@+id/edit_text_search_name"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:hint="@string/hint_text_search_name"
+          android:layout_marginLeft="36dp"
+          android:layout_marginStart="36dp"
+          android:layout_toRightOf="@id/text_label_name"
+          android:layout_toEndOf="@id/text_label_name"
+          style="@style/EditTextSearch"
+          />
+
+        <TextView
+          android:id="@id/text_label_phone"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_below="@id/text_label_name"
+          android:layout_marginLeft="8dp"
+          android:layout_marginStart="8dp"
+          android:text="@string/label_phone"
+          android:layout_marginTop="40dp"
+          style="@style/TextLabel"
+          />
+
+        <com.rengwuxian.materialedittext.MaterialEditText
+          android:id="@id/edit_text_search_phone"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:hint="@string/hint_search_by_phone"
+          android:layout_toRightOf="@id/text_label_phone"
+          android:layout_toEndOf="@id/text_label_phone"
+          android:layout_marginLeft="16dp"
+          android:layout_marginStart="16dp"
+          android:layout_marginTop="16dp"
+          style="@style/EditTextSearch"
+          android:layout_below="@id/edit_text_search_name"
+          />
+
+        <com.beardedhen.androidbootstrap.BootstrapButton
+          android:id="@+id/button_search"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="@string/button_search"
+          android:layout_marginTop="8dp"
+          android:layout_below="@id/edit_text_search_phone"
+          android:layout_centerHorizontal="true"
+          style="@style/Button"
+
+          />
+
+      </RelativeLayout>
+
+    </LinearLayout>
+
+
+    <Button
+      android:id="@+id/button_close_dialog"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="@string/button_close_dialog"
+      android:textColor="@color/colorAccent"
+      android:textStyle="bold"
+      android:layout_gravity="right"
+      android:background="?attr/selectableItemBackground"
+      />
+  </LinearLayout>
+
+
+
+
+</LinearLayout>
