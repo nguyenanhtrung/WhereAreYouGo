@@ -59,7 +59,7 @@
   <string name="error_email_invalid">Email không hợp lệ!Mời nhập lại!</string>
   <string name="error_name_invalid">Họ tên không hợp lệ!Mời nhập lại!</string>
   <string name="error_email_registered">Email đã được sử dụng!Hãy nhập email khác!</string>
-  <string name="error_password">Mật khẩu chỉ chứa 8->20 kí tự,ít nhất 1 ký tự đặc biệt, 1 kí tự hoa,1 ký tự ,1 ký tự thường</string>
+  <string name="error_password">Mật khẩu chỉ chứa 6->15 kí tự,ít nhất 1 ký tự đặc biệt, 1 kí tự hoa,1 chữ số</string>
   <string name="network_error">Kết nối mạng đã tắt.Cần kiểm tra lại Wifi hoặc 3G</string>
   <string name="error_name_empty">Họ tên không được để trống!Mời nhập lại!</string>
   <string name="error_email_empty">Email không được để trống!Mời nhập lại!</string>
@@ -125,7 +125,7 @@
   <string name="button_city">Thành phố</string>
 
   <!-- Fragment Friends -->
-  <string name="text_display_mode">Hiển thị danh sách</string>
+  <string name="text_display_mode">Hiển thị danh sách</string>số
 
   <!-- Fragment Profile Dialog -->
   <string name="title_profile_dialog">Thông tin</string>
@@ -134,4 +134,15 @@
   <string name="search_friend_title_dialog">Tìm kiếm bạn</string>
   <string name="label_friend_name">Họ tên</string>
   <string name="hint_search_by_phone">Nhập số điện thoại</string>
+
+  <!-- Favorite Venues Fragment -->
+  <string name="button_venue_location">Tìm vị trí</string>
+
+  <!-- Fragment Followers -->
+  <string name="follow">Theo dõi</string>
+  
+  <!-- Signup Dialog Fragment-->
+  <string name="edit_text_email_helper">Email bao gồm chữ cái, chữ số, kí hiệu @ và tên miền  </string>
+  <string name="edit_text_password_helper">Mật khẩu có độ dài  6 đến 15 kí tự, ít nhất có 1 kí tự hoa, 1 kí tự đặc biệt và 1 chữ cái </string>
+  <string name="edit_text_name_helper">Họ tên chỉ chứa chữ cái,không chứa chữ số, không chứa kí tự đặc biệt</string>
 </resources>

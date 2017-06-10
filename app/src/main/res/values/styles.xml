@@ -72,6 +72,7 @@
     <item name="met_textColor">@color/colorPrimaryText</item>
     <item name="met_textColorHint">@color/colorSecondaryText</item>
     <item name="met_underlineColor">@color/colorAccent</item>
+    <item name="met_errorColor">@color/edit_text_error</item>
     <item name="android:textSize">14sp</item>
   </style>
 
@@ -81,7 +82,8 @@
   </style>
 
   <style name="EditTextSignup" parent="EditTextLogins">
-
+    <item name="met_helperTextColor">#8BC34A</item>
+    <item name="met_textColor">@color/colorPrimaryText</item>
   </style>
 
   <style name="EditTextSearch">
@@ -233,5 +235,11 @@
   <style name="TextUserName" parent="TextView">
     <item name="android:textSize">18sp</item>
     <item name="android:textStyle">bold</item>
+  </style>
+
+  <!-- Text Title Fragment Follow -->
+  <style name="TextTitleFollow" parent="TextView">
+    <item name="android:textColor">@color/colorSecondaryText</item>
+    <item name="android:textSize">16sp</item>
   </style>
 </resources>

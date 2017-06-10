@@ -1,4 +1,4 @@
-package com.example.android.whereareyougo.ui.main;
+package com.example.android.whereareyougo.ui.ui.main;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;

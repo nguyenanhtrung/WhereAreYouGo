@@ -82,7 +82,7 @@
           />
 
         <TextView
-          android:id="@id/text_label_phone"
+          android:id="@+id/text_label_phone"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:layout_below="@id/text_label_name"
@@ -94,7 +94,7 @@
           />
 
         <com.rengwuxian.materialedittext.MaterialEditText
-          android:id="@id/edit_text_search_phone"
+          android:id="@+id/edit_text_search_phone"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
           android:hint="@string/hint_search_by_phone"

@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "120420671600",
+    "firebase_url": "https://whereareyougo-6ce27.firebaseio.com",
+    "project_id": "whereareyougo-6ce27",
+    "storage_bucket": "whereareyougo-6ce27.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:120420671600:android:7142028ee419a690",
+        "android_client_info": {
+          "package_name": "com.example.android.whereareyougo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "120420671600-v95fi917n91saanh5eoc5dc0fqj0bl3v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBD0vAcubNpaXhvKtlidA9ew0hXBXCtuzY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
