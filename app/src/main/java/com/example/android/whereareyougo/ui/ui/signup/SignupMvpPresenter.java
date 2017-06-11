@@ -10,4 +10,5 @@ public interface SignupMvpPresenter<V extends SignupView> extends MvpPresenter<V
   void onClickButtonSignup(String email, String password, String name);
 
 
+
 }
