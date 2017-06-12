@@ -1,6 +1,7 @@
 package com.example.android.whereareyougo.ui.ui.signup;
 
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import com.example.android.whereareyougo.R;
 import com.example.android.whereareyougo.ui.data.manager.DataManager;
 import com.example.android.whereareyougo.ui.ui.base.BasePresenter;
@@ -8,6 +9,7 @@ import com.example.android.whereareyougo.ui.utils.Validations;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.ProviderQueryResult;
 import java.util.List;
 import javax.inject.Inject;
@@ -39,7 +41,7 @@ public class SignupPresenter<V extends SignupView> extends BasePresenter<V> impl
             if (!task.getResult().getProviders().isEmpty()) {
               getMvpView().showErrorOnEditTextEmail(
                   getMvpView().getStringFromStringResource(R.string.error_email_registered));
-              setEmailRegistered(false);
+              setEmailRegistered(true);
             }
           }
         })
@@ -75,9 +77,12 @@ public class SignupPresenter<V extends SignupView> extends BasePresenter<V> impl
 
     //check if email already registered here
     checkEmailRegistered(email);
-    if (!isEmailRegistered){
+
+    if (isEmailRegistered){
       return false;
     }
+
+
 
     return true;
   }
@@ -118,16 +123,48 @@ public class SignupPresenter<V extends SignupView> extends BasePresenter<V> impl
   @Override
   public void onClickButtonSignup(String email, String password, String name) {
     //kiem tra network
-    if (getMvpView().isNetworkConnected()){
-      if (checkSignup(email, password, name)) {
-        //thuc hien dang ky
+    if (getMvpView().isNetworkConnected()) {
+      if (checkSignup(email,password,name)){
+        signupWithEmailAndPassword(email,password,name);
 
-      } else {
-        //hien thi thong bao dang ky that bai
       }
-    }else{
+    } else {
       //show network error on snack bar or toast
     }
 
   }
+
+  private void signupWithEmailAndPassword(final String email, final String password, final String name) {
+    getDataManager().createUserWithEmailAndPassword(email, password)
+        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+          @Override
+          public void onComplete(@NonNull Task<AuthResult> task) {
+            //show notification signup successful
+            if (task.isSuccessful()){
+              getMvpView().showNotification(R.string.register_successful);
+              String userId = task.getResult().getUser().getUid();
+              if (userId != null){
+                getDataManager().writeNewUser(userId,email,password,name);
+              }
+
+              getMvpView().updateUserInfoForLoginActivity(email,password);
+              getMvpView().closeDialog();
+
+
+            }else{
+              getMvpView().showNotification(R.string.error_register_fail);
+            }
+
+          }
+        })
+        .addOnFailureListener(new OnFailureListener() {
+          @Override
+          public void onFailure(@NonNull Exception e) {
+            //show notification signup failure
+            getMvpView().showNotification(R.string.error_register_fail);
+          }
+        });
+  }
+
+
 }

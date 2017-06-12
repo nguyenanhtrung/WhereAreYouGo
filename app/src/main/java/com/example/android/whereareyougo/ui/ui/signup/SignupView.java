@@ -14,4 +14,10 @@ public interface SignupView extends MvpView {
   void showErrorOnEditTextName(String error);
 
   String getStringFromStringResource(int stringId);
+
+  void showNotification(int messageId);
+
+  void closeDialog();
+
+  void updateUserInfoForLoginActivity(String email, String password);
 }

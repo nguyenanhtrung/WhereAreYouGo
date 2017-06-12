@@ -4,6 +4,7 @@ import android.content.Context;
 import com.example.android.whereareyougo.ui.data.database.model.DatabaseHelper;
 import com.example.android.whereareyougo.ui.di.ApplicationContext;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.ProviderQueryResult;
 import javax.inject.Inject;
 
@@ -25,5 +26,15 @@ public class AppDataManager implements DataManager {
   @Override
   public Task<ProviderQueryResult> getProviderForEmail(String email) {
     return databaseHelper.getProviderForEmail(email);
+  }
+
+  @Override
+  public Task<AuthResult> createUserWithEmailAndPassword(String email, String password) {
+    return databaseHelper.createUserWithEmailAndPassword(email,password);
+  }
+
+  @Override
+  public void writeNewUser(String userId, String email, String password, String name) {
+    databaseHelper.writeNewUser(userId,email,password,name);
   }
 }

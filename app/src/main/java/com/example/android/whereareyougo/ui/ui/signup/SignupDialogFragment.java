@@ -3,21 +3,21 @@ package com.example.android.whereareyougo.ui.ui.signup;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.example.android.whereareyougo.R;
 import com.example.android.whereareyougo.ui.ui.base.BaseFragment.Callback;
+import com.example.android.whereareyougo.ui.utils.NetworkUtil;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import javax.inject.Inject;
 
@@ -35,9 +35,14 @@ public class SignupDialogFragment extends DialogFragment implements SignupView, 
   @BindView(R.id.button_sign_up)
   BootstrapButton buttonSignUp;
   Unbinder unbinder;
+  @BindView(R.id.button_close_dialog)
+  BootstrapButton buttonCloseDialog;
+
+  private InteractionWithSignupFragment interactWithLoginActivty;
 
   public static SignupDialogFragment newInstance() {
     SignupDialogFragment fragment = new SignupDialogFragment();
+    fragment.setCancelable(false);
 
     return fragment;
   }
@@ -60,7 +65,7 @@ public class SignupDialogFragment extends DialogFragment implements SignupView, 
 
   private void initEvents() {
     buttonSignUp.setOnClickListener(this);
-
+    buttonCloseDialog.setOnClickListener(this);
   }
 
 
@@ -70,6 +75,9 @@ public class SignupDialogFragment extends DialogFragment implements SignupView, 
     Callback callback = (Callback) context;
     callback.getActivityComponent().inject(SignupDialogFragment.this);
     signupMvpPresenter.onAttach(SignupDialogFragment.this);
+
+    //
+    interactWithLoginActivty = (InteractionWithSignupFragment) context;
   }
 
   @Override
@@ -84,7 +92,7 @@ public class SignupDialogFragment extends DialogFragment implements SignupView, 
 
   @Override
   public boolean isNetworkConnected() {
-    return false;
+    return NetworkUtil.isNetworkConnected(getContext());
   }
 
   @Override
@@ -106,6 +114,10 @@ public class SignupDialogFragment extends DialogFragment implements SignupView, 
               textSignupPassword.getText().toString(),
               textSignupName.getText().toString());
         }
+        break;
+
+      case R.id.button_close_dialog:
+        dismiss();
         break;
     }
   }
@@ -140,5 +152,30 @@ public class SignupDialogFragment extends DialogFragment implements SignupView, 
   @Override
   public String getStringFromStringResource(int stringId) {
     return getResources().getString(stringId);
+  }
+
+  @Override
+  public void showNotification(int messageId) {
+    Snackbar.make(getView(),messageId,3000).show();
+  }
+
+  @Override
+  public void closeDialog() {
+    Handler handler = new Handler();
+    handler.postDelayed(new Runnable() {
+      @Override
+      public void run() {
+        dismiss();
+      }
+    },2000);
+  }
+
+  @Override
+  public void updateUserInfoForLoginActivity(String email, String password) {
+    interactWithLoginActivty.updateUserInfoLogin(email,password);
+  }
+
+  public interface InteractionWithSignupFragment{
+    void updateUserInfoLogin(String email, String password);
   }
 }

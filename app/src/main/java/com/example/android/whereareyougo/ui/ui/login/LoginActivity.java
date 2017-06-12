@@ -11,12 +11,14 @@ import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.example.android.whereareyougo.R;
 import com.example.android.whereareyougo.ui.ui.base.BaseActivity;
 import com.example.android.whereareyougo.ui.ui.signup.SignupDialogFragment;
+import com.example.android.whereareyougo.ui.ui.signup.SignupDialogFragment.InteractionWithSignupFragment;
 import com.example.android.whereareyougo.ui.utils.MyKey;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import javax.inject.Inject;
 
 
-public class LoginActivity extends BaseActivity implements LoginView, View.OnClickListener {
+public class LoginActivity extends BaseActivity implements LoginView, View.OnClickListener,
+    InteractionWithSignupFragment{
 
   @Inject
   LoginMvpPresenter<LoginView> loginMvpPresenter;
@@ -33,11 +35,15 @@ public class LoginActivity extends BaseActivity implements LoginView, View.OnCli
   @BindView(R.id.text_forgot_password)
   TextView textForgotPassword;
 
+  
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_login);
     ButterKnife.bind(this);
+
+
 
     getActivityComponent().inject(this);
     loginMvpPresenter.onAttach(this);
@@ -76,5 +82,11 @@ public class LoginActivity extends BaseActivity implements LoginView, View.OnCli
     SignupDialogFragment dialogFragment = SignupDialogFragment.newInstance();
     dialogFragment.show(getSupportFragmentManager(), MyKey.SIGNUP_DIALOG_FRAGMENT_TAG);
 
+  }
+
+  @Override
+  public void updateUserInfoLogin(String email, String password) {
+    editTextEmail.setText(email);
+    editTextPassword.setText(password);
   }
 }

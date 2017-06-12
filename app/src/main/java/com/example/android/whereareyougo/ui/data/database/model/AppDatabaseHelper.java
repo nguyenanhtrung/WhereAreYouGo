@@ -1,6 +1,8 @@
 package com.example.android.whereareyougo.ui.data.database.model;
 
+import com.example.android.whereareyougo.ui.data.database.entity.User;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.ProviderQueryResult;
 import com.google.firebase.database.DatabaseReference;
@@ -30,6 +32,19 @@ public class AppDatabaseHelper implements DatabaseHelper {
       return firebaseAuth.fetchProvidersForEmail(email);
     }
     return null;
+  }
+
+  public Task<AuthResult> createUserWithEmailAndPassword(String email, String password){
+    return firebaseAuth.createUserWithEmailAndPassword(email,password);
+  }
+
+  public void writeNewUser(String userId, String email, String password, String name){
+    DatabaseReference userRef = databaseReference.getRoot();
+    User user = new User(name, email,password);
+    userRef.child("users").push();
+
+    userRef.child("users").child(userId).setValue(user);
+
   }
 
 }
