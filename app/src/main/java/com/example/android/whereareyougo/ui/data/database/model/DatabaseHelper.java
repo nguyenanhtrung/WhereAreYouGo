@@ -15,4 +15,6 @@ public interface DatabaseHelper {
   Task<AuthResult> createUserWithEmailAndPassword(String email, String password);
 
   void writeNewUser(String userId, String email, String password, String name);
+
+  Task<AuthResult> signInWithEmailAndPassworđ(String email, String password);
 }

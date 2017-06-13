@@ -37,4 +37,11 @@ public class AppDataManager implements DataManager {
   public void writeNewUser(String userId, String email, String password, String name) {
     databaseHelper.writeNewUser(userId,email,password,name);
   }
+
+  @Override
+  public Task<AuthResult> signInWithEmailAndPassworđ(String email, String password) {
+    return databaseHelper.signInWithEmailAndPassworđ(email,password);
+  }
+
+
 }

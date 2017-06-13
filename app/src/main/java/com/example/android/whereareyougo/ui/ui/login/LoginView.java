@@ -8,4 +8,8 @@ import com.example.android.whereareyougo.ui.ui.base.MvpView;
 
 public interface LoginView extends MvpView {
   void openSignupFragment();
+
+  void openMainActivity();
+
+  void showNotification(int messageId);
 }
