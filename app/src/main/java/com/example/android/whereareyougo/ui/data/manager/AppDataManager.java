@@ -2,6 +2,7 @@ package com.example.android.whereareyougo.ui.data.manager;
 
 import android.content.Context;
 import com.example.android.whereareyougo.ui.data.database.model.DatabaseHelper;
+import com.example.android.whereareyougo.ui.data.pref.PreferencesHelper;
 import com.example.android.whereareyougo.ui.di.ApplicationContext;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -16,11 +17,14 @@ public class AppDataManager implements DataManager {
 
   private Context context;
   private DatabaseHelper databaseHelper;
+  private PreferencesHelper preferencesHelper;
 
   @Inject
-  public AppDataManager(@ApplicationContext Context context, DatabaseHelper databaseHelper) {
+  public AppDataManager(@ApplicationContext Context context, DatabaseHelper databaseHelper,
+      PreferencesHelper preferencesHelper) {
     this.context = context;
     this.databaseHelper = databaseHelper;
+    this.preferencesHelper = preferencesHelper;
   }
 
   @Override
@@ -44,4 +48,33 @@ public class AppDataManager implements DataManager {
   }
 
 
+  @Override
+  public void saveUserEmail(String email) {
+    preferencesHelper.saveUserEmail(email);
+  }
+
+  @Override
+  public void saveUserPassword(String password) {
+    preferencesHelper.saveUserPassword(password);
+  }
+
+  @Override
+  public String getUserEmail() {
+    return preferencesHelper.getUserEmail();
+  }
+
+  @Override
+  public String getUserPassword() {
+    return preferencesHelper.getUserPassword();
+  }
+
+  @Override
+  public void saveCheckRememberLogin(boolean isCheck) {
+    preferencesHelper.saveCheckRememberLogin(isCheck);
+  }
+
+  @Override
+  public boolean getCheckRememberLogin() {
+    return preferencesHelper.getCheckRememberLogin();
+  }
 }

@@ -35,8 +35,10 @@ public class LoginPresenter<V extends LoginView> extends BasePresenter<V> implem
           @Override
           public void onComplete(@NonNull Task<AuthResult> task) {
             if (task.isSuccessful()){
-              getMvpView().showNotification(R.string.login_successful);
+              getMvpView().showLoading();
               getMvpView().openMainActivity();
+            }else {
+              getMvpView().showNotification(R.string.login_fail);
             }
           }
         })

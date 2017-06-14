@@ -6,6 +6,8 @@ import com.example.android.whereareyougo.ui.data.database.model.AppDatabaseHelpe
 import com.example.android.whereareyougo.ui.data.database.model.DatabaseHelper;
 import com.example.android.whereareyougo.ui.data.manager.AppDataManager;
 import com.example.android.whereareyougo.ui.data.manager.DataManager;
+import com.example.android.whereareyougo.ui.data.pref.AppPreferencesHelper;
+import com.example.android.whereareyougo.ui.data.pref.PreferencesHelper;
 import com.example.android.whereareyougo.ui.di.ApplicationContext;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
@@ -60,6 +62,12 @@ public class ApplicationModule {
   @Singleton
   DatabaseReference provideDatabaseReference(){
     return FirebaseDatabase.getInstance().getReference();
+  }
+
+  @Provides
+  @Singleton
+  PreferencesHelper providePreferencesHelper(AppPreferencesHelper preferencesHelper){
+    return preferencesHelper;
   }
 
   @Provides

@@ -84,8 +84,18 @@ public class LoginActivity extends BaseActivity implements LoginView, OnClickLis
     }
   }
 
+  private void setVisibilityForComponents(int visibility){
+    editTextEmail.setVisibility(visibility);
+    editTextPassword.setVisibility(visibility);
+    textForgotPassword.setVisibility(visibility);
+    checkSaveAccount.setVisibility(visibility);
+    buttonSignUp.setVisibility(visibility);
+    buttonSignIn.setVisibility(visibility);
+  }
+
   @Override
   public void showLoading() {
+    setVisibilityForComponents(View.GONE);
     loadingLogin.show();
   }
 
@@ -112,7 +122,7 @@ public class LoginActivity extends BaseActivity implements LoginView, OnClickLis
         hideLoading();
         startActivity(intent);
       }
-    },2000);
+    },3000);
 
   }
 
