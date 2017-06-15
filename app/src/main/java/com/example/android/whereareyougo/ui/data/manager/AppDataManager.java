@@ -7,6 +7,7 @@ import com.example.android.whereareyougo.ui.di.ApplicationContext;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.ProviderQueryResult;
+import com.google.firebase.database.DatabaseReference;
 import javax.inject.Inject;
 
 /**
@@ -45,6 +46,11 @@ public class AppDataManager implements DataManager {
   @Override
   public Task<AuthResult> signInWithEmailAndPassworđ(String email, String password) {
     return databaseHelper.signInWithEmailAndPassworđ(email,password);
+  }
+
+  @Override
+  public DatabaseReference getUserInfo() {
+    return databaseHelper.getUserInfo();
   }
 
 

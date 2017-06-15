@@ -7,6 +7,12 @@ import com.example.android.whereareyougo.ui.di.PerActivity;
 import com.example.android.whereareyougo.ui.ui.login.LoginMvpPresenter;
 import com.example.android.whereareyougo.ui.ui.login.LoginPresenter;
 import com.example.android.whereareyougo.ui.ui.login.LoginView;
+import com.example.android.whereareyougo.ui.ui.main.MainMvpPresenter;
+import com.example.android.whereareyougo.ui.ui.main.MainPresenter;
+import com.example.android.whereareyougo.ui.ui.main.MainView;
+import com.example.android.whereareyougo.ui.ui.map.MapMvpPresenter;
+import com.example.android.whereareyougo.ui.ui.map.MapMvpView;
+import com.example.android.whereareyougo.ui.ui.map.MapPresenter;
 import com.example.android.whereareyougo.ui.ui.signup.SignupMvpPresenter;
 import com.example.android.whereareyougo.ui.ui.signup.SignupPresenter;
 import com.example.android.whereareyougo.ui.ui.signup.SignupView;
@@ -45,6 +51,18 @@ public class ActivityModule {
   @Provides
   @PerActivity
   SignupMvpPresenter<SignupView> provideSignupPresenter(SignupPresenter<SignupView> presenter) {
+    return presenter;
+  }
+
+  @Provides
+  @PerActivity
+  MainMvpPresenter<MainView> provideMainPresenter(MainPresenter<MainView> presenter) {
+    return presenter;
+  }
+
+  @Provides
+  @PerActivity
+  MapMvpPresenter<MapMvpView> provideMapPresenter(MapPresenter<MapMvpView> presenter) {
     return presenter;
   }
 

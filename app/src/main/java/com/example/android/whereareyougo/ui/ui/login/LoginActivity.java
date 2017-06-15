@@ -68,6 +68,14 @@ public class LoginActivity extends BaseActivity implements LoginView, OnClickLis
   }
 
   @Override
+  protected void onResume() {
+    super.onResume();
+    if (loginMvpPresenter != null){
+      loginMvpPresenter.loginWithLoginRemember();
+    }
+  }
+
+  @Override
   public void onClick(View v) {
     switch (v.getId()) {
       case R.id.button_sign_in:
@@ -121,6 +129,7 @@ public class LoginActivity extends BaseActivity implements LoginView, OnClickLis
       public void run() {
         hideLoading();
         startActivity(intent);
+        finish();
       }
     },3000);
 
@@ -130,6 +139,11 @@ public class LoginActivity extends BaseActivity implements LoginView, OnClickLis
   public void showNotification(int messageId) {
     Snackbar snackbar = Snackbar.make(textForgotPassword,messageId,2000);
     snackbar.show();
+  }
+
+  @Override
+  public boolean getValueFrormCheckRemember() {
+    return checkSaveAccount.isChecked();
   }
 
 

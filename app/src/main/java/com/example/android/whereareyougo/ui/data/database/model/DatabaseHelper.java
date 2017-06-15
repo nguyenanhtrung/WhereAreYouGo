@@ -3,6 +3,7 @@ package com.example.android.whereareyougo.ui.data.database.model;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.ProviderQueryResult;
+import com.google.firebase.database.DatabaseReference;
 
 /**
  * Created by nguyenanhtrung on 09/06/2017.
@@ -17,4 +18,6 @@ public interface DatabaseHelper {
   void writeNewUser(String userId, String email, String password, String name);
 
   Task<AuthResult> signInWithEmailAndPassworđ(String email, String password);
+
+  DatabaseReference getUserInfo();
 }

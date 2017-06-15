@@ -12,4 +12,6 @@ public interface LoginView extends MvpView {
   void openMainActivity();
 
   void showNotification(int messageId);
+
+  boolean getValueFrormCheckRemember();
 }

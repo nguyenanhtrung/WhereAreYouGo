@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import com.example.android.whereareyougo.ui.di.ApplicationContext;
 import com.example.android.whereareyougo.ui.di.PreferencesInfo;
+import com.example.android.whereareyougo.ui.utils.MyKey;
 import javax.inject.Inject;
 
 /**
@@ -21,31 +22,31 @@ public class AppPreferencesHelper implements PreferencesHelper {
 
   @Override
   public void saveUserEmail(String email) {
-
+    sharedPreferences.edit().putString(MyKey.PREF_SAVE_EMAIL,email).apply();
   }
 
   @Override
   public void saveUserPassword(String password) {
-
+    sharedPreferences.edit().putString(MyKey.PREF_SAVE_PASSWORD,password).apply();
   }
 
   @Override
   public String getUserEmail() {
-    return null;
+    return sharedPreferences.getString(MyKey.PREF_SAVE_EMAIL,"");
   }
 
   @Override
   public String getUserPassword() {
-    return null;
+    return sharedPreferences.getString(MyKey.PREF_SAVE_PASSWORD,"");
   }
 
   @Override
   public void saveCheckRememberLogin(boolean isCheck) {
-
+    sharedPreferences.edit().putBoolean(MyKey.PREF_LOGIN_MODE,isCheck).apply();
   }
 
   @Override
   public boolean getCheckRememberLogin() {
-    return false;
+    return sharedPreferences.getBoolean(MyKey.PREF_LOGIN_MODE,false);
   }
 }

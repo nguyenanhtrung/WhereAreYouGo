@@ -1,6 +1,7 @@
 package com.example.android.whereareyougo.ui.ui.login;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 import com.example.android.whereareyougo.R;
 import com.example.android.whereareyougo.ui.data.manager.DataManager;
 import com.example.android.whereareyougo.ui.ui.base.BasePresenter;
@@ -30,6 +31,13 @@ public class LoginPresenter<V extends LoginView> extends BasePresenter<V> implem
 
   @Override
   public void onCLickButtonSignin(String email, String password) {
+    boolean isRememberLogin = getMvpView().getValueFrormCheckRemember();
+    getDataManager().saveCheckRememberLogin(isRememberLogin);
+    saveEmailAndPassword(email,password);
+    loginWithEmailAndPassword(email,password);
+  }
+
+  private void loginWithEmailAndPassword(String email, String password){
     getDataManager().signInWithEmailAndPassworđ(email, password)
         .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
           @Override
@@ -48,5 +56,35 @@ public class LoginPresenter<V extends LoginView> extends BasePresenter<V> implem
 
           }
         });
+  }
+
+  private void saveEmailAndPassword(String email, String password){
+    if (!email.isEmpty()){
+      getDataManager().saveUserEmail(email);
+    }
+
+    if (!password.isEmpty()){
+      getDataManager().saveUserPassword(password);
+    }
+  }
+
+  public void loginWithLoginRemember(){
+    boolean isLoginRemember = getDataManager().getCheckRememberLogin();
+
+    if (!isLoginRemember){
+      return;
+    }
+
+    String email = getDataManager().getUserEmail();
+    if (email.isEmpty()){
+      return;
+    }
+
+    String password = getDataManager().getUserPassword();
+    if (password.isEmpty()){
+      return;
+    }
+
+    loginWithEmailAndPassword(email,password);
   }
 }

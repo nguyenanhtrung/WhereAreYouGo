@@ -9,6 +9,8 @@ import com.example.android.whereareyougo.ui.data.manager.DataManager;
 import com.example.android.whereareyougo.ui.data.pref.AppPreferencesHelper;
 import com.example.android.whereareyougo.ui.data.pref.PreferencesHelper;
 import com.example.android.whereareyougo.ui.di.ApplicationContext;
+import com.example.android.whereareyougo.ui.di.PreferencesInfo;
+import com.example.android.whereareyougo.ui.utils.MyKey;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -76,7 +78,11 @@ public class ApplicationModule {
     return FirebaseStorage.getInstance();
   }
 
-
+  @Provides
+  @PreferencesInfo
+  String providePreferencesName(){
+    return MyKey.PREF_FILE_NAME;
+  }
 
 
 
