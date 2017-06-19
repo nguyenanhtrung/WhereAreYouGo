@@ -34,4 +34,16 @@ public class MainPresenter<V extends MainView> extends BasePresenter<V> implemen
       }
     });
   }
+
+  @Override
+  public void onClickUserSettingButton() {
+    getMvpView().openUserSettingDrawer();
+  }
+
+  @Override
+  public void onCLickUserSettingDrawerItem() {
+    getMvpView().closeUserSettingDrawer();
+    getMvpView().openUserSettingFragment();
+
+  }
 }

@@ -8,4 +8,8 @@ import com.example.android.whereareyougo.ui.ui.base.MvpPresenter;
 
 public interface MainMvpPresenter<V extends MainView> extends MvpPresenter<V> {
   void updateUserInfo();
+
+  void onClickUserSettingButton();
+
+  void onCLickUserSettingDrawerItem();
 }

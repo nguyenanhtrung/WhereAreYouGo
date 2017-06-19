@@ -10,4 +10,10 @@ import com.example.android.whereareyougo.ui.ui.base.MvpView;
 public interface MainView extends MvpView {
 
   void updateUserInfo(User user);
+
+  void closeUserSettingDrawer();
+
+  void openUserSettingDrawer();
+
+  void openUserSettingFragment();
 }

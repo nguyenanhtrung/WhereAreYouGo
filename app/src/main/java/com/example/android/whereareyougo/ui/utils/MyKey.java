@@ -1,5 +1,7 @@
 package com.example.android.whereareyougo.ui.utils;
 
+import com.google.android.gms.maps.GoogleMap;
+
 /**
  * Created by nguyenanhtrung on 09/06/2017.
  */
@@ -15,6 +17,7 @@ public class MyKey {
   public static final String USER_IMAGE_DEFAULT = "ic_user_default";
   public static final String MAIN_ACTIVITY_TAG = "MainActivity";
   public static final String MAP_FRAGMENT_TAG = "MapFragment";
+  public static final String USER_SETTING_FRAGMENT_TAG = "UserSettingFragment";
   public static final int USER_SETTING_ITEM = 1;
   public static final int FAVORITE_PLACES_ITEM = 2;
   public static final int FOLLOWERS_ITEM = 3;
@@ -31,4 +34,11 @@ public class MyKey {
   public static final int WIDTH_VENUE_PHOTO = 200;
   public static final int HEIGHT_VENUE_PHOTO = 120;
   public static final String VENUE_DETAIL_DIALOG_TAG = "venuedetaildialog";
+  public static final int PROFILE_IDENTIFY_DRAWER = 199;
+  public static final int MAP_TYPE_NORMAL = GoogleMap.MAP_TYPE_NORMAL;
+  public static final int MAP_TYPE_HYBRID = GoogleMap.MAP_TYPE_HYBRID;
+  public static final int MAP_TYPE_SATELLITE = GoogleMap.MAP_TYPE_SATELLITE;
+  public static final int MAP_TYPE_TERRAIN = GoogleMap.MAP_TYPE_TERRAIN;
+  public static final int MAP_TYPE_NONE = GoogleMap.MAP_TYPE_NONE;
+
 }

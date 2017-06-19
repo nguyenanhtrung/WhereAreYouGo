@@ -65,6 +65,11 @@ dependencies {
     compile 'com.google.firebase:firebase-auth:10.2.6'
     compile 'com.google.firebase:firebase-database:10.2.6'
     compile 'com.google.firebase:firebase-storage:10.2.6'
+
+    compile('com.mikepenz:materialdrawer:5.8.3@aar') {
+        transitive = true
+    }
+    compile 'com.afollestad.material-dialogs:commons:0.9.4.5'
 }
 
 

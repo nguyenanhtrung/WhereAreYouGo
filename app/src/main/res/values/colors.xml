@@ -20,4 +20,8 @@
   <color name="color_num_of_favor_venue">#03A9F4</color>
   <color name="color_num_of_follower">#EC407A</color>
   <color name="edit_text_error">#FF5722</color>
+
+  <color name="button_map_type">#03A9F4</color>
+  <color name="button_call">#8BC34A</color>
+  <color name="button_send_message">#FF9800</color>
 </resources>

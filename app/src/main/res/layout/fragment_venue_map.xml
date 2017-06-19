@@ -67,7 +67,7 @@
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:src="@drawable/ic_send_white_24dp"
-      app:fab_colorNormal="@color/colorPrimary"
+      app:fab_colorNormal="@color/button_send_message"
       fab:fab_label="@string/float_button_message"
       fab:fab_size="mini" />
 
@@ -75,7 +75,18 @@
       android:id="@+id/button_call"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
+      app:fab_colorNormal="@color/button_call"
       android:src="@drawable/ic_call_white_24dp"
+      fab:fab_label="@string/float_button_call"
+      fab:fab_size="mini" />
+
+    <com.github.clans.fab.FloatingActionButton
+      android:id="@+id/button_map_type"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      app:fab_label="@string/tile_venue_detail_dialog"
+      app:fab_colorNormal="@color/button_map_type"
+      android:src="@drawable/ic_map_white_24dp"
       fab:fab_label="@string/float_button_call"
       fab:fab_size="mini" />
 

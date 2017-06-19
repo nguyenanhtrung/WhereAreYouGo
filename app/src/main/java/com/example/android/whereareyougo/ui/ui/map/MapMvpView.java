@@ -7,5 +7,5 @@ import com.example.android.whereareyougo.ui.ui.base.MvpView;
  */
 
 public interface MapMvpView extends MvpView {
-
+  void showDialogChooseMapType();
 }

@@ -16,6 +16,9 @@ import com.example.android.whereareyougo.ui.ui.map.MapPresenter;
 import com.example.android.whereareyougo.ui.ui.signup.SignupMvpPresenter;
 import com.example.android.whereareyougo.ui.ui.signup.SignupPresenter;
 import com.example.android.whereareyougo.ui.ui.signup.SignupView;
+import com.example.android.whereareyougo.ui.ui.usersetting.UserSettingMvpPresenter;
+import com.example.android.whereareyougo.ui.ui.usersetting.UserSettingPresenter;
+import com.example.android.whereareyougo.ui.ui.usersetting.UserSettingView;
 import dagger.Module;
 import dagger.Provides;
 
@@ -63,6 +66,12 @@ public class ActivityModule {
   @Provides
   @PerActivity
   MapMvpPresenter<MapMvpView> provideMapPresenter(MapPresenter<MapMvpView> presenter) {
+    return presenter;
+  }
+
+  @Provides
+  @PerActivity
+  UserSettingMvpPresenter<UserSettingView> provideUserSettingPresenter(UserSettingPresenter<UserSettingView> presenter) {
     return presenter;
   }
 

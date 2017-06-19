@@ -17,7 +17,7 @@ public class User {
 
 
   private String phoneNumber;
-  private String imageName;
+  private String imageUrl;
   private String status;
   private String currentPosition;
 
@@ -71,13 +71,12 @@ public class User {
     this.phoneNumber = phoneNumber;
   }
 
-
-  public String getImageName() {
-    return imageName;
+  public String getImageUrl() {
+    return imageUrl;
   }
 
-  public void setImageName(String imageName) {
-    this.imageName = imageName;
+  public void setImageUrl(String imageUrl) {
+    this.imageUrl = imageUrl;
   }
 
   public String getStatus() {
@@ -103,7 +102,7 @@ public class User {
     result.put("phoneNumber",phoneNumber);
     result.put("email",email);
     result.put("password",password);
-    result.put("imageName", imageName);
+    result.put("imageUrl", imageUrl);
 
     return result;
   }

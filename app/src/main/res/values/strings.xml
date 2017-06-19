@@ -75,7 +75,7 @@
   <string name="following_list">Danh sách đang theo dõi</string>
   <string name="sign_out">Đăng xuất</string>
   <string name="search_venue">Tìm kiếm địa điểm</string>
-  <string name="google_map_key">AIzaSyBD0vAcubNpaXhvKtlidA9ew0hXBXCtuzY</string>
+  <string name="google_map_key">AIzaSyDuC8d7OZ2LUUrDKM_69V1difcYCAHdKVQ</string>
   <string name="float_button_message">Gửi tin nhắn </string>
   <string name="float_button_call">Gọi nhanh</string>
   <string name="button_save">Lưu</string>
@@ -145,4 +145,8 @@
   <string name="edit_text_email_helper">Email bao gồm chữ cái, chữ số, kí hiệu @ và tên miền  </string>
   <string name="edit_text_password_helper">Mật khẩu có độ dài  6 đến 15 kí tự, ít nhất có 1 kí tự hoa, 1 kí tự đặc biệt và 1 chữ cái </string>
   <string name="edit_text_name_helper">Họ tên chỉ chứa chữ cái,không chứa chữ số, không chứa kí tự đặc biệt</string>
+
+  <!-- Map Fragment -->
+  <string name="title_dialog_map_type">Chọn kiểu bản đồ</string>
+  <string name="text_choose">Chọn</string>
 </resources>

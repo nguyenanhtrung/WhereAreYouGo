@@ -7,5 +7,6 @@ import com.example.android.whereareyougo.ui.ui.base.MvpPresenter;
  */
 
 public interface MapMvpPresenter<V extends MapMvpView> extends MvpPresenter<V> {
-
+  int getMapTypeChoose(String[] maptype, String choose);
+  void onClickFloatButtonMapType();
 }
