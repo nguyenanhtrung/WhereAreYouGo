@@ -2,7 +2,8 @@ package com.example.android.whereareyougo.ui.utils;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import org.apache.commons.validator.EmailValidator;
+import org.apache.commons.validator.routines.EmailValidator;
+
 
 /**
  * Created by nguyenanhtrung on 10/06/2017.

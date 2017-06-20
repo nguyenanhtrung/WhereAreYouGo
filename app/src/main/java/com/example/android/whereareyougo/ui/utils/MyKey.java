@@ -23,7 +23,6 @@ public class MyKey {
   public static final int FOLLOWERS_ITEM = 3;
   public static final int FOLLOWINGS_ITEM = 4;
   public static final int LOG_OUT_ITEM = 5;
-  public static final int REQUEST_CODE_PICK_IMAGE = 111;
   public static final int PERMISSIONS_REQUEST_LOCATION = 99;
   public static final float ZOOM_LEVEl_DEFAULT = 15.0f;
   public static final int PLACE_AUTOCOMPLETE_REQUEST_CODE = 248;
@@ -40,5 +39,7 @@ public class MyKey {
   public static final int MAP_TYPE_SATELLITE = GoogleMap.MAP_TYPE_SATELLITE;
   public static final int MAP_TYPE_TERRAIN = GoogleMap.MAP_TYPE_TERRAIN;
   public static final int MAP_TYPE_NONE = GoogleMap.MAP_TYPE_NONE;
-
+  public static final String USER_PARCELABLE_KEY = "user";
+  public static final int REQUEST_CODE_PICK_IMAGE = 24;
+  public static final int REQUEST_PERMISSION_READ_EXTERNAL = 21;
 }

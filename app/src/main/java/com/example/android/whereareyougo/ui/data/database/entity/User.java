@@ -1,5 +1,7 @@
 package com.example.android.whereareyougo.ui.data.database.entity;
 
+import android.os.Parcel;
+import android.os.Parcelable.Creator;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -8,7 +10,7 @@ import java.util.Map;
  */
 
 
-public class User {
+public class User implements android.os.Parcelable {
 
   private String userID;
   private String name;
@@ -106,4 +108,45 @@ public class User {
 
     return result;
   }
+
+
+  @Override
+  public int describeContents() {
+    return 0;
+  }
+
+  @Override
+  public void writeToParcel(Parcel dest, int flags) {
+    dest.writeString(this.userID);
+    dest.writeString(this.name);
+    dest.writeString(this.email);
+    dest.writeString(this.password);
+    dest.writeString(this.phoneNumber);
+    dest.writeString(this.imageUrl);
+    dest.writeString(this.status);
+    dest.writeString(this.currentPosition);
+  }
+
+  protected User(Parcel in) {
+    this.userID = in.readString();
+    this.name = in.readString();
+    this.email = in.readString();
+    this.password = in.readString();
+    this.phoneNumber = in.readString();
+    this.imageUrl = in.readString();
+    this.status = in.readString();
+    this.currentPosition = in.readString();
+  }
+
+  public static final Creator<User> CREATOR = new Creator<User>() {
+    @Override
+    public User createFromParcel(Parcel source) {
+      return new User(source);
+    }
+
+    @Override
+    public User[] newArray(int size) {
+      return new User[size];
+    }
+  };
 }

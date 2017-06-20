@@ -70,6 +70,7 @@ dependencies {
         transitive = true
     }
     compile 'com.afollestad.material-dialogs:commons:0.9.4.5'
+    compile 'com.zhihu.android:matisse:0.4.3'
 }
 
 

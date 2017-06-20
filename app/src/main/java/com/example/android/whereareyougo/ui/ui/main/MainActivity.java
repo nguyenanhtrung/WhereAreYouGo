@@ -1,5 +1,7 @@
 package com.example.android.whereareyougo.ui.ui.main;
 
+import android.content.pm.ActivityInfo;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -18,6 +20,7 @@ import com.example.android.whereareyougo.ui.data.database.entity.User;
 import com.example.android.whereareyougo.ui.ui.base.BaseActivity;
 import com.example.android.whereareyougo.ui.ui.map.MapFragment;
 import com.example.android.whereareyougo.ui.ui.usersetting.UserSettingFragment;
+import com.example.android.whereareyougo.ui.utils.Commons;
 import com.example.android.whereareyougo.ui.utils.MyKey;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeader.OnAccountHeaderSelectionViewClickListener;
@@ -31,6 +34,10 @@ import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 import com.roughike.bottombar.BottomBar;
+import com.zhihu.matisse.Matisse;
+import com.zhihu.matisse.MimeType;
+import com.zhihu.matisse.engine.impl.GlideEngine;
+import com.zhihu.matisse.filter.Filter;
 import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
@@ -97,7 +104,8 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
       iProfile.withEmail(currentUser.getEmail());
 
       if (currentUser.getImageUrl() != null) {
-        iProfile.withIcon(currentUser.getImageUrl());
+        Uri userImageUrl = Commons.convertStringToUri(currentUser.getImageUrl());
+        iProfile.withIcon(userImageUrl);
       }
 
       userHeader.updateProfile(iProfile);
@@ -125,8 +133,7 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
         switch (position) {
           case MyKey.USER_SETTING_ITEM:
             //replace current fragment with user setting fragment
-            closeUserSettingDrawer();
-            replaceFragment(new UserSettingFragment(), MyKey.USER_SETTING_FRAGMENT_TAG);
+            mainMvpPresenter.onCLickUserSettingDrawerItem();
             break;
         }
         return true;
@@ -137,12 +144,16 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
   }
 
   private void replaceFragment(Fragment newFragment, String tag) {
-    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_layout,newFragment)
-        .commitAllowingStateLoss();
+    FragmentManager fragmentManager = getSupportFragmentManager();
+    Fragment fragment = fragmentManager.findFragmentByTag(tag);
+    if (fragment == null){
+      FragmentTransaction transaction = fragmentManager.beginTransaction();
+      transaction.replace(R.id.fragment_container_layout,newFragment).commit();
+    }
   }
 
   public void openUserSettingFragment(){
-    replaceFragment(UserSettingFragment.getInstance(),MyKey.USER_SETTING_FRAGMENT_TAG);
+    replaceFragment(UserSettingFragment.getInstance(currentUser),MyKey.USER_SETTING_FRAGMENT_TAG);
   }
 
 
@@ -231,6 +242,8 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
       userDrawer.closeDrawer();
     }
   }
+
+
 
 
   @Override

@@ -1,6 +1,7 @@
 package com.example.android.whereareyougo.ui.data.manager;
 
 import android.content.Context;
+import com.example.android.whereareyougo.ui.data.database.entity.User;
 import com.example.android.whereareyougo.ui.data.database.model.DatabaseHelper;
 import com.example.android.whereareyougo.ui.data.pref.PreferencesHelper;
 import com.example.android.whereareyougo.ui.di.ApplicationContext;
@@ -8,6 +9,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.ProviderQueryResult;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.storage.StorageReference;
 import javax.inject.Inject;
 
 /**
@@ -51,6 +53,22 @@ public class AppDataManager implements DataManager {
   @Override
   public DatabaseReference getUserInfo() {
     return databaseHelper.getUserInfo();
+  }
+
+  @Override
+  public DatabaseReference getUserReference() {
+    return databaseHelper.getUserReference();
+  }
+
+  @Override
+  public StorageReference getUserPhotoReference() {
+    return databaseHelper.getUserPhotoReference();
+  }
+
+  @Override
+  public void changeUserPassword(String email, String oldPassword,
+      String newPassword) {
+    databaseHelper.changeUserPassword(email,oldPassword,newPassword);
   }
 
 
