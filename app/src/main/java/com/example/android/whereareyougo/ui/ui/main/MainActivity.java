@@ -16,9 +16,13 @@ import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.example.android.whereareyougo.R;
+import com.example.android.whereareyougo.ui.data.database.entity.Result;
 import com.example.android.whereareyougo.ui.data.database.entity.User;
 import com.example.android.whereareyougo.ui.ui.base.BaseActivity;
+import com.example.android.whereareyougo.ui.ui.map.ListVenueDialogFragment;
 import com.example.android.whereareyougo.ui.ui.map.MapFragment;
+import com.example.android.whereareyougo.ui.ui.map.MapFragment.InteractionWithMapFragment;
+import com.example.android.whereareyougo.ui.ui.signup.SignupDialogFragment.InteractionWithSignupFragment;
 import com.example.android.whereareyougo.ui.ui.usersetting.UserSettingFragment;
 import com.example.android.whereareyougo.ui.utils.Commons;
 import com.example.android.whereareyougo.ui.utils.MyKey;
@@ -42,7 +46,8 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
 
-public class MainActivity extends BaseActivity implements MainView, View.OnClickListener {
+public class MainActivity extends BaseActivity implements MainView, View.OnClickListener,
+    InteractionWithMapFragment {
 
   @Inject
   MainMvpPresenter<MainView> mainMvpPresenter;
@@ -146,14 +151,14 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
   private void replaceFragment(Fragment newFragment, String tag) {
     FragmentManager fragmentManager = getSupportFragmentManager();
     Fragment fragment = fragmentManager.findFragmentByTag(tag);
-    if (fragment == null){
+    if (fragment == null) {
       FragmentTransaction transaction = fragmentManager.beginTransaction();
-      transaction.replace(R.id.fragment_container_layout,newFragment).commit();
+      transaction.replace(R.id.fragment_container_layout, newFragment).commit();
     }
   }
 
-  public void openUserSettingFragment(){
-    replaceFragment(UserSettingFragment.getInstance(currentUser),MyKey.USER_SETTING_FRAGMENT_TAG);
+  public void openUserSettingFragment() {
+    replaceFragment(UserSettingFragment.getInstance(currentUser), MyKey.USER_SETTING_FRAGMENT_TAG);
   }
 
 
@@ -244,8 +249,6 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
   }
 
 
-
-
   @Override
   public void onClick(View v) {
     switch (v.getId()) {
@@ -258,5 +261,25 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
         }
         break;
     }
+  }
+
+
+  @Override
+  public String getUserImage() {
+    if (currentUser != null) {
+      String userImage = currentUser.getImageUrl();
+      if (userImage != null) {
+        return userImage;
+      } else {
+        //
+      }
+    }
+
+    return null;
+  }
+
+  @Override
+  public void openListVenueDialogFragment(ArrayList<Result> results) {
+    ListVenueDialogFragment.newInstance(results).show(getSupportFragmentManager(),"ListVenueDialogFragment");
   }
 }

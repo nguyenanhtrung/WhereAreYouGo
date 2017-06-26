@@ -149,4 +149,11 @@
   <!-- Map Fragment -->
   <string name="title_dialog_map_type">Chọn kiểu bản đồ</string>
   <string name="text_choose">Chọn</string>
+
+  <string name="label_venue_status">Trạng thái</string>
+  <string name="title_loading_search_venue">Tìm kiếm địa điểm</string>
+  <string name="content_loading_search_venue">Đang tìm kiếm, bạn vui lòng chờ...</string>
+  <string name="opening_hour_null">Chưa xác định</string>
+  <string name="text_venue_open_time">MỞ CỬA</string>
+  <string name="text_venue_close_time">ĐÓNG CỬA</string>
 </resources>

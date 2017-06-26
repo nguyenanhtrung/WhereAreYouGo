@@ -39,17 +39,6 @@
     android:src="@drawable/ic_search_black_24dp" />
 
 
-  <com.wang.avi.AVLoadingIndicatorView
-    android:id="@+id/search_loading"
-    android:layout_width="@dimen/width_search_venue_loading"
-    android:layout_height="@dimen/height_search_venue_loading"
-    android:layout_marginTop="8dp"
-    android:layout_marginEnd="32dp"
-    android:layout_marginRight="32dp"
-    android:layout_gravity="end"
-    android:paddingTop="8dp"
-    app:indicatorColor="@color/colorAccent"
-    app:indicatorName="LineSpinFadeLoaderIndicator" />
 
 
   <com.github.clans.fab.FloatingActionMenu

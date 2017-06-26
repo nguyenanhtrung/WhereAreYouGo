@@ -42,4 +42,8 @@ public class MyKey {
   public static final String USER_PARCELABLE_KEY = "user";
   public static final int REQUEST_CODE_PICK_IMAGE = 24;
   public static final int REQUEST_PERMISSION_READ_EXTERNAL = 21;
+  public static final int REQUEST_PERMISSION_ACCESS_FINE = 15;
+  public static final int NO_DRAWABLE = -1;
+  public static final String GOOGLE_PLACES_KEY = "AIzaSyBLQ9WpI2uK0qRA4wWIpTzkGcgvtlvM5Ls";
+  public static final double VENUE_RADIUS_DEFAULT = 10000;
 }

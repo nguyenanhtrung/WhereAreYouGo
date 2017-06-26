@@ -20,8 +20,11 @@
   <dimen name="height_user_image">100dp</dimen>
 
   <!-- -->
-  <dimen name="width_circle_image">64dp</dimen>
-  <dimen name="height_circle_image">64dp</dimen>
+  <dimen name="width_circle_image">48dp</dimen>
+  <dimen name="height_circle_image">48dp</dimen>
+
+  <dimen name="width_list_venue_dialog">200</dimen>
+  <dimen name="height_list_venue_dialog">200</dimen>
 
 
 </resources>
