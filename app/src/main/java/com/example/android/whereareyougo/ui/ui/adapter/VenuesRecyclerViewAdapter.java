@@ -28,10 +28,20 @@ public class VenuesRecyclerViewAdapter extends UltimateViewAdapter<VenuesRecycle
     private List<Result> results;
     private Context context;
 
-    public VenuesRecyclerViewAdapter(List<Result> results, Context context) {
+    public VenuesRecyclerViewAdapter(List<Result> results, Context context, OnItemCheckListener onItemCheckListener) {
         this.results = results;
         this.context = context;
+        this.onItemCheckListener = onItemCheckListener;
     }
+
+    public interface OnItemCheckListener {
+        void onItemCheck(Result result);
+
+        void onItemUncheck(Result result);
+    }
+
+    private OnItemCheckListener onItemCheckListener;
+
 
     @Override
     public VenueViewHolder newFooterHolder(View view) {
@@ -61,9 +71,10 @@ public class VenuesRecyclerViewAdapter extends UltimateViewAdapter<VenuesRecycle
         return 0;
     }
 
+
     @Override
-    public void onBindViewHolder(VenueViewHolder holder, int position) {
-        Result result = results.get(position);
+    public void onBindViewHolder(final VenueViewHolder holder, int position) {
+        final Result result = results.get(position);
         if (result != null) {
             holder.textVenueName.setText(result.getName());
 
@@ -71,19 +82,38 @@ public class VenuesRecyclerViewAdapter extends UltimateViewAdapter<VenuesRecycle
             OpeningHour openingHour = result.getOpeningHour();
             if (openingHour == null) {
                 holder.textVenueStatus.setText(R.string.opening_hour_null);
+                holder.textVenueStatus.setTextColor(ContextCompat.getColor(context, R.color.color_venue_status_empty));
             } else {
                 if (openingHour.isOpenNow()) {
                     holder.textVenueStatus.setText(R.string.text_venue_open_time);
-                    holder.textVenueStatus.setTextColor(ContextCompat.getColor(context,R.color.color_venue_status_open));
+                    holder.textVenueStatus.setTextColor(ContextCompat.getColor(context, R.color.color_venue_status_open));
                 } else {
                     holder.textVenueStatus.setText(R.string.text_venue_close_time);
-                    holder.textVenueStatus.setTextColor(ContextCompat.getColor(context,R.color.color_venue_status_close));
+                    holder.textVenueStatus.setTextColor(ContextCompat.getColor(context, R.color.color_venue_status_close));
                 }
             }
             //
             Glide.with(context)
                     .load(result.getIcon())
                     .into(holder.imageVenueCategory);
+
+
+            holder.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (!(holder).checkChooseVenue.isChecked()) {
+                        holder.checkChooseVenue.setChecked(true);
+                        holder.checkChooseVenue.setVisibility(View.VISIBLE);
+                        onItemCheckListener.onItemCheck(result);
+
+                    } else {
+                        holder.checkChooseVenue.setChecked(false);
+                        holder.checkChooseVenue.setVisibility(View.INVISIBLE);
+                        onItemCheckListener.onItemUncheck(result);
+
+                    }
+                }
+            });
 
 
         }
@@ -112,6 +142,10 @@ public class VenuesRecyclerViewAdapter extends UltimateViewAdapter<VenuesRecycle
             textVenueStatus = (TextView) itemView.findViewById(R.id.text_venue_status);
             textVenueName = (TextView) itemView.findViewById(R.id.text_venue_name);
             checkChooseVenue = (CheckBox) itemView.findViewById(R.id.check_box_choose);
+        }
+
+        public void setOnClickListener(View.OnClickListener onClickListener) {
+            itemView.setOnClickListener(onClickListener);
         }
     }
 }

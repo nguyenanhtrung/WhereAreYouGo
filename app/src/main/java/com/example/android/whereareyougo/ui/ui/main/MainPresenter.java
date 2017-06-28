@@ -26,7 +26,7 @@ public class MainPresenter<V extends MainView> extends BasePresenter<V> implemen
       @Override
       public void onDataChange(DataSnapshot dataSnapshot) {
         User user = dataSnapshot.getValue(User.class);
-        getMvpView().updateUserInfo(user);
+        getMvpView().updateUserInfo(user) ;
       }
 
       @Override

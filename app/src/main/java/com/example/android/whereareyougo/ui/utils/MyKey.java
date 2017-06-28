@@ -24,7 +24,7 @@ public class MyKey {
   public static final int FOLLOWINGS_ITEM = 4;
   public static final int LOG_OUT_ITEM = 5;
   public static final int PERMISSIONS_REQUEST_LOCATION = 99;
-  public static final float ZOOM_LEVEl_DEFAULT = 15.0f;
+  public static final float ZOOM_LEVEl_DEFAULT = 14.0f;
   public static final int PLACE_AUTOCOMPLETE_REQUEST_CODE = 248;
   public static final String FOURSQUARE_CLIENT_ID = "QKSQ5CNHTZNBTPLGIPIURRL5QZWLBBNS3BZZS0YXYVF21WMH";
   public static final String FOURSQUARE_CLIENT_SECRET = "HOKRADV01ZHVORTQSGLWUQ45KKA31IUC3XAQ13FB3J1ZXIXK";

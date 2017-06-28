@@ -47,7 +47,8 @@ import java.util.List;
 import javax.inject.Inject;
 
 public class MainActivity extends BaseActivity implements MainView, View.OnClickListener,
-    InteractionWithMapFragment {
+    InteractionWithMapFragment,
+        ListVenueDialogFragment.InteractionWithVenuesDialogFragment{
 
   @Inject
   MainMvpPresenter<MainView> mainMvpPresenter;
@@ -226,7 +227,7 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
   private void setupMapFragment() {
     MapFragment mapFragment = MapFragment.newInstance();
     FragmentManager fragmentManager = getSupportFragmentManager();
-    fragmentManager.beginTransaction().add(R.id.fragment_container_layout, mapFragment)
+    fragmentManager.beginTransaction().add(R.id.fragment_container_layout, mapFragment,MyKey.MAP_FRAGMENT_TAG)
         .commit();
   }
 
@@ -268,11 +269,7 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
   public String getUserImage() {
     if (currentUser != null) {
       String userImage = currentUser.getImageUrl();
-      if (userImage != null) {
-        return userImage;
-      } else {
-        //
-      }
+      return userImage;
     }
 
     return null;
@@ -281,5 +278,23 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
   @Override
   public void openListVenueDialogFragment(ArrayList<Result> results) {
     ListVenueDialogFragment.newInstance(results).show(getSupportFragmentManager(),"ListVenueDialogFragment");
+  }
+
+  private void dismissListVenueDialogFragment(){
+    FragmentManager fragmentManager = getSupportFragmentManager();
+    ListVenueDialogFragment dialogFragment = (ListVenueDialogFragment) fragmentManager.findFragmentByTag("ListVenueDialogFragment");
+    MapFragment mapFragment = (MapFragment) fragmentManager.findFragmentByTag(MyKey.MAP_FRAGMENT_TAG);
+    if (dialogFragment != null && mapFragment != null){
+      ArrayList<Result> results = dialogFragment.getVenuesSelected();
+      if (results != null || !results.isEmpty()){
+        mapFragment.addVenueMarkerItems(results);
+      }
+      dialogFragment.dismiss();
+    }
+  }
+
+  @Override
+  public void onClickButtonOkay() {
+    dismissListVenueDialogFragment();
   }
 }

@@ -17,4 +17,6 @@ public interface MapMvpView extends MvpView {
   String getCurrentUserLocation();
 
   void openListVenueDialogFragment(ArrayList<Result> results);
+
+  void removeAllVenueMarkerItems();
 }

@@ -27,6 +27,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import butterknife.BindView;
@@ -36,12 +37,14 @@ import butterknife.Unbinder;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.MaterialDialog.ListCallbackSingleChoice;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.example.android.whereareyougo.R;
 import com.example.android.whereareyougo.ui.data.database.entity.Result;
 import com.example.android.whereareyougo.ui.ui.base.BaseFragment;
 import com.example.android.whereareyougo.ui.ui.main.MainActivity;
+import com.example.android.whereareyougo.ui.ui.map.clusteritem.VenueMarkerItem;
 import com.example.android.whereareyougo.ui.utils.Commons;
 import com.example.android.whereareyougo.ui.utils.MyKey;
 import com.github.clans.fab.FloatingActionButton;
@@ -58,6 +61,9 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.maps.android.clustering.Cluster;
+import com.google.maps.android.clustering.ClusterItem;
+import com.google.maps.android.clustering.ClusterManager;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import java.util.ArrayList;
@@ -73,7 +79,7 @@ import javax.inject.Inject;
 
 public class MapFragment extends BaseFragment implements MapMvpView, OnMapReadyCallback,
         OnClickListener, GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener {
+        GoogleApiClient.OnConnectionFailedListener, ClusterManager.OnClusterItemInfoWindowClickListener<VenueMarkerItem> {
 
     @Inject
     MapMvpPresenter<MapMvpView> mapMvpPresenter;
@@ -95,14 +101,17 @@ public class MapFragment extends BaseFragment implements MapMvpView, OnMapReadyC
     private GoogleApiClient googleApiClient;
     private Location lastKnownLocation;
     private Marker currentLocationMarker;
+    private MaterialDialog searchLoadingDialog;
     private InteractionWithMapFragment interactionWithMapFragment;
     private boolean locationPermissionGranted = false;
+    private VenueMarkerItem clickedClusterItem;
     private final String[] mapType = new String[]{"NORMAL",
             "HYBRID",
             "SATELLITE",
             "TERRAIN",
             "NONE"};
-
+    private ClusterManager<VenueMarkerItem> clusterManager;
+    private ArrayList<VenueMarkerItem> venueMarkerItems;
 
     public static MapFragment newInstance() {
         MapFragment mapFragment = new MapFragment();
@@ -130,24 +139,112 @@ public class MapFragment extends BaseFragment implements MapMvpView, OnMapReadyC
 
     }
 
+    private void setupClusterManager(){
+        clusterManager = new ClusterManager<VenueMarkerItem>(getActivity(), map);
+        clusterManager.setOnClusterItemInfoWindowClickListener(MapFragment.this);
+        map.setOnMarkerClickListener(clusterManager);
+        map.setInfoWindowAdapter(clusterManager.getMarkerManager());
+        map.setOnInfoWindowClickListener(clusterManager);
+
+        clusterManager.setOnClusterItemClickListener(new ClusterManager.OnClusterItemClickListener<VenueMarkerItem>() {
+            @Override
+            public boolean onClusterItemClick(VenueMarkerItem venueMarkerItem) {
+                clickedClusterItem = venueMarkerItem;
+
+                return false;
+            }
+        });
+
+        clusterManager.getMarkerCollection().setOnInfoWindowAdapter(new VenueClusterInfoWindow());
+
+    }
+
+    @Override
+    public void onClusterItemInfoWindowClick(VenueMarkerItem venueMarkerItem) {
+
+    }
+
+    public class VenueClusterInfoWindow implements GoogleMap.InfoWindowAdapter {
+
+        private final View myContentsView;
+
+        VenueClusterInfoWindow() {
+            myContentsView = getActivity().getLayoutInflater().inflate(
+                    R.layout.custom_venue_info_window, null);
+        }
+        @Override
+        public View getInfoWindow(Marker marker) {
+            return null;
+
+        }
+
+        @Override
+        public View getInfoContents(Marker marker) {
+            TextView title = ((TextView) myContentsView
+                    .findViewById(R.id.text_venue_name));
+            title.setText(clickedClusterItem.getTitle());
+
+
+            return myContentsView;
+        }
+    }
+
+    public void addVenueMarkerItems(ArrayList<Result> results){
+        if (clusterManager == null){
+            return;
+        }
+
+        venueMarkerItems = new ArrayList<>();
+
+        for(Result result : results){
+            double lat = result.getGeometry().getLocation().getLat();
+            double lng = result.getGeometry().getLocation().getLng();
+            LatLng position = new LatLng(lat, lng);
+            //
+            String title = result.getName();
+
+            VenueMarkerItem venueMarkerItem = new VenueMarkerItem(position,title,"");
+            venueMarkerItem.setVenueCategoryImage(result.getIcon());
+
+            venueMarkerItems.add(venueMarkerItem);
+
+            clusterManager.addItem(venueMarkerItem);
+
+        }
+
+
+
+        clusterManager.cluster();
+    }
+
+    public void removeAllVenueMarkerItems(){
+       if (venueMarkerItems != null){
+           for(VenueMarkerItem item : venueMarkerItems){
+               clusterManager.removeItem(item);
+           }
+       }
+    }
+
+
+
     private void initUiComponents() {
 
     }
 
     public void showLoadingDialog(int titleId, int contentId){
-       final MaterialDialog dialog =  new MaterialDialog.Builder(getActivity())
+        searchLoadingDialog =  new MaterialDialog.Builder(getActivity())
                 .title(titleId)
                 .content(contentId)
                 .progress(true,3)
                 .show();
 
-       Handler handler = new Handler();
-       handler.postDelayed(new Runnable() {
-           @Override
-           public void run() {
-               dialog.dismiss();
-           }
-       },3000);
+
+    }
+
+    private void dismissSearchLoadingDialog(){
+        if (searchLoadingDialog != null && searchLoadingDialog.isShowing()){
+            searchLoadingDialog.dismiss();
+        }
     }
 
     protected synchronized void buildGoogleApiClient() {
@@ -263,6 +360,8 @@ public class MapFragment extends BaseFragment implements MapMvpView, OnMapReadyC
 
         map.getUiSettings().setMyLocationButtonEnabled(true);
         map.setPadding(0, 80, 0, 0);
+        setupClusterManager();
+
     }
 
     private void turnOnMyLocationLayer() {
@@ -427,8 +526,16 @@ public class MapFragment extends BaseFragment implements MapMvpView, OnMapReadyC
         }
     }
 
-    public void openListVenueDialogFragment(ArrayList<Result> results){
-        interactionWithMapFragment.openListVenueDialogFragment(results);
+    public void openListVenueDialogFragment(final ArrayList<Result> results){
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                dismissSearchLoadingDialog();
+                interactionWithMapFragment.openListVenueDialogFragment(results);
+            }
+        },3000);
+
     }
 
     public String getCurrentUserLocation(){
@@ -469,10 +576,16 @@ public class MapFragment extends BaseFragment implements MapMvpView, OnMapReadyC
     }
 
 
+
+
+
+
     public interface InteractionWithMapFragment {
         String getUserImage();
         void openListVenueDialogFragment(ArrayList<Result> results);
     }
+
+
 
     private Bitmap getMarkerBitmapFromView(View view, Bitmap bitmap, int drawableId) {
         CircleImageView mMarkerImageView = (CircleImageView) view.findViewById(R.id.image_user);
@@ -496,6 +609,8 @@ public class MapFragment extends BaseFragment implements MapMvpView, OnMapReadyC
         view.draw(canvas);
         return returnedBitmap;
     }
+
+
 
 
 }

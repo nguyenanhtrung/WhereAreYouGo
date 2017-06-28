@@ -28,4 +28,5 @@
   <color name="color_venue_status_open">#FF6D00
   </color>
   <color name="color_venue_status_close">#616161</color>
+  <color name="color_venue_status_empty">#689F38</color>
 </resources>

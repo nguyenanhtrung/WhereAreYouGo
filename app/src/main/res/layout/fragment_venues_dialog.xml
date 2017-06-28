@@ -37,9 +37,10 @@
     />
 
   <com.beardedhen.androidbootstrap.BootstrapButton
-    android:layout_width="wrap_content"
+    android:id="@+id/button_okay"
+    android:layout_width="@dimen/width_button"
     android:layout_height="@dimen/height_button"
-    android:text="@string/button_close_dialog"
+    android:text="@string/button_ok"
     android:layout_marginBottom="24dp"
     android:layout_gravity="center_horizontal"
     style="@style/Button"

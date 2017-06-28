@@ -73,11 +73,13 @@ public class MapPresenter<V extends MapMvpView> extends BasePresenter<V> impleme
                 .enqueue(new Callback<VenueResponse>() {
                     @Override
                     public void onResponse(Call<VenueResponse> call, Response<VenueResponse> response) {
+                        getMvpView().removeAllVenueMarkerItems();
                         getMvpView().showLoadingDialog(R.string.title_loading_search_venue, R.string.content_loading_search_venue);
                         VenueResponse venueResponse = response.body();
                         if (venueResponse != null){
                             ArrayList<Result> results = venueResponse.getResults();
                             if (results != null){
+                                //delay
                                 getMvpView().openListVenueDialogFragment(results);
                             }
                         }
