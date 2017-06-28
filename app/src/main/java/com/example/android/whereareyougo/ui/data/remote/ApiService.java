@@ -1,5 +1,6 @@
 package com.example.android.whereareyougo.ui.data.remote;
 
+import com.example.android.whereareyougo.ui.data.database.entity.VenueDetailResponse;
 import com.example.android.whereareyougo.ui.data.database.entity.VenueResponse;
 
 import retrofit2.Call;
@@ -19,5 +20,12 @@ public interface ApiService {
             @Query("radius") double radius,
             @Query("keyword") String keyword
     );
+
+    @GET("details/json")
+    Call<VenueDetailResponse> getVenueDetailByVenueId(
+            @Query("key") String apiKey,
+            @Query("placeid") String placeId
+    );
+
 
 }

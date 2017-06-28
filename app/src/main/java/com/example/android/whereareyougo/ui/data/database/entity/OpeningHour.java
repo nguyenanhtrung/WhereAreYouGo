@@ -6,6 +6,8 @@ import android.os.Parcelable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 /**
  * Created by nguyenanhtrung on 26/06/2017.
  */
@@ -14,6 +16,18 @@ public class OpeningHour implements Parcelable {
     @SerializedName("open_now")
     @Expose
     private boolean openNow;
+
+    @SerializedName("weekday_text")
+    @Expose
+    private List<String> weekdayText = null;
+
+    public List<String> getWeekdayText() {
+        return weekdayText;
+    }
+
+    public void setWeekdayText(List<String> weekdayText) {
+        this.weekdayText = weekdayText;
+    }
 
     public boolean isOpenNow() {
         return openNow;

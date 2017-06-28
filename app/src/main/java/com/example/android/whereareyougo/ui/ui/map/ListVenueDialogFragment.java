@@ -97,7 +97,7 @@ public class ListVenueDialogFragment extends DialogFragment implements View.OnCl
 
     private void setSizeOfDialog() {
         int width = 750;
-        int height = 1000;
+        int height = 1090;
         getDialog().getWindow().setLayout(
                 width, height
         );

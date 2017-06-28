@@ -7,6 +7,8 @@ import com.example.android.whereareyougo.ui.ui.main.MainActivity;
 import com.example.android.whereareyougo.ui.ui.map.MapFragment;
 import com.example.android.whereareyougo.ui.ui.signup.SignupDialogFragment;
 import com.example.android.whereareyougo.ui.ui.usersetting.UserSettingFragment;
+import com.example.android.whereareyougo.ui.ui.venuedetail.VenueDetailDialogFragment;
+
 import dagger.Component;
 
 /**
@@ -25,6 +27,8 @@ public interface ActivityComponent {
   void inject(MapFragment fragment);
 
   void inject(UserSettingFragment fragment);
+
+  void inject(VenueDetailDialogFragment fragment);
 
 
 

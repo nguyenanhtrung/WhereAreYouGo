@@ -19,6 +19,10 @@ import com.example.android.whereareyougo.ui.ui.signup.SignupView;
 import com.example.android.whereareyougo.ui.ui.usersetting.UserSettingMvpPresenter;
 import com.example.android.whereareyougo.ui.ui.usersetting.UserSettingPresenter;
 import com.example.android.whereareyougo.ui.ui.usersetting.UserSettingView;
+import com.example.android.whereareyougo.ui.ui.venuedetail.VenueDetailMvpPresenter;
+import com.example.android.whereareyougo.ui.ui.venuedetail.VenueDetailPresenter;
+import com.example.android.whereareyougo.ui.ui.venuedetail.VenueDetailView;
+
 import dagger.Module;
 import dagger.Provides;
 
@@ -75,6 +79,11 @@ public class ActivityModule {
     return presenter;
   }
 
+  @Provides
+  @PerActivity
+  VenueDetailMvpPresenter<VenueDetailView> provideVenueDetailDialogPresenter(VenueDetailPresenter<VenueDetailView> presenter) {
+    return presenter;
+  }
 
 
 }

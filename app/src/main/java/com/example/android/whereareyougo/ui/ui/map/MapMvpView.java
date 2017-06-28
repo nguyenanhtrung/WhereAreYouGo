@@ -19,4 +19,8 @@ public interface MapMvpView extends MvpView {
   void openListVenueDialogFragment(ArrayList<Result> results);
 
   void removeAllVenueMarkerItems();
+
+  void showMessage(int messageId);
+
+  void openVenueDetailDialogFragment(String venueId);
 }

@@ -12,11 +12,20 @@ public class VenueMarkerItem implements ClusterItem {
     private final String title;
     private final String snippet;
     private String venueCategoryImage;
+    private String venueId;
 
     public VenueMarkerItem(LatLng position, String title, String snippet) {
         this.position = position;
         this.title = title;
         this.snippet = snippet;
+    }
+
+    public String getVenueId() {
+        return venueId;
+    }
+
+    public void setVenueId(String venueId) {
+        this.venueId = venueId;
     }
 
     public String getVenueCategoryImage() {

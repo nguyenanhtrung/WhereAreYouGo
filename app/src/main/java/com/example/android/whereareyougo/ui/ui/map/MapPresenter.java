@@ -61,7 +61,7 @@ public class MapPresenter<V extends MapMvpView> extends BasePresenter<V> impleme
     public void onClickButtonSearchVenue(String venueName) {
         if (venueName.isEmpty() || venueName == null) {
             //show venue name is empty
-
+            getMvpView().showMessage(R.string.text_search_venue_empty);
             return;
         }
 
@@ -90,5 +90,10 @@ public class MapPresenter<V extends MapMvpView> extends BasePresenter<V> impleme
 
                     }
                 });
+    }
+
+    @Override
+    public void onClusterItemInfoWindowClick(String venueId) {
+        getMvpView().openVenueDetailDialogFragment(venueId);
     }
 }

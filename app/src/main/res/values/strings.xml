@@ -157,4 +157,10 @@
   <string name="text_venue_open_time">MỞ CỬA</string>
   <string name="text_venue_close_time">ĐÓNG CỬA</string>
   <string name="button_ok">OK</string>
+  <string name="text_search_venue_empty">Tên địa điểm cần tìm đang để trống, mời kiểm tra lại</string>
+  <string name="price_level_free">Miễn phí</string>
+  <string name="price_level_inexpensive">Rẻ</string>
+  <string name="price_level_moderate">Trung bình</string>
+  <string name="price_level_expensive">Đắt</string>
+  <string name="price_level_veryexpensive">Rất đắt</string>
 </resources>

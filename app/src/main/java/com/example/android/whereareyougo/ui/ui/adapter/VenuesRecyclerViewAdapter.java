@@ -97,23 +97,32 @@ public class VenuesRecyclerViewAdapter extends UltimateViewAdapter<VenuesRecycle
                     .load(result.getIcon())
                     .into(holder.imageVenueCategory);
 
+            if (result.isChecked()){
+                holder.checkChooseVenue.setChecked(true);
+                holder.checkChooseVenue.setVisibility(View.VISIBLE);
+            }else{
+                holder.checkChooseVenue.setChecked(false);
+                holder.checkChooseVenue.setVisibility(View.INVISIBLE);
+            }
 
-            holder.setOnClickListener(new View.OnClickListener() {
+            ((VenueViewHolder) holder).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (!(holder).checkChooseVenue.isChecked()) {
-                        holder.checkChooseVenue.setChecked(true);
+                    ((VenueViewHolder) holder).checkChooseVenue.setChecked(
+                            !((VenueViewHolder) holder).checkChooseVenue.isChecked());
+                    if (((VenueViewHolder) holder).checkChooseVenue.isChecked()) {
                         holder.checkChooseVenue.setVisibility(View.VISIBLE);
+                        result.setChecked(true);
                         onItemCheckListener.onItemCheck(result);
-
                     } else {
-                        holder.checkChooseVenue.setChecked(false);
                         holder.checkChooseVenue.setVisibility(View.INVISIBLE);
+                        result.setChecked(false);
                         onItemCheckListener.onItemUncheck(result);
-
                     }
                 }
             });
+
+
 
 
         }

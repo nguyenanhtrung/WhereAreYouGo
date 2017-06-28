@@ -24,6 +24,7 @@ import com.example.android.whereareyougo.ui.ui.map.MapFragment;
 import com.example.android.whereareyougo.ui.ui.map.MapFragment.InteractionWithMapFragment;
 import com.example.android.whereareyougo.ui.ui.signup.SignupDialogFragment.InteractionWithSignupFragment;
 import com.example.android.whereareyougo.ui.ui.usersetting.UserSettingFragment;
+import com.example.android.whereareyougo.ui.ui.venuedetail.VenueDetailDialogFragment;
 import com.example.android.whereareyougo.ui.utils.Commons;
 import com.example.android.whereareyougo.ui.utils.MyKey;
 import com.mikepenz.materialdrawer.AccountHeader;
@@ -48,7 +49,9 @@ import javax.inject.Inject;
 
 public class MainActivity extends BaseActivity implements MainView, View.OnClickListener,
     InteractionWithMapFragment,
-        ListVenueDialogFragment.InteractionWithVenuesDialogFragment{
+        ListVenueDialogFragment.InteractionWithVenuesDialogFragment,
+        VenueDetailDialogFragment.InteractionWithVenueDetailFragment
+{
 
   @Inject
   MainMvpPresenter<MainView> mainMvpPresenter;
@@ -246,6 +249,7 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
   public void closeUserSettingDrawer() {
     if (userDrawer != null) {
       userDrawer.closeDrawer();
+
     }
   }
 
@@ -278,6 +282,13 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
   @Override
   public void openListVenueDialogFragment(ArrayList<Result> results) {
     ListVenueDialogFragment.newInstance(results).show(getSupportFragmentManager(),"ListVenueDialogFragment");
+  }
+
+
+
+  @Override
+  public void openVenueDetailDialogFragment(String venueId) {
+    VenueDetailDialogFragment.newInstance(venueId).show(getSupportFragmentManager(),"VenueDetailDialogFragment");
   }
 
   private void dismissListVenueDialogFragment(){

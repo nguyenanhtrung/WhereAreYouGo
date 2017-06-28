@@ -17,6 +17,7 @@ import android.os.Handler;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
@@ -161,7 +162,7 @@ public class MapFragment extends BaseFragment implements MapMvpView, OnMapReadyC
 
     @Override
     public void onClusterItemInfoWindowClick(VenueMarkerItem venueMarkerItem) {
-
+        mapMvpPresenter.onClusterItemInfoWindowClick(venueMarkerItem.getVenueId());
     }
 
     public class VenueClusterInfoWindow implements GoogleMap.InfoWindowAdapter {
@@ -205,6 +206,7 @@ public class MapFragment extends BaseFragment implements MapMvpView, OnMapReadyC
 
             VenueMarkerItem venueMarkerItem = new VenueMarkerItem(position,title,"");
             venueMarkerItem.setVenueCategoryImage(result.getIcon());
+            venueMarkerItem.setVenueId(result.getPlaceId());
 
             venueMarkerItems.add(venueMarkerItem);
 
@@ -281,6 +283,10 @@ public class MapFragment extends BaseFragment implements MapMvpView, OnMapReadyC
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mapMvpPresenter.onAttach(MapFragment.this);
+    }
+
+    public void showMessage(int messageId){
+        Snackbar.make(getView(),messageId, 2000).show();
     }
 
 
@@ -551,6 +557,10 @@ public class MapFragment extends BaseFragment implements MapMvpView, OnMapReadyC
         return null;
     }
 
+    public void openVenueDetailDialogFragment(String venueId){
+        interactionWithMapFragment.openVenueDetailDialogFragment(venueId);
+    }
+
     @Override
     public void onConnected(@Nullable Bundle bundle) {
         showCurrentLocation();
@@ -583,6 +593,7 @@ public class MapFragment extends BaseFragment implements MapMvpView, OnMapReadyC
     public interface InteractionWithMapFragment {
         String getUserImage();
         void openListVenueDialogFragment(ArrayList<Result> results);
+        void openVenueDetailDialogFragment(String venueId);
     }
 
 

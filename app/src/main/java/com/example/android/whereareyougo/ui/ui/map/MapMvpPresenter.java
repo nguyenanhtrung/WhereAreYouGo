@@ -10,4 +10,5 @@ public interface MapMvpPresenter<V extends MapMvpView> extends MvpPresenter<V> {
   int getMapTypeChoose(String[] maptype, String choose);
   void onClickFloatButtonMapType();
   void onClickButtonSearchVenue(String venueName);
+  void onClusterItemInfoWindowClick(String venueid);
 }
