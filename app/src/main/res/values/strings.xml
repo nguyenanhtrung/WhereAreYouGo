@@ -165,4 +165,6 @@
   <string name="price_level_veryexpensive">Rất đắt</string>
   <string name="venue_already_save">Địa điểm đã được lưu trước đó, vui lòng kiểm tra lại.</string>
   <string name="venue_saved">Địa điểm đã được lưu thành công! </string>
+  <string name="button_delele_all">Xoá tất cả</string>
+  <string name="recycler_view_venue_empty">Danh sách địa điểm đang trống</string>
 </resources>
