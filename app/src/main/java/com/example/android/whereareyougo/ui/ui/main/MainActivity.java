@@ -27,6 +27,7 @@ import com.example.android.whereareyougo.ui.ui.usersetting.UserSettingFragment;
 import com.example.android.whereareyougo.ui.ui.venuedetail.VenueDetailDialogFragment;
 import com.example.android.whereareyougo.ui.utils.Commons;
 import com.example.android.whereareyougo.ui.utils.MyKey;
+import com.google.android.gms.maps.model.LatLng;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeader.OnAccountHeaderSelectionViewClickListener;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
@@ -307,5 +308,15 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
   @Override
   public void onClickButtonOkay() {
     dismissListVenueDialogFragment();
+  }
+
+
+  @Override
+  public void drawPolyLineOnMap(LatLng destination) {
+    FragmentManager fragmentManager = getSupportFragmentManager();
+    MapFragment mapFragment = (MapFragment) fragmentManager.findFragmentByTag(MyKey.MAP_FRAGMENT_TAG);
+    if (mapFragment != null){
+      mapFragment.drawPolyLineOnMap(destination);
+    }
   }
 }

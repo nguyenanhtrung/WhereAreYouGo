@@ -1,6 +1,8 @@
 package com.example.android.whereareyougo.ui.data.manager;
 
 import android.content.Context;
+
+import com.example.android.whereareyougo.ui.data.database.entity.FavoriteVenue;
 import com.example.android.whereareyougo.ui.data.database.entity.User;
 import com.example.android.whereareyougo.ui.data.database.model.DatabaseHelper;
 import com.example.android.whereareyougo.ui.data.pref.PreferencesHelper;
@@ -71,6 +73,11 @@ public class AppDataManager implements DataManager {
     databaseHelper.changeUserPassword(email,oldPassword,newPassword);
   }
 
+  @Override
+  public void saveFavoriteVenue(FavoriteVenue favoriteVenue) {
+    databaseHelper.saveFavoriteVenue(favoriteVenue);
+  }
+
 
   @Override
   public void saveUserEmail(String email) {
@@ -100,5 +107,15 @@ public class AppDataManager implements DataManager {
   @Override
   public boolean getCheckRememberLogin() {
     return preferencesHelper.getCheckRememberLogin();
+  }
+
+  @Override
+  public void saveFavoriteVenueId(String key, String venueId) {
+    preferencesHelper.saveFavoriteVenueId(key,venueId);
+  }
+
+  @Override
+  public String getFavoriteVenueId(String key) {
+    return preferencesHelper.getFavoriteVenueId(key);
   }
 }

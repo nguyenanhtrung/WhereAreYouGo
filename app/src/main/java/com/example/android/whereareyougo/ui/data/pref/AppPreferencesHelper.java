@@ -25,6 +25,14 @@ public class AppPreferencesHelper implements PreferencesHelper {
     sharedPreferences.edit().putString(MyKey.PREF_SAVE_EMAIL,email).apply();
   }
 
+  public void saveFavoriteVenueId(String key, String venueId){
+    sharedPreferences.edit().putString(key,venueId).apply();
+  }
+
+  public String getFavoriteVenueId(String key){
+    return sharedPreferences.getString(key,"");
+  }
+
   @Override
   public void saveUserPassword(String password) {
     sharedPreferences.edit().putString(MyKey.PREF_SAVE_PASSWORD,password).apply();

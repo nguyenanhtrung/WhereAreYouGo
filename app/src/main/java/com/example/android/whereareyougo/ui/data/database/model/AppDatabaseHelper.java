@@ -3,6 +3,8 @@ package com.example.android.whereareyougo.ui.data.database.model;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.util.Log;
+
+import com.example.android.whereareyougo.ui.data.database.entity.FavoriteVenue;
 import com.example.android.whereareyougo.ui.data.database.entity.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -60,6 +62,18 @@ public class AppDatabaseHelper implements DatabaseHelper {
 
     userRef.child("users").child(userId).setValue(user);
 
+  }
+
+  public void saveFavoriteVenue(FavoriteVenue favoriteVenue){
+    FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+    String userId = currentUser.getUid();
+
+    DatabaseReference favoriteVenueRef = databaseReference.getRef()
+            .child("favoritevenues")
+            .child(userId)
+            .child(favoriteVenue.getVenueId());
+
+    favoriteVenueRef.setValue(favoriteVenue);
   }
 
   public Task<AuthResult> signInWithEmailAndPassworđ(String email, String password) {

@@ -1,5 +1,6 @@
 package com.example.android.whereareyougo.ui.data.database.model;
 
+import com.example.android.whereareyougo.ui.data.database.entity.FavoriteVenue;
 import com.example.android.whereareyougo.ui.data.database.entity.User;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -29,6 +30,8 @@ public interface DatabaseHelper {
 
   void changeUserPassword(final String email, final String oldPassword,
       final String newPassword);
+
+  void saveFavoriteVenue(FavoriteVenue favoriteVenue);
 
 
 }

@@ -53,6 +53,7 @@ import com.github.clans.fab.FloatingActionMenu;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -60,8 +61,10 @@ import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.maps.android.clustering.Cluster;
 import com.google.maps.android.clustering.ClusterItem;
 import com.google.maps.android.clustering.ClusterManager;
@@ -139,6 +142,33 @@ public class MapFragment extends BaseFragment implements MapMvpView, OnMapReadyC
         return view;
 
     }
+
+    public void drawPolyLineOnMap(LatLng destination) {
+        List<LatLng> latLngs = new ArrayList<>();
+        latLngs.add(getLatLngCurrentUser());
+        latLngs.add(destination);
+
+        PolylineOptions polyOptions = new PolylineOptions();
+        polyOptions.color(Color.BLUE);
+        polyOptions.width(5);
+        polyOptions.addAll(latLngs);
+        map.addPolyline(polyOptions);
+        LatLngBounds.Builder builder = new LatLngBounds.Builder();
+        for (LatLng latLng : latLngs) {
+            builder.include(latLng);
+        }
+
+    }
+
+    public LatLng getLatLngCurrentUser(){
+        if(lastKnownLocation != null){
+            LatLng latLng = new LatLng(lastKnownLocation.getLatitude(),lastKnownLocation.getLongitude());
+            return latLng;
+        }
+
+        return null;
+    }
+
 
     private void setupClusterManager(){
         clusterManager = new ClusterManager<VenueMarkerItem>(getActivity(), map);

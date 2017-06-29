@@ -11,4 +11,6 @@ public interface PreferencesHelper {
   String getUserPassword();
   void saveCheckRememberLogin(boolean isCheck);
   boolean getCheckRememberLogin();
+  void saveFavoriteVenueId(String key, String venueId);
+  String getFavoriteVenueId(String key);
 }
