@@ -47,4 +47,5 @@ public class MyKey {
   public static final String GOOGLE_PLACES_KEY = "AIzaSyBLQ9WpI2uK0qRA4wWIpTzkGcgvtlvM5Ls";
   public static final double VENUE_RADIUS_DEFAULT = 10000;
   public static final int MY_PERMISSIONS_REQUEST_CALL_PHONE = 82;
+  public static final String LIST_FAVORITE_VENUE_FRAGMENT_TAG = "listfavoritevenuefragment";
 }

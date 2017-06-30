@@ -11,6 +11,9 @@ public class FavoriteVenue {
     private double lng;
     private String venueId;
 
+    public FavoriteVenue() {
+    }
+
     public String getVenueId() {
         return venueId;
     }

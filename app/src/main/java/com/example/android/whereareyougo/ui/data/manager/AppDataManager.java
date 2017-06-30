@@ -78,6 +78,11 @@ public class AppDataManager implements DataManager {
     databaseHelper.saveFavoriteVenue(favoriteVenue);
   }
 
+  @Override
+  public DatabaseReference getFavoriteVenuesRef() {
+    return databaseHelper.getFavoriteVenuesRef();
+  }
+
 
   @Override
   public void saveUserEmail(String email) {

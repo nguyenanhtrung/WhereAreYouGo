@@ -33,5 +33,7 @@ public interface DatabaseHelper {
 
   void saveFavoriteVenue(FavoriteVenue favoriteVenue);
 
+  DatabaseReference getFavoriteVenuesRef();
+
 
 }

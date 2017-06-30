@@ -47,4 +47,10 @@ public class MainPresenter<V extends MainView> extends BasePresenter<V> implemen
     getMvpView().openUserSettingFragment();
 
   }
+
+  @Override
+  public void onClickUserFavoriteVenueItem() {
+    getMvpView().closeUserSettingDrawer();
+    getMvpView().openUserListFavoriteVenueFragment();
+  }
 }

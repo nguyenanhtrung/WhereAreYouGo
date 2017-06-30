@@ -44,6 +44,15 @@ public class AppDatabaseHelper implements DatabaseHelper {
     this.firebaseStorage = firebaseStorage;
   }
 
+  public DatabaseReference getFavoriteVenuesRef(){
+    FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+    String userId = currentUser.getUid();
+    //
+    DatabaseReference favoriteVenuesRef = databaseReference.getRef().child("favoritevenues").child(userId);
+
+    return favoriteVenuesRef;
+  }
+
   public Task<ProviderQueryResult> getProviderForEmail(String email) {
     if (email != null) {
       return firebaseAuth.fetchProvidersForEmail(email);

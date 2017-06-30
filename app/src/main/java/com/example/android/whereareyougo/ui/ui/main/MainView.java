@@ -16,4 +16,6 @@ public interface MainView extends MvpView {
   void openUserSettingDrawer();
 
   void openUserSettingFragment();
+
+  void openUserListFavoriteVenueFragment();
 }

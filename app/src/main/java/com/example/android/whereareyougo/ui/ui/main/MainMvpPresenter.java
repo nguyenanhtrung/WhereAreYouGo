@@ -12,4 +12,6 @@ public interface MainMvpPresenter<V extends MainView> extends MvpPresenter<V> {
   void onClickUserSettingButton();
 
   void onCLickUserSettingDrawerItem();
+
+  void onClickUserFavoriteVenueItem();
 }

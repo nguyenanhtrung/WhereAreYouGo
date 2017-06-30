@@ -19,6 +19,7 @@ import com.example.android.whereareyougo.R;
 import com.example.android.whereareyougo.ui.data.database.entity.Result;
 import com.example.android.whereareyougo.ui.data.database.entity.User;
 import com.example.android.whereareyougo.ui.ui.base.BaseActivity;
+import com.example.android.whereareyougo.ui.ui.favoritevenues.ListFavoriteVenueFragment;
 import com.example.android.whereareyougo.ui.ui.map.ListVenueDialogFragment;
 import com.example.android.whereareyougo.ui.ui.map.MapFragment;
 import com.example.android.whereareyougo.ui.ui.map.MapFragment.InteractionWithMapFragment;
@@ -145,12 +146,20 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
             //replace current fragment with user setting fragment
             mainMvpPresenter.onCLickUserSettingDrawerItem();
             break;
+
+          case MyKey.FAVORITE_PLACES_ITEM:
+            mainMvpPresenter.onClickUserFavoriteVenueItem();
+            break;
         }
         return true;
       }
     });
 
 
+  }
+
+  public void openUserListFavoriteVenueFragment(){
+    replaceFragment(ListFavoriteVenueFragment.newInstance(),MyKey.LIST_FAVORITE_VENUE_FRAGMENT_TAG);
   }
 
   private void replaceFragment(Fragment newFragment, String tag) {
