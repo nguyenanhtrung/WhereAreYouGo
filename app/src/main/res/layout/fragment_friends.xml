@@ -1,47 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-  xmlns:app="http://schemas.android.com/apk/res-auto"
-  xmlns:tools="http://schemas.android.com/tools"
-   android:layout_width="match_parent"
-  android:layout_height="match_parent">
-
-  <com.marshalchen.ultimaterecyclerview.UltimateRecyclerView
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_weight="4"
-    android:layout_marginLeft="16dp"
-    android:layout_marginStart="16dp"
-    android:layout_marginEnd="16dp"
-    android:layout_marginRight="16dp"
-    />
+    xmlns:rc="http://schemas.android.com/apk/res-auto">
 
-  <com.github.clans.fab.FloatingActionMenu
-    android:id="@+id/float_button_friends_action"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_gravity="bottom|right"
-    app:menu_colorNormal="@color/colorAccent"
-    style="@style/FloatingActionButton"
-    >
+    <com.marshalchen.ultimaterecyclerview.UltimateRecyclerView
+        android:id="@+id/recycler_view_friends"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginEnd="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginStart="16dp"
+        rc:recyclerviewEmptyView="@layout/recyclerview_empty"
+        />
 
-    <com.github.clans.fab.FloatingActionButton
-      android:id="@+id/button_search_friend"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      app:fab_size="mini"
-      app:fab_colorNormal="@color/colorPrimary"
-      style="@style/FloatingActionButton"
-      />
+    <com.github.clans.fab.FloatingActionMenu
+        android:id="@+id/float_button_friends_action"
+        style="@style/FloatingActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        app:menu_colorNormal="@color/colorAccent">
 
-    <com.github.clans.fab.FloatingActionButton
-      android:id="@+id/button_add_friend"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      app:fab_colorNormal="@color/bootstrap_brand_warning"
-      app:fab_size="mini"
-      />
-  </com.github.clans.fab.FloatingActionMenu>
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/button_search_friend"
+            style="@style/FloatingActionButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_colorNormal="@color/colorPrimary"
+            app:fab_label="@string/label_search_friend"
+            app:fab_size="mini" />
 
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/button_add_friend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_label="@string/label_add_friend"
+            app:fab_colorNormal="@color/bootstrap_brand_warning"
+            app:fab_size="mini" />
+    </com.github.clans.fab.FloatingActionMenu>
 
 
 </FrameLayout>

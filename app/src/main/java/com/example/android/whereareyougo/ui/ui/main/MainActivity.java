@@ -20,6 +20,7 @@ import com.example.android.whereareyougo.ui.data.database.entity.Result;
 import com.example.android.whereareyougo.ui.data.database.entity.User;
 import com.example.android.whereareyougo.ui.ui.base.BaseActivity;
 import com.example.android.whereareyougo.ui.ui.favoritevenues.ListFavoriteVenueFragment;
+import com.example.android.whereareyougo.ui.ui.listfriend.ListFriendFragment;
 import com.example.android.whereareyougo.ui.ui.map.ListVenueDialogFragment;
 import com.example.android.whereareyougo.ui.ui.map.MapFragment;
 import com.example.android.whereareyougo.ui.ui.map.MapFragment.InteractionWithMapFragment;
@@ -41,6 +42,7 @@ import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 import com.roughike.bottombar.BottomBar;
+import com.roughike.bottombar.OnTabSelectListener;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
 import com.zhihu.matisse.engine.impl.GlideEngine;
@@ -52,7 +54,8 @@ import javax.inject.Inject;
 public class MainActivity extends BaseActivity implements MainView, View.OnClickListener,
     InteractionWithMapFragment,
         ListVenueDialogFragment.InteractionWithVenuesDialogFragment,
-        VenueDetailDialogFragment.InteractionWithVenueDetailFragment
+        VenueDetailDialogFragment.InteractionWithVenueDetailFragment,
+        OnTabSelectListener
 {
 
   @Inject
@@ -93,6 +96,7 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
 
   private void initUiEvents() {
     buttonUserSetting.setOnClickListener(this);
+    bottomBar.setOnTabSelectListener(this);
   }
 
 
@@ -327,5 +331,21 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
     if (mapFragment != null){
       mapFragment.drawPolyLineOnMap(destination);
     }
+  }
+
+  @Override
+  public void onTabSelected(int tabId) {
+    switch (tabId){
+      case R.id.tab_list_friend:
+        if (mainMvpPresenter != null){
+          mainMvpPresenter.onSelectListFriendTab();
+        }
+        break;
+    }
+  }
+
+  public void openListFriendFragment(){
+    ListFriendFragment friendFragment = ListFriendFragment.newInstance();
+    replaceFragment(friendFragment,MyKey.LIST_FRIEND_FRAGMENT_TAG);
   }
 }

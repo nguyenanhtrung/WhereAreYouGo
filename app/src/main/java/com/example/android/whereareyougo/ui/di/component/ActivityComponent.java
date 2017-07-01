@@ -3,6 +3,7 @@ package com.example.android.whereareyougo.ui.di.component;
 import com.example.android.whereareyougo.ui.di.PerActivity;
 import com.example.android.whereareyougo.ui.di.module.ActivityModule;
 import com.example.android.whereareyougo.ui.ui.favoritevenues.ListFavoriteVenueFragment;
+import com.example.android.whereareyougo.ui.ui.listfriend.ListFriendFragment;
 import com.example.android.whereareyougo.ui.ui.login.LoginActivity;
 import com.example.android.whereareyougo.ui.ui.main.MainActivity;
 import com.example.android.whereareyougo.ui.ui.map.MapFragment;
@@ -33,6 +34,6 @@ public interface ActivityComponent {
 
   void inject(ListFavoriteVenueFragment fragment);
 
-
+  void inject(ListFriendFragment fragment);
 
 }
