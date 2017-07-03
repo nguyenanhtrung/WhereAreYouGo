@@ -8,8 +8,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
@@ -22,6 +24,9 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.example.android.whereareyougo.R;
 import com.example.android.whereareyougo.ui.data.database.entity.User;
 import com.example.android.whereareyougo.ui.ui.base.BaseFragment;
@@ -31,7 +36,11 @@ import com.rengwuxian.materialedittext.MaterialEditText;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
 import com.zhihu.matisse.engine.impl.GlideEngine;
+
 import de.hdodenhof.circleimageview.CircleImageView;
+
+
+import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
 
@@ -205,13 +214,13 @@ public class UserSettingFragment extends BaseFragment implements UserSettingView
 
   public void pickImageFromGallery(){
     Matisse.from(this)
-        .choose(MimeType.allOf())
-        .countable(true)
-        .maxSelectable(9)
-        .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
-        .thumbnailScale(0.85f)
-        .imageEngine(new GlideEngine())
-        .forResult(MyKey.REQUEST_CODE_PICK_IMAGE);
+            .choose(MimeType.allOf())
+            .countable(true)
+            .maxSelectable(1)
+            .thumbnailScale(0.85f)
+            .imageEngine(new GlideEngine())
+            .forResult(MyKey.REQUEST_CODE_PICK_IMAGE);
+
 
   }
 
@@ -219,11 +228,23 @@ public class UserSettingFragment extends BaseFragment implements UserSettingView
   public void onActivityResult(int requestCode, int resultCode, Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
     if (requestCode == MyKey.REQUEST_CODE_PICK_IMAGE && resultCode == RESULT_OK){
-      List<Uri> imageUris = Matisse.obtainResult(data);
-      Glide.with(this)
-           .load(imageUris.get(0))
-           .into(imageUser);
-      currentUser.setImageUrl(imageUris.get(0).toString());
+      List<Uri> path = Matisse.obtainResult(data);
+      if (!path.isEmpty()|| path != null){
+        SimpleTarget<Bitmap> target = new SimpleTarget<Bitmap>() {
+          @Override
+          public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+            imageUser.setImageBitmap(resource);
+          }
+        };
+
+        Glide.with(this)
+                .load(path.get(0))
+                .asBitmap()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(target);
+       currentUser.setImageUrl(path.get(0).toString());
+      }
+
     }
   }
 

@@ -49,4 +49,5 @@ public class MyKey {
   public static final int MY_PERMISSIONS_REQUEST_CALL_PHONE = 82;
   public static final String LIST_FAVORITE_VENUE_FRAGMENT_TAG = "listfavoritevenuefragment";
   public static final String LIST_FRIEND_FRAGMENT_TAG = "listfriendfragment";
+  public static final String ADD_FRIEND_DIALOG_FRAGMENT_TAG = "addfriendfragment";
 }

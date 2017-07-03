@@ -15,4 +15,9 @@ public class ListFriendPresenter<V extends ListFriendView> extends BasePresenter
     public ListFriendPresenter(DataManager dataManager) {
         super(dataManager);
     }
+
+    @Override
+    public void onClickButtonAddFriend() {
+        getMvpView().openAddFriendDialogFragment();
+    }
 }

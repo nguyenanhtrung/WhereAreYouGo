@@ -1,5 +1,6 @@
 package com.example.android.whereareyougo.ui.ui.main;
 
+import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Bundle;
@@ -18,6 +19,7 @@ import butterknife.ButterKnife;
 import com.example.android.whereareyougo.R;
 import com.example.android.whereareyougo.ui.data.database.entity.Result;
 import com.example.android.whereareyougo.ui.data.database.entity.User;
+import com.example.android.whereareyougo.ui.ui.addfriend.AddFriendDialogFragment;
 import com.example.android.whereareyougo.ui.ui.base.BaseActivity;
 import com.example.android.whereareyougo.ui.ui.favoritevenues.ListFavoriteVenueFragment;
 import com.example.android.whereareyougo.ui.ui.listfriend.ListFriendFragment;
@@ -43,10 +45,7 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabSelectListener;
-import com.zhihu.matisse.Matisse;
-import com.zhihu.matisse.MimeType;
-import com.zhihu.matisse.engine.impl.GlideEngine;
-import com.zhihu.matisse.filter.Filter;
+
 import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
@@ -55,7 +54,9 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
     InteractionWithMapFragment,
         ListVenueDialogFragment.InteractionWithVenuesDialogFragment,
         VenueDetailDialogFragment.InteractionWithVenueDetailFragment,
-        OnTabSelectListener
+        OnTabSelectListener,
+        AddFriendDialogFragment.InteractionWithAddFriendFragment,
+        ListFriendFragment.InteractionWithListFriendFragment
 {
 
   @Inject
@@ -305,6 +306,11 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
     VenueDetailDialogFragment.newInstance(venueId).show(getSupportFragmentManager(),"VenueDetailDialogFragment");
   }
 
+  @Override
+  public Context getContextOfFragment() {
+    return this;
+  }
+
   private void dismissListVenueDialogFragment(){
     FragmentManager fragmentManager = getSupportFragmentManager();
     ListVenueDialogFragment dialogFragment = (ListVenueDialogFragment) fragmentManager.findFragmentByTag("ListVenueDialogFragment");
@@ -347,5 +353,11 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
   public void openListFriendFragment(){
     ListFriendFragment friendFragment = ListFriendFragment.newInstance();
     replaceFragment(friendFragment,MyKey.LIST_FRIEND_FRAGMENT_TAG);
+  }
+
+  @Override
+  public void openAddFriendDialogFragment() {
+    AddFriendDialogFragment fragment = AddFriendDialogFragment.newInstance();
+    fragment.show(getSupportFragmentManager(),MyKey.ADD_FRIEND_DIALOG_FRAGMENT_TAG);
   }
 }

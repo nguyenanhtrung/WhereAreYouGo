@@ -19,6 +19,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -110,6 +111,18 @@ public class AppDatabaseHelper implements DatabaseHelper {
   public StorageReference getUserPhotoReference() {
     StorageReference userPhotosRef = firebaseStorage.getReference().child("userphotos");
     return userPhotosRef;
+  }
+
+  public Query getUsersByName(String name){
+    DatabaseReference userRef = databaseReference.getRef().child("users");
+    return userRef.orderByChild("name")
+                  .startAt(name)
+                  .endAt(name = "\uf8ff");
+  }
+
+  public Query getUsersByPhoneNumber(String phoneNumber){
+    DatabaseReference userRef = databaseReference.getRef().child("users");
+    return userRef.orderByChild("phoneNumber").equalTo(phoneNumber);
   }
 
   public void changeUserPassword(final String email, final String oldPassword,

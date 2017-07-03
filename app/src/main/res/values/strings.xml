@@ -170,4 +170,5 @@
   <string name="recylcer_view_empty">Danh sách đang trống</string>
   <string name="label_add_friend">Thêm bạn</string>
   <string name="label_search_friend">Tìm kiếm bạn</string>
+  <string name="label_search_result_empty">Kết quả tìm kiếm không tồn tại!</string>
 </resources>

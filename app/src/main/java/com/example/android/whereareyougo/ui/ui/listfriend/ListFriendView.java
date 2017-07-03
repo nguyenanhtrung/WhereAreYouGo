@@ -7,4 +7,5 @@ import com.example.android.whereareyougo.ui.ui.base.MvpView;
  */
 
 public interface ListFriendView extends MvpView{
+    void openAddFriendDialogFragment();
 }

@@ -11,6 +11,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.ProviderQueryResult;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.Query;
 import com.google.firebase.storage.StorageReference;
 import javax.inject.Inject;
 
@@ -81,6 +82,16 @@ public class AppDataManager implements DataManager {
   @Override
   public DatabaseReference getFavoriteVenuesRef() {
     return databaseHelper.getFavoriteVenuesRef();
+  }
+
+  @Override
+  public Query getUsersByName(String name) {
+    return databaseHelper.getUsersByName(name);
+  }
+
+  @Override
+  public Query getUsersByPhoneNumber(String phoneNumber) {
+    return databaseHelper.getUsersByPhoneNumber(phoneNumber);
   }
 
 

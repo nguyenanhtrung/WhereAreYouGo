@@ -5,6 +5,9 @@ import android.content.Context;
 
 import com.example.android.whereareyougo.ui.di.ActivityContext;
 import com.example.android.whereareyougo.ui.di.PerActivity;
+import com.example.android.whereareyougo.ui.ui.addfriend.AddFriendMvpPresenter;
+import com.example.android.whereareyougo.ui.ui.addfriend.AddFriendPresenter;
+import com.example.android.whereareyougo.ui.ui.addfriend.AddFriendView;
 import com.example.android.whereareyougo.ui.ui.favoritevenues.ListFavoriteVenueMvpPresenter;
 import com.example.android.whereareyougo.ui.ui.favoritevenues.ListFavoriteVenuePresenter;
 import com.example.android.whereareyougo.ui.ui.favoritevenues.ListFavoriteVenueView;
@@ -101,6 +104,12 @@ public class ActivityModule {
     @Provides
     @PerActivity
     ListFriendMvpPresenter<ListFriendView> provideListFriendPresenter(ListFriendPresenter<ListFriendView> presenter) {
+        return presenter;
+    }
+
+    @Provides
+    @PerActivity
+    AddFriendMvpPresenter<AddFriendView> provideAddFriendPresenter(AddFriendPresenter<AddFriendView> presenter) {
         return presenter;
     }
 

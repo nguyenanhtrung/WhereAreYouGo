@@ -160,9 +160,9 @@ public class MapFragment extends BaseFragment implements MapMvpView, OnMapReadyC
 
     }
 
-    public LatLng getLatLngCurrentUser(){
-        if(lastKnownLocation != null){
-            LatLng latLng = new LatLng(lastKnownLocation.getLatitude(),lastKnownLocation.getLongitude());
+    public LatLng getLatLngCurrentUser() {
+        if (lastKnownLocation != null) {
+            LatLng latLng = new LatLng(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude());
             return latLng;
         }
 
@@ -170,7 +170,7 @@ public class MapFragment extends BaseFragment implements MapMvpView, OnMapReadyC
     }
 
 
-    private void setupClusterManager(){
+    private void setupClusterManager() {
         clusterManager = new ClusterManager<VenueMarkerItem>(getActivity(), map);
         clusterManager.setOnClusterItemInfoWindowClickListener(MapFragment.this);
         map.setOnMarkerClickListener(clusterManager);
@@ -203,6 +203,7 @@ public class MapFragment extends BaseFragment implements MapMvpView, OnMapReadyC
             myContentsView = getActivity().getLayoutInflater().inflate(
                     R.layout.custom_venue_info_window, null);
         }
+
         @Override
         public View getInfoWindow(Marker marker) {
             return null;
@@ -220,21 +221,21 @@ public class MapFragment extends BaseFragment implements MapMvpView, OnMapReadyC
         }
     }
 
-    public void addVenueMarkerItems(ArrayList<Result> results){
-        if (clusterManager == null){
+    public void addVenueMarkerItems(ArrayList<Result> results) {
+        if (clusterManager == null) {
             return;
         }
 
         venueMarkerItems = new ArrayList<>();
 
-        for(Result result : results){
+        for (Result result : results) {
             double lat = result.getGeometry().getLocation().getLat();
             double lng = result.getGeometry().getLocation().getLng();
             LatLng position = new LatLng(lat, lng);
             //
             String title = result.getName();
 
-            VenueMarkerItem venueMarkerItem = new VenueMarkerItem(position,title,"");
+            VenueMarkerItem venueMarkerItem = new VenueMarkerItem(position, title, "");
             venueMarkerItem.setVenueCategoryImage(result.getIcon());
             venueMarkerItem.setVenueId(result.getPlaceId());
 
@@ -245,36 +246,34 @@ public class MapFragment extends BaseFragment implements MapMvpView, OnMapReadyC
         }
 
 
-
         clusterManager.cluster();
     }
 
-    public void removeAllVenueMarkerItems(){
-       if (venueMarkerItems != null){
-           for(VenueMarkerItem item : venueMarkerItems){
-               clusterManager.removeItem(item);
-           }
-       }
+    public void removeAllVenueMarkerItems() {
+        if (venueMarkerItems != null) {
+            for (VenueMarkerItem item : venueMarkerItems) {
+                clusterManager.removeItem(item);
+            }
+        }
     }
-
 
 
     private void initUiComponents() {
 
     }
 
-    public void showLoadingDialog(int titleId, int contentId){
-        searchLoadingDialog =  new MaterialDialog.Builder(getActivity())
+    public void showLoadingDialog(int titleId, int contentId) {
+        searchLoadingDialog = new MaterialDialog.Builder(getActivity())
                 .title(titleId)
                 .content(contentId)
-                .progress(true,3)
+                .progress(true, 3)
                 .show();
 
 
     }
 
-    private void dismissSearchLoadingDialog(){
-        if (searchLoadingDialog != null && searchLoadingDialog.isShowing()){
+    private void dismissSearchLoadingDialog() {
+        if (searchLoadingDialog != null && searchLoadingDialog.isShowing()) {
             searchLoadingDialog.dismiss();
         }
     }
@@ -315,8 +314,8 @@ public class MapFragment extends BaseFragment implements MapMvpView, OnMapReadyC
         mapMvpPresenter.onAttach(MapFragment.this);
     }
 
-    public void showMessage(int messageId){
-        Snackbar.make(getView(),messageId, 2000).show();
+    public void showMessage(int messageId) {
+        Snackbar.make(getView(), messageId, 2000).show();
     }
 
 
@@ -429,27 +428,20 @@ public class MapFragment extends BaseFragment implements MapMvpView, OnMapReadyC
 
         if (locationPermissionGranted) {
 
-            if (ActivityCompat.checkSelfPermission(getActivity(), permission.ACCESS_FINE_LOCATION)
-                    != PackageManager.PERMISSION_GRANTED
-                    && ActivityCompat.checkSelfPermission(getActivity(), permission.ACCESS_COARSE_LOCATION)
-                    != PackageManager.PERMISSION_GRANTED) {
-                // TODO: Consider calling
-                //    ActivityCompat#requestPermissions
-                // here to request the missing permissions, and then overriding
-                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                //                                          int[] grantResults)
-                // to handle the case where the user grants the permission. See the documentation
-                // for ActivityCompat#requestPermissions for more details.
-                return;
+
+            try{
+                lastKnownLocation = LocationServices.FusedLocationApi
+                        .getLastLocation(googleApiClient);
+            }catch (SecurityException e){
+                e.printStackTrace();
             }
-            lastKnownLocation = LocationServices.FusedLocationApi
-                    .getLastLocation(googleApiClient);
+
 
         }
 
         if (lastKnownLocation != null) {
 
-            LayoutInflater inflater = (LayoutInflater) getContext()
+            LayoutInflater inflater = (LayoutInflater) interactionWithMapFragment.getContextOfFragment()
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             final View mCustomMarkerView = inflater.inflate(R.layout.custom_user_marker, null);
 
@@ -467,7 +459,7 @@ public class MapFragment extends BaseFragment implements MapMvpView, OnMapReadyC
             }
 
 
-            Glide.with(getActivity().getApplicationContext()).
+            Glide.with(interactionWithMapFragment.getContextOfFragment()).
                     load(userImageUri)
                     .asBitmap()
                     .fitCenter()
@@ -555,14 +547,14 @@ public class MapFragment extends BaseFragment implements MapMvpView, OnMapReadyC
                 }
                 break;
             case R.id.image_button_search:
-                if(mapMvpPresenter != null){
+                if (mapMvpPresenter != null) {
                     mapMvpPresenter.onClickButtonSearchVenue(editTextSearchVenue.getText().toString());
                 }
                 break;
         }
     }
 
-    public void openListVenueDialogFragment(final ArrayList<Result> results){
+    public void openListVenueDialogFragment(final ArrayList<Result> results) {
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
@@ -570,16 +562,16 @@ public class MapFragment extends BaseFragment implements MapMvpView, OnMapReadyC
                 dismissSearchLoadingDialog();
                 interactionWithMapFragment.openListVenueDialogFragment(results);
             }
-        },3000);
+        }, 3000);
 
     }
 
-    public String getCurrentUserLocation(){
-        if (lastKnownLocation != null){
+    public String getCurrentUserLocation() {
+        if (lastKnownLocation != null) {
             StringBuilder builder = new StringBuilder();
             builder.append(String.valueOf(lastKnownLocation.getLatitude()))
-                   .append(",")
-                   .append(String.valueOf(lastKnownLocation.getLongitude()));
+                    .append(",")
+                    .append(String.valueOf(lastKnownLocation.getLongitude()));
 
             return builder.toString();
         }
@@ -587,7 +579,7 @@ public class MapFragment extends BaseFragment implements MapMvpView, OnMapReadyC
         return null;
     }
 
-    public void openVenueDetailDialogFragment(String venueId){
+    public void openVenueDetailDialogFragment(String venueId) {
         interactionWithMapFragment.openVenueDetailDialogFragment(venueId);
     }
 
@@ -616,16 +608,15 @@ public class MapFragment extends BaseFragment implements MapMvpView, OnMapReadyC
     }
 
 
-
-
-
-
     public interface InteractionWithMapFragment {
         String getUserImage();
-        void openListVenueDialogFragment(ArrayList<Result> results);
-        void openVenueDetailDialogFragment(String venueId);
-    }
 
+        void openListVenueDialogFragment(ArrayList<Result> results);
+
+        void openVenueDetailDialogFragment(String venueId);
+
+        Context getContextOfFragment();
+    }
 
 
     private Bitmap getMarkerBitmapFromView(View view, Bitmap bitmap, int drawableId) {
@@ -650,8 +641,6 @@ public class MapFragment extends BaseFragment implements MapMvpView, OnMapReadyC
         view.draw(canvas);
         return returnedBitmap;
     }
-
-
 
 
 }

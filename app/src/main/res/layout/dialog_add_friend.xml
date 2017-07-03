@@ -1,142 +1,151 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-  android:orientation="vertical" android:layout_width="match_parent"
-  android:layout_height="match_parent">
-
-  <TextView
-    android:id="@+id/text_title_dialog"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:text="@string/text_title_add_friend"
-    android:background="@color/colorPrimary"
-    style="@style/TitleDialog"
-    />
-
-  <TextView
-    android:id="@+id/text_label_result"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="8dp"
-    android:text="@string/text_result"
-    android:layout_gravity="center_horizontal"
-    style="@style/TextLabel"
-    />
-
-  <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:layout_marginTop="8dp"
-    android:layout_marginLeft="16dp"
-    android:layout_marginRight="16dp"
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:rc="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
 
-    <com.marshalchen.ultimaterecyclerview.UltimateRecyclerView
-      android:id="@+id/recycler_view_seach_friends"
-      android:layout_width="match_parent"
-      android:layout_height="0dp"
-      android:layout_weight="4"
-      android:layout_marginBottom="16dp"
-      />
+    <TextView
+        android:id="@+id/text_title_dialog"
+        style="@style/TitleDialog"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:text="@string/text_title_add_friend" />
 
-    <LinearLayout
-      android:layout_width="match_parent"
-      android:layout_height="0dp"
-      android:layout_weight="3"
-      android:orientation="vertical"
-      >
-
-      <TextView
+    <TextView
+        android:id="@+id/text_label_result"
+        style="@style/TextLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text="@string/search_friend_title_dialog"
-        />
-
-      <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        >
+        android:text="@string/text_result" />
 
-        <TextView
-          android:id="@+id/text_label_name"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:layout_marginLeft="8dp"
-          android:layout_marginTop="8dp"
-          android:layout_marginStart="8dp"
-          android:text="@string/label_friend_name"
-          />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="8dp"
+        android:orientation="vertical">
 
-        <com.rengwuxian.materialedittext.MaterialEditText
-          android:id="@+id/edit_text_search_name"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:hint="@string/hint_text_search_name"
-          android:layout_marginLeft="36dp"
-          android:layout_marginStart="36dp"
-          android:layout_toRightOf="@id/text_label_name"
-          android:layout_toEndOf="@id/text_label_name"
-          style="@style/EditTextSearch"
-          />
+        <com.marshalchen.ultimaterecyclerview.UltimateRecyclerView
+            android:id="@+id/recycler_view_seach_friends"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="16dp"
+            android:layout_weight="4"
+            rc:recyclerviewEmptyView="@layout/recyclerview_empty"
+            />
 
-        <TextView
-          android:id="@+id/text_label_phone"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:layout_below="@id/text_label_name"
-          android:layout_marginLeft="8dp"
-          android:layout_marginStart="8dp"
-          android:text="@string/label_phone"
-          android:layout_marginTop="40dp"
-          style="@style/TextLabel"
-          />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="4"
+            android:orientation="vertical">
 
-        <com.rengwuxian.materialedittext.MaterialEditText
-          android:id="@+id/edit_text_search_phone"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:hint="@string/hint_search_by_phone"
-          android:layout_toRightOf="@id/text_label_phone"
-          android:layout_toEndOf="@id/text_label_phone"
-          android:layout_marginLeft="16dp"
-          android:layout_marginStart="16dp"
-          android:layout_marginTop="16dp"
-          style="@style/EditTextSearch"
-          android:layout_below="@id/edit_text_search_name"
-          />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/search_friend_title_dialog" />
 
-        <com.beardedhen.androidbootstrap.BootstrapButton
-          android:id="@+id/button_search"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:text="@string/button_search"
-          android:layout_marginTop="8dp"
-          android:layout_below="@id/edit_text_search_phone"
-          android:layout_centerHorizontal="true"
-          style="@style/Button"
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp">
 
-          />
+                <TextView
+                    android:id="@+id/text_label_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
 
-      </RelativeLayout>
+                    android:layout_marginTop="8dp"
+                    android:layout_toRightOf="@id/radio_button_name"
+                    android:text="@string/label_friend_name" />
 
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/edit_text_search_name"
+                    style="@style/EditTextSearch"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/hint_text_search_name"
+                    android:layout_toRightOf="@id/text_label_name"
+                    android:layout_toEndOf="@id/text_label_name"
+                    android:layout_marginLeft="34dp"
+                    android:layout_marginStart="34dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true" />
+
+                <TextView
+                    android:id="@+id/text_label_phone"
+                    style="@style/TextLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/text_label_name"
+
+                    android:layout_marginTop="40dp"
+                    android:layout_toRightOf="@id/radio_button_phone"
+                    android:layout_toEndOf="@id/radio_button_phone"
+                    android:text="@string/label_phone" />
+
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/edit_text_search_phone"
+                    style="@style/EditTextSearch"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/edit_text_search_name"
+                    android:layout_marginLeft="14dp"
+                    android:layout_marginStart="14dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_toEndOf="@id/text_label_phone"
+                    android:layout_toRightOf="@id/text_label_phone"
+                    android:hint="@string/hint_search_by_phone" />
+
+                <com.beardedhen.androidbootstrap.BootstrapButton
+                    android:id="@+id/button_search"
+                    style="@style/Button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/button_search"
+                    android:layout_marginTop="32dp"
+                    android:layout_below="@id/edit_text_search_phone"
+                    android:layout_centerHorizontal="true" />
+
+                <RadioButton
+                    android:id="@+id/radio_button_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true" />
+
+                <RadioButton
+                    android:id="@+id/radio_button_phone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_below="@id/radio_button_name"
+                    android:layout_marginTop="26dp"
+                    android:layout_alignParentStart="true" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+
+        <Button
+            android:id="@+id/button_close_dialog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:background="?attr/selectableItemBackground"
+            android:text="@string/button_close_dialog"
+            android:textColor="@color/colorAccent"
+            android:textStyle="bold" />
     </LinearLayout>
-
-
-    <Button
-      android:id="@+id/button_close_dialog"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:text="@string/button_close_dialog"
-      android:textColor="@color/colorAccent"
-      android:textStyle="bold"
-      android:layout_gravity="right"
-      android:background="?attr/selectableItemBackground"
-      />
-  </LinearLayout>
-
-
 
 
 </LinearLayout>

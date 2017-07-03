@@ -6,6 +6,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.ProviderQueryResult;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.Query;
 import com.google.firebase.storage.StorageReference;
 
 /**
@@ -34,6 +35,10 @@ public interface DatabaseHelper {
   void saveFavoriteVenue(FavoriteVenue favoriteVenue);
 
   DatabaseReference getFavoriteVenuesRef();
+
+  Query getUsersByName(String name);
+
+  Query getUsersByPhoneNumber(String phoneNumber);
 
 
 }

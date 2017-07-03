@@ -44,6 +44,7 @@ public class ListFriendFragment extends BaseFragment implements ListFriendView {
     @BindView(R.id.float_button_friends_action)
     FloatingActionMenu floatButtonFriendsAction;
 
+    private InteractionWithListFriendFragment interaction;
     private List<User> friends;
     private FriendsRecyclerViewAdapter adapter;
 
@@ -89,6 +90,7 @@ public class ListFriendFragment extends BaseFragment implements ListFriendView {
         super.onAttach(context);
         Callback callback = (Callback) context;
         callback.getActivityComponent().inject(this);
+        interaction = (InteractionWithListFriendFragment) context;
         presenter.onAttach(this);
     }
 
@@ -104,9 +106,18 @@ public class ListFriendFragment extends BaseFragment implements ListFriendView {
             case R.id.button_search_friend:
                 break;
             case R.id.button_add_friend:
+                openAddFriendDialogFragment();
                 break;
             case R.id.float_button_friends_action:
                 break;
         }
+    }
+
+    public void openAddFriendDialogFragment(){
+        interaction.openAddFriendDialogFragment();
+    }
+
+    public interface InteractionWithListFriendFragment{
+        void openAddFriendDialogFragment();
     }
 }
