@@ -51,6 +51,12 @@ public class AddFriendPresenter<V extends AddFriendView> extends BasePresenter<V
         getMvpView().closeDialog();
     }
 
+    @Override
+    public void onClickButtonAddFriend(String receiverId) {
+        getDataManager().sendRequestAddFriend(receiverId);
+        getMvpView().setButtonAddFriendEnable(R.string.text_sended_request,false);
+    }
+
     private void searchUsersByPhoneNumber(String phoneNumber) {
         getDataManager().getUsersByPhoneNumber(phoneNumber)
                 .addListenerForSingleValueEvent(new ValueEventListener() {

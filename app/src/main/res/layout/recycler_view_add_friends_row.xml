@@ -13,8 +13,8 @@
     app:layout_constraintTop_toTopOf="parent"
     android:layout_marginTop="8dp"
     android:layout_marginBottom="8dp"
-    android:layout_marginLeft="16dp"
-    android:layout_marginStart="16dp"
+    android:layout_marginLeft="8dp"
+    android:layout_marginStart="8dp"
     app:layout_constraintLeft_toLeftOf="parent"
     app:layout_constraintBottom_toBottomOf="parent" />
 
@@ -25,12 +25,12 @@
     android:text="Nguyen Anh Trung"
     style="@style/TextFriendName"
     app:layout_constraintTop_toTopOf="parent"
-    app:layout_constraintLeft_toRightOf="@+id/circle_image_friend"
-    android:layout_marginLeft="8dp"
-    app:layout_constraintVertical_bias="0.5"
-    android:layout_marginStart="8dp"
-    app:layout_constraintBottom_toBottomOf="parent"
-    />
+      app:layout_constraintVertical_bias="0.5"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      android:layout_marginStart="72dp"
+      android:layout_marginLeft="72dp"
+      />
 
   <com.beardedhen.androidbootstrap.BootstrapButton
     android:id="@+id/button_add_friend"

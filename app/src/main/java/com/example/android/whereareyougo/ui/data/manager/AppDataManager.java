@@ -3,12 +3,14 @@ package com.example.android.whereareyougo.ui.data.manager;
 import android.content.Context;
 
 import com.example.android.whereareyougo.ui.data.database.entity.FavoriteVenue;
+import com.example.android.whereareyougo.ui.data.database.entity.RequestAddFriend;
 import com.example.android.whereareyougo.ui.data.database.entity.User;
 import com.example.android.whereareyougo.ui.data.database.model.DatabaseHelper;
 import com.example.android.whereareyougo.ui.data.pref.PreferencesHelper;
 import com.example.android.whereareyougo.ui.di.ApplicationContext;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.ProviderQueryResult;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Query;
@@ -94,6 +96,11 @@ public class AppDataManager implements DataManager {
     return databaseHelper.getUsersByPhoneNumber(phoneNumber);
   }
 
+  @Override
+  public void sendRequestAddFriend(String receiverId) {
+    databaseHelper.sendRequestAddFriend(receiverId);
+  }
+
 
   @Override
   public void saveUserEmail(String email) {
@@ -129,6 +136,8 @@ public class AppDataManager implements DataManager {
   public void saveFavoriteVenueId(String key, String venueId) {
     preferencesHelper.saveFavoriteVenueId(key,venueId);
   }
+
+
 
   @Override
   public String getFavoriteVenueId(String key) {

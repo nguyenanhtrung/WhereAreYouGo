@@ -40,5 +40,7 @@ public interface DatabaseHelper {
 
   Query getUsersByPhoneNumber(String phoneNumber);
 
+  void sendRequestAddFriend(String receiverId);
+
 
 }

@@ -35,7 +35,7 @@ public class UsersRecyclerViewAdapter extends UltimateViewAdapter<UsersRecyclerV
 
     public interface OnItemClickListener{
 
-        void onButtonClick(View view);
+        void onButtonClick(View view, int position);
     }
 
     @Override
@@ -113,7 +113,7 @@ public class UsersRecyclerViewAdapter extends UltimateViewAdapter<UsersRecyclerV
 
         @Override
         public void onClick(View v) {
-            onItemClickListener.onButtonClick(buttonAdd);
+            onItemClickListener.onButtonClick(buttonAdd,getAdapterPosition());
         }
     }
 }

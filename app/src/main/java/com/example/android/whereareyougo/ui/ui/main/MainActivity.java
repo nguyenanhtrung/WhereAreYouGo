@@ -103,6 +103,7 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
 
   private void initUiComponents() {
     setSupportActionBar(toolbar);
+    bottomBar.getCurrentTab().setBadgeCount(2);
   }
 
   public void updateUserInfo(User user) {
@@ -359,5 +360,10 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
   public void openAddFriendDialogFragment() {
     AddFriendDialogFragment fragment = AddFriendDialogFragment.newInstance();
     fragment.show(getSupportFragmentManager(),MyKey.ADD_FRIEND_DIALOG_FRAGMENT_TAG);
+  }
+
+  @Override
+  public String getCurrentUserId() {
+    return currentUser.getUserID();
   }
 }

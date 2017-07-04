@@ -17,4 +17,5 @@ public interface AddFriendView extends MvpView {
     void clearEditTextPhone();
     boolean checkSearchByName();
     void closeDialog();
+    void setButtonAddFriendEnable(int idContent, boolean isEnable);
 }

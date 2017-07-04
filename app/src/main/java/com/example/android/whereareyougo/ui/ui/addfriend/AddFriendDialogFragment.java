@@ -15,6 +15,8 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.RadioButton;
@@ -22,6 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.beardedhen.androidbootstrap.BootstrapButton;
+import com.beardedhen.androidbootstrap.api.attributes.BootstrapBrand;
 import com.example.android.whereareyougo.R;
 import com.example.android.whereareyougo.ui.data.database.entity.User;
 import com.example.android.whereareyougo.ui.di.component.ActivityComponent;
@@ -69,6 +72,7 @@ public class AddFriendDialogFragment extends DialogFragment implements AddFriend
     private InteractionWithAddFriendFragment interaction;
     private UsersRecyclerViewAdapter adapter;
     private List<User> users;
+    private BootstrapButton buttonAddFriend;
 
 
     public static AddFriendDialogFragment newInstance() {
@@ -252,12 +256,12 @@ public class AddFriendDialogFragment extends DialogFragment implements AddFriend
     }
 
     private void setSizeOfDialog() {
-        int width = 750;
+        int width = WindowManager.LayoutParams.MATCH_PARENT;
         int height = 1100;
         getDialog().getWindow().setLayout(
                 width, height
         );
-        getDialog().getWindow().setGravity(Gravity.CENTER);
+
 
     }
 
@@ -299,14 +303,27 @@ public class AddFriendDialogFragment extends DialogFragment implements AddFriend
     }
 
 
-
+    //onClick button Them ban
     @Override
-    public void onButtonClick(View view) {
-        BootstrapButton button = (BootstrapButton) view;
-        Toast.makeText(getActivity(), "" + button.getText() , Toast.LENGTH_SHORT).show();
+    public void onButtonClick(View view,int position) {
+        buttonAddFriend = (BootstrapButton) view;
+        //
+        if (presenter != null){
+            presenter.onClickButtonAddFriend(users.get(position).getUserID());
+        }
     }
+
+    public void setButtonAddFriendEnable(int idContent, boolean isEnable){
+        if (buttonAddFriend != null){
+            buttonAddFriend.setText(idContent);
+            buttonAddFriend.setEnabled(isEnable);
+        }
+    }
+
+
 
     public interface InteractionWithAddFriendFragment {
         ActivityComponent getActivityComponent();
+        String getCurrentUserId();
     }
 }

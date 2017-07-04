@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.example.android.whereareyougo.ui.data.database.entity.FavoriteVenue;
+import com.example.android.whereareyougo.ui.data.database.entity.RequestAddFriend;
 import com.example.android.whereareyougo.ui.data.database.entity.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -65,14 +66,25 @@ public class AppDatabaseHelper implements DatabaseHelper {
     return firebaseAuth.createUserWithEmailAndPassword(email, password);
   }
 
+  public void sendRequestAddFriend(String receiverId){
+    String currentUserId = firebaseAuth.getCurrentUser().getUid();
+    RequestAddFriend requestAddFriend = new RequestAddFriend(currentUserId,false);
+    DatabaseReference requestFriendRef = databaseReference.getRef().child("requestfriend").child(receiverId);
+
+    requestFriendRef.push().setValue(requestAddFriend);
+  }
+
   public void writeNewUser(String userId, String email, String password, String name) {
     DatabaseReference userRef = databaseReference.getRoot();
     User user = new User(name, email, password);
+    user.setUserID(firebaseAuth.getCurrentUser().getUid());
     userRef.child("users").push();
 
     userRef.child("users").child(userId).setValue(user);
 
   }
+
+
 
   public void saveFavoriteVenue(FavoriteVenue favoriteVenue){
     FirebaseUser currentUser = firebaseAuth.getCurrentUser();

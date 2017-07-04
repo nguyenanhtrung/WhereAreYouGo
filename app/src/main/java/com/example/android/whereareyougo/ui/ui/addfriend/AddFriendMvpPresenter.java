@@ -9,4 +9,5 @@ import com.example.android.whereareyougo.ui.ui.base.MvpPresenter;
 public interface AddFriendMvpPresenter<V extends AddFriendView> extends MvpPresenter<V> {
     void onClickButtonSearch(String content);
     void onClickButtonCloseDialog();
+    void onClickButtonAddFriend(String receiverId);
 }

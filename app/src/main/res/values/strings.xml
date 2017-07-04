@@ -171,4 +171,5 @@
   <string name="label_add_friend">Thêm bạn</string>
   <string name="label_search_friend">Tìm kiếm bạn</string>
   <string name="label_search_result_empty">Kết quả tìm kiếm không tồn tại!</string>
+  <string name="text_sended_request">Đã yêu cầu</string>
 </resources>
