@@ -8,4 +8,6 @@ import com.example.android.whereareyougo.ui.ui.base.MvpPresenter;
 
 public interface ListFriendMvpPresenter<V extends ListFriendView> extends MvpPresenter<V> {
     void onClickButtonAddFriend();
+
+    void getUserListFriend();
 }

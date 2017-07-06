@@ -42,7 +42,7 @@ public class FriendsRecyclerViewAdapter extends UltimateViewAdapter<FriendsRecyc
 
     @Override
     public FriendViewHolder onCreateViewHolder(ViewGroup parent) {
-        View view = LayoutInflater.from(context).inflate(R.layout.recyclerview_friends_row,parent);
+        View view = LayoutInflater.from(context).inflate(R.layout.recyclerview_friends_row,parent,false);
 
         return new FriendViewHolder(view);
     }
@@ -64,10 +64,18 @@ public class FriendsRecyclerViewAdapter extends UltimateViewAdapter<FriendsRecyc
         User currentFriend = friends.get(position);
         if (currentFriend != null){
             holder.textFriendName.setText(currentFriend.getName());
-            holder.textFriendStatus.setText(currentFriend.getStatus());
-            Glide.with(context)
-                 .load(currentFriend.getImageUrl())
-                 .into(holder.imageFriend);
+           // holder.textFriendStatus.setText(currentFriend.getStatus());
+
+            if (currentFriend.getImageUrl() == null){
+                Glide.with(context)
+                     .load(R.drawable.ic_user_default)
+                     .into(holder.imageFriend);
+            }else{
+                Glide.with(context)
+                        .load(currentFriend.getImageUrl())
+                        .into(holder.imageFriend);
+            }
+
         }
     }
 

@@ -55,4 +55,6 @@ public interface DatabaseHelper {
   Query getUserRequestAddFriendById(String receiverId);
 
   void saveUserToListOfUserFriend(String friendId);
+
+  DatabaseReference getCurrentUserFriends();
 }

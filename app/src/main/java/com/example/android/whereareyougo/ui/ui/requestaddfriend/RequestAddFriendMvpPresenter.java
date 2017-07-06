@@ -11,4 +11,6 @@ import java.util.ArrayList;
 
 public interface RequestAddFriendMvpPresenter<V extends RequestAddFriendView> extends MvpPresenter<V> {
     void onClickButtonAccept(String friendId, int position);
+
+    void onClickButtonCancel(String friendId, int position);
 }

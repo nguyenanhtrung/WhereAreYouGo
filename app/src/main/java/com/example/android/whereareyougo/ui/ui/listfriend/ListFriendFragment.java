@@ -1,17 +1,22 @@
 package com.example.android.whereareyougo.ui.ui.listfriend;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.android.whereareyougo.R;
+import com.example.android.whereareyougo.ui.data.database.entity.Friend;
 import com.example.android.whereareyougo.ui.data.database.entity.User;
 import com.example.android.whereareyougo.ui.ui.adapter.FriendsRecyclerViewAdapter;
 import com.example.android.whereareyougo.ui.ui.base.BaseFragment;
+import com.example.android.whereareyougo.ui.ui.custom.DividerItemDecoration;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
@@ -45,7 +50,13 @@ public class ListFriendFragment extends BaseFragment implements ListFriendView {
     FloatingActionMenu floatButtonFriendsAction;
 
     private InteractionWithListFriendFragment interaction;
-    private List<User> friends;
+    private List<User> users;
+
+    public void setFriends(List<Friend> friends) {
+        this.friends = friends;
+    }
+
+    private List<Friend> friends;
     private FriendsRecyclerViewAdapter adapter;
 
     public static ListFriendFragment newInstance() {
@@ -58,28 +69,35 @@ public class ListFriendFragment extends BaseFragment implements ListFriendView {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_friends, container, false);
-
         unbinder = ButterKnife.bind(this, view);
+
+        setupFriendsRecyclerView();
+        if (presenter != null){
+            presenter.getUserListFriend();
+        }
         return view;
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        setupFriendsRecyclerView();
+
     }
 
     private void setupFriendsRecyclerView() {
-
-
         recyclerViewFriends.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerViewFriends.showEmptyView();
 
-        setupFriendsRecyclerViewAdapter();
+        Drawable divider = ContextCompat.getDrawable(getActivity(),R.drawable.divider_recycler_view);
+        RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(divider);
+        recyclerViewFriends.addItemDecoration(itemDecoration);
+
+        //setupFriendsRecyclerViewAdapter();
     }
 
-    public void setupFriendsRecyclerViewAdapter(){
-        adapter = new FriendsRecyclerViewAdapter(getActivity(),new ArrayList<User>());
+    public void setupFriendsRecyclerViewAdapter(ArrayList<User> datas){
+        users = datas;
+        adapter = new FriendsRecyclerViewAdapter(getActivity(),users);
         recyclerViewFriends.setAdapter(adapter);
     }
 

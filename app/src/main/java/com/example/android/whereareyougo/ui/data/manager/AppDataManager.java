@@ -136,6 +136,11 @@ public class AppDataManager implements DataManager {
     databaseHelper.saveUserToListOfUserFriend(friendId);
   }
 
+  @Override
+  public DatabaseReference getCurrentUserFriends() {
+    return databaseHelper.getCurrentUserFriends();
+  }
+
 
   @Override
   public void saveUserEmail(String email) {

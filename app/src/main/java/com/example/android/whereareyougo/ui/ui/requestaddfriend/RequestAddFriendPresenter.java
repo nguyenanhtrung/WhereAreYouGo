@@ -48,4 +48,12 @@ public class RequestAddFriendPresenter<V extends RequestAddFriendView> extends B
                     });
         }
     }
+
+    @Override
+    public void onClickButtonCancel(String friendId, int position) {
+        if (friendId != null){
+            getMvpView().removeRequestInRecyclerView(position);
+            getDataManager().removeRequestAddFriend(friendId);
+        }
+    }
 }

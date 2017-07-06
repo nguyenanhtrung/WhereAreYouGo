@@ -33,7 +33,7 @@ import butterknife.Unbinder;
  * Created by nguyenanhtrung on 05/07/2017.
  */
 
-public class RequestAddFriendFragment extends BaseFragment implements RequestAddFriendView,RequestAddFriendAdapter.OnClickListener {
+public class RequestAddFriendFragment extends BaseFragment implements RequestAddFriendView, RequestAddFriendAdapter.OnClickListener {
     @Inject
     RequestAddFriendMvpPresenter<RequestAddFriendView> presenter;
     @BindView(R.id.recycler_view_invitations)
@@ -77,7 +77,6 @@ public class RequestAddFriendFragment extends BaseFragment implements RequestAdd
         }
 
 
-
         return view;
     }
 
@@ -88,10 +87,10 @@ public class RequestAddFriendFragment extends BaseFragment implements RequestAdd
 
     }
 
-    private void setupRequestFriendsRecyclerView(){
+    private void setupRequestFriendsRecyclerView() {
 
 
-        Drawable divider = ContextCompat.getDrawable(getActivity(),R.drawable.divider_recycler_view);
+        Drawable divider = ContextCompat.getDrawable(getActivity(), R.drawable.divider_recycler_view);
         RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(divider);
         recyclerViewInvitations.addItemDecoration(itemDecoration);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
@@ -102,14 +101,13 @@ public class RequestAddFriendFragment extends BaseFragment implements RequestAdd
         //
 
 
-
     }
 
-    public void setupDatasForRequestFriendsRecyclerView(){
-        if (userRequests == null){
+    public void setupDatasForRequestFriendsRecyclerView() {
+        if (userRequests == null) {
             userRequests = new ArrayList<>();
         }
-        adapter = new RequestAddFriendAdapter(userRequests,getActivity(),this);
+        adapter = new RequestAddFriendAdapter(userRequests, getActivity(), this);
 
         recyclerViewInvitations.setAdapter(adapter);
     }
@@ -128,25 +126,28 @@ public class RequestAddFriendFragment extends BaseFragment implements RequestAdd
         unbinder.unbind();
     }
 
-    public void showMessage(int messageId){
-        Snackbar.make(getView(),messageId,2000).show();
+    public void showMessage(int messageId) {
+        Snackbar.make(getView(), messageId, 2000).show();
     }
 
-    public void removeRequestInRecyclerView(int position){
+    public void removeRequestInRecyclerView(int position) {
         adapter.removeElement(position);
     }
 
     @Override
     public void onClickItem(View view, int position) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.button_accept:
                 //Toast.makeText(getActivity(), "Button Accept", Toast.LENGTH_SHORT).show();
-                if (presenter != null){
-                    presenter.onClickButtonAccept(userRequests.get(position).getUserID(),position);
+                if (presenter != null) {
+                    presenter.onClickButtonAccept(userRequests.get(position).getUserID(), position);
                 }
                 break;
             case R.id.button_cancel:
-                Toast.makeText(getActivity(), "Button Cancel", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getActivity(), "Button Cancel", Toast.LENGTH_SHORT).show();
+                if (presenter != null){
+                    presenter.onClickButtonCancel(userRequests.get(position).getUserID(),position);
+                }
                 break;
         }
     }
