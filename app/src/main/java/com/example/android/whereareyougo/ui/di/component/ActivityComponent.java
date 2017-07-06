@@ -8,6 +8,10 @@ import com.example.android.whereareyougo.ui.ui.listfriend.ListFriendFragment;
 import com.example.android.whereareyougo.ui.ui.login.LoginActivity;
 import com.example.android.whereareyougo.ui.ui.main.MainActivity;
 import com.example.android.whereareyougo.ui.ui.map.MapFragment;
+import com.example.android.whereareyougo.ui.ui.messages.MessagesFragment;
+import com.example.android.whereareyougo.ui.ui.notifications.NotificationsFragment;
+import com.example.android.whereareyougo.ui.ui.notify.NotifyFragment;
+import com.example.android.whereareyougo.ui.ui.requestaddfriend.RequestAddFriendFragment;
 import com.example.android.whereareyougo.ui.ui.signup.SignupDialogFragment;
 import com.example.android.whereareyougo.ui.ui.usersetting.UserSettingFragment;
 import com.example.android.whereareyougo.ui.ui.venuedetail.VenueDetailDialogFragment;
@@ -39,4 +43,11 @@ public interface ActivityComponent {
 
   void inject(AddFriendDialogFragment fragment);
 
+  void inject(NotificationsFragment fragment);
+
+  void inject(RequestAddFriendFragment fragment);
+
+  void inject(MessagesFragment fragment);
+
+  void inject(NotifyFragment fragment);
 }

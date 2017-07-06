@@ -42,5 +42,17 @@ public interface DatabaseHelper {
 
   void sendRequestAddFriend(String receiverId);
 
+  DatabaseReference getListRequestAddFriend();
 
+  DatabaseReference getUserInfo(String userId);
+
+  Task<Void> saveUserFriend(String friendId);
+
+  void removeRequestAddFriend(String requestId);
+
+  Query getUserFriendById(String friendId);
+
+  Query getUserRequestAddFriendById(String receiverId);
+
+  void saveUserToListOfUserFriend(String friendId);
 }

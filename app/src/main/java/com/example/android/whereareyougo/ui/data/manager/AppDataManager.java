@@ -101,6 +101,41 @@ public class AppDataManager implements DataManager {
     databaseHelper.sendRequestAddFriend(receiverId);
   }
 
+  @Override
+  public DatabaseReference getListRequestAddFriend() {
+    return databaseHelper.getListRequestAddFriend();
+  }
+
+  @Override
+  public DatabaseReference getUserInfo(String userId) {
+    return databaseHelper.getUserInfo(userId);
+  }
+
+  @Override
+  public Task<Void> saveUserFriend(String friendId) {
+    return databaseHelper.saveUserFriend(friendId);
+  }
+
+  @Override
+  public void removeRequestAddFriend(String requestId) {
+    databaseHelper.removeRequestAddFriend(requestId);
+  }
+
+  @Override
+  public Query getUserFriendById(String friendId) {
+    return databaseHelper.getUserFriendById(friendId);
+  }
+
+  @Override
+  public Query getUserRequestAddFriendById(String receiverId) {
+    return databaseHelper.getUserRequestAddFriendById(receiverId);
+  }
+
+  @Override
+  public void saveUserToListOfUserFriend(String friendId) {
+    databaseHelper.saveUserToListOfUserFriend(friendId);
+  }
+
 
   @Override
   public void saveUserEmail(String email) {

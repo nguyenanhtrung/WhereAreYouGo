@@ -17,6 +17,7 @@ import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.example.android.whereareyougo.R;
+import com.example.android.whereareyougo.ui.data.database.entity.RequestAddFriend;
 import com.example.android.whereareyougo.ui.data.database.entity.Result;
 import com.example.android.whereareyougo.ui.data.database.entity.User;
 import com.example.android.whereareyougo.ui.ui.addfriend.AddFriendDialogFragment;
@@ -26,6 +27,7 @@ import com.example.android.whereareyougo.ui.ui.listfriend.ListFriendFragment;
 import com.example.android.whereareyougo.ui.ui.map.ListVenueDialogFragment;
 import com.example.android.whereareyougo.ui.ui.map.MapFragment;
 import com.example.android.whereareyougo.ui.ui.map.MapFragment.InteractionWithMapFragment;
+import com.example.android.whereareyougo.ui.ui.notifications.NotificationsFragment;
 import com.example.android.whereareyougo.ui.ui.signup.SignupDialogFragment.InteractionWithSignupFragment;
 import com.example.android.whereareyougo.ui.ui.usersetting.UserSettingFragment;
 import com.example.android.whereareyougo.ui.ui.venuedetail.VenueDetailDialogFragment;
@@ -44,6 +46,7 @@ import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 import com.roughike.bottombar.BottomBar;
+import com.roughike.bottombar.BottomBarTab;
 import com.roughike.bottombar.OnTabSelectListener;
 
 import java.util.ArrayList;
@@ -73,6 +76,8 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
   private User currentUser = null;
   private Drawer userDrawer;
   private AccountHeader userHeader;
+  private ArrayList<User> userRequests;
+  private int badgeNotification = 0;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -92,7 +97,28 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
     //mainMvpPresenter.updateUserInfo();
     setupUserDrawer();
     mainMvpPresenter.updateUserInfo();
+    mainMvpPresenter.updateListRequestAddFriend();
 
+  }
+
+
+
+
+
+  public void updateBadgeNotification(int badge){
+    badgeNotification += badge;
+    BottomBarTab bottomBarTab = bottomBar.getTabWithId(R.id.tab_notification);
+    if (bottomBarTab != null && !userRequests.isEmpty()){
+      bottomBarTab.setBadgeCount(badgeNotification);
+    }
+  }
+
+  public void resetBadgeNotification(){
+    badgeNotification = 0;
+    BottomBarTab bottomBarTab = bottomBar.getTabWithId(R.id.tab_notification);
+    if (bottomBarTab != null){
+      bottomBarTab.setBadgeCount(badgeNotification);
+    }
   }
 
   private void initUiEvents() {
@@ -348,7 +374,21 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
           mainMvpPresenter.onSelectListFriendTab();
         }
         break;
+      case R.id.tab_notification:
+        if (mainMvpPresenter != null){
+          mainMvpPresenter.onSelectNotificationsTab();
+        }
     }
+  }
+
+  public void openNotificationsFragment(){
+    NotificationsFragment fragment = NotificationsFragment.newInstance(userRequests);
+    replaceFragment(fragment,MyKey.NOTIFICATIONS_FRAGMENT_TAG);
+  }
+
+  @Override
+  public void setRequestAddFriends(ArrayList<User> userRequests) {
+    this.userRequests = userRequests;
   }
 
   public void openListFriendFragment(){

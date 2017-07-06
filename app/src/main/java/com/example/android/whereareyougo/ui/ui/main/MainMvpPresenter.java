@@ -16,4 +16,8 @@ public interface MainMvpPresenter<V extends MainView> extends MvpPresenter<V> {
   void onClickUserFavoriteVenueItem();
 
   void onSelectListFriendTab();
+
+  void onSelectNotificationsTab();
+
+  void updateListRequestAddFriend();
 }

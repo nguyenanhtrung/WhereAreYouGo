@@ -23,6 +23,18 @@ import com.example.android.whereareyougo.ui.ui.main.MainView;
 import com.example.android.whereareyougo.ui.ui.map.MapMvpPresenter;
 import com.example.android.whereareyougo.ui.ui.map.MapMvpView;
 import com.example.android.whereareyougo.ui.ui.map.MapPresenter;
+import com.example.android.whereareyougo.ui.ui.messages.MessagesMvpPresenter;
+import com.example.android.whereareyougo.ui.ui.messages.MessagesPresenter;
+import com.example.android.whereareyougo.ui.ui.messages.MessagesView;
+import com.example.android.whereareyougo.ui.ui.notifications.NotificationsMvpPresenter;
+import com.example.android.whereareyougo.ui.ui.notifications.NotificationsPresenter;
+import com.example.android.whereareyougo.ui.ui.notifications.NotificationsView;
+import com.example.android.whereareyougo.ui.ui.notify.NotifyMvpPresenter;
+import com.example.android.whereareyougo.ui.ui.notify.NotifyPresenter;
+import com.example.android.whereareyougo.ui.ui.notify.NotifyView;
+import com.example.android.whereareyougo.ui.ui.requestaddfriend.RequestAddFriendMvpPresenter;
+import com.example.android.whereareyougo.ui.ui.requestaddfriend.RequestAddFriendPresenter;
+import com.example.android.whereareyougo.ui.ui.requestaddfriend.RequestAddFriendView;
 import com.example.android.whereareyougo.ui.ui.signup.SignupMvpPresenter;
 import com.example.android.whereareyougo.ui.ui.signup.SignupPresenter;
 import com.example.android.whereareyougo.ui.ui.signup.SignupView;
@@ -113,4 +125,27 @@ public class ActivityModule {
         return presenter;
     }
 
+    @Provides
+    @PerActivity
+    NotificationsMvpPresenter<NotificationsView> provideNotificationsPresenter(NotificationsPresenter<NotificationsView> presenter) {
+        return presenter;
+    }
+
+    @Provides
+    @PerActivity
+    RequestAddFriendMvpPresenter<RequestAddFriendView> provideRequestAddFriendPresenter(RequestAddFriendPresenter<RequestAddFriendView> presenter) {
+        return presenter;
+    }
+
+    @Provides
+    @PerActivity
+    NotifyMvpPresenter<NotifyView> provideNotifyPresenter(NotifyPresenter<NotifyView> presenter) {
+        return presenter;
+    }
+
+    @Provides
+    @PerActivity
+    MessagesMvpPresenter<MessagesView> provideMessagesPresenter(MessagesPresenter<MessagesView> presenter) {
+        return presenter;
+    }
 }

@@ -81,6 +81,7 @@ dependencies {
 
     compile 'com.google.maps.android:android-maps-utils:0.5+'
     compile 'com.github.chrisbanes:PhotoView:2.0.0'
+
 }
 
 
