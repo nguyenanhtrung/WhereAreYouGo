@@ -18,6 +18,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.ProviderQueryResult;
 import com.google.firebase.database.DatabaseReference;
 
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
 import com.google.firebase.storage.FirebaseStorage;
@@ -181,6 +182,20 @@ public class AppDatabaseHelper implements DatabaseHelper {
         return null;
     }
 
+    public void updateUserStatus(String status){
+        String userId = firebaseAuth.getCurrentUser().getUid();
+        if (userId != null){
+
+            DatabaseReference userRef = databaseReference.getRef().child("users").child(userId).child("status");
+            userRef.setValue(status);
+        }
+    }
+
+    public DatabaseReference getUserStatusRef(){
+        String userId = firebaseAuth.getCurrentUser().getUid();
+        return databaseReference.getDatabase().getReference("/users/" + userId + "/status");
+    }
+
     public Query getUserRequestAddFriendById(String receiverId){
         String userId = firebaseAuth.getCurrentUser().getUid();
         if (userId != null){
@@ -239,6 +254,11 @@ public class AppDatabaseHelper implements DatabaseHelper {
 
         }
 
+    }
+
+    public DatabaseReference getConnectionRef(){
+        DatabaseReference connectionRef = FirebaseDatabase.getInstance().getReference(".info/connected");
+        return connectionRef;
     }
 
 

@@ -57,4 +57,10 @@ public interface DatabaseHelper {
   void saveUserToListOfUserFriend(String friendId);
 
   DatabaseReference getCurrentUserFriends();
+
+  DatabaseReference getConnectionRef();
+
+  void updateUserStatus(String status);
+
+  DatabaseReference getUserStatusRef();
 }

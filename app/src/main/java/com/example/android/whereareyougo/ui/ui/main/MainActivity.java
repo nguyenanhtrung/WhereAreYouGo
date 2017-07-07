@@ -102,8 +102,11 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
   }
 
 
-
-
+  @Override
+  protected void onResume() {
+    super.onResume();
+    mainMvpPresenter.updaterUserStatus();
+  }
 
   public void updateBadgeNotification(int badge){
     badgeNotification += badge;

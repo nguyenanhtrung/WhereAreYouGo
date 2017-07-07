@@ -41,6 +41,27 @@ public class MainPresenter<V extends MainView> extends BasePresenter<V> implemen
         });
     }
 
+    public void updaterUserStatus(){
+        getDataManager().getConnectionRef()
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        boolean connected = dataSnapshot.getValue(Boolean.class);
+                        if (connected) {
+                            getDataManager().updateUserStatus("ONLINE");
+                        }
+
+                        getDataManager().getUserStatusRef().onDisconnect().setValue("OFFLINE");
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+    }
+
+
     public void updateListRequestAddFriend() {
         getDataManager().getListRequestAddFriend()
                 .addValueEventListener(new ValueEventListener() {

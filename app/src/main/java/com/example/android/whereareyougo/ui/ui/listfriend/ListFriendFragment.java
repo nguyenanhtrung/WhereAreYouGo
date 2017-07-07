@@ -35,7 +35,7 @@ import butterknife.Unbinder;
  * Created by nguyenanhtrung on 01/07/2017.
  */
 
-public class ListFriendFragment extends BaseFragment implements ListFriendView {
+public class ListFriendFragment extends BaseFragment implements ListFriendView,FriendsRecyclerViewAdapter.onClickListener {
     @Inject
     ListFriendPresenter<ListFriendView> presenter;
     @BindView(R.id.recycler_view_friends)
@@ -97,7 +97,7 @@ public class ListFriendFragment extends BaseFragment implements ListFriendView {
 
     public void setupFriendsRecyclerViewAdapter(ArrayList<User> datas){
         users = datas;
-        adapter = new FriendsRecyclerViewAdapter(getActivity(),users);
+        adapter = new FriendsRecyclerViewAdapter(getActivity(),users,ListFriendFragment.this);
         recyclerViewFriends.setAdapter(adapter);
     }
 
@@ -133,6 +133,11 @@ public class ListFriendFragment extends BaseFragment implements ListFriendView {
 
     public void openAddFriendDialogFragment(){
         interaction.openAddFriendDialogFragment();
+    }
+
+    @Override
+    public void onItemClick(View view, int position) {
+
     }
 
     public interface InteractionWithListFriendFragment{

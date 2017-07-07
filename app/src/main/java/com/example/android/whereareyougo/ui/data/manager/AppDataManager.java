@@ -141,6 +141,21 @@ public class AppDataManager implements DataManager {
     return databaseHelper.getCurrentUserFriends();
   }
 
+  @Override
+  public DatabaseReference getConnectionRef() {
+    return  databaseHelper.getConnectionRef();
+  }
+
+  @Override
+  public void updateUserStatus(String status) {
+    databaseHelper.updateUserStatus(status);
+  }
+
+  @Override
+  public DatabaseReference getUserStatusRef() {
+    return databaseHelper.getUserStatusRef();
+  }
+
 
   @Override
   public void saveUserEmail(String email) {
@@ -166,6 +181,8 @@ public class AppDataManager implements DataManager {
   public void saveCheckRememberLogin(boolean isCheck) {
     preferencesHelper.saveCheckRememberLogin(isCheck);
   }
+
+
 
   @Override
   public boolean getCheckRememberLogin() {

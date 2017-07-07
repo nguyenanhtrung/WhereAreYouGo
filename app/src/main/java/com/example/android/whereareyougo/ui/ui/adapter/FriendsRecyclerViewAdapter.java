@@ -24,10 +24,17 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class FriendsRecyclerViewAdapter extends UltimateViewAdapter<FriendsRecyclerViewAdapter.FriendViewHolder> {
     private Context context;
     private List<User> friends;
+    private onClickListener onClickListener;
 
-    public FriendsRecyclerViewAdapter(Context context, List<User> friends) {
+
+    public interface onClickListener {
+        void onItemClick(View view, int position);
+    }
+
+    public FriendsRecyclerViewAdapter(Context context, List<User> friends, onClickListener onClickListener) {
         this.context = context;
         this.friends = friends;
+        this.onClickListener = onClickListener;
     }
 
     @Override
@@ -42,7 +49,7 @@ public class FriendsRecyclerViewAdapter extends UltimateViewAdapter<FriendsRecyc
 
     @Override
     public FriendViewHolder onCreateViewHolder(ViewGroup parent) {
-        View view = LayoutInflater.from(context).inflate(R.layout.recyclerview_friends_row,parent,false);
+        View view = LayoutInflater.from(context).inflate(R.layout.recyclerview_friends_row, parent, false);
 
         return new FriendViewHolder(view);
     }
@@ -58,19 +65,20 @@ public class FriendsRecyclerViewAdapter extends UltimateViewAdapter<FriendsRecyc
     }
 
 
-
     @Override
     public void onBindViewHolder(FriendViewHolder holder, int position) {
         User currentFriend = friends.get(position);
-        if (currentFriend != null){
+        if (currentFriend != null) {
             holder.textFriendName.setText(currentFriend.getName());
-           // holder.textFriendStatus.setText(currentFriend.getStatus());
+            if (currentFriend.getStatus() != null) {
+                holder.textFriendStatus.setText(currentFriend.getStatus());
+            }
 
-            if (currentFriend.getImageUrl() == null){
+            if (currentFriend.getImageUrl() == null) {
                 Glide.with(context)
-                     .load(R.drawable.ic_user_default)
-                     .into(holder.imageFriend);
-            }else{
+                        .load(R.drawable.ic_user_default)
+                        .into(holder.imageFriend);
+            } else {
                 Glide.with(context)
                         .load(currentFriend.getImageUrl())
                         .into(holder.imageFriend);
@@ -89,15 +97,22 @@ public class FriendsRecyclerViewAdapter extends UltimateViewAdapter<FriendsRecyc
 
     }
 
-    public class FriendViewHolder extends UltimateRecyclerviewViewHolder{
+    public class FriendViewHolder extends UltimateRecyclerviewViewHolder implements View.OnClickListener {
         CircleImageView imageFriend;
         TextView textFriendName;
         TextView textFriendStatus;
+
         public FriendViewHolder(View itemView) {
             super(itemView);
             imageFriend = (CircleImageView) itemView.findViewById(R.id.circle_image_friend);
             textFriendName = (TextView) itemView.findViewById(R.id.text_friend_name);
             textFriendStatus = (TextView) itemView.findViewById(R.id.text_friend_status);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            onClickListener.onItemClick(v, getAdapterPosition());
         }
     }
 }
