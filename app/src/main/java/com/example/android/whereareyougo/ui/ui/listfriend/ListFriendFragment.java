@@ -1,12 +1,10 @@
 package com.example.android.whereareyougo.ui.ui.listfriend;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.GridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,10 +14,10 @@ import com.example.android.whereareyougo.ui.data.database.entity.Friend;
 import com.example.android.whereareyougo.ui.data.database.entity.User;
 import com.example.android.whereareyougo.ui.ui.adapter.FriendsRecyclerViewAdapter;
 import com.example.android.whereareyougo.ui.ui.base.BaseFragment;
-import com.example.android.whereareyougo.ui.ui.custom.DividerItemDecoration;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
+import com.wang.avi.AVLoadingIndicatorView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +33,7 @@ import butterknife.Unbinder;
  * Created by nguyenanhtrung on 01/07/2017.
  */
 
-public class ListFriendFragment extends BaseFragment implements ListFriendView,FriendsRecyclerViewAdapter.onClickListener {
+public class ListFriendFragment extends BaseFragment implements ListFriendView, FriendsRecyclerViewAdapter.onClickListener {
     @Inject
     ListFriendPresenter<ListFriendView> presenter;
     @BindView(R.id.recycler_view_friends)
@@ -48,6 +46,8 @@ public class ListFriendFragment extends BaseFragment implements ListFriendView,F
     FloatingActionButton buttonAddFriend;
     @BindView(R.id.float_button_friends_action)
     FloatingActionMenu floatButtonFriendsAction;
+    @BindView(R.id.loading_friends)
+    AVLoadingIndicatorView loadingFriends;
 
     private InteractionWithListFriendFragment interaction;
     private List<User> users;
@@ -72,7 +72,7 @@ public class ListFriendFragment extends BaseFragment implements ListFriendView,F
         unbinder = ButterKnife.bind(this, view);
 
         setupFriendsRecyclerView();
-        if (presenter != null){
+        if (presenter != null) {
             presenter.getUserListFriend();
         }
         return view;
@@ -84,23 +84,49 @@ public class ListFriendFragment extends BaseFragment implements ListFriendView,F
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        showLoading();
+    }
+
     private void setupFriendsRecyclerView() {
-        recyclerViewFriends.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerViewFriends.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         recyclerViewFriends.showEmptyView();
 
-        Drawable divider = ContextCompat.getDrawable(getActivity(),R.drawable.divider_recycler_view);
-        RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(divider);
-        recyclerViewFriends.addItemDecoration(itemDecoration);
 
         //setupFriendsRecyclerViewAdapter();
     }
 
-    public void setupFriendsRecyclerViewAdapter(ArrayList<User> datas){
-        users = datas;
-        adapter = new FriendsRecyclerViewAdapter(getActivity(),users,ListFriendFragment.this);
-        recyclerViewFriends.setAdapter(adapter);
+    public void showLoading(){
+        if (!loadingFriends.isShown()){
+            loadingFriends.show();
+        }
     }
 
+    public void hideLoading(){
+        if (loadingFriends.isShown()){
+            loadingFriends.hide();
+        }
+    }
+
+    public void setupFriendsRecyclerViewAdapter(final ArrayList<User> datas) {
+
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (loadingFriends.isShown()){
+                    hideLoading();
+                    users = datas;
+                    adapter = new FriendsRecyclerViewAdapter(getActivity(), users, ListFriendFragment.this);
+                    recyclerViewFriends.setAdapter(adapter);
+                }
+            }
+        },3000);
+
+
+    }
 
 
     @Override
@@ -131,7 +157,7 @@ public class ListFriendFragment extends BaseFragment implements ListFriendView,F
         }
     }
 
-    public void openAddFriendDialogFragment(){
+    public void openAddFriendDialogFragment() {
         interaction.openAddFriendDialogFragment();
     }
 
@@ -140,7 +166,7 @@ public class ListFriendFragment extends BaseFragment implements ListFriendView,F
 
     }
 
-    public interface InteractionWithListFriendFragment{
+    public interface InteractionWithListFriendFragment {
         void openAddFriendDialogFragment();
     }
 }

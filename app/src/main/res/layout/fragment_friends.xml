@@ -8,7 +8,7 @@
 
     <com.marshalchen.ultimaterecyclerview.UltimateRecyclerView
         android:id="@+id/recycler_view_friends"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_marginEnd="16dp"
         android:layout_marginLeft="16dp"
@@ -16,6 +16,16 @@
         android:layout_marginStart="16dp"
         rc:recyclerviewEmptyView="@layout/recyclerview_empty"
         />
+
+    <com.wang.avi.AVLoadingIndicatorView
+        android:id="@+id/loading_friends"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        app:indicatorName="BallScaleRippleMultipleIndicator"
+        app:indicatorColor="@color/colorAccent"
+
+        android:layout_gravity="center_horizontal|center_vertical"
+         />
 
     <com.github.clans.fab.FloatingActionMenu
         android:id="@+id/float_button_friends_action"

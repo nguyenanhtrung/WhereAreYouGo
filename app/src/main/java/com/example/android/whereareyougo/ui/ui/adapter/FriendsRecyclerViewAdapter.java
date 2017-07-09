@@ -6,12 +6,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.android.whereareyougo.R;
 import com.example.android.whereareyougo.ui.data.database.entity.User;
+import com.example.android.whereareyougo.ui.utils.BuilderManager;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerviewViewHolder;
 import com.marshalchen.ultimaterecyclerview.UltimateViewAdapter;
+import com.nightonke.boommenu.BoomButtons.BoomButton;
+import com.nightonke.boommenu.BoomMenuButton;
+import com.nightonke.boommenu.OnBoomListener;
 
 import java.util.List;
 
@@ -71,7 +76,11 @@ public class FriendsRecyclerViewAdapter extends UltimateViewAdapter<FriendsRecyc
         if (currentFriend != null) {
             holder.textFriendName.setText(currentFriend.getName());
             if (currentFriend.getStatus() != null) {
-                holder.textFriendStatus.setText(currentFriend.getStatus());
+                if (currentFriend.getStatus().equals("OFFLINE")) {
+                    holder.imageFriendStatus.setImageResource(R.drawable.ic_offline);
+                } else if (currentFriend.getStatus().equals("ONLINE")) {
+                    holder.imageFriendStatus.setImageResource(R.drawable.ic_online);
+                }
             }
 
             if (currentFriend.getImageUrl() == null) {
@@ -84,6 +93,15 @@ public class FriendsRecyclerViewAdapter extends UltimateViewAdapter<FriendsRecyc
                         .into(holder.imageFriend);
             }
 
+
+
+            holder.buttonChoose.clearBuilders();
+            holder.buttonChoose.addBuilder(BuilderManager.getTextOutsideCircleButtonBuilder(R.string.follow, R.drawable.ic_follow));
+            holder.buttonChoose.addBuilder(BuilderManager.getTextOutsideCircleButtonBuilder(R.string.text_unfriend, R.drawable.ic_unfriend_24dp));
+            holder.buttonChoose.addBuilder(BuilderManager.getTextOutsideCircleButtonBuilder(R.string.text_chat, R.drawable.ic_chat));
+            holder.buttonChoose.addBuilder(BuilderManager.getTextOutsideCircleButtonBuilder(R.string.title_profile_dialog, R.drawable.ic_see_profile));
+            holder.buttonChoose.addBuilder(BuilderManager.getTextOutsideCircleButtonBuilder(R.string.text_current_location, R.drawable.ic_location));
+            holder.buttonChoose.addBuilder(BuilderManager.getTextOutsideCircleButtonBuilder(R.string.button_call, R.drawable.ic_call_white_24dp));
         }
     }
 
@@ -100,14 +118,17 @@ public class FriendsRecyclerViewAdapter extends UltimateViewAdapter<FriendsRecyc
     public class FriendViewHolder extends UltimateRecyclerviewViewHolder implements View.OnClickListener {
         CircleImageView imageFriend;
         TextView textFriendName;
-        TextView textFriendStatus;
+        CircleImageView imageFriendStatus;
+        BoomMenuButton buttonChoose;
 
         public FriendViewHolder(View itemView) {
             super(itemView);
             imageFriend = (CircleImageView) itemView.findViewById(R.id.circle_image_friend);
             textFriendName = (TextView) itemView.findViewById(R.id.text_friend_name);
-            textFriendStatus = (TextView) itemView.findViewById(R.id.text_friend_status);
+            imageFriendStatus = (CircleImageView) itemView.findViewById(R.id.image_friend_status);
+            buttonChoose = (BoomMenuButton) itemView.findViewById(R.id.boom_button_choose);
             itemView.setOnClickListener(this);
+
         }
 
         @Override
