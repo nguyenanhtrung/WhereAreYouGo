@@ -53,8 +53,14 @@ public class LoginActivity extends BaseActivity implements LoginView, OnClickLis
     loginMvpPresenter.onAttach(this);
 
     //
+    initUiComponents();
     initEvents();
 
+  }
+
+  private void initUiComponents() {
+    editTextEmail.setBackgroundResource(R.drawable.background_edittext_selector);
+    editTextPassword.setBackgroundResource(R.drawable.background_edittext_selector);
   }
 
   private void initEvents() {

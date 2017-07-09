@@ -114,6 +114,7 @@ public class UserSettingFragment extends BaseFragment implements UserSettingView
   private void initUiComponents(){
     setEnabledForEditTexts(false);
     buttonSelectImage.setEnabled(false);
+
   }
 
   public void showErrorOnEditTextEmail(String error){

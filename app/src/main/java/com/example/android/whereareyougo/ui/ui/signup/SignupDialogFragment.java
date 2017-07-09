@@ -52,9 +52,17 @@ public class SignupDialogFragment extends DialogFragment implements SignupView, 
   public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
       @Nullable Bundle savedInstanceState) {
     View view = inflater.inflate(R.layout.fragment_signup_dialog, container, false);
-
     unbinder = ButterKnife.bind(this, view);
+
+    //
+    initUiComponents();
     return view;
+  }
+
+  private void initUiComponents() {
+    textSignupEmail.setBackgroundResource(R.drawable.background_edittext_selector);
+    textSignupName.setBackgroundResource(R.drawable.background_edittext_selector);
+    textSignupPassword.setBackgroundResource(R.drawable.background_edittext_selector);
   }
 
   @Override
@@ -66,6 +74,43 @@ public class SignupDialogFragment extends DialogFragment implements SignupView, 
   private void initEvents() {
     buttonSignUp.setOnClickListener(this);
     buttonCloseDialog.setOnClickListener(this);
+    //
+    textSignupName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+      @Override
+      public void onFocusChange(View v, boolean hasFocus) {
+        if (hasFocus){
+          String helperText = getStringFromStringResource(R.string.edit_text_name_helper);
+          textSignupName.setHelperText(helperText);
+        }else{
+          textSignupName.setHelperText(null);
+        }
+      }
+    });
+
+    textSignupPassword.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+      @Override
+      public void onFocusChange(View v, boolean hasFocus) {
+        if (hasFocus){
+          String helperText = getStringFromStringResource(R.string.edit_text_password_helper);
+          textSignupPassword.setHelperText(helperText);
+        }else{
+          textSignupPassword.setHelperText(null);
+        }
+      }
+    });
+
+    textSignupEmail.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+      @Override
+      public void onFocusChange(View v, boolean hasFocus) {
+        if (hasFocus){
+          String helperText = getStringFromStringResource(R.string.edit_text_email_helper);
+          textSignupEmail.setHelperText(helperText);
+        }else {
+          textSignupEmail.setHelperText(null);
+        }
+      }
+    });
+
   }
 
 

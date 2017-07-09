@@ -175,5 +175,6 @@
   <string name="text_message_request_add_friend">Gửi lời yêu cầu kết bạn</string>
   <string name="text_add_friend_successful">Thêm bạn thành công</string>
   <string name="text_already_add_friend">Bạn bè</string>
+  <string name="text_title_info">Thông tin cá nhân</string>
 
 </resources>
