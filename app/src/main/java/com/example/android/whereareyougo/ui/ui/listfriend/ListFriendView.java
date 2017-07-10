@@ -17,4 +17,6 @@ public interface ListFriendView extends MvpView{
     void setupFriendsRecyclerViewAdapter(ArrayList<User> datas);
 
     void setFriends(List<Friend> friends);
+
+    void openFriendProfile(User user);
 }

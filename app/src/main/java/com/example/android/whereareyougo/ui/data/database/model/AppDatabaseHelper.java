@@ -182,6 +182,15 @@ public class AppDatabaseHelper implements DatabaseHelper {
         return null;
     }
 
+    public DatabaseReference getFriendsRef(String userId){
+        if (userId != null){
+            return databaseReference.getRef().child("friends").child(userId);
+        }
+
+        return null;
+    }
+
+
     public void updateUserStatus(String status){
         String userId = firebaseAuth.getCurrentUser().getUid();
         if (userId != null){

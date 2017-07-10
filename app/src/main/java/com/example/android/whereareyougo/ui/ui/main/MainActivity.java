@@ -28,6 +28,7 @@ import com.example.android.whereareyougo.ui.ui.map.ListVenueDialogFragment;
 import com.example.android.whereareyougo.ui.ui.map.MapFragment;
 import com.example.android.whereareyougo.ui.ui.map.MapFragment.InteractionWithMapFragment;
 import com.example.android.whereareyougo.ui.ui.notifications.NotificationsFragment;
+import com.example.android.whereareyougo.ui.ui.profile.ProfileDialogFragment;
 import com.example.android.whereareyougo.ui.ui.signup.SignupDialogFragment.InteractionWithSignupFragment;
 import com.example.android.whereareyougo.ui.ui.usersetting.UserSettingFragment;
 import com.example.android.whereareyougo.ui.ui.venuedetail.VenueDetailDialogFragment;
@@ -59,7 +60,8 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
         VenueDetailDialogFragment.InteractionWithVenueDetailFragment,
         OnTabSelectListener,
         AddFriendDialogFragment.InteractionWithAddFriendFragment,
-        ListFriendFragment.InteractionWithListFriendFragment
+        ListFriendFragment.InteractionWithListFriendFragment,
+        ProfileDialogFragment.InteractionWithProfileDialog
 {
 
   @Inject
@@ -397,6 +399,11 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
   public void openListFriendFragment(){
     ListFriendFragment friendFragment = ListFriendFragment.newInstance();
     replaceFragment(friendFragment,MyKey.LIST_FRIEND_FRAGMENT_TAG);
+  }
+
+  public void openProfileDialogFragment(User user){
+    ProfileDialogFragment fragment = ProfileDialogFragment.newInstance(user);
+    fragment.show(getSupportFragmentManager(),MyKey.PROFILE_DIALOG_FRAGMENT_TAG);
   }
 
   @Override

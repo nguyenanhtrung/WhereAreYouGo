@@ -11,6 +11,7 @@ import com.example.android.whereareyougo.ui.ui.map.MapFragment;
 import com.example.android.whereareyougo.ui.ui.messages.MessagesFragment;
 import com.example.android.whereareyougo.ui.ui.notifications.NotificationsFragment;
 import com.example.android.whereareyougo.ui.ui.notify.NotifyFragment;
+import com.example.android.whereareyougo.ui.ui.profile.ProfileDialogFragment;
 import com.example.android.whereareyougo.ui.ui.requestaddfriend.RequestAddFriendFragment;
 import com.example.android.whereareyougo.ui.ui.signup.SignupDialogFragment;
 import com.example.android.whereareyougo.ui.ui.usersetting.UserSettingFragment;
@@ -50,4 +51,6 @@ public interface ActivityComponent {
   void inject(MessagesFragment fragment);
 
   void inject(NotifyFragment fragment);
+
+  void inject(ProfileDialogFragment fragment);
 }

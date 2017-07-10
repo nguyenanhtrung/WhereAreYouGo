@@ -56,6 +56,13 @@ public class ListFriendPresenter<V extends ListFriendView> extends BasePresenter
                 });
     }
 
+    @Override
+    public void onClickButtonSeeProfile(User user) {
+        if (user != null){
+            getMvpView().openFriendProfile(user);
+        }
+    }
+
     private void getListFriendByIds(List<Friend> friends) {
         if (friends != null && !friends.isEmpty()) {
             final ArrayList<User> users = new ArrayList<>();

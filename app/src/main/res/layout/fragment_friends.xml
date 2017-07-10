@@ -10,11 +10,20 @@
         android:id="@+id/recycler_view_friends"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_marginEnd="16dp"
+        rc:recyclerviewEmptyView="@layout/recyclerview_empty"
+        />
+
+    <android.support.v7.widget.SearchView
+        android:id="@+id/search_view_friend"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        android:layout_marginStart="16dp"
-        rc:recyclerviewEmptyView="@layout/recyclerview_empty"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        android:alpha="0.3"
+        android:queryHint="@string/text_hint_search_friend"
+        android:background="@drawable/background_text_search"
         />
 
     <com.wang.avi.AVLoadingIndicatorView
@@ -35,14 +44,7 @@
         android:layout_gravity="bottom|end"
         app:menu_colorNormal="@color/colorAccent">
 
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/button_search_friend"
-            style="@style/FloatingActionButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:fab_colorNormal="@color/colorPrimary"
-            app:fab_label="@string/label_search_friend"
-            app:fab_size="mini" />
+
 
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/button_add_friend"

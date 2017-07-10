@@ -18,6 +18,7 @@ import com.nightonke.boommenu.BoomButtons.BoomButton;
 import com.nightonke.boommenu.BoomMenuButton;
 import com.nightonke.boommenu.OnBoomListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -29,17 +30,36 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class FriendsRecyclerViewAdapter extends UltimateViewAdapter<FriendsRecyclerViewAdapter.FriendViewHolder> {
     private Context context;
     private List<User> friends;
-    private onClickListener onClickListener;
+    private List<User> friendsCopy;
+    private OnClickBoomButtonListener onClickBoomButtonListener;
 
 
-    public interface onClickListener {
-        void onItemClick(View view, int position);
+    public interface OnClickBoomButtonListener {
+        void onButtonClick(int index, BoomButton boomButton, int position);
     }
 
-    public FriendsRecyclerViewAdapter(Context context, List<User> friends, onClickListener onClickListener) {
+    public FriendsRecyclerViewAdapter(Context context, List<User> friends, OnClickBoomButtonListener onClickBoomButtonListener) {
         this.context = context;
         this.friends = friends;
-        this.onClickListener = onClickListener;
+        friendsCopy = new ArrayList<>();
+        friendsCopy.addAll(friends);
+        this.onClickBoomButtonListener = onClickBoomButtonListener;
+
+    }
+
+    public void filterByName(String name){
+        friends.clear();
+        if (name.isEmpty()){
+            friends.addAll(friendsCopy);
+        }else{
+            name = name.toLowerCase();
+            for(User user : friendsCopy){
+                if (user.getName().toLowerCase().contains(name)){
+                    friends.add(user);
+                }
+            }
+        }
+        notifyDataSetChanged();
     }
 
     @Override
@@ -115,7 +135,7 @@ public class FriendsRecyclerViewAdapter extends UltimateViewAdapter<FriendsRecyc
 
     }
 
-    public class FriendViewHolder extends UltimateRecyclerviewViewHolder implements View.OnClickListener {
+    public class FriendViewHolder extends UltimateRecyclerviewViewHolder implements OnBoomListener {
         CircleImageView imageFriend;
         TextView textFriendName;
         CircleImageView imageFriendStatus;
@@ -127,13 +147,39 @@ public class FriendsRecyclerViewAdapter extends UltimateViewAdapter<FriendsRecyc
             textFriendName = (TextView) itemView.findViewById(R.id.text_friend_name);
             imageFriendStatus = (CircleImageView) itemView.findViewById(R.id.image_friend_status);
             buttonChoose = (BoomMenuButton) itemView.findViewById(R.id.boom_button_choose);
-            itemView.setOnClickListener(this);
+            buttonChoose.setOnBoomListener(this);
+
+        }
+
+
+        @Override
+        public void onClicked(int index, BoomButton boomButton) {
+            onClickBoomButtonListener.onButtonClick(index,boomButton,getAdapterPosition());
+        }
+
+        @Override
+        public void onBackgroundClick() {
 
         }
 
         @Override
-        public void onClick(View v) {
-            onClickListener.onItemClick(v, getAdapterPosition());
+        public void onBoomWillHide() {
+
+        }
+
+        @Override
+        public void onBoomDidHide() {
+
+        }
+
+        @Override
+        public void onBoomWillShow() {
+
+        }
+
+        @Override
+        public void onBoomDidShow() {
+
         }
     }
 }

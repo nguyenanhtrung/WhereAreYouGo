@@ -32,6 +32,9 @@ import com.example.android.whereareyougo.ui.ui.notifications.NotificationsView;
 import com.example.android.whereareyougo.ui.ui.notify.NotifyMvpPresenter;
 import com.example.android.whereareyougo.ui.ui.notify.NotifyPresenter;
 import com.example.android.whereareyougo.ui.ui.notify.NotifyView;
+import com.example.android.whereareyougo.ui.ui.profile.ProfileMvpPresenter;
+import com.example.android.whereareyougo.ui.ui.profile.ProfilePresenter;
+import com.example.android.whereareyougo.ui.ui.profile.ProfileView;
 import com.example.android.whereareyougo.ui.ui.requestaddfriend.RequestAddFriendMvpPresenter;
 import com.example.android.whereareyougo.ui.ui.requestaddfriend.RequestAddFriendPresenter;
 import com.example.android.whereareyougo.ui.ui.requestaddfriend.RequestAddFriendView;
@@ -146,6 +149,12 @@ public class ActivityModule {
     @Provides
     @PerActivity
     MessagesMvpPresenter<MessagesView> provideMessagesPresenter(MessagesPresenter<MessagesView> presenter) {
+        return presenter;
+    }
+
+    @Provides
+    @PerActivity
+    ProfileMvpPresenter<ProfileView> provideProfilePresenter(ProfilePresenter<ProfileView> presenter) {
         return presenter;
     }
 }

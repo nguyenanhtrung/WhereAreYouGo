@@ -51,4 +51,5 @@ public class MyKey {
   public static final String LIST_FRIEND_FRAGMENT_TAG = "listfriendfragment";
   public static final String ADD_FRIEND_DIALOG_FRAGMENT_TAG = "addfriendfragment";
   public static final String NOTIFICATIONS_FRAGMENT_TAG = "notificationfragment";
+  public static final String PROFILE_DIALOG_FRAGMENT_TAG = "profiledialogfragment";
 }

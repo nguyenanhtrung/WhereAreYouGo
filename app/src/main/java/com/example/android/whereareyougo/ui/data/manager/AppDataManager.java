@@ -156,6 +156,11 @@ public class AppDataManager implements DataManager {
     return databaseHelper.getUserStatusRef();
   }
 
+  @Override
+  public DatabaseReference getFriendsRef(String userId) {
+    return databaseHelper.getFriendsRef(userId);
+  }
+
 
   @Override
   public void saveUserEmail(String email) {

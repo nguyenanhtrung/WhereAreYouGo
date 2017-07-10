@@ -1,5 +1,6 @@
 package com.example.android.whereareyougo.ui.ui.listfriend;
 
+import com.example.android.whereareyougo.ui.data.database.entity.User;
 import com.example.android.whereareyougo.ui.ui.base.MvpPresenter;
 
 /**
@@ -10,4 +11,6 @@ public interface ListFriendMvpPresenter<V extends ListFriendView> extends MvpPre
     void onClickButtonAddFriend();
 
     void getUserListFriend();
+
+    void onClickButtonSeeProfile(User user);
 }

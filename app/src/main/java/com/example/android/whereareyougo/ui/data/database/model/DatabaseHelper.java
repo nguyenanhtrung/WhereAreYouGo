@@ -63,4 +63,6 @@ public interface DatabaseHelper {
   void updateUserStatus(String status);
 
   DatabaseReference getUserStatusRef();
+
+  DatabaseReference getFriendsRef(String userId);
 }
