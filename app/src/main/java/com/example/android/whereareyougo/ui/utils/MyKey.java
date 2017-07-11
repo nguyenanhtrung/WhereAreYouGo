@@ -52,4 +52,6 @@ public class MyKey {
   public static final String ADD_FRIEND_DIALOG_FRAGMENT_TAG = "addfriendfragment";
   public static final String NOTIFICATIONS_FRAGMENT_TAG = "notificationfragment";
   public static final String PROFILE_DIALOG_FRAGMENT_TAG = "profiledialogfragment";
+  public static final int DELETE_ALL = 348;
+  public static final int DELETE_ONE = 34;
 }

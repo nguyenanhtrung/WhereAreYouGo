@@ -1,26 +1,29 @@
 package com.example.android.whereareyougo.ui.ui.favoritevenues;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
-import android.widget.ViewSwitcher;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.example.android.whereareyougo.R;
 import com.example.android.whereareyougo.ui.data.database.entity.FavoriteVenue;
 import com.example.android.whereareyougo.ui.ui.adapter.FavoriteVenuesRecyclerViewAdapter;
 import com.example.android.whereareyougo.ui.ui.base.BaseFragment;
-import com.example.android.whereareyougo.ui.ui.custom.DividerItemDecoration;
+import com.example.android.whereareyougo.ui.ui.custom.GridDividerItemDecoration;
+import com.example.android.whereareyougo.ui.utils.MyKey;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
+import com.marshalchen.ultimaterecyclerview.UltimateViewAdapter;
 import com.marshalchen.ultimaterecyclerview.itemTouchHelper.SimpleItemTouchHelperCallback;
 
 import java.util.ArrayList;
@@ -36,7 +39,7 @@ import butterknife.Unbinder;
  * Created by nguyenanhtrung on 30/06/2017.
  */
 
-public class ListFavoriteVenueFragment extends BaseFragment implements ListFavoriteVenueView {
+public class ListFavoriteVenueFragment extends BaseFragment implements ListFavoriteVenueView, FavoriteVenuesRecyclerViewAdapter.MyItemClickListener,View.OnClickListener {
 
     @BindView(R.id.recycler_view_favorite_venues)
     UltimateRecyclerView recyclerViewFavoriteVenues;
@@ -46,6 +49,9 @@ public class ListFavoriteVenueFragment extends BaseFragment implements ListFavor
     @Inject
     ListFavoriteVenueMvpPresenter<ListFavoriteVenueView> presenter;
     FavoriteVenuesRecyclerViewAdapter adapter;
+    List<FavoriteVenue> favoriteVenues;
+    @BindView(R.id.button_delete_all)
+    BootstrapButton buttonDeleteAll;
 
     public List<FavoriteVenue> getFavoriteVenues() {
         return favoriteVenues;
@@ -54,8 +60,6 @@ public class ListFavoriteVenueFragment extends BaseFragment implements ListFavor
     public void setFavoriteVenues(List<FavoriteVenue> favoriteVenues) {
         this.favoriteVenues = favoriteVenues;
     }
-
-    List<FavoriteVenue> favoriteVenues;
 
 
     public static ListFavoriteVenueFragment newInstance() {
@@ -68,8 +72,10 @@ public class ListFavoriteVenueFragment extends BaseFragment implements ListFavor
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_favorite_venues, container, false);
-
         unbinder = ButterKnife.bind(this, view);
+
+        setupFavoriteVenuesRecyclerView();
+        presenter.getFavoriteVenues();
         return view;
     }
 
@@ -84,23 +90,22 @@ public class ListFavoriteVenueFragment extends BaseFragment implements ListFavor
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        initUiEvents();
 
-        setupFavoriteVenuesRecyclerView();
+    }
+
+    private void initUiEvents() {
+        buttonDeleteAll.setOnClickListener(this);
     }
 
     private void setupFavoriteVenuesRecyclerView() {
-        favoriteVenues = new ArrayList<>();
+        // favoriteVenues = new ArrayList<>();
 
         //favoriteVenues = presenter.getFavoriteVenues();
-        presenter.getFavoriteVenues();
 
-
-        Drawable dividerDrawable = ContextCompat.getDrawable(getActivity(), R.drawable.divider_recycler_view);
-
-        RecyclerView.ItemDecoration dividerItemDecoration = new DividerItemDecoration(dividerDrawable);
-        recyclerViewFavoriteVenues.addItemDecoration(dividerItemDecoration);
-
-        recyclerViewFavoriteVenues.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerViewFavoriteVenues.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+        recyclerViewFavoriteVenues.addItemDecoration(new GridDividerItemDecoration(8, 2));
+        recyclerViewFavoriteVenues.showEmptyView();
     }
 
     private void setSwipetoDismissRecyclerView() {
@@ -120,12 +125,14 @@ public class ListFavoriteVenueFragment extends BaseFragment implements ListFavor
                 });
     }
 
-    public void setupFavoriteVenuesRecyclerViewAdapter(List<FavoriteVenue> favoriteVenues) {
+    public void setupFavoriteVenuesRecyclerViewAdapter(List<FavoriteVenue> venues) {
+        favoriteVenues = new ArrayList<>();
+        favoriteVenues = venues;
         if (favoriteVenues.isEmpty()) {
             textRecyclerViewEmpty.setVisibility(View.VISIBLE);
             return;
         }
-        adapter = new FavoriteVenuesRecyclerViewAdapter(getActivity(), favoriteVenues);
+        adapter = new FavoriteVenuesRecyclerViewAdapter(getActivity(), favoriteVenues, this);
         recyclerViewFavoriteVenues.setAdapter(adapter);
 
         dragList();
@@ -135,9 +142,96 @@ public class ListFavoriteVenueFragment extends BaseFragment implements ListFavor
 
     }
 
+    public void showDeleleVenueDialog(final FavoriteVenue venue, final int position, int contentId, final int typeDelete) {
+        new MaterialDialog.Builder(getActivity())
+                .title(getString(R.string.title_delete_venue_dialog))
+                .content(contentId)
+                .positiveText(R.string.text_agree)
+                .negativeText(R.string.text_disagree)
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        if (presenter != null) {
+                            if (typeDelete == MyKey.DELETE_ONE){
+                                presenter.onClickAgreeDeleteDialog(venue, position);
+                            }
+
+                        }
+                    }
+                })
+                .onNegative(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+
+                    }
+                })
+                .build().show();
+
+    }
+
+    public void showDeleteAllVenueDialog(final List<FavoriteVenue> venues){
+        new MaterialDialog.Builder(getActivity())
+                .title(getString(R.string.title_delete_venue_dialog))
+                .content(R.string.content_delete_all_venue)
+                .contentColor(ContextCompat.getColor(getActivity(),R.color.md_red_500))
+                .positiveText(R.string.text_agree)
+                .negativeText(R.string.text_disagree)
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        if (presenter != null) {
+                            presenter.onClickAgreeDeleteAll(venues);
+                        }
+                    }
+                })
+                .onNegative(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+
+                    }
+                })
+                .build().show();
+    }
+
+    public void removeVenueInRecyclerView(int position) {
+        adapter.removeItem(position);
+    }
+
+
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    //onClick Button in RecyclerView
+    @Override
+    public void onButtonClick(View v, int position) {
+        switch (v.getId()) {
+            case R.id.button_delete:
+                if (presenter != null) {
+                    presenter.onClickButtonDeleteVenue(favoriteVenues.get(position), position);
+                    //Toast.makeText(getActivity(), "Name = " + favoriteVenues.get(position).getName(), Toast.LENGTH_SHORT).show();
+                }
+                break;
+        }
+    }
+
+    public void removeAllFavoriteVenuesRecyclerView(){
+        adapter.removeAllItems();
+    }
+
+
+    //onClick Button in Layout
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.button_delete_all:
+                if (presenter != null){
+                    presenter.onClickButtonDeleteAllVenue(favoriteVenues);
+                }
+                break;
+        }
     }
 }

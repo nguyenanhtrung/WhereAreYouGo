@@ -15,13 +15,16 @@ import com.google.firebase.auth.ProviderQueryResult;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Query;
 import com.google.firebase.storage.StorageReference;
+
+import java.util.List;
+
 import javax.inject.Inject;
 
 /**
  * Created by nguyenanhtrung on 09/06/2017.
  */
 
-public class AppDataManager implements DataManager {
+public class AppDataManager implements DataManager{
 
   private Context context;
   private DatabaseHelper databaseHelper;
@@ -161,6 +164,16 @@ public class AppDataManager implements DataManager {
     return databaseHelper.getFriendsRef(userId);
   }
 
+  @Override
+  public void removeFavoriteVenueById(String venueId) {
+    databaseHelper.removeFavoriteVenueById(venueId);
+  }
+
+  @Override
+  public void deleteAllUserFavoriteVenues() {
+    databaseHelper.deleteAllUserFavoriteVenues();
+  }
+
 
   @Override
   public void saveUserEmail(String email) {
@@ -204,5 +217,15 @@ public class AppDataManager implements DataManager {
   @Override
   public String getFavoriteVenueId(String key) {
     return preferencesHelper.getFavoriteVenueId(key);
+  }
+
+  @Override
+  public void removeFavoriteVenueId(String key) {
+    preferencesHelper.removeFavoriteVenueId(key);
+  }
+
+  @Override
+  public void deleteAllFavoriteVenueIdOnPreRef(List<FavoriteVenue> favoriteVenues) {
+    preferencesHelper.deleteAllFavoriteVenueIdOnPreRef(favoriteVenues);
   }
 }

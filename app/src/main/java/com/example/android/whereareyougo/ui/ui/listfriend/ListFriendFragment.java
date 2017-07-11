@@ -118,7 +118,7 @@ public class ListFriendFragment extends BaseFragment implements ListFriendView,S
     private void setupFriendsRecyclerView() {
         recyclerViewFriends.setLayoutManager(new GridLayoutManager(getActivity(), 2));
 
-        Drawable divider1 = ContextCompat.getDrawable(getActivity(), R.drawable.divider_recycler_view);
+        //Drawable divider1 = ContextCompat.getDrawable(getActivity(), R.drawable.divider_recycler_view);
 
 
         recyclerViewFriends.addItemDecoration(new GridDividerItemDecoration(8, 2));

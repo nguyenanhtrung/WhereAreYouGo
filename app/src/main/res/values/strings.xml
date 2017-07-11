@@ -180,4 +180,9 @@
   <string name="text_unfriend">Huỷ kết bạn</string>
   <string name="text_chat">Chat</string>
   <string name="text_current_location">Vị trí hiện tại</string>
+  <string name="title_delete_venue_dialog">Xoá địa điểm</string>
+  <string name="content_delete_venue_dialog">Bạn có muốn xoá địa điểm này khỏi danh sách không?</string>
+  <string name="content_delete_all_venue">Bạn có muốn xoá tất cả địa điểm khỏi danh sách không?</string>
+  <string name="text_agree">CÓ</string>
+  <string name="text_disagree">KHÔNG</string>
 </resources>

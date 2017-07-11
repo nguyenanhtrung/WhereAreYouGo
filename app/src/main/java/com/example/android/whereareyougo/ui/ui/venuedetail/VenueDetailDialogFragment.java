@@ -147,9 +147,13 @@ public class VenueDetailDialogFragment extends DialogFragment implements VenueDe
     }
 
     public void showVenuePhoneNumber(String phoneNumber){
-        if (phoneNumber == null | phoneNumber.isEmpty()) {
+        if (phoneNumber == null) {
             textVenuePhone.setText("");
         }else{
+            if (phoneNumber.isEmpty()){
+                textVenuePhone.setText("");
+                return;
+            }
             textVenuePhone.setText(phoneNumber);
         }
     }

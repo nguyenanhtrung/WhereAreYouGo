@@ -182,6 +182,8 @@ public class AppDatabaseHelper implements DatabaseHelper {
         return null;
     }
 
+
+
     public DatabaseReference getFriendsRef(String userId){
         if (userId != null){
             return databaseReference.getRef().child("friends").child(userId);
@@ -215,11 +217,25 @@ public class AppDatabaseHelper implements DatabaseHelper {
         return null;
     }
 
-
+    public void removeFavoriteVenueById(String venueId){
+        String userId = firebaseAuth.getCurrentUser().getUid();
+        if(userId != null){
+            DatabaseReference favoriteVenueRef = databaseReference.getRef().child("favoritevenues").child(userId).child(venueId);
+            favoriteVenueRef.removeValue();
+        }
+    }
 
     public StorageReference getUserPhotoReference() {
         StorageReference userPhotosRef = firebaseStorage.getReference().child("userphotos");
         return userPhotosRef;
+    }
+
+    public void deleteAllUserFavoriteVenues(){
+        String userId = firebaseAuth.getCurrentUser().getUid();
+        if (userId != null){
+            DatabaseReference favoriteVenueRef = databaseReference.child("favoritevenues").child(userId);
+            favoriteVenueRef.removeValue();
+        }
     }
 
 

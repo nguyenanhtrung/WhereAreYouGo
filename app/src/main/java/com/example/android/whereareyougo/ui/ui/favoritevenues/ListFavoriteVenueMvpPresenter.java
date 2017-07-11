@@ -11,4 +11,12 @@ import java.util.List;
 
 public interface ListFavoriteVenueMvpPresenter<V extends ListFavoriteVenueView> extends MvpPresenter<V> {
     void getFavoriteVenues();
+
+    void onClickButtonDeleteVenue(FavoriteVenue venue, int position);
+
+    void onClickAgreeDeleteDialog(FavoriteVenue venue, int position);
+
+    void onClickButtonDeleteAllVenue(List<FavoriteVenue> favoriteVenues);
+
+    void onClickAgreeDeleteAll(List<FavoriteVenue> favoriteVenues);
 }

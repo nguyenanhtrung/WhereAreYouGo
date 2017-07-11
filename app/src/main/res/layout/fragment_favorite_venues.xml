@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:rc="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
 
@@ -15,6 +16,7 @@
             android:id="@+id/recycler_view_favorite_venues"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            rc:recyclerviewEmptyView="@layout/recyclerview_empty"
             />
 
 
@@ -38,9 +40,11 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="horizontal"
+        android:gravity="center_horizontal"
         >
 
         <com.beardedhen.androidbootstrap.BootstrapButton
+            android:id="@+id/button_delete_all"
             style="@style/Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

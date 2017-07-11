@@ -11,5 +11,9 @@ import java.util.List;
 
 public interface ListFavoriteVenueView extends MvpView {
     void setFavoriteVenues(List<FavoriteVenue> favoriteVenues);
-    void setupFavoriteVenuesRecyclerViewAdapter(List<FavoriteVenue> favoriteVenues);
+    void setupFavoriteVenuesRecyclerViewAdapter(List<FavoriteVenue> venues);
+    void showDeleleVenueDialog(FavoriteVenue venue, int position, int contentId, int typeDelete);
+    void removeVenueInRecyclerView(int position);
+    void removeAllFavoriteVenuesRecyclerView();
+    void showDeleteAllVenueDialog(List<FavoriteVenue> venues);
 }

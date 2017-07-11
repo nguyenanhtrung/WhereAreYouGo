@@ -2,9 +2,14 @@ package com.example.android.whereareyougo.ui.data.pref;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+
+import com.example.android.whereareyougo.ui.data.database.entity.FavoriteVenue;
 import com.example.android.whereareyougo.ui.di.ApplicationContext;
 import com.example.android.whereareyougo.ui.di.PreferencesInfo;
 import com.example.android.whereareyougo.ui.utils.MyKey;
+
+import java.util.List;
+
 import javax.inject.Inject;
 
 /**
@@ -27,6 +32,19 @@ public class AppPreferencesHelper implements PreferencesHelper {
 
   public void saveFavoriteVenueId(String key, String venueId){
     sharedPreferences.edit().putString(key,venueId).apply();
+  }
+
+  public void removeFavoriteVenueId(String key){
+    sharedPreferences.edit().remove(key).apply();
+  }
+
+  public void deleteAllFavoriteVenueIdOnPreRef(List<FavoriteVenue> favoriteVenues){
+    if (favoriteVenues != null || !favoriteVenues.isEmpty()){
+
+      for(FavoriteVenue favoriteVenue : favoriteVenues){
+        sharedPreferences.edit().remove(favoriteVenue.getName()).apply();
+      }
+    }
   }
 
   public String getFavoriteVenueId(String key){

@@ -100,6 +100,17 @@ public class FavoriteVenuesRecyclerViewAdapter extends UltimateViewAdapter<Favor
 
     }
 
+    public void removeItem(int position){
+        favoriteVenues.remove(position);
+        notifyItemRemoved(position);
+        notifyDataSetChanged();
+    }
+
+    public void removeAllItems(){
+        favoriteVenues.clear();
+        notifyDataSetChanged();
+    }
+
     @Override
     public boolean canSwipe(int position) {
         return true;

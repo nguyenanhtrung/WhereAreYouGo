@@ -65,4 +65,8 @@ public interface DatabaseHelper {
   DatabaseReference getUserStatusRef();
 
   DatabaseReference getFriendsRef(String userId);
+
+  void removeFavoriteVenueById(String venueId);
+
+  void deleteAllUserFavoriteVenues();
 }
