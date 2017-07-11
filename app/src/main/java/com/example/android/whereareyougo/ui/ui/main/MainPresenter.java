@@ -61,6 +61,11 @@ public class MainPresenter<V extends MainView> extends BasePresenter<V> implemen
                 });
     }
 
+    @Override
+    public void onSelectSearchVenueTab() {
+        getMvpView().openSearchVenueFragment();
+    }
+
 
     public void updateListRequestAddFriend() {
         getDataManager().getListRequestAddFriend()

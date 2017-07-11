@@ -13,6 +13,7 @@ import com.example.android.whereareyougo.ui.ui.notifications.NotificationsFragme
 import com.example.android.whereareyougo.ui.ui.notify.NotifyFragment;
 import com.example.android.whereareyougo.ui.ui.profile.ProfileDialogFragment;
 import com.example.android.whereareyougo.ui.ui.requestaddfriend.RequestAddFriendFragment;
+import com.example.android.whereareyougo.ui.ui.searchvenue.SearchVenueFragment;
 import com.example.android.whereareyougo.ui.ui.signup.SignupDialogFragment;
 import com.example.android.whereareyougo.ui.ui.usersetting.UserSettingFragment;
 import com.example.android.whereareyougo.ui.ui.venuedetail.VenueDetailDialogFragment;
@@ -53,4 +54,6 @@ public interface ActivityComponent {
   void inject(NotifyFragment fragment);
 
   void inject(ProfileDialogFragment fragment);
+
+  void inject(SearchVenueFragment fragment);
 }

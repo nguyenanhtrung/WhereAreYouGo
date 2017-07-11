@@ -32,4 +32,6 @@ public interface MainView extends MvpView {
   void updateBadgeNotification(int badge);
 
   void resetBadgeNotification();
+
+  void openSearchVenueFragment();
 }

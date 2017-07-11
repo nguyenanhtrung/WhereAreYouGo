@@ -38,6 +38,9 @@ import com.example.android.whereareyougo.ui.ui.profile.ProfileView;
 import com.example.android.whereareyougo.ui.ui.requestaddfriend.RequestAddFriendMvpPresenter;
 import com.example.android.whereareyougo.ui.ui.requestaddfriend.RequestAddFriendPresenter;
 import com.example.android.whereareyougo.ui.ui.requestaddfriend.RequestAddFriendView;
+import com.example.android.whereareyougo.ui.ui.searchvenue.SearchVenueMvpPresenter;
+import com.example.android.whereareyougo.ui.ui.searchvenue.SearchVenuePresenter;
+import com.example.android.whereareyougo.ui.ui.searchvenue.SearchVenueView;
 import com.example.android.whereareyougo.ui.ui.signup.SignupMvpPresenter;
 import com.example.android.whereareyougo.ui.ui.signup.SignupPresenter;
 import com.example.android.whereareyougo.ui.ui.signup.SignupView;
@@ -155,6 +158,12 @@ public class ActivityModule {
     @Provides
     @PerActivity
     ProfileMvpPresenter<ProfileView> provideProfilePresenter(ProfilePresenter<ProfileView> presenter) {
+        return presenter;
+    }
+
+    @Provides
+    @PerActivity
+    SearchVenueMvpPresenter<SearchVenueView> provideSearchVenuePresenter(SearchVenuePresenter<SearchVenueView> presenter) {
         return presenter;
     }
 }

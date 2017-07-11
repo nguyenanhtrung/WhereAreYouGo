@@ -27,5 +27,13 @@ public interface ApiService {
             @Query("placeid") String placeId
     );
 
+    @GET("nearbysearch/json")
+    Call<VenueResponse> getVenuesByTypeAndRadius(
+            @Query("key") String apiKey,
+            @Query("location") String location,
+            @Query("radius") double radius,
+            @Query("type") String type
+    );
+
 
 }

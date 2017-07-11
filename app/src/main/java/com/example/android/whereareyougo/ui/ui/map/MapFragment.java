@@ -516,6 +516,10 @@ public class MapFragment extends BaseFragment implements MapMvpView, OnMapReadyC
     public void onStop() {
         super.onStop();
         mapView.onStop();
+        if (googleApiClient != null && googleApiClient.isConnected()) {
+            googleApiClient.stopAutoManage(getActivity());
+            googleApiClient.disconnect();
+        }
     }
 
     @Override
@@ -528,6 +532,7 @@ public class MapFragment extends BaseFragment implements MapMvpView, OnMapReadyC
     public void onDestroy() {
         super.onDestroy();
         mapView.onDestroy();
+
     }
 
 

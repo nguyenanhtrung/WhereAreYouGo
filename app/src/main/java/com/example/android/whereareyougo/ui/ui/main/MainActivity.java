@@ -29,6 +29,7 @@ import com.example.android.whereareyougo.ui.ui.map.MapFragment;
 import com.example.android.whereareyougo.ui.ui.map.MapFragment.InteractionWithMapFragment;
 import com.example.android.whereareyougo.ui.ui.notifications.NotificationsFragment;
 import com.example.android.whereareyougo.ui.ui.profile.ProfileDialogFragment;
+import com.example.android.whereareyougo.ui.ui.searchvenue.SearchVenueFragment;
 import com.example.android.whereareyougo.ui.ui.signup.SignupDialogFragment.InteractionWithSignupFragment;
 import com.example.android.whereareyougo.ui.ui.usersetting.UserSettingFragment;
 import com.example.android.whereareyougo.ui.ui.venuedetail.VenueDetailDialogFragment;
@@ -61,7 +62,8 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
         OnTabSelectListener,
         AddFriendDialogFragment.InteractionWithAddFriendFragment,
         ListFriendFragment.InteractionWithListFriendFragment,
-        ProfileDialogFragment.InteractionWithProfileDialog
+        ProfileDialogFragment.InteractionWithProfileDialog,
+        SearchVenueFragment.InteractionWithSearchVenueFragment
 {
 
   @Inject
@@ -278,6 +280,7 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
     MapFragment mapFragment = MapFragment.newInstance();
     FragmentManager fragmentManager = getSupportFragmentManager();
     fragmentManager.beginTransaction().add(R.id.fragment_container_layout, mapFragment,MyKey.MAP_FRAGMENT_TAG)
+        .addToBackStack(null)
         .commit();
   }
 
@@ -383,6 +386,12 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
         if (mainMvpPresenter != null){
           mainMvpPresenter.onSelectNotificationsTab();
         }
+        break;
+      case R.id.tab_search:
+        if (mainMvpPresenter != null){
+          mainMvpPresenter.onSelectSearchVenueTab();
+        }
+        break;
     }
   }
 
@@ -406,6 +415,11 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
     fragment.show(getSupportFragmentManager(),MyKey.PROFILE_DIALOG_FRAGMENT_TAG);
   }
 
+  public void openSearchVenueFragment(){
+    SearchVenueFragment fragment = SearchVenueFragment.newInstance();
+    replaceFragment(fragment,MyKey.SEARCH_VENUE_FRAGMENT_TAG);
+  }
+
   @Override
   public void openAddFriendDialogFragment() {
     AddFriendDialogFragment fragment = AddFriendDialogFragment.newInstance();
@@ -415,5 +429,11 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
   @Override
   public String getCurrentUserId() {
     return currentUser.getUserID();
+  }
+
+  @Override
+  public void openMapFragment() {
+    MapFragment fragment = MapFragment.newInstance();
+    replaceFragment(fragment,"MyMapTag");
   }
 }

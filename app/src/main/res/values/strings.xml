@@ -185,4 +185,17 @@
   <string name="content_delete_all_venue">Bạn có muốn xoá tất cả địa điểm khỏi danh sách không?</string>
   <string name="text_agree">CÓ</string>
   <string name="text_disagree">KHÔNG</string>
+  <string name="text_already_choose">Đã chọn</string>
+  <string name="text_not_choose">Chưa chọn</string>
+
+  <!-- Category Name -->
+  <string name="text_book_store">Cửa hàng sách</string>
+  <string name="text_cafe">Tiệm Cà phê</string>
+  <string name="text_clothing_store">Quần áo</string>
+  <string name="text_hospital">Bệnh viện</string>
+  <string name="text_atm">ATM</string>
+  <string name="text_gym">GYM</string>
+  <string name="text_restaurant">Nhà hàng</string>
+  <string name="text_shoe_store">Giầy dép</string>
+  <string name="text_movie_theater">Rạp chiếu phim</string>
 </resources>
