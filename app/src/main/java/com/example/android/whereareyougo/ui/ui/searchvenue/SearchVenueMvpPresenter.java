@@ -13,4 +13,6 @@ public interface SearchVenueMvpPresenter<V extends SearchVenueView> extends MvpP
     void onClickCardVenueCategory(List<VenueCategory> venueCategories, int position, int previousPosition);
 
     void onClickButtonSearch();
+
+
 }

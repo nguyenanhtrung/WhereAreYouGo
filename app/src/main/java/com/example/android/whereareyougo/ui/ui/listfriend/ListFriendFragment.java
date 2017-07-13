@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.SearchView;
@@ -217,6 +218,11 @@ public class ListFriendFragment extends BaseFragment implements ListFriendView,S
     @Override
     public void onButtonClick(int index, BoomButton boomButton, int position) {
         switch (index){
+            case 0: // index of button follow/unfollow
+                if (presenter != null){
+                presenter.onClickButtonFollow(users.get(position));
+                }
+                break;
             case 3: // index of button see friend profile
                 if (presenter != null){
                     presenter.onClickButtonSeeProfile(users.get(position));
@@ -224,6 +230,10 @@ public class ListFriendFragment extends BaseFragment implements ListFriendView,S
                 //Toast.makeText(getActivity(), "Friend Name = " + users.get(position).getName(), Toast.LENGTH_SHORT).show();
                 break;
         }
+    }
+
+    public void showMessage(int messageId){
+        Snackbar.make(getView(),messageId,2000).show();
     }
 
 

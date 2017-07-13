@@ -69,4 +69,6 @@ public interface DatabaseHelper {
   void removeFavoriteVenueById(String venueId);
 
   void deleteAllUserFavoriteVenues();
+
+  Task<Void> sendRequestFollow(String receiverId);
 }

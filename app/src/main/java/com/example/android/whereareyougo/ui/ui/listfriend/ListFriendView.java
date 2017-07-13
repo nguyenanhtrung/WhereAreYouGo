@@ -19,4 +19,6 @@ public interface ListFriendView extends MvpView{
     void setFriends(List<Friend> friends);
 
     void openFriendProfile(User user);
+
+    void showMessage(int messageId);
 }

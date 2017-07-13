@@ -349,14 +349,14 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
   private void dismissListVenueDialogFragment(){
     FragmentManager fragmentManager = getSupportFragmentManager();
     ListVenueDialogFragment dialogFragment = (ListVenueDialogFragment) fragmentManager.findFragmentByTag("ListVenueDialogFragment");
-    MapFragment mapFragment = (MapFragment) fragmentManager.findFragmentByTag(MyKey.MAP_FRAGMENT_TAG);
-    if (dialogFragment != null && mapFragment != null){
+    MapFragment mapFragment = (MapFragment) fragmentManager.findFragmentById(R.id.fragment_container_layout);
+
       ArrayList<Result> results = dialogFragment.getVenuesSelected();
       if (results != null || !results.isEmpty()){
         mapFragment.addVenueMarkerItems(results);
       }
       dialogFragment.dismiss();
-    }
+
   }
 
   @Override
@@ -432,8 +432,9 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
   }
 
   @Override
-  public void openMapFragment() {
+  public void openMapFragmentFromSearchFragment(Bundle bundleSearchVenue) {
     MapFragment fragment = MapFragment.newInstance();
-    replaceFragment(fragment,"MyMapTag");
+    fragment.setArguments(bundleSearchVenue);
+    replaceFragment(fragment,"MapFragment2");
   }
 }

@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import com.example.android.whereareyougo.ui.data.database.entity.FavoriteVenue;
 import com.example.android.whereareyougo.ui.data.database.entity.Friend;
 import com.example.android.whereareyougo.ui.data.database.entity.RequestAddFriend;
+import com.example.android.whereareyougo.ui.data.database.entity.RequestFollow;
 import com.example.android.whereareyougo.ui.data.database.entity.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -279,6 +280,19 @@ public class AppDatabaseHelper implements DatabaseHelper {
 
         }
 
+    }
+
+    public Task<Void> sendRequestFollow(String receiverId){
+        String userId = firebaseAuth.getCurrentUser().getUid();
+        if (userId != null){
+            RequestFollow requestFollow = new RequestFollow(userId);
+            DatabaseReference requestFollowRef = databaseReference.getRef().child("requestfollow").child(receiverId)
+                    .child(userId);
+
+            return requestFollowRef.setValue(requestFollow);
+        }
+
+        return null;
     }
 
     public DatabaseReference getConnectionRef(){

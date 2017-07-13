@@ -174,6 +174,11 @@ public class AppDataManager implements DataManager{
     databaseHelper.deleteAllUserFavoriteVenues();
   }
 
+  @Override
+  public Task<Void> sendRequestFollow(String receiverId) {
+    return databaseHelper.sendRequestFollow(receiverId);
+  }
+
 
   @Override
   public void saveUserEmail(String email) {

@@ -198,4 +198,6 @@
   <string name="text_restaurant">Nhà hàng</string>
   <string name="text_shoe_store">Giầy dép</string>
   <string name="text_movie_theater">Rạp chiếu phim</string>
+  <!-- -->
+  <string name="text_send_request_successfull">Gửi yêu cầu thành công</string>
 </resources>

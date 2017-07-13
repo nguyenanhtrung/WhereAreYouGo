@@ -48,6 +48,8 @@ public class SearchVenueFragment extends BaseFragment implements SearchVenueView
     private InteractionWithSearchVenueFragment interaction;
 
 
+
+
     public static SearchVenueFragment newInstance() {
         SearchVenueFragment fragment = new SearchVenueFragment();
 
@@ -123,8 +125,8 @@ public class SearchVenueFragment extends BaseFragment implements SearchVenueView
         adapter.notifyDataSetChanged();
     }
 
-    public void openMapFragment(){
-        interaction.openMapFragment();
+    public void openMapFragment(Bundle bundle){
+        interaction.openMapFragmentFromSearchFragment(bundle);
     }
 
     @Override
@@ -152,6 +154,14 @@ public class SearchVenueFragment extends BaseFragment implements SearchVenueView
         }
     }
 
+    public double getSearchVenueRadius(){
+        if (editTextRadius.getText().toString().isEmpty()){
+            return -1;
+        }
+
+        return Double.parseDouble(editTextRadius.getText().toString());
+    }
+
     @Override
     public void onCardClick(View v, int position) {
         //TextView textCategoryChoose = (TextView) v.findViewById(R.id.text_category_choose);
@@ -161,6 +171,6 @@ public class SearchVenueFragment extends BaseFragment implements SearchVenueView
     }
 
     public interface InteractionWithSearchVenueFragment{
-        void openMapFragment();
+        void openMapFragmentFromSearchFragment(Bundle bundleSearchVenue);
     }
 }

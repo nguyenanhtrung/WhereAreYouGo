@@ -116,12 +116,14 @@ public class MapFragment extends BaseFragment implements MapMvpView, OnMapReadyC
             "NONE"};
     private ClusterManager<VenueMarkerItem> clusterManager;
     private ArrayList<VenueMarkerItem> venueMarkerItems;
+    private Bundle bundleSearchVenue;
 
     public static MapFragment newInstance() {
         MapFragment mapFragment = new MapFragment();
 
         return mapFragment;
     }
+
 
     @Nullable
     @Override
@@ -138,9 +140,20 @@ public class MapFragment extends BaseFragment implements MapMvpView, OnMapReadyC
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(MapFragment.this);
 
-
+        if (bundleSearchVenue != null){
+            mapMvpPresenter.getVenuesByRadiusAndCategory(bundleSearchVenue);
+        }
         return view;
 
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        bundleSearchVenue = getArguments();
+        if (bundleSearchVenue == null){
+            Toast.makeText(getActivity(), "Bundle Search Null", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void drawPolyLineOnMap(LatLng destination) {
@@ -429,10 +442,10 @@ public class MapFragment extends BaseFragment implements MapMvpView, OnMapReadyC
         if (locationPermissionGranted) {
 
 
-            try{
+            try {
                 lastKnownLocation = LocationServices.FusedLocationApi
                         .getLastLocation(googleApiClient);
-            }catch (SecurityException e){
+            } catch (SecurityException e) {
                 e.printStackTrace();
             }
 
@@ -498,6 +511,9 @@ public class MapFragment extends BaseFragment implements MapMvpView, OnMapReadyC
     public void onResume() {
         super.onResume();
         mapView.onResume();
+        //
+
+
     }
 
     @Override

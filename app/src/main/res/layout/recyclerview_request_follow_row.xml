@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    >
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/cicle_image_sender"
+        android:layout_width="@dimen/width_friend_image"
+        android:layout_height="@dimen/height_friend_image"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:src="@drawable/ic_user_default"
+        />
+
+    <TextView
+        android:id="@+id/text_sender_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/TextFriendName"
+        android:layout_toRightOf="@id/cicle_image_sender"
+        android:layout_toEndOf="@id/cicle_image_sender"
+        android:layout_marginTop="8dp"
+        android:text="Empty Person"
+        />
+
+    <TextView
+        android:id="@+id/text_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/text_sender_name"
+        android:layout_toRightOf="@id/cicle_image_sender"
+        android:layout_toEndOf="@id/cicle_image_sender"
+        android:layout_marginTop="4dp"
+        android:text="Muon theo doi ban"
+        />
+
+    <ImageButton
+        android:id="@+id/button_accept"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_accept"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_toLeftOf="@id/button_cancel"
+        android:layout_toStartOf="@id/button_cancel"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        />
+
+    <ImageButton
+        android:id="@+id/button_cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_cancel"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="16dp"
+        android:layout_marginEnd="16dp"
+        />
+
+
+
+</RelativeLayout>

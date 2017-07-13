@@ -1,5 +1,7 @@
 package com.example.android.whereareyougo.ui.ui.searchvenue;
 
+import android.os.Bundle;
+
 import com.example.android.whereareyougo.ui.ui.base.MvpView;
 
 /**
@@ -8,6 +10,11 @@ import com.example.android.whereareyougo.ui.ui.base.MvpView;
 
 public interface SearchVenueView extends MvpView {
     void notifyDataChangeForAdapter();
+
     void setPreviousPosition(int previousPosition);
-    void openMapFragment();
+
+    void openMapFragment(Bundle bundle);
+
+    double getSearchVenueRadius();
+
 }

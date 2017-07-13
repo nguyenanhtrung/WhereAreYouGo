@@ -1,9 +1,14 @@
 package com.example.android.whereareyougo.ui.ui.listfriend;
 
+import android.support.annotation.NonNull;
+
+import com.example.android.whereareyougo.R;
 import com.example.android.whereareyougo.ui.data.database.entity.Friend;
 import com.example.android.whereareyougo.ui.data.database.entity.User;
 import com.example.android.whereareyougo.ui.data.manager.DataManager;
 import com.example.android.whereareyougo.ui.ui.base.BasePresenter;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
@@ -61,6 +66,19 @@ public class ListFriendPresenter<V extends ListFriendView> extends BasePresenter
         if (user != null){
             getMvpView().openFriendProfile(user);
         }
+    }
+
+    public void onClickButtonFollow(User user){
+        //
+        getDataManager().sendRequestFollow(user.getUserID())
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()){
+                            getMvpView().showMessage(R.string.text_send_request_successfull);
+                        }
+                    }
+                });
     }
 
     private void getListFriendByIds(List<Friend> friends) {

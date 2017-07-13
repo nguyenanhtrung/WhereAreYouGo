@@ -13,4 +13,6 @@ public interface ListFriendMvpPresenter<V extends ListFriendView> extends MvpPre
     void getUserListFriend();
 
     void onClickButtonSeeProfile(User user);
+
+    void onClickButtonFollow(User user);
 }
