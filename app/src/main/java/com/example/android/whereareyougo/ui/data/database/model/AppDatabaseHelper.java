@@ -183,6 +183,15 @@ public class AppDatabaseHelper implements DatabaseHelper {
         return null;
     }
 
+    public DatabaseReference getFriendsRefByFriendId(String friendId){
+        String userId = firebaseAuth.getCurrentUser().getUid();
+        if (userId != null){
+            return databaseReference.getRef().child("friends").child(friendId).child(userId);
+        }
+
+        return null;
+    }
+
 
 
     public DatabaseReference getFriendsRef(String userId){
@@ -207,6 +216,8 @@ public class AppDatabaseHelper implements DatabaseHelper {
         String userId = firebaseAuth.getCurrentUser().getUid();
         return databaseReference.getDatabase().getReference("/users/" + userId + "/status");
     }
+
+
 
     public Query getUserRequestAddFriendById(String receiverId){
         String userId = firebaseAuth.getCurrentUser().getUid();
@@ -282,6 +293,25 @@ public class AppDatabaseHelper implements DatabaseHelper {
 
     }
 
+    public void deleteRequestFollowById(String senderId){
+        String userId = firebaseAuth.getCurrentUser().getUid();
+        if (userId != null){
+            DatabaseReference requestRef = databaseReference.getRef().child("requestfollow").child(userId).child(senderId);
+            requestRef.removeValue();
+        }
+    }
+
+    public void acceptRequestFollow(String senderId){
+        String userId = firebaseAuth.getCurrentUser().getUid();
+        if (userId != null){
+            DatabaseReference friendsRef = databaseReference.getRef().child("friends").child(userId).child(senderId)
+                    .child("permissionFollow");
+            friendsRef.setValue(true);
+        }
+    }
+
+
+
     public Task<Void> sendRequestFollow(String receiverId){
         String userId = firebaseAuth.getCurrentUser().getUid();
         if (userId != null){
@@ -290,6 +320,16 @@ public class AppDatabaseHelper implements DatabaseHelper {
                     .child(userId);
 
             return requestFollowRef.setValue(requestFollow);
+        }
+
+        return null;
+    }
+
+    public DatabaseReference getListRequestFollow(){
+        String userId = firebaseAuth.getCurrentUser().getUid();
+        if (userId != null){
+            DatabaseReference requestRef = databaseReference.getRef().child("requestfollow").child(userId);
+            return requestRef;
         }
 
         return null;

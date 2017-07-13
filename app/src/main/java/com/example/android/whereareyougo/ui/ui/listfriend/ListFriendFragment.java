@@ -220,7 +220,9 @@ public class ListFriendFragment extends BaseFragment implements ListFriendView,S
         switch (index){
             case 0: // index of button follow/unfollow
                 if (presenter != null){
-                presenter.onClickButtonFollow(users.get(position));
+                  //boomButton.getTextView().setText("Huy theo doi");
+                    presenter.onClickButtonFollow(users.get(position));
+
                 }
                 break;
             case 3: // index of button see friend profile
@@ -229,8 +231,12 @@ public class ListFriendFragment extends BaseFragment implements ListFriendView,S
                 }
                 //Toast.makeText(getActivity(), "Friend Name = " + users.get(position).getName(), Toast.LENGTH_SHORT).show();
                 break;
+
         }
+        //Toast.makeText(getActivity(), "INDEX = " + index, Toast.LENGTH_SHORT).show();
     }
+
+
 
     public void showMessage(int messageId){
         Snackbar.make(getView(),messageId,2000).show();

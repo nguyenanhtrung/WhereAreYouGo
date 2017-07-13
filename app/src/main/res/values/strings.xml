@@ -200,4 +200,8 @@
   <string name="text_movie_theater">Rạp chiếu phim</string>
   <!-- -->
   <string name="text_send_request_successfull">Gửi yêu cầu thành công</string>
+  <string name="text_request_follow">Muốn theo dõi bạn</string>
+  <string name="text_tab_request_follows">Theo dõi</string>
+  <string name="text_unfollow">Huỷ theo dõi</string>
+  <string name="text_already_follow">Bạn đã theo dõi rồi, không thể gửi yêu cầu theo dõi lần nữa!</string>
 </resources>

@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 
 import com.example.android.whereareyougo.R;
 import com.example.android.whereareyougo.ui.data.database.entity.RequestAddFriend;
+import com.example.android.whereareyougo.ui.data.database.entity.RequestFollow;
 import com.example.android.whereareyougo.ui.data.database.entity.User;
 import com.example.android.whereareyougo.ui.ui.adapter.NotificationsFragmentPagerAdapter;
 import com.example.android.whereareyougo.ui.ui.base.BaseFragment;
@@ -38,12 +39,14 @@ public class NotificationsFragment extends BaseFragment implements Notifications
     ViewPager viewPager;
     private NotificationsFragmentPagerAdapter pagerAdapter;
     private ArrayList<User> userRequests;
+    private ArrayList<User> requestFollows;
     Unbinder unbinder;
 
-    public static NotificationsFragment newInstance(ArrayList<User> userRequests){
+    public static NotificationsFragment newInstance(ArrayList<User> userRequests, ArrayList<User> requestFollows){
         NotificationsFragment fragment = new NotificationsFragment();
         Bundle bundle = new Bundle();
         bundle.putParcelableArrayList("requestaddfriend",userRequests);
+        bundle.putParcelableArrayList("requestfollow",requestFollows);
 
         fragment.setArguments(bundle);
 
@@ -59,6 +62,7 @@ public class NotificationsFragment extends BaseFragment implements Notifications
         Bundle bundle = getArguments();
         if (bundle != null){
             userRequests = bundle.getParcelableArrayList("requestaddfriend");
+            requestFollows = bundle.getParcelableArrayList("requestfollow");
         }
 
 
@@ -81,7 +85,7 @@ public class NotificationsFragment extends BaseFragment implements Notifications
     }
 
     private void setupViewPager(){
-        pagerAdapter = new NotificationsFragmentPagerAdapter(getFragmentManager(),getActivity(),userRequests);
+        pagerAdapter = new NotificationsFragmentPagerAdapter(getFragmentManager(),getActivity(),userRequests,requestFollows);
         viewPager.setAdapter(pagerAdapter);
         viewPager.setCurrentItem(0);
         tabLayout.setupWithViewPager(viewPager);

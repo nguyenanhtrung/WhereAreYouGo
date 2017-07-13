@@ -1,6 +1,7 @@
 package com.example.android.whereareyougo.ui.ui.main;
 
 import com.example.android.whereareyougo.ui.data.database.entity.RequestAddFriend;
+import com.example.android.whereareyougo.ui.data.database.entity.RequestFollow;
 import com.example.android.whereareyougo.ui.data.database.entity.User;
 import com.example.android.whereareyougo.ui.data.manager.DataManager;
 import com.example.android.whereareyougo.ui.ui.base.BasePresenter;
@@ -41,7 +42,7 @@ public class MainPresenter<V extends MainView> extends BasePresenter<V> implemen
         });
     }
 
-    public void updaterUserStatus(){
+    public void updaterUserStatus() {
         getDataManager().getConnectionRef()
                 .addValueEventListener(new ValueEventListener() {
                     @Override
@@ -64,6 +65,48 @@ public class MainPresenter<V extends MainView> extends BasePresenter<V> implemen
     @Override
     public void onSelectSearchVenueTab() {
         getMvpView().openSearchVenueFragment();
+    }
+
+    @Override
+    public void updateListRequestFollow() {
+        getDataManager().getListRequestFollow()
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if (dataSnapshot != null){
+                            final ArrayList<User> requestFollows = new ArrayList<>();
+                            final int count = (int) dataSnapshot.getChildrenCount();
+                            getMvpView().updateBadgeNotification(count);
+                            //
+                            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                                RequestFollow request = snapshot.getValue(RequestFollow.class);
+                                //
+                                getDataManager().getUserInfo(request.getSenderId())
+                                        .addListenerForSingleValueEvent(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                                if (dataSnapshot != null) {
+                                                    User user = dataSnapshot.getValue(User.class);
+                                                    requestFollows.add(user);
+                                                    if (requestFollows.size() == count) {
+                                                        getMvpView().setRequestFollows(requestFollows);
+                                                    }
+                                                }
+                                            }
+                                            @Override
+                                            public void onCancelled(DatabaseError databaseError) {
+
+                                            }
+                                        });
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
     }
 
 
@@ -89,21 +132,15 @@ public class MainPresenter<V extends MainView> extends BasePresenter<V> implemen
                                                         getMvpView().setRequestAddFriends(userRequests);
                                                         getMvpView().updateBadgeNotification(userRequests.size());
                                                     }
-
                                                 }
                                             }
-
                                             @Override
                                             public void onCancelled(DatabaseError databaseError) {
 
                                             }
                                         });
                             }
-
-
                         }
-
-
                     }
 
                     @Override

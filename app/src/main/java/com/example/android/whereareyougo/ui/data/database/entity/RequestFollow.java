@@ -14,6 +14,9 @@ public class RequestFollow implements Parcelable {
         this.senderId = senderId;
     }
 
+    public RequestFollow() {
+    }
+
     public String getSenderId() {
         return senderId;
     }

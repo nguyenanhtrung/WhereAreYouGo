@@ -179,6 +179,26 @@ public class AppDataManager implements DataManager{
     return databaseHelper.sendRequestFollow(receiverId);
   }
 
+  @Override
+  public DatabaseReference getListRequestFollow() {
+    return databaseHelper.getListRequestFollow();
+  }
+
+  @Override
+  public void deleteRequestFollowById(String senderId) {
+    databaseHelper.deleteRequestFollowById(senderId);
+  }
+
+  @Override
+  public void acceptRequestFollow(String senderId) {
+    databaseHelper.acceptRequestFollow(senderId);
+  }
+
+  @Override
+  public DatabaseReference getFriendsRefByFriendId(String friendId) {
+    return databaseHelper.getFriendsRefByFriendId(friendId);
+  }
+
 
   @Override
   public void saveUserEmail(String email) {

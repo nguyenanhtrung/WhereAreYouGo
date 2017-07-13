@@ -7,4 +7,7 @@ import com.example.android.whereareyougo.ui.ui.base.MvpPresenter;
  */
 
 public interface ListRequestFollowMvpPresenter<V extends ListRequestFollowView> extends MvpPresenter<V> {
+    void onClickButtonAccept(String senderId, int position);
+
+    void onClickButtonCancel(String senderId, int position);
 }

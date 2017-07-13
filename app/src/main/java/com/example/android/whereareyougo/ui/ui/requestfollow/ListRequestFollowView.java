@@ -7,4 +7,5 @@ import com.example.android.whereareyougo.ui.ui.base.MvpView;
  */
 
 public interface ListRequestFollowView extends MvpView{
+    void removeRequestFollowRecyclerView(int position);
 }

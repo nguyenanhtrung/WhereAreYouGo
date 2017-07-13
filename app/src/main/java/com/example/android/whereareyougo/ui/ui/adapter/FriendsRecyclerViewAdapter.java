@@ -149,6 +149,8 @@ public class FriendsRecyclerViewAdapter extends UltimateViewAdapter<FriendsRecyc
             buttonChoose = (BoomMenuButton) itemView.findViewById(R.id.boom_button_choose);
             buttonChoose.setOnBoomListener(this);
 
+
+
         }
 
 
@@ -181,5 +183,7 @@ public class FriendsRecyclerViewAdapter extends UltimateViewAdapter<FriendsRecyc
         public void onBoomDidShow() {
 
         }
+
+
     }
 }

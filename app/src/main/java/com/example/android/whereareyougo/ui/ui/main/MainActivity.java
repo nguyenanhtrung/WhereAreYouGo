@@ -18,6 +18,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.example.android.whereareyougo.R;
 import com.example.android.whereareyougo.ui.data.database.entity.RequestAddFriend;
+import com.example.android.whereareyougo.ui.data.database.entity.RequestFollow;
 import com.example.android.whereareyougo.ui.data.database.entity.Result;
 import com.example.android.whereareyougo.ui.data.database.entity.User;
 import com.example.android.whereareyougo.ui.ui.addfriend.AddFriendDialogFragment;
@@ -81,7 +82,18 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
   private Drawer userDrawer;
   private AccountHeader userHeader;
   private ArrayList<User> userRequests;
+  private ArrayList<User> requestFollows;
   private int badgeNotification = 0;
+
+  public ArrayList<User> getRequestFollows() {
+    return requestFollows;
+  }
+
+  public void setRequestFollows(ArrayList<User> requestFollows) {
+    this.requestFollows = requestFollows;
+  }
+
+
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -102,7 +114,7 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
     setupUserDrawer();
     mainMvpPresenter.updateUserInfo();
     mainMvpPresenter.updateListRequestAddFriend();
-
+    mainMvpPresenter.updateListRequestFollow();
   }
 
 
@@ -115,7 +127,7 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
   public void updateBadgeNotification(int badge){
     badgeNotification += badge;
     BottomBarTab bottomBarTab = bottomBar.getTabWithId(R.id.tab_notification);
-    if (bottomBarTab != null && !userRequests.isEmpty()){
+    if (bottomBarTab != null){
       bottomBarTab.setBadgeCount(badgeNotification);
     }
   }
@@ -396,7 +408,7 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
   }
 
   public void openNotificationsFragment(){
-    NotificationsFragment fragment = NotificationsFragment.newInstance(userRequests);
+    NotificationsFragment fragment = NotificationsFragment.newInstance(userRequests,requestFollows);
     replaceFragment(fragment,MyKey.NOTIFICATIONS_FRAGMENT_TAG);
   }
 

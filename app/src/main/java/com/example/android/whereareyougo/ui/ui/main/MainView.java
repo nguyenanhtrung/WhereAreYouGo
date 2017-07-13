@@ -1,6 +1,7 @@
 package com.example.android.whereareyougo.ui.ui.main;
 
 import com.example.android.whereareyougo.ui.data.database.entity.RequestAddFriend;
+import com.example.android.whereareyougo.ui.data.database.entity.RequestFollow;
 import com.example.android.whereareyougo.ui.data.database.entity.User;
 import com.example.android.whereareyougo.ui.ui.base.MvpView;
 
@@ -34,4 +35,6 @@ public interface MainView extends MvpView {
   void resetBadgeNotification();
 
   void openSearchVenueFragment();
+
+  void setRequestFollows(ArrayList<User> requestFollows);
 }

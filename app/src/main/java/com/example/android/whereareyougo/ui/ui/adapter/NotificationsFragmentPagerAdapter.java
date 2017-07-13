@@ -8,10 +8,12 @@ import android.support.v4.content.ContextCompat;
 
 import com.example.android.whereareyougo.R;
 import com.example.android.whereareyougo.ui.data.database.entity.RequestAddFriend;
+import com.example.android.whereareyougo.ui.data.database.entity.RequestFollow;
 import com.example.android.whereareyougo.ui.data.database.entity.User;
 import com.example.android.whereareyougo.ui.ui.messages.MessagesFragment;
 import com.example.android.whereareyougo.ui.ui.notify.NotifyFragment;
 import com.example.android.whereareyougo.ui.ui.requestaddfriend.RequestAddFriendFragment;
+import com.example.android.whereareyougo.ui.ui.requestfollow.ListRequestFollowFragment;
 
 import java.util.ArrayList;
 
@@ -20,14 +22,16 @@ import java.util.ArrayList;
  */
 
 public class NotificationsFragmentPagerAdapter extends FragmentPagerAdapter {
-    private final int PAGE_COUNT = 3;
+    private final int PAGE_COUNT = 4;
     private Context context;
     private ArrayList<User> userRequests;
+    private ArrayList<User> requestFollows;
     public NotificationsFragmentPagerAdapter(FragmentManager fm, Context context, ArrayList<User>
-                                             userRequests) {
+                                             userRequests, ArrayList<User> requestFollows) {
         super(fm);
         this.context = context;
         this.userRequests = userRequests;
+        this.requestFollows = requestFollows;
     }
 
     @Override
@@ -39,6 +43,8 @@ public class NotificationsFragmentPagerAdapter extends FragmentPagerAdapter {
                 return MessagesFragment.newInstance();
             case 2:
                 return NotifyFragment.newInstance();
+            case 3:
+                return ListRequestFollowFragment.newInstance(requestFollows);
             default:
                 break;
         }
@@ -60,6 +66,8 @@ public class NotificationsFragmentPagerAdapter extends FragmentPagerAdapter {
                 return context.getString(R.string.text_tab_message);
             case 2:
                 return context.getString(R.string.text_tab_notification);
+            case 3:
+                return context.getString(R.string.text_tab_request_follows);
             default:
                 break;
         }

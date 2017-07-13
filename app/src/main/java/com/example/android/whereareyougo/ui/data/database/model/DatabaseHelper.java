@@ -71,4 +71,12 @@ public interface DatabaseHelper {
   void deleteAllUserFavoriteVenues();
 
   Task<Void> sendRequestFollow(String receiverId);
+
+  DatabaseReference getListRequestFollow();
+
+  void deleteRequestFollowById(String senderId);
+
+  void acceptRequestFollow(String senderId);
+
+  DatabaseReference getFriendsRefByFriendId(String friendId);
 }

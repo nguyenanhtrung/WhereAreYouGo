@@ -1,15 +1,25 @@
 package com.example.android.whereareyougo.ui.ui.requestfollow;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.android.whereareyougo.R;
+import com.example.android.whereareyougo.ui.data.database.entity.RequestFollow;
+import com.example.android.whereareyougo.ui.data.database.entity.User;
+import com.example.android.whereareyougo.ui.ui.adapter.RequestFollowAdapter;
 import com.example.android.whereareyougo.ui.ui.base.BaseFragment;
+import com.example.android.whereareyougo.ui.ui.custom.DividerItemDecoration;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
+
+import java.util.ArrayList;
 
 import javax.inject.Inject;
 
@@ -21,13 +31,26 @@ import butterknife.Unbinder;
  * Created by nguyenanhtrung on 13/07/2017.
  */
 
-public class ListRequestFollowFragment extends BaseFragment implements ListRequestFollowView {
+public class ListRequestFollowFragment extends BaseFragment implements ListRequestFollowView,RequestFollowAdapter.MyClickItemListener {
 
     @Inject
     ListRequestFollowMvpPresenter<ListRequestFollowView> presenter;
     @BindView(R.id.recyclerview_request_follow)
     UltimateRecyclerView recyclerviewRequestFollow;
     Unbinder unbinder;
+    private ArrayList<User> requestFollows;
+    private RequestFollowAdapter adapter;
+
+
+    public static ListRequestFollowFragment newInstance(ArrayList<User> requestFollows){
+        ListRequestFollowFragment fragment = new ListRequestFollowFragment();
+        Bundle bundle = new Bundle();
+        bundle.putParcelableArrayList("requestfollow",requestFollows);
+        fragment.setArguments(bundle);
+
+        return fragment;
+    }
+
 
     @Nullable
     @Override
@@ -36,7 +59,35 @@ public class ListRequestFollowFragment extends BaseFragment implements ListReque
         unbinder = ButterKnife.bind(this, view);
         //
 
+        Bundle bundle = getArguments();
+        if (bundle != null){
+            requestFollows = bundle.getParcelableArrayList("requestfollow");
+        }
+
+        //setup recyclerview
+        setupRequestFollowRecyclerView();
+
         return view;
+    }
+
+    private void setupRequestFollowRecyclerView() {
+
+        Drawable divider = ContextCompat.getDrawable(getActivity(), R.drawable.divider_recycler_view);
+        RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(divider);
+        recyclerviewRequestFollow.addItemDecoration(itemDecoration);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        recyclerviewRequestFollow.setLayoutManager(layoutManager);
+        recyclerviewRequestFollow.showEmptyView();
+
+        //
+        adapter = new RequestFollowAdapter(getActivity(),requestFollows,this);
+        recyclerviewRequestFollow.setAdapter(adapter);
+
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
     }
 
     @Override
@@ -47,9 +98,29 @@ public class ListRequestFollowFragment extends BaseFragment implements ListReque
         presenter.onAttach(this);
     }
 
+    public void removeRequestFollowRecyclerView(int position){
+        adapter.removeItem(position);
+    }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    @Override
+    public void onItemClick(View v, int position) {
+        switch (v.getId()){
+            case R.id.button_accept:
+                if (presenter != null){
+                    presenter.onClickButtonAccept(requestFollows.get(position).getUserID(),position);
+                }
+                break;
+            case R.id.button_cancel:
+                if (presenter != null){
+                    presenter.onClickButtonCancel(requestFollows.get(position).getUserID(),position);
+                }
+                break;
+        }
     }
 }

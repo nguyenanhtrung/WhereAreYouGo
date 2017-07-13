@@ -63,22 +63,44 @@ public class ListFriendPresenter<V extends ListFriendView> extends BasePresenter
 
     @Override
     public void onClickButtonSeeProfile(User user) {
-        if (user != null){
+        if (user != null) {
             getMvpView().openFriendProfile(user);
         }
     }
 
-    public void onClickButtonFollow(User user){
-        //
-        getDataManager().sendRequestFollow(user.getUserID())
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()){
-                            getMvpView().showMessage(R.string.text_send_request_successfull);
-                        }
+    public void onClickButtonFollow(final User user) {
+        //check if user has permission follow
+        //if user has then click button follow --> show message already follow
+        getDataManager().getFriendsRefByFriendId(user.getUserID()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot != null) {
+                    Friend friend = dataSnapshot.getValue(Friend.class);
+                    if (friend.isPermissionFollow()) {
+                        //show message already follow
+                        getMvpView().showMessage(R.string.text_already_follow);
+
+                    } else {
+                        getDataManager().sendRequestFollow(user.getUserID())
+                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if (task.isSuccessful()) {
+                                            getMvpView().showMessage(R.string.text_send_request_successfull);
+                                        }
+                                    }
+                                });
                     }
-                });
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
     }
 
     private void getListFriendByIds(List<Friend> friends) {
