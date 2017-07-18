@@ -43,6 +43,8 @@ public class RequestAddFriendPresenter<V extends RequestAddFriendView> extends B
                                 getMvpView().removeRequestInRecyclerView(position);
                                 //save user to list friend of friend
                                 getDataManager().saveUserToListOfUserFriend(friendId);
+
+
                             }
                         }
                     });

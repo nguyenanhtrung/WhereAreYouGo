@@ -16,6 +16,10 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageView;
 import com.example.android.whereareyougo.R;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
+
 /**
  * Created by nguyenanhtrung on 20/06/2017.
  */
@@ -23,6 +27,17 @@ import com.example.android.whereareyougo.R;
 public class Commons {
   public static Uri convertStringToUri(String content){
     return Uri.parse(content);
+  }
+
+  public static String convertUriToString(Uri uri){
+    return uri.toString();
+  }
+
+  public static String getCurrentDate(){
+    SimpleDateFormat dateFormat= new SimpleDateFormat("dd-MM-yyyy HH:mm a", Locale.getDefault());
+    String time = dateFormat.format(Calendar.getInstance().getTime());
+
+    return time;
   }
 
 

@@ -23,4 +23,6 @@ public interface MapMvpView extends MvpView {
   void showMessage(int messageId);
 
   void openVenueDetailDialogFragment(String venueId);
+
+
 }

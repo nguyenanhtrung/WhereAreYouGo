@@ -1,6 +1,8 @@
 package com.example.android.whereareyougo.ui.data.database.model;
 
+import com.example.android.whereareyougo.ui.data.database.entity.ChatMessage;
 import com.example.android.whereareyougo.ui.data.database.entity.FavoriteVenue;
+import com.example.android.whereareyougo.ui.data.database.entity.MetaDataChats;
 import com.example.android.whereareyougo.ui.data.database.entity.User;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -79,4 +81,20 @@ public interface DatabaseHelper {
   void acceptRequestFollow(String senderId);
 
   DatabaseReference getFriendsRefByFriendId(String friendId);
+
+  DatabaseReference getChatsReference();
+
+  DatabaseReference getMessagesByConversationId(String conversationId);
+
+  void createConversationId(String conversationId);
+
+  Task<Void> sendChatMessage(ChatMessage message, String conversationId);
+
+  Task<Void> updateLastMessageConversation(MetaDataChats metaDataChats, String conversationId);
+
+  DatabaseReference getMessagesReferenceByConversationId(String conversationId);
+
+  DatabaseReference getUserStatusRefById(String userId);
+
+  StorageReference getUserMessagePhotosReference();
 }

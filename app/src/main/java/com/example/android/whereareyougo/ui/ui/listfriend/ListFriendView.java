@@ -21,4 +21,6 @@ public interface ListFriendView extends MvpView{
     void openFriendProfile(User user);
 
     void showMessage(int messageId);
+
+    void openChatDialogFragment(User friend);
 }

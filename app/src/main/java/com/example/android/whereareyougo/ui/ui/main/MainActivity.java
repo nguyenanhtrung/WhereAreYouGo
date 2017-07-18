@@ -23,6 +23,7 @@ import com.example.android.whereareyougo.ui.data.database.entity.Result;
 import com.example.android.whereareyougo.ui.data.database.entity.User;
 import com.example.android.whereareyougo.ui.ui.addfriend.AddFriendDialogFragment;
 import com.example.android.whereareyougo.ui.ui.base.BaseActivity;
+import com.example.android.whereareyougo.ui.ui.chat.ChatDialogFragment;
 import com.example.android.whereareyougo.ui.ui.favoritevenues.ListFavoriteVenueFragment;
 import com.example.android.whereareyougo.ui.ui.listfriend.ListFriendFragment;
 import com.example.android.whereareyougo.ui.ui.map.ListVenueDialogFragment;
@@ -64,7 +65,8 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
         AddFriendDialogFragment.InteractionWithAddFriendFragment,
         ListFriendFragment.InteractionWithListFriendFragment,
         ProfileDialogFragment.InteractionWithProfileDialog,
-        SearchVenueFragment.InteractionWithSearchVenueFragment
+        SearchVenueFragment.InteractionWithSearchVenueFragment,
+        ChatDialogFragment.InteractionWithChatDialogFragment
 {
 
   @Inject
@@ -427,6 +429,12 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
     fragment.show(getSupportFragmentManager(),MyKey.PROFILE_DIALOG_FRAGMENT_TAG);
   }
 
+  @Override
+  public void openChatDialogFragment(User friend) {
+    ChatDialogFragment fragment = ChatDialogFragment.newInstance(friend);
+    fragment.show(getSupportFragmentManager(),MyKey.CHAT_DIALOG_FRAGMENT_TAG);
+  }
+
   public void openSearchVenueFragment(){
     SearchVenueFragment fragment = SearchVenueFragment.newInstance();
     replaceFragment(fragment,MyKey.SEARCH_VENUE_FRAGMENT_TAG);
@@ -442,6 +450,12 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
   public String getCurrentUserId() {
     return currentUser.getUserID();
   }
+
+  @Override
+  public String getCurrentUserImageUrl() {
+    return currentUser.getImageUrl();
+  }
+
 
   @Override
   public void openMapFragmentFromSearchFragment(Bundle bundleSearchVenue) {

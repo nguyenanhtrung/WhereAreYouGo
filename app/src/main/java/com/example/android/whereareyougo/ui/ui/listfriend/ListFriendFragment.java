@@ -41,7 +41,7 @@ import butterknife.Unbinder;
  * Created by nguyenanhtrung on 01/07/2017.
  */
 
-public class ListFriendFragment extends BaseFragment implements ListFriendView,SearchView.OnQueryTextListener,FriendsRecyclerViewAdapter.OnClickBoomButtonListener {
+public class ListFriendFragment extends BaseFragment implements ListFriendView, SearchView.OnQueryTextListener, FriendsRecyclerViewAdapter.OnClickBoomButtonListener {
     @Inject
     ListFriendPresenter<ListFriendView> presenter;
     @BindView(R.id.recycler_view_friends)
@@ -105,7 +105,7 @@ public class ListFriendFragment extends BaseFragment implements ListFriendView,S
             @Override
             public boolean onClose() {
                 searchViewFriend.setAlpha(0.4f);
-                return  true;
+                return true;
             }
         });
     }
@@ -151,7 +151,7 @@ public class ListFriendFragment extends BaseFragment implements ListFriendView,S
                 if (loadingFriends.isShown()) {
                     hideLoading();
                     users = datas;
-                    adapter = new FriendsRecyclerViewAdapter(getActivity(), users,ListFriendFragment.this);
+                    adapter = new FriendsRecyclerViewAdapter(getActivity(), users, ListFriendFragment.this);
                     recyclerViewFriends.setAdapter(adapter);
                 }
             }
@@ -193,7 +193,6 @@ public class ListFriendFragment extends BaseFragment implements ListFriendView,S
     }
 
 
-
     @Override
     public boolean onQueryTextSubmit(String query) {
         adapter.filterByName(query);
@@ -207,9 +206,11 @@ public class ListFriendFragment extends BaseFragment implements ListFriendView,S
     }
 
 
+    public void openChatDialogFragment(User friend) {
+        interaction.openChatDialogFragment(friend);
+    }
 
-
-    public void openFriendProfile(User user){
+    public void openFriendProfile(User user) {
         interaction.openProfileDialogFragment(user);
     }
 
@@ -217,16 +218,21 @@ public class ListFriendFragment extends BaseFragment implements ListFriendView,S
     //onBoomButton Click
     @Override
     public void onButtonClick(int index, BoomButton boomButton, int position) {
-        switch (index){
+        switch (index) {
             case 0: // index of button follow/unfollow
-                if (presenter != null){
-                  //boomButton.getTextView().setText("Huy theo doi");
+                if (presenter != null) {
+                    //boomButton.getTextView().setText("Huy theo doi");
                     presenter.onClickButtonFollow(users.get(position));
 
                 }
                 break;
+            case 2: // index of button chat
+                if (presenter != null) {
+                    presenter.onClickButtonChat(users.get(position));
+                }
+                break;
             case 3: // index of button see friend profile
-                if (presenter != null){
+                if (presenter != null) {
                     presenter.onClickButtonSeeProfile(users.get(position));
                 }
                 //Toast.makeText(getActivity(), "Friend Name = " + users.get(position).getName(), Toast.LENGTH_SHORT).show();
@@ -237,14 +243,16 @@ public class ListFriendFragment extends BaseFragment implements ListFriendView,S
     }
 
 
-
-    public void showMessage(int messageId){
-        Snackbar.make(getView(),messageId,2000).show();
+    public void showMessage(int messageId) {
+        Snackbar.make(getView(), messageId, 2000).show();
     }
 
 
     public interface InteractionWithListFriendFragment {
         void openAddFriendDialogFragment();
+
         void openProfileDialogFragment(User user);
+
+        void openChatDialogFragment(User friend);
     }
 }

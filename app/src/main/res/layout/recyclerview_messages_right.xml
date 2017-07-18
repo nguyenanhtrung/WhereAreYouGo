@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:emojicon="http://schemas.android.com/apk/res-auto">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/circle_image_friend"
+        android:layout_width="@dimen/width_circle_image"
+        android:layout_height="@dimen/height_circle_image"
+        android:layout_marginTop="4dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="8dp"
+        android:src="@drawable/ic_user_default"
+        />
+
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_toLeftOf="@id/circle_image_friend"
+        android:layout_toStartOf="@id/circle_image_friend"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/bubble_friend_background"
+        >
+
+
+
+        <hani.momanii.supernova_emoji_library.Helper.EmojiconTextView
+
+
+            android:id="@+id/text_user_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="2dp"
+            android:maxWidth="200dp"
+            emojicon:emojiconSize="16sp"
+            style="@style/TextChatMessage"
+            android:text="Hello Android"
+            />
+
+        <ImageView
+            android:id="@+id/image_user_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxWidth="200dp"
+            android:maxHeight="200dp"
+            android:contentDescription="@string/contentDescriptor"
+            android:src="@drawable/ic_user_default"
+            android:visibility="gone"
+            />
+
+
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/text_message_timestamp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="14-07-2017 9h36pm"
+        android:layout_below="@id/layout_message"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_toRightOf="@id/circle_image_friend"
+        android:layout_toEndOf="@id/circle_image_friend"
+        android:visibility="visible"
+        style="@style/TextTimeStamp"
+        />
+
+</RelativeLayout>

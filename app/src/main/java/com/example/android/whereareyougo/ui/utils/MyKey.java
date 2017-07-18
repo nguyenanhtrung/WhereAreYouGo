@@ -55,4 +55,7 @@ public class MyKey {
   public static final int DELETE_ALL = 348;
   public static final int DELETE_ONE = 34;
   public static final String SEARCH_VENUE_FRAGMENT_TAG = "searchvenuefragment";
+  public static final String CHAT_DIALOG_FRAGMENT_TAG = "chatdialogfragment";
+  public static final String TEXT_TYPE_MESSAGE = "text";
+  public static final String IMAGE_TYPE_MESSAGE = "image";
 }

@@ -204,4 +204,9 @@
   <string name="text_tab_request_follows">Theo dõi</string>
   <string name="text_unfollow">Huỷ theo dõi</string>
   <string name="text_already_follow">Bạn đã theo dõi rồi, không thể gửi yêu cầu theo dõi lần nữa!</string>
+  
+  <!-- Chat Fragment -->
+  <string name="text_hint_message">Nhập tin nhắn...</string>
+  <string name="text_loading_messages">Đang tải các tin nhắn...</string>
+  <string name="title_dialog_loading_messages">Danh sách các tin nhắn</string>
 </resources>

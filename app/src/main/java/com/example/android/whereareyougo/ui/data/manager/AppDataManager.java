@@ -2,7 +2,9 @@ package com.example.android.whereareyougo.ui.data.manager;
 
 import android.content.Context;
 
+import com.example.android.whereareyougo.ui.data.database.entity.ChatMessage;
 import com.example.android.whereareyougo.ui.data.database.entity.FavoriteVenue;
+import com.example.android.whereareyougo.ui.data.database.entity.MetaDataChats;
 import com.example.android.whereareyougo.ui.data.database.entity.RequestAddFriend;
 import com.example.android.whereareyougo.ui.data.database.entity.User;
 import com.example.android.whereareyougo.ui.data.database.model.DatabaseHelper;
@@ -197,6 +199,46 @@ public class AppDataManager implements DataManager{
   @Override
   public DatabaseReference getFriendsRefByFriendId(String friendId) {
     return databaseHelper.getFriendsRefByFriendId(friendId);
+  }
+
+  @Override
+  public DatabaseReference getChatsReference() {
+    return databaseHelper.getChatsReference();
+  }
+
+  @Override
+  public DatabaseReference getMessagesByConversationId(String conversationId) {
+    return databaseHelper.getMessagesByConversationId(conversationId);
+  }
+
+  @Override
+  public void createConversationId(String conversationId) {
+    databaseHelper.createConversationId(conversationId);
+  }
+
+  @Override
+  public Task<Void> sendChatMessage(ChatMessage message, String conversationId) {
+    return databaseHelper.sendChatMessage(message,conversationId);
+  }
+
+  @Override
+  public Task<Void> updateLastMessageConversation(MetaDataChats metaDataChats, String conversationId) {
+    return databaseHelper.updateLastMessageConversation(metaDataChats,conversationId);
+  }
+
+  @Override
+  public DatabaseReference getMessagesReferenceByConversationId(String conversationId) {
+    return databaseHelper.getMessagesReferenceByConversationId(conversationId);
+  }
+
+  @Override
+  public DatabaseReference getUserStatusRefById(String userId) {
+    return databaseHelper.getUserStatusRefById(userId);
+  }
+
+  @Override
+  public StorageReference getUserMessagePhotosReference() {
+    return databaseHelper.getUserMessagePhotosReference();
   }
 
 

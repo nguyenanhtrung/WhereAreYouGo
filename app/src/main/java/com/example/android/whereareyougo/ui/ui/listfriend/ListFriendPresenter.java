@@ -103,6 +103,11 @@ public class ListFriendPresenter<V extends ListFriendView> extends BasePresenter
 
     }
 
+    @Override
+    public void onClickButtonChat(User friend) {
+        getMvpView().openChatDialogFragment(friend);
+    }
+
     private void getListFriendByIds(List<Friend> friends) {
         if (friends != null && !friends.isEmpty()) {
             final ArrayList<User> users = new ArrayList<>();
