@@ -3,13 +3,11 @@ package com.example.android.whereareyougo.ui.ui.chat;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.LinearLayoutManager;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,9 +17,6 @@ import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.SimpleTarget;
 import com.example.android.whereareyougo.R;
 import com.example.android.whereareyougo.ui.data.database.entity.ChatMessage;
 import com.example.android.whereareyougo.ui.data.database.entity.User;
@@ -32,7 +27,6 @@ import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
-import com.rengwuxian.materialedittext.MaterialEditText;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
 import com.zhihu.matisse.engine.impl.GlideEngine;
@@ -55,7 +49,7 @@ import static android.app.Activity.RESULT_OK;
  * Created by nguyenanhtrung on 16/07/2017.
  */
 
-public class ChatDialogFragment extends DialogFragment implements ChatDialogView,View.OnClickListener {
+public class ChatDialogFragment extends DialogFragment implements ChatDialogView, View.OnClickListener {
     @Inject
     ChatDialogMvpPresenter<ChatDialogView> presenter;
     @BindView(R.id.image_user_statsus)
@@ -74,6 +68,8 @@ public class ChatDialogFragment extends DialogFragment implements ChatDialogView
     ImageButton buttonSendMessage;
     EmojIconActions emojIcon;
     Unbinder unbinder;
+    @BindView(R.id.image_button_close)
+    ImageButton imageButtonClose;
     private InteractionWithChatDialogFragment interaction;
     private User friend;
     private ChatMessagesAdapter adapter;
@@ -83,11 +79,10 @@ public class ChatDialogFragment extends DialogFragment implements ChatDialogView
     private ChildEventListener childEventListener;
 
 
-
-    public static ChatDialogFragment newInstance(User friend){
+    public static ChatDialogFragment newInstance(User friend) {
         ChatDialogFragment fragment = new ChatDialogFragment();
         Bundle bundle = new Bundle();
-        bundle.putParcelable("friend",friend);
+        bundle.putParcelable("friend", friend);
 
         fragment.setArguments(bundle);
 
@@ -99,15 +94,12 @@ public class ChatDialogFragment extends DialogFragment implements ChatDialogView
         super.onCreate(savedInstanceState);
         //
         Bundle bundle = getArguments();
-        if(bundle != null){
+        if (bundle != null) {
             friend = bundle.getParcelable("friend");
             conversationId = presenter.getConversationId(friend.getUserID());
         }
 
     }
-
-
-
 
 
     @Nullable
@@ -120,7 +112,7 @@ public class ChatDialogFragment extends DialogFragment implements ChatDialogView
         //
         setupConversationRecyclerView();
         textFriendName.setText(friend.getName());
-        showLoadingDialog(R.string.title_dialog_loading_messages,R.string.text_loading_messages);
+        showLoadingDialog(R.string.title_dialog_loading_messages, R.string.text_loading_messages);
         presenter.createConversationId(conversationId);
         presenter.updateFriendStatus(friend.getUserID());
         //
@@ -130,7 +122,7 @@ public class ChatDialogFragment extends DialogFragment implements ChatDialogView
     }
 
     private void iniUiComponents(View view) {
-        emojIcon = new EmojIconActions(getActivity(),view.findViewById(R.id.root_view),textInputMessage,buttonSelectEmoj);
+        emojIcon = new EmojIconActions(getActivity(), view.findViewById(R.id.root_view), textInputMessage, buttonSelectEmoj);
     }
 
     @Override
@@ -165,12 +157,12 @@ public class ChatDialogFragment extends DialogFragment implements ChatDialogView
 
             }
         };
-        presenter.setMessagesReferenceChildEvent(childEventListener,conversationId);
+        presenter.setMessagesReferenceChildEvent(childEventListener, conversationId);
 
 
     }
 
-    public void showEmojKeyboard(){
+    public void showEmojKeyboard() {
         emojIcon.ShowEmojIcon();
     }
 
@@ -178,9 +170,10 @@ public class ChatDialogFragment extends DialogFragment implements ChatDialogView
         buttonSelectEmoj.setOnClickListener(this);
         buttonSelectPhoto.setOnClickListener(this);
         buttonSendMessage.setOnClickListener(this);
+        imageButtonClose.setOnClickListener(this);
     }
 
-    public void pickImageFromGallery(){
+    public void pickImageFromGallery() {
         Matisse.from(this)
                 .choose(MimeType.allOf())
                 .countable(true)
@@ -195,15 +188,15 @@ public class ChatDialogFragment extends DialogFragment implements ChatDialogView
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == MyKey.REQUEST_CODE_PICK_IMAGE && resultCode == RESULT_OK){
+        if (requestCode == MyKey.REQUEST_CODE_PICK_IMAGE && resultCode == RESULT_OK) {
             List<Uri> path = Matisse.obtainResult(data);
-            if (!path.isEmpty()|| path != null){
+            if (!path.isEmpty() || path != null) {
                 //get path image and upload to firebase storage
                 Uri imageUri = path.get(0);
 
                 //create chat message object and send message to firebase database
-                if (presenter != null){
-                    presenter.sendMessagePhoto(imageUri.toString(),imageUri.getLastPathSegment(),conversationId);
+                if (presenter != null) {
+                    presenter.sendMessagePhoto(imageUri.toString(), imageUri.getLastPathSegment(), conversationId);
                 }
             }
 
@@ -217,11 +210,11 @@ public class ChatDialogFragment extends DialogFragment implements ChatDialogView
 
     }
 
-    public void setupDatasForConvesationAdapter(ArrayList<ChatMessage> datas){
+    public void setupDatasForConvesationAdapter(ArrayList<ChatMessage> datas) {
         chatMessages = datas;
 
         //
-        adapter = new ChatMessagesAdapter(getActivity(),getCurrentUserId(),chatMessages);
+        adapter = new ChatMessagesAdapter(getActivity(), getCurrentUserId(), chatMessages);
         recyclerviewConversation.setAdapter(adapter);
     }
 
@@ -229,17 +222,17 @@ public class ChatDialogFragment extends DialogFragment implements ChatDialogView
         return conversationId;
     }
 
-    public void addChatMessagesToAdapter(ChatMessage chatMessage){
+    public void addChatMessagesToAdapter(ChatMessage chatMessage) {
         adapter.addItem(chatMessage);
     }
 
 
-    public void setImageUserStatsus(String status){
-        if (status.equals("ONLINE")){
+    public void setImageUserStatsus(String status) {
+        if (status.equals("ONLINE")) {
             Glide.with(getActivity())
-                 .load(R.drawable.ic_online)
-                 .into(imageUserStatsus);
-        }else if(status.equals("OFFLINE")){
+                    .load(R.drawable.ic_online)
+                    .into(imageUserStatsus);
+        } else if (status.equals("OFFLINE")) {
             Glide.with(getActivity())
                     .load(R.drawable.ic_offline)
                     .into(imageUserStatsus);
@@ -265,7 +258,6 @@ public class ChatDialogFragment extends DialogFragment implements ChatDialogView
         setSizeOfDialog();
 
 
-
     }
 
     @Override
@@ -280,8 +272,8 @@ public class ChatDialogFragment extends DialogFragment implements ChatDialogView
 
     }
 
-    public void dismissLoadingDialog(){
-        if (loadingDialog.isShowing()){
+    public void dismissLoadingDialog() {
+        if (loadingDialog.isShowing()) {
             loadingDialog.dismiss();
         }
     }
@@ -316,23 +308,23 @@ public class ChatDialogFragment extends DialogFragment implements ChatDialogView
 
     }
 
-    public void setTextInputMessage(String content){
+    public void setTextInputMessage(String content) {
         textInputMessage.setText(content);
     }
 
-    public String getCurrentUserId(){
-        return  interaction.getCurrentUserId();
+    public String getCurrentUserId() {
+        return interaction.getCurrentUserId();
     }
 
-    public String getCurrentUserImageUrl(){
+    public String getCurrentUserImageUrl() {
         return interaction.getCurrentUserImageUrl();
     }
 
-    public String getFriendId(){
+    public String getFriendId() {
         return friend.getUserID();
     }
 
-    public String getFriendImageUrl(){
+    public String getFriendImageUrl() {
         return friend.getImageUrl();
     }
 
@@ -343,7 +335,7 @@ public class ChatDialogFragment extends DialogFragment implements ChatDialogView
     }
 
     public void showLoadingDialog(int titleId, int contentId) {
-        loadingDialog =  new MaterialDialog.Builder(getActivity())
+        loadingDialog = new MaterialDialog.Builder(getActivity())
                 .title(titleId)
                 .content(contentId)
                 .progress(true, 3)
@@ -352,32 +344,42 @@ public class ChatDialogFragment extends DialogFragment implements ChatDialogView
 
     }
 
+    public void dismissChatDialog(){
+        dismiss();
+    }
 
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.button_select_emoj:
-                if (presenter != null){
+                if (presenter != null) {
                     presenter.onClickButtonSelectEmoj();
                 }
                 break;
             case R.id.button_select_photo:
-                if (presenter != null){
+                if (presenter != null) {
                     presenter.onClickButtonSelectPhoto();
                 }
                 break;
             case R.id.button_send_message:
-                if (presenter != null){
+                if (presenter != null) {
                     presenter.onClickButtonSendMessage(textInputMessage.getText().toString());
+                }
+                break;
+            case R.id.image_button_close:
+                if (presenter != null){
+                    presenter.onClickButtonCloseChatDialog();
                 }
                 break;
         }
     }
 
-    public interface InteractionWithChatDialogFragment{
+    public interface InteractionWithChatDialogFragment {
         ActivityComponent getActivityComponent();
+
         String getCurrentUserId();
+
         String getCurrentUserImageUrl();
     }
 }

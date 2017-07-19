@@ -101,7 +101,7 @@ public class ChatDialogPresenter<V extends ChatDialogView> extends BasePresenter
         return newMessage;
     }
 
-    private void sendMessage(ChatMessage message, String conversationId) {
+    private void sendMessage(final ChatMessage message, final String conversationId) {
         //send message to firebase database
         getDataManager().sendChatMessage(message, conversationId)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -113,9 +113,9 @@ public class ChatDialogPresenter<V extends ChatDialogView> extends BasePresenter
                             //show message send message successful
 
                             //update last message of conversation
-
+                            updateLastMessageOfConversation(conversationId, message);
                         } else {
-                            //show message send message have some problem
+                            //show message: send message have some problem
                         }
                     }
                 });
@@ -131,11 +131,11 @@ public class ChatDialogPresenter<V extends ChatDialogView> extends BasePresenter
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                             //get photoUri and send message to firebase database
-                            @SuppressWarnings("VisibleForTests")String photoUri = Commons.convertUriToString(taskSnapshot.getDownloadUrl());
-                            if (photoUri != null){
-                                ChatMessage chatMessage = createNewMessage(photoUri,MyKey.IMAGE_TYPE_MESSAGE,getMvpView().getCurrentUserId());
+                            @SuppressWarnings("VisibleForTests") String photoUri = Commons.convertUriToString(taskSnapshot.getDownloadUrl());
+                            if (photoUri != null) {
+                                ChatMessage chatMessage = createNewMessage(photoUri, MyKey.IMAGE_TYPE_MESSAGE, getMvpView().getCurrentUserId());
                                 //send to firebase database
-                                sendMessage(chatMessage,conversationId);
+                                sendMessage(chatMessage, conversationId);
                             }
                         }
                     });
@@ -223,6 +223,10 @@ public class ChatDialogPresenter<V extends ChatDialogView> extends BasePresenter
 
     public void onClickButtonSelectEmoj() {
         getMvpView().showEmojKeyboard();
+    }
+
+    public void onClickButtonCloseChatDialog(){
+        getMvpView().dismissChatDialog();
     }
 
 }

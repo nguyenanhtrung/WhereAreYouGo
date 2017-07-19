@@ -28,4 +28,6 @@ public interface ChatDialogMvpPresenter<V extends ChatDialogView> extends MvpPre
     void onClickButtonSelectPhoto();
 
     void sendMessagePhoto(String photoUri, String photoName, final String conversationId);
+
+    void onClickButtonCloseChatDialog();
 }

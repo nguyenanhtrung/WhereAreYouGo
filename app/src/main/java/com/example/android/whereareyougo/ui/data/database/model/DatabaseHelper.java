@@ -97,4 +97,6 @@ public interface DatabaseHelper {
   DatabaseReference getUserStatusRefById(String userId);
 
   StorageReference getUserMessagePhotosReference();
+
+  DatabaseReference getMembersReference();
 }

@@ -1,16 +1,21 @@
 package com.example.android.whereareyougo.ui.ui.listfriend;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.example.android.whereareyougo.R;
 import com.example.android.whereareyougo.ui.data.database.entity.Friend;
 import com.example.android.whereareyougo.ui.data.database.entity.User;
 import com.example.android.whereareyougo.ui.data.manager.DataManager;
 import com.example.android.whereareyougo.ui.ui.base.BasePresenter;
+import com.example.android.whereareyougo.ui.utils.MyKey;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -99,8 +104,12 @@ public class ListFriendPresenter<V extends ListFriendView> extends BasePresenter
 
             }
         });
+    }
 
-
+    public void onClickButtonUnfriend(String friendId, String currentUserId){
+        //test showing dialog
+        getMvpView().showAskUnfriendDialog();
+        System.out.println("CURRENT USER ID = " + currentUserId);
     }
 
     @Override
@@ -131,6 +140,26 @@ public class ListFriendPresenter<V extends ListFriendView> extends BasePresenter
                         });
             }
         }
+    }
+
+    //test memebers reference
+    public void getConversationIdsByMembersRef(String userId){
+        DatabaseReference membersRef = getDataManager().getMembersReference();
+        membersRef.orderByChild("userId").equalTo(userId)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+                            String myKey = snapshot.getKey();
+                            Log.d(MyKey.LIST_FRIEND_FRAGMENT_TAG, "My key = " + myKey);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
     }
 
 }

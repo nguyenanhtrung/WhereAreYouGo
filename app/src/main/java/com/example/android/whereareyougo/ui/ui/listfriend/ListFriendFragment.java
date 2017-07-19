@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
@@ -14,6 +15,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.android.whereareyougo.R;
 import com.example.android.whereareyougo.ui.data.database.entity.Friend;
 import com.example.android.whereareyougo.ui.data.database.entity.User;
@@ -84,6 +87,8 @@ public class ListFriendFragment extends BaseFragment implements ListFriendView, 
         if (presenter != null) {
             presenter.getUserListFriend();
         }
+
+        presenter.getConversationIdsByMembersRef(interaction.getCurrentUserId());
         return view;
     }
 
@@ -205,6 +210,29 @@ public class ListFriendFragment extends BaseFragment implements ListFriendView, 
         return true;
     }
 
+    public void showAskUnfriendDialog() {
+        new MaterialDialog.Builder(getActivity())
+                .title(R.string.title_ask_unfriend_dialog)
+                .content(R.string.content_ask_unfriend_dialog)
+                .positiveText(R.string.text_agree)
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        //if user click, then delete friend by friend id, delelete all messages between user and friend,
+                        //delete all last message
+                        //
+                    }
+                })
+                .negativeText(R.string.text_disagree)
+                .onNegative(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+
+                    }
+                })
+                .show();
+    }
+
 
     public void openChatDialogFragment(User friend) {
         interaction.openChatDialogFragment(friend);
@@ -224,6 +252,11 @@ public class ListFriendFragment extends BaseFragment implements ListFriendView, 
                     //boomButton.getTextView().setText("Huy theo doi");
                     presenter.onClickButtonFollow(users.get(position));
 
+                }
+                break;
+            case 1: //index of button unfriend
+                if (presenter != null) {
+                    presenter.onClickButtonUnfriend(users.get(position).getUserID(),interaction.getCurrentUserId());
                 }
                 break;
             case 2: // index of button chat
@@ -254,5 +287,7 @@ public class ListFriendFragment extends BaseFragment implements ListFriendView, 
         void openProfileDialogFragment(User user);
 
         void openChatDialogFragment(User friend);
+
+        String getCurrentUserId();
     }
 }

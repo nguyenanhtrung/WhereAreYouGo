@@ -17,4 +17,8 @@ public interface ListFriendMvpPresenter<V extends ListFriendView> extends MvpPre
     void onClickButtonFollow(User user);
 
     void onClickButtonChat(User friend);
+
+    void onClickButtonUnfriend(String friendId, String currentUserId);
+
+    void getConversationIdsByMembersRef(String userId);
 }

@@ -126,6 +126,8 @@
 
   <!-- Fragment Friends -->
   <string name="text_display_mode">Hiển thị danh sách</string>số
+  <string name="title_ask_unfriend_dialog">Huỷ kết bạn?</string>
+  <string name="content_ask_unfriend_dialog">Chú ý: Huỷ kết bạn sẽ xoá bỏ tất cả tin nhắn giữa hai bạn!</string>
 
   <!-- Fragment Profile Dialog -->
   <string name="title_profile_dialog">Thông tin</string>

@@ -37,4 +37,6 @@ public interface ChatDialogView extends MvpView {
     void pickImageFromGallery();
 
     void setTextInputMessage(String content);
+
+    void dismissChatDialog();
 }

@@ -208,6 +208,10 @@ public class AppDatabaseHelper implements DatabaseHelper {
         return messagesRef.push().setValue(message);
     }
 
+    public DatabaseReference getMembersReference(){
+        return databaseReference.getRef().child("members");
+    }
+
     public Task<Void> updateLastMessageConversation(MetaDataChats metaDataChats, String conversationId){
         DatabaseReference chatsRef = databaseReference.getRef()
                 .child("chats")

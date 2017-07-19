@@ -241,6 +241,11 @@ public class AppDataManager implements DataManager{
     return databaseHelper.getUserMessagePhotosReference();
   }
 
+  @Override
+  public DatabaseReference getMembersReference() {
+    return databaseHelper.getMembersReference();
+  }
+
 
   @Override
   public void saveUserEmail(String email) {
