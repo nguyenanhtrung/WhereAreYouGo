@@ -142,6 +142,7 @@ public class ListFriendPresenter<V extends ListFriendView> extends BasePresenter
         }
     }
 
+    /*
     //test memebers reference
     public void getConversationIdsByMembersRef(String userId){
         DatabaseReference membersRef = getDataManager().getMembersReference();
@@ -160,6 +161,6 @@ public class ListFriendPresenter<V extends ListFriendView> extends BasePresenter
 
                     }
                 });
-    }
+    }*/
 
 }

@@ -88,7 +88,7 @@ public class ListFriendFragment extends BaseFragment implements ListFriendView, 
             presenter.getUserListFriend();
         }
 
-        presenter.getConversationIdsByMembersRef(interaction.getCurrentUserId());
+
         return view;
     }
 
@@ -128,8 +128,8 @@ public class ListFriendFragment extends BaseFragment implements ListFriendView, 
 
 
         recyclerViewFriends.addItemDecoration(new GridDividerItemDecoration(8, 2));
-
         recyclerViewFriends.showEmptyView();
+
 
 
         //setupFriendsRecyclerViewAdapter();

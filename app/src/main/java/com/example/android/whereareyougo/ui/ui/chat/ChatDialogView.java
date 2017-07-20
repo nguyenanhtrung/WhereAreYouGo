@@ -39,4 +39,6 @@ public interface ChatDialogView extends MvpView {
     void setTextInputMessage(String content);
 
     void dismissChatDialog();
+
+    void removeChildEventListener();
 }

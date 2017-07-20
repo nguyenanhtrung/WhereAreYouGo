@@ -2,18 +2,21 @@ package com.example.android.whereareyougo.ui.ui.chat;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.LinearLayoutManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.bumptech.glide.Glide;
@@ -97,6 +100,7 @@ public class ChatDialogFragment extends DialogFragment implements ChatDialogView
         if (bundle != null) {
             friend = bundle.getParcelable("friend");
             conversationId = presenter.getConversationId(friend.getUserID());
+            presenter.createConversationId(conversationId);
         }
 
     }
@@ -112,10 +116,11 @@ public class ChatDialogFragment extends DialogFragment implements ChatDialogView
         //
         setupConversationRecyclerView();
         textFriendName.setText(friend.getName());
-        showLoadingDialog(R.string.title_dialog_loading_messages, R.string.text_loading_messages);
-        presenter.createConversationId(conversationId);
+       // presenter.createConversationId(conversationId);
         presenter.updateFriendStatus(friend.getUserID());
         //
+        showLoadingDialog(R.string.title_dialog_loading_messages, R.string.text_loading_messages);
+
 
 
         return view;
@@ -129,35 +134,7 @@ public class ChatDialogFragment extends DialogFragment implements ChatDialogView
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initUiEvents();
-        childEventListener = new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                ChatMessage chatMessage = dataSnapshot.getValue(ChatMessage.class);
-                presenter.onMessagesRefChildEvent(chatMessage);
 
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        };
-        presenter.setMessagesReferenceChildEvent(childEventListener, conversationId);
 
 
     }
@@ -203,9 +180,21 @@ public class ChatDialogFragment extends DialogFragment implements ChatDialogView
         }
     }
 
+    public void removeChildEventListener(){
+        presenter.removeChilEventOnMessagesRef(childEventListener);
+    }
+
     private void setupConversationRecyclerView() {
         recyclerviewConversation.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerviewConversation.showEmptyView();
+        recyclerviewConversation.setLoadMoreView(R.layout.recyclerview_load_more);
+        recyclerviewConversation.setOnLoadMoreListener(new UltimateRecyclerView.OnLoadMoreListener() {
+            @Override
+            public void loadMore(int itemsCount, int maxLastVisiblePosition) {
+
+            }
+        });
+        setupDatasForConvesationAdapter(new ArrayList<ChatMessage>());
         //
 
     }
@@ -223,7 +212,15 @@ public class ChatDialogFragment extends DialogFragment implements ChatDialogView
     }
 
     public void addChatMessagesToAdapter(ChatMessage chatMessage) {
-        adapter.addItem(chatMessage);
+        if (adapter == null){
+            adapter = new ChatMessagesAdapter(getActivity(),getCurrentUserId(),new ArrayList<ChatMessage>());
+        }else{
+            if (chatMessages == null){
+                chatMessages = new ArrayList<>();
+            }
+            chatMessages.add(chatMessage);
+            adapter.notifyDataSetChanged();
+        }
     }
 
 
@@ -257,14 +254,45 @@ public class ChatDialogFragment extends DialogFragment implements ChatDialogView
         super.onResume();
         setSizeOfDialog();
 
+        //
+        childEventListener = new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                ChatMessage chatMessage = dataSnapshot.getValue(ChatMessage.class);
+                presenter.onMessagesRefChildEvent(chatMessage);
+                //
+
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        };
+        presenter.setMessagesReferenceChildEvent(childEventListener,conversationId);
 
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        presenter.removeChilEventOnMessagesRef(childEventListener);
-        presenter.onDetach();
+
+
     }
 
     @Override
@@ -335,7 +363,7 @@ public class ChatDialogFragment extends DialogFragment implements ChatDialogView
     }
 
     public void showLoadingDialog(int titleId, int contentId) {
-        loadingDialog = new MaterialDialog.Builder(getActivity())
+        loadingDialog = new MaterialDialog.Builder(getContext())
                 .title(titleId)
                 .content(contentId)
                 .progress(true, 3)
@@ -345,9 +373,14 @@ public class ChatDialogFragment extends DialogFragment implements ChatDialogView
     }
 
     public void dismissChatDialog(){
-        dismiss();
+        dismissAllowingStateLoss();
     }
 
+    @Override
+    public void onDismiss(DialogInterface dialog) {
+        super.onDismiss(dialog);
+        dialog.cancel();
+    }
 
     @Override
     public void onClick(View v) {

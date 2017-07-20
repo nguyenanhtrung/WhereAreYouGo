@@ -186,12 +186,7 @@ public class ChatDialogPresenter<V extends ChatDialogView> extends BasePresenter
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         boolean isConversationIdExists = dataSnapshot.hasChild(conversationId);
-                        if (isConversationIdExists) {
-                            //if conversation id exists, set conversationId and get List Messages From Database
-                            //check if list messages empty or not
-                            getMvpView().setupDatasForConvesationAdapter(new ArrayList<ChatMessage>());
-
-                        } else {
+                         if (!isConversationIdExists){
                             //create new conversation id between user and friend
                             // String conversationId = getConversationId(f)
                             getDataManager().createConversationId(conversationId);
@@ -210,6 +205,8 @@ public class ChatDialogPresenter<V extends ChatDialogView> extends BasePresenter
                 });
     }
 
+
+
     public String getConversationId(String friendId) {
         String userId = getMvpView().getCurrentUserId();
         //create conversationId between user and friend
@@ -227,6 +224,10 @@ public class ChatDialogPresenter<V extends ChatDialogView> extends BasePresenter
 
     public void onClickButtonCloseChatDialog(){
         getMvpView().dismissChatDialog();
+        if (messagesRef != null){
+           getMvpView().removeChildEventListener();
+           messagesRef = null;
+        }
     }
 
 }
