@@ -40,13 +40,20 @@ public class NotificationsFragment extends BaseFragment implements Notifications
     private NotificationsFragmentPagerAdapter pagerAdapter;
     private ArrayList<User> userRequests;
     private ArrayList<User> requestFollows;
+    private int messageBadge;
+    private int requestAddFriendBadge;
+    private int requestFollowBadge;
     Unbinder unbinder;
 
-    public static NotificationsFragment newInstance(ArrayList<User> userRequests, ArrayList<User> requestFollows){
+    public static NotificationsFragment newInstance(ArrayList<User> userRequests, ArrayList<User> requestFollows,
+                                                    int messageBadge, int requestAddFriendBadge, int requestFollowBadge) {
         NotificationsFragment fragment = new NotificationsFragment();
         Bundle bundle = new Bundle();
-        bundle.putParcelableArrayList("requestaddfriend",userRequests);
-        bundle.putParcelableArrayList("requestfollow",requestFollows);
+        bundle.putParcelableArrayList("requestaddfriend", userRequests);
+        bundle.putParcelableArrayList("requestfollow", requestFollows);
+        bundle.putInt("messagebadge", messageBadge);
+        bundle.putInt("requestaddfriendbadge", requestAddFriendBadge);
+        bundle.putInt("requestfollowbadge", requestAddFriendBadge);
 
         fragment.setArguments(bundle);
 
@@ -60,13 +67,13 @@ public class NotificationsFragment extends BaseFragment implements Notifications
         unbinder = ButterKnife.bind(this, view);
 
         Bundle bundle = getArguments();
-        if (bundle != null){
+        if (bundle != null) {
             userRequests = bundle.getParcelableArrayList("requestaddfriend");
             requestFollows = bundle.getParcelableArrayList("requestfollow");
+            messageBadge = bundle.getInt("messagebadge");
+            requestFollowBadge = bundle.getInt("requestfollowbadge");
+            requestAddFriendBadge = bundle.getInt("requestaddfriendbadge");
         }
-
-
-
 
 
         return view;
@@ -84,11 +91,30 @@ public class NotificationsFragment extends BaseFragment implements Notifications
         setupViewPager();
     }
 
-    private void setupViewPager(){
-        pagerAdapter = new NotificationsFragmentPagerAdapter(getFragmentManager(),getActivity(),userRequests,requestFollows);
+    private void setupViewPager() {
+        pagerAdapter = new NotificationsFragmentPagerAdapter(getFragmentManager(), getActivity(), userRequests, requestFollows);
         viewPager.setAdapter(pagerAdapter);
         viewPager.setCurrentItem(0);
         tabLayout.setupWithViewPager(viewPager);
+        setupTabCustomView();
+    }
+
+    private void setupTabCustomView() {
+        if (tabLayout != null) {
+            for (int i = 0; i < tabLayout.getTabCount(); i++) {
+                TabLayout.Tab tab = tabLayout.getTabAt(i);
+                if (i == 0) {
+                    tab.setCustomView(pagerAdapter.getTabView(i, requestAddFriendBadge));
+                } else if (i == 1) {
+                    tab.setCustomView(pagerAdapter.getTabView(i, messageBadge));
+                } else if (i == 2) {
+                    //notify fragment
+                } else if (i == 3) {
+                    tab.setCustomView(pagerAdapter.getTabView(i, requestFollowBadge));
+                }
+
+            }
+        }
     }
 
     @Override

@@ -246,6 +246,16 @@ public class AppDataManager implements DataManager{
     return databaseHelper.getMembersReference();
   }
 
+  @Override
+  public void sendMessageNotification(String conversationId, String friendId) {
+    databaseHelper.sendMessageNotification(conversationId,friendId);
+  }
+
+  @Override
+  public DatabaseReference getMessageNotificationRef() {
+    return databaseHelper.getMessageNotificationRef();
+  }
+
 
   @Override
   public void saveUserEmail(String email) {

@@ -116,11 +116,10 @@ public class ChatDialogFragment extends DialogFragment implements ChatDialogView
         //
         setupConversationRecyclerView();
         textFriendName.setText(friend.getName());
-       // presenter.createConversationId(conversationId);
+        // presenter.createConversationId(conversationId);
         presenter.updateFriendStatus(friend.getUserID());
         //
         showLoadingDialog(R.string.title_dialog_loading_messages, R.string.text_loading_messages);
-
 
 
         return view;
@@ -134,7 +133,6 @@ public class ChatDialogFragment extends DialogFragment implements ChatDialogView
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initUiEvents();
-
 
 
     }
@@ -180,20 +178,14 @@ public class ChatDialogFragment extends DialogFragment implements ChatDialogView
         }
     }
 
-    public void removeChildEventListener(){
+    public void removeChildEventListener() {
         presenter.removeChilEventOnMessagesRef(childEventListener);
     }
 
     private void setupConversationRecyclerView() {
         recyclerviewConversation.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerviewConversation.showEmptyView();
-        recyclerviewConversation.setLoadMoreView(R.layout.recyclerview_load_more);
-        recyclerviewConversation.setOnLoadMoreListener(new UltimateRecyclerView.OnLoadMoreListener() {
-            @Override
-            public void loadMore(int itemsCount, int maxLastVisiblePosition) {
 
-            }
-        });
         setupDatasForConvesationAdapter(new ArrayList<ChatMessage>());
         //
 
@@ -212,15 +204,8 @@ public class ChatDialogFragment extends DialogFragment implements ChatDialogView
     }
 
     public void addChatMessagesToAdapter(ChatMessage chatMessage) {
-        if (adapter == null){
-            adapter = new ChatMessagesAdapter(getActivity(),getCurrentUserId(),new ArrayList<ChatMessage>());
-        }else{
-            if (chatMessages == null){
-                chatMessages = new ArrayList<>();
-            }
-            chatMessages.add(chatMessage);
-            adapter.notifyDataSetChanged();
-        }
+        adapter.addItem(chatMessage);
+
     }
 
 
@@ -284,7 +269,7 @@ public class ChatDialogFragment extends DialogFragment implements ChatDialogView
 
             }
         };
-        presenter.setMessagesReferenceChildEvent(childEventListener,conversationId);
+        presenter.setMessagesReferenceChildEvent(childEventListener, conversationId);
 
     }
 
@@ -372,7 +357,7 @@ public class ChatDialogFragment extends DialogFragment implements ChatDialogView
 
     }
 
-    public void dismissChatDialog(){
+    public void dismissChatDialog() {
         dismissAllowingStateLoss();
     }
 
@@ -401,7 +386,7 @@ public class ChatDialogFragment extends DialogFragment implements ChatDialogView
                 }
                 break;
             case R.id.image_button_close:
-                if (presenter != null){
+                if (presenter != null) {
                     presenter.onClickButtonCloseChatDialog();
                 }
                 break;

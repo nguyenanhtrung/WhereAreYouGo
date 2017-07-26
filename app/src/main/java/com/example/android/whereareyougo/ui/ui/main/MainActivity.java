@@ -86,14 +86,12 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
   private ArrayList<User> userRequests;
   private ArrayList<User> requestFollows;
   private int badgeNotification = 0;
+  private int requestFollowBadge;
+  private int requestAddFriendBadge;
+  private int messagesBadge;
 
-  public ArrayList<User> getRequestFollows() {
-    return requestFollows;
-  }
 
-  public void setRequestFollows(ArrayList<User> requestFollows) {
-    this.requestFollows = requestFollows;
-  }
+
 
 
 
@@ -117,6 +115,7 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
     mainMvpPresenter.updateUserInfo();
     mainMvpPresenter.updateListRequestAddFriend();
     mainMvpPresenter.updateListRequestFollow();
+    mainMvpPresenter.updateMessageNotification();
   }
 
 
@@ -124,6 +123,22 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
   protected void onResume() {
     super.onResume();
     mainMvpPresenter.updaterUserStatus();
+  }
+
+  public void setRequestFollowBadge(int requestFollowBadge) {
+    this.requestFollowBadge = requestFollowBadge;
+  }
+
+  public void setRequestAddFriendBadge(int requestAddFriendBadge) {
+    this.requestAddFriendBadge = requestAddFriendBadge;
+  }
+
+  public void setMessagesBadge(int messagesBadge) {
+    this.messagesBadge = messagesBadge;
+  }
+
+  public void setRequestFollows(ArrayList<User> requestFollows) {
+    this.requestFollows = requestFollows;
   }
 
   public void updateBadgeNotification(int badge){
@@ -410,7 +425,8 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
   }
 
   public void openNotificationsFragment(){
-    NotificationsFragment fragment = NotificationsFragment.newInstance(userRequests,requestFollows);
+    NotificationsFragment fragment = NotificationsFragment.newInstance(userRequests,requestFollows
+                    ,messagesBadge,requestAddFriendBadge,requestFollowBadge);
     replaceFragment(fragment,MyKey.NOTIFICATIONS_FRAGMENT_TAG);
   }
 

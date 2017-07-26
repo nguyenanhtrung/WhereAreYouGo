@@ -26,4 +26,6 @@ public interface MainMvpPresenter<V extends MainView> extends MvpPresenter<V> {
   void onSelectSearchVenueTab();
 
   void updateListRequestFollow();
+
+  void updateMessageNotification();
 }

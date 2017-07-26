@@ -114,6 +114,8 @@ public class ChatDialogPresenter<V extends ChatDialogView> extends BasePresenter
 
                             //update last message of conversation
                             updateLastMessageOfConversation(conversationId, message);
+                            //send message notification include: conversationId, friendId, senderId to Firebase database
+                            getDataManager().sendMessageNotification(conversationId,getMvpView().getFriendId());
                         } else {
                             //show message: send message have some problem
                         }

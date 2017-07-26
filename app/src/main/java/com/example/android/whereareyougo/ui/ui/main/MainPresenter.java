@@ -77,6 +77,8 @@ public class MainPresenter<V extends MainView> extends BasePresenter<V> implemen
                             final ArrayList<User> requestFollows = new ArrayList<>();
                             final int count = (int) dataSnapshot.getChildrenCount();
                             getMvpView().updateBadgeNotification(count);
+                            getMvpView().setRequestFollowBadge(count);
+
                             //
                             for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                                 RequestFollow request = snapshot.getValue(RequestFollow.class);
@@ -109,6 +111,38 @@ public class MainPresenter<V extends MainView> extends BasePresenter<V> implemen
                 });
     }
 
+    public void updateMessageNotification(){
+        getDataManager().getMessageNotificationRef()
+                .addChildEventListener(new ChildEventListener() {
+                    @Override
+                    public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                        int badgeNumber = 1;
+                        getMvpView().setMessagesBadge(badgeNumber);
+                        getMvpView().updateBadgeNotification(badgeNumber);
+                    }
+
+                    @Override
+                    public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                    }
+
+                    @Override
+                    public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+                    }
+
+                    @Override
+                    public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+    }
+
 
     public void updateListRequestAddFriend() {
         getDataManager().getListRequestAddFriend()
@@ -117,7 +151,10 @@ public class MainPresenter<V extends MainView> extends BasePresenter<V> implemen
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         if (dataSnapshot != null) {
                             final ArrayList<User> userRequests = new ArrayList<>();
-                            final long count = dataSnapshot.getChildrenCount();
+                            final int count = (int) dataSnapshot.getChildrenCount();
+                            getMvpView().updateBadgeNotification(count);
+                            getMvpView().setRequestAddFriendBadge(count);
+
                             for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                                 RequestAddFriend request = snapshot.getValue(RequestAddFriend.class);
                                 //
@@ -130,7 +167,7 @@ public class MainPresenter<V extends MainView> extends BasePresenter<V> implemen
                                                     userRequests.add(user);
                                                     if (userRequests.size() == count) {
                                                         getMvpView().setRequestAddFriends(userRequests);
-                                                        getMvpView().updateBadgeNotification(userRequests.size());
+
                                                     }
                                                 }
                                             }

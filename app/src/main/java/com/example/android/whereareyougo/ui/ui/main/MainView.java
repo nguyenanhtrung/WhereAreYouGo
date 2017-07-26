@@ -37,4 +37,10 @@ public interface MainView extends MvpView {
   void openSearchVenueFragment();
 
   void setRequestFollows(ArrayList<User> requestFollows);
+
+  void setRequestFollowBadge(int requestFollowBadge);
+
+  void setRequestAddFriendBadge(int requestAddFriendBadge);
+
+  void setMessagesBadge(int messagesBadge);
 }

@@ -234,6 +234,25 @@ public class AppDatabaseHelper implements DatabaseHelper {
         chatsRef.child(conversationId).setValue(metaDataChats);
     }
 
+    public void sendMessageNotification(String conversationId, String friendId){
+        String userId = firebaseAuth.getCurrentUser().getUid();
+        if (userId != null){
+            DatabaseReference messageNotificationRef = databaseReference.getRef()
+                    .child("messagenotification")
+                    .child(friendId)
+                    .child(conversationId);
+            messageNotificationRef.setValue(userId);
+        }
+    }
+
+    public DatabaseReference getMessageNotificationRef(){
+        String userId = firebaseAuth.getCurrentUser().getUid();
+        if (userId != null){
+            return databaseReference.getRef().child("messagenotification").child(userId);
+        }
+        return null;
+    }
+
     public DatabaseReference getMessagesByConversationId(String conversationId) {
         DatabaseReference messagesRef = databaseReference.getRef()
                 .child("messages").child(conversationId);

@@ -61,6 +61,9 @@ public class ChatMessagesAdapter extends UltimateViewAdapter<ChatMessagesAdapter
 
     @Override
     public int getItemViewType(int position) {
+        if(position == chatMessages.size()){
+            position -= 1;
+        }
         if (chatMessages.get(position).getSenderId().equals(currentUserId)){
             return R.layout.recyclerview_messages_left;
         }else{

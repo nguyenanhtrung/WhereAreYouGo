@@ -5,6 +5,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.TextView;
 
 import com.example.android.whereareyougo.R;
 import com.example.android.whereareyougo.ui.data.database.entity.RequestAddFriend;
@@ -50,6 +53,21 @@ public class NotificationsFragmentPagerAdapter extends FragmentPagerAdapter {
         }
 
         return null;
+    }
+
+    public View getTabView(int position, int badge) {
+        // Given you have a custom layout in `res/layout/custom_tab.xml` with a TextView and ImageView
+        View v = LayoutInflater.from(context).inflate(R.layout.custom_tab_notification, null);
+        TextView textTabName = (TextView) v.findViewById(R.id.text_tab_name);
+        textTabName.setText(getPageTitle(position));
+        TextView badgeNumber = (TextView) v.findViewById(R.id.text_badge_number);
+        if (badge == 0){
+            badgeNumber.setVisibility(View.INVISIBLE);
+        }else{
+            badgeNumber.setText(badge);
+        }
+
+        return v;
     }
 
     @Override

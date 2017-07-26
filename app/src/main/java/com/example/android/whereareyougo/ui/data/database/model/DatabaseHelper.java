@@ -99,4 +99,8 @@ public interface DatabaseHelper {
   StorageReference getUserMessagePhotosReference();
 
   DatabaseReference getMembersReference();
+
+  void sendMessageNotification(String conversationId, String friendId);
+
+  DatabaseReference getMessageNotificationRef();
 }
