@@ -413,5 +413,34 @@ public class AppDatabaseHelper implements DatabaseHelper {
         return connectionRef;
     }
 
+    public void createMembers(String conversationId, String friendId){
+        String userId = firebaseAuth.getCurrentUser().getUid();
+        if (userId != null){
+            DatabaseReference membersRef = databaseReference.getRef()
+                    .child("members").child(conversationId);
+
+            membersRef.child(userId).setValue(true);
+            membersRef.child(friendId).setValue(true);
+        }
+    }
+
+    public Query getConversationsOfCurrentUser(){
+        String userId = firebaseAuth.getCurrentUser().getUid();
+        if (userId != null){
+            DatabaseReference membersRef = databaseReference.getRef()
+                    .child("members");
+            return membersRef.orderByChild(userId).equalTo(true);
+        }
+        return null;
+    }
+
+    public String getCurrentUserId(){
+        return firebaseAuth.getCurrentUser().getUid();
+    }
+
+    public DatabaseReference getUsersRef(){
+        return databaseReference.getRef().child("users");
+    }
+
 
 }

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="4dp"
+    >
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        app:cardCornerRadius="3dp"
+        app:cardElevation="4dp"
+        app:cardUseCompatPadding="true"
+        app:cardBackgroundColor="#FFF"
+        >
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/circle_image_friend"
+                android:layout_width="@dimen/width_circle_image"
+                android:layout_height="@dimen/height_circle_image"
+                android:contentDescription="@string/contentDescriptor"
+                app:layout_constraintStart_toStartOf="parent"
+                android:src="@drawable/ic_user_default"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                app:civ_border_width="1dp"
+                app:civ_border_color="@color/primary"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="8dp" />
+
+            <TextView
+                android:id="@+id/text_friend_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toEndOf="@+id/circle_image_friend"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:text="Nguyen Anh Trung"
+                style="@style/TextFriendName"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="8dp" />
+
+            <TextView
+                android:id="@+id/text_message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorSecondaryText"
+                android:textSize="12sp"
+                android:text="What do you do?"
+                android:layout_marginTop="4dp"
+                android:maxLines="1"
+                android:ellipsize="end"
+                app:layout_constraintTop_toBottomOf="@+id/text_friend_name"
+                app:layout_constraintStart_toEndOf="@+id/circle_image_friend"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                />
+
+            <TextView
+                android:id="@+id/text_message_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="10sp"
+                android:text="17-07-2017 9h46 pm"
+                android:textColor="@color/colorSecondaryText"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_message" />
+
+            <TextView
+                android:id="@+id/text_message_status"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:text="@string/text_not_read_message"
+                android:textColor="@color/primary"
+                android:textSize="12sp"
+                app:layout_constraintBaseline_toBaselineOf="@+id/text_friend_name"
+                app:layout_constraintStart_toEndOf="@+id/text_friend_name"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                />
+
+            <ImageButton
+                android:id="@+id/image_button_delete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/ic_settings"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="4dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                />
+        </android.support.constraint.ConstraintLayout>
+    </android.support.v7.widget.CardView>
+
+
+
+</android.support.constraint.ConstraintLayout>

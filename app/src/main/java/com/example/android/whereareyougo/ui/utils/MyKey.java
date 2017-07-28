@@ -58,4 +58,5 @@ public class MyKey {
   public static final String CHAT_DIALOG_FRAGMENT_TAG = "chatdialogfragment";
   public static final String TEXT_TYPE_MESSAGE = "text";
   public static final String IMAGE_TYPE_MESSAGE = "image";
+  public static final String MESSAGES_FRAGMENT_TAG = "messagesfragment";
 }

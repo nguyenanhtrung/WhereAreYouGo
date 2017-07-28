@@ -19,6 +19,7 @@ import com.example.android.whereareyougo.ui.ui.requestaddfriend.RequestAddFriend
 import com.example.android.whereareyougo.ui.ui.requestfollow.ListRequestFollowFragment;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by nguyenanhtrung on 05/07/2017.
@@ -29,12 +30,15 @@ public class NotificationsFragmentPagerAdapter extends FragmentPagerAdapter {
     private Context context;
     private ArrayList<User> userRequests;
     private ArrayList<User> requestFollows;
+    private ArrayList<String> messageNotifications;
     public NotificationsFragmentPagerAdapter(FragmentManager fm, Context context, ArrayList<User>
-                                             userRequests, ArrayList<User> requestFollows) {
+                                             userRequests, ArrayList<User> requestFollows,
+                                             ArrayList<String> messageNotifications) {
         super(fm);
         this.context = context;
         this.userRequests = userRequests;
         this.requestFollows = requestFollows;
+        this.messageNotifications = messageNotifications;
     }
 
     @Override
@@ -43,7 +47,7 @@ public class NotificationsFragmentPagerAdapter extends FragmentPagerAdapter {
             case 0:
                 return RequestAddFriendFragment.newInstance(userRequests);
             case 1:
-                return MessagesFragment.newInstance();
+                return MessagesFragment.newInstance(messageNotifications);
             case 2:
                 return NotifyFragment.newInstance();
             case 3:
@@ -64,7 +68,8 @@ public class NotificationsFragmentPagerAdapter extends FragmentPagerAdapter {
         if (badge == 0){
             badgeNumber.setVisibility(View.INVISIBLE);
         }else{
-            badgeNumber.setText(badge);
+            badgeNumber.setVisibility(View.VISIBLE);
+            badgeNumber.setText(String.valueOf(badge));
         }
 
         return v;

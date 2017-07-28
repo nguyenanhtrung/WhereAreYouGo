@@ -193,6 +193,9 @@ public class ChatDialogPresenter<V extends ChatDialogView> extends BasePresenter
                             // String conversationId = getConversationId(f)
                             getDataManager().createConversationId(conversationId);
 
+                            //create members node by conversationID
+                             getDataManager().createMembers(conversationId,getMvpView().getFriendId());
+
                             //show recyclerview empty
                             getMvpView().setupDatasForConvesationAdapter(new ArrayList<ChatMessage>());
                         }
@@ -231,5 +234,7 @@ public class ChatDialogPresenter<V extends ChatDialogView> extends BasePresenter
            messagesRef = null;
         }
     }
+
+
 
 }

@@ -211,4 +211,7 @@
   <string name="text_hint_message">Nhập tin nhắn...</string>
   <string name="text_loading_messages">Đang tải các tin nhắn...</string>
   <string name="title_dialog_loading_messages">Danh sách các tin nhắn</string>
+
+  <string name="text_not_read_message">Chưa đọc</string>
+  <string name="text_already_read_message">Đã đọc</string>
 </resources>

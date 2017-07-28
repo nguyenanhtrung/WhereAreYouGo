@@ -103,4 +103,12 @@ public interface DatabaseHelper {
   void sendMessageNotification(String conversationId, String friendId);
 
   DatabaseReference getMessageNotificationRef();
+
+  void createMembers(String conversationId, String friendId);
+
+  Query getConversationsOfCurrentUser();
+
+  String getCurrentUserId();
+
+  DatabaseReference getUsersRef();
 }

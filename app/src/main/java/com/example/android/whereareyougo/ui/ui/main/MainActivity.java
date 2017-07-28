@@ -54,6 +54,7 @@ import com.roughike.bottombar.BottomBarTab;
 import com.roughike.bottombar.OnTabSelectListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import javax.inject.Inject;
 
@@ -88,7 +89,7 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
   private int badgeNotification = 0;
   private int requestFollowBadge;
   private int requestAddFriendBadge;
-  private int messagesBadge;
+  private ArrayList<String> messageNotifications;
 
 
 
@@ -109,14 +110,24 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
     initUiEvents();
     setupMapFragment();
 
-    //update User info object
-    //mainMvpPresenter.updateUserInfo();
+    //
     setupUserDrawer();
     mainMvpPresenter.updateUserInfo();
     mainMvpPresenter.updateListRequestAddFriend();
     mainMvpPresenter.updateListRequestFollow();
     mainMvpPresenter.updateMessageNotification();
   }
+
+
+
+  public ArrayList<String> messageNotifications() {
+    if (messageNotifications == null){
+      messageNotifications = new ArrayList<>();
+    }
+
+    return messageNotifications;
+  }
+
 
 
   @Override
@@ -133,9 +144,6 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
     this.requestAddFriendBadge = requestAddFriendBadge;
   }
 
-  public void setMessagesBadge(int messagesBadge) {
-    this.messagesBadge = messagesBadge;
-  }
 
   public void setRequestFollows(ArrayList<User> requestFollows) {
     this.requestFollows = requestFollows;
@@ -226,22 +234,7 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
 
   }
 
-  public void openUserListFavoriteVenueFragment(){
-    replaceFragment(ListFavoriteVenueFragment.newInstance(),MyKey.LIST_FAVORITE_VENUE_FRAGMENT_TAG);
-  }
 
-  private void replaceFragment(Fragment newFragment, String tag) {
-    FragmentManager fragmentManager = getSupportFragmentManager();
-    Fragment fragment = fragmentManager.findFragmentByTag(tag);
-    if (fragment == null) {
-      FragmentTransaction transaction = fragmentManager.beginTransaction();
-      transaction.replace(R.id.fragment_container_layout, newFragment).commit();
-    }
-  }
-
-  public void openUserSettingFragment() {
-    replaceFragment(UserSettingFragment.getInstance(currentUser), MyKey.USER_SETTING_FRAGMENT_TAG);
-  }
 
 
   private PrimaryDrawerItem createPrimaryDrawerItem(int identifier, int nameID, int imageId) {
@@ -304,6 +297,23 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
 
   //end setup User drawer
 
+
+  public void openUserListFavoriteVenueFragment(){
+    replaceFragment(ListFavoriteVenueFragment.newInstance(),MyKey.LIST_FAVORITE_VENUE_FRAGMENT_TAG);
+  }
+
+  private void replaceFragment(Fragment newFragment, String tag) {
+    FragmentManager fragmentManager = getSupportFragmentManager();
+    Fragment fragment = fragmentManager.findFragmentByTag(tag);
+    if (fragment == null) {
+      FragmentTransaction transaction = fragmentManager.beginTransaction();
+      transaction.replace(R.id.fragment_container_layout, newFragment).commit();
+    }
+  }
+
+  public void openUserSettingFragment() {
+    replaceFragment(UserSettingFragment.getInstance(currentUser), MyKey.USER_SETTING_FRAGMENT_TAG);
+  }
 
   private void setupMapFragment() {
     MapFragment mapFragment = MapFragment.newInstance();
@@ -426,7 +436,7 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
 
   public void openNotificationsFragment(){
     NotificationsFragment fragment = NotificationsFragment.newInstance(userRequests,requestFollows
-                    ,messagesBadge,requestAddFriendBadge,requestFollowBadge);
+                    ,messageNotifications,requestAddFriendBadge,requestFollowBadge);
     replaceFragment(fragment,MyKey.NOTIFICATIONS_FRAGMENT_TAG);
   }
 

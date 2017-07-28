@@ -2,6 +2,7 @@ package com.example.android.whereareyougo.ui.ui.notifications;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -17,6 +18,7 @@ import com.example.android.whereareyougo.ui.ui.adapter.NotificationsFragmentPage
 import com.example.android.whereareyougo.ui.ui.base.BaseFragment;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -40,18 +42,18 @@ public class NotificationsFragment extends BaseFragment implements Notifications
     private NotificationsFragmentPagerAdapter pagerAdapter;
     private ArrayList<User> userRequests;
     private ArrayList<User> requestFollows;
-    private int messageBadge;
+    private ArrayList<String> messageNotifications;
     private int requestAddFriendBadge;
     private int requestFollowBadge;
     Unbinder unbinder;
 
     public static NotificationsFragment newInstance(ArrayList<User> userRequests, ArrayList<User> requestFollows,
-                                                    int messageBadge, int requestAddFriendBadge, int requestFollowBadge) {
+                                                    ArrayList<String> messageNotifications, int requestAddFriendBadge, int requestFollowBadge) {
         NotificationsFragment fragment = new NotificationsFragment();
         Bundle bundle = new Bundle();
         bundle.putParcelableArrayList("requestaddfriend", userRequests);
         bundle.putParcelableArrayList("requestfollow", requestFollows);
-        bundle.putInt("messagebadge", messageBadge);
+        bundle.putStringArrayList("messagenotifications",messageNotifications);
         bundle.putInt("requestaddfriendbadge", requestAddFriendBadge);
         bundle.putInt("requestfollowbadge", requestAddFriendBadge);
 
@@ -70,7 +72,7 @@ public class NotificationsFragment extends BaseFragment implements Notifications
         if (bundle != null) {
             userRequests = bundle.getParcelableArrayList("requestaddfriend");
             requestFollows = bundle.getParcelableArrayList("requestfollow");
-            messageBadge = bundle.getInt("messagebadge");
+            messageNotifications = bundle.getStringArrayList("messagenotifications");
             requestFollowBadge = bundle.getInt("requestfollowbadge");
             requestAddFriendBadge = bundle.getInt("requestaddfriendbadge");
         }
@@ -92,7 +94,8 @@ public class NotificationsFragment extends BaseFragment implements Notifications
     }
 
     private void setupViewPager() {
-        pagerAdapter = new NotificationsFragmentPagerAdapter(getFragmentManager(), getActivity(), userRequests, requestFollows);
+        pagerAdapter = new NotificationsFragmentPagerAdapter(getFragmentManager(), getActivity(), userRequests, requestFollows
+        ,messageNotifications);
         viewPager.setAdapter(pagerAdapter);
         viewPager.setCurrentItem(0);
         tabLayout.setupWithViewPager(viewPager);
@@ -106,7 +109,7 @@ public class NotificationsFragment extends BaseFragment implements Notifications
                 if (i == 0) {
                     tab.setCustomView(pagerAdapter.getTabView(i, requestAddFriendBadge));
                 } else if (i == 1) {
-                    tab.setCustomView(pagerAdapter.getTabView(i, messageBadge));
+                    tab.setCustomView(pagerAdapter.getTabView(i, messageNotifications.size()));
                 } else if (i == 2) {
                     //notify fragment
                 } else if (i == 3) {

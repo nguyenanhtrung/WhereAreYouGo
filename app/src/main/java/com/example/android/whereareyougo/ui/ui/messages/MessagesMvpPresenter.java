@@ -7,4 +7,5 @@ import com.example.android.whereareyougo.ui.ui.base.MvpPresenter;
  */
 
 public interface MessagesMvpPresenter<V extends MessagesView> extends MvpPresenter<V> {
+    void getUserConversations();
 }

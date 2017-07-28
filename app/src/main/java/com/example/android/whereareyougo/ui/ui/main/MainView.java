@@ -6,6 +6,7 @@ import com.example.android.whereareyougo.ui.data.database.entity.User;
 import com.example.android.whereareyougo.ui.ui.base.MvpView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -42,5 +43,6 @@ public interface MainView extends MvpView {
 
   void setRequestAddFriendBadge(int requestAddFriendBadge);
 
-  void setMessagesBadge(int messagesBadge);
+
+  ArrayList<String> messageNotifications();
 }

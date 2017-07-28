@@ -1,16 +1,20 @@
 package com.example.android.whereareyougo.ui.ui.main;
 
+import android.util.Log;
+
 import com.example.android.whereareyougo.ui.data.database.entity.RequestAddFriend;
 import com.example.android.whereareyougo.ui.data.database.entity.RequestFollow;
 import com.example.android.whereareyougo.ui.data.database.entity.User;
 import com.example.android.whereareyougo.ui.data.manager.DataManager;
 import com.example.android.whereareyougo.ui.ui.base.BasePresenter;
+import com.example.android.whereareyougo.ui.utils.MyKey;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -73,7 +77,7 @@ public class MainPresenter<V extends MainView> extends BasePresenter<V> implemen
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        if (dataSnapshot != null){
+                        if (dataSnapshot != null) {
                             final ArrayList<User> requestFollows = new ArrayList<>();
                             final int count = (int) dataSnapshot.getChildrenCount();
                             getMvpView().updateBadgeNotification(count);
@@ -95,6 +99,7 @@ public class MainPresenter<V extends MainView> extends BasePresenter<V> implemen
                                                     }
                                                 }
                                             }
+
                                             @Override
                                             public void onCancelled(DatabaseError databaseError) {
 
@@ -111,14 +116,17 @@ public class MainPresenter<V extends MainView> extends BasePresenter<V> implemen
                 });
     }
 
-    public void updateMessageNotification(){
+    public void updateMessageNotification() {
         getDataManager().getMessageNotificationRef()
                 .addChildEventListener(new ChildEventListener() {
                     @Override
                     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                        int badgeNumber = 1;
-                        getMvpView().setMessagesBadge(badgeNumber);
-                        getMvpView().updateBadgeNotification(badgeNumber);
+                        String senderId = (String) dataSnapshot.getValue();
+
+                        getMvpView().messageNotifications().add(senderId);
+                        getMvpView().updateBadgeNotification(1);
+
+
                     }
 
                     @Override
@@ -171,6 +179,7 @@ public class MainPresenter<V extends MainView> extends BasePresenter<V> implemen
                                                     }
                                                 }
                                             }
+
                                             @Override
                                             public void onCancelled(DatabaseError databaseError) {
 
