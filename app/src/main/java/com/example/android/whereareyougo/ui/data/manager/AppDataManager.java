@@ -276,6 +276,16 @@ public class AppDataManager implements DataManager{
     return databaseHelper.getUsersRef();
   }
 
+  @Override
+  public void removeUserMessageNotification(String conversationId) {
+    databaseHelper.removeUserMessageNotification(conversationId);
+  }
+
+  @Override
+  public Query getUserFriendsHasPermissionFollow() {
+    return databaseHelper.getUserFriendsHasPermissionFollow();
+  }
+
 
   @Override
   public void saveUserEmail(String email) {

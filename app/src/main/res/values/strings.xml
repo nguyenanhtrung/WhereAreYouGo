@@ -214,4 +214,7 @@
 
   <string name="text_not_read_message">Chưa đọc</string>
   <string name="text_already_read_message">Đã đọc</string>
+
+  <string name="title_loading_followers_dialog">Danh sách theo dõi bạn</string>
+  <string name="content_loading_followers_dialog">Đang tải...vui lòng chờ đợi</string>
 </resources>

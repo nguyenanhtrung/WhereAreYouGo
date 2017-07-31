@@ -25,10 +25,12 @@ import com.example.android.whereareyougo.ui.ui.addfriend.AddFriendDialogFragment
 import com.example.android.whereareyougo.ui.ui.base.BaseActivity;
 import com.example.android.whereareyougo.ui.ui.chat.ChatDialogFragment;
 import com.example.android.whereareyougo.ui.ui.favoritevenues.ListFavoriteVenueFragment;
+import com.example.android.whereareyougo.ui.ui.followers.FollowersFragment;
 import com.example.android.whereareyougo.ui.ui.listfriend.ListFriendFragment;
 import com.example.android.whereareyougo.ui.ui.map.ListVenueDialogFragment;
 import com.example.android.whereareyougo.ui.ui.map.MapFragment;
 import com.example.android.whereareyougo.ui.ui.map.MapFragment.InteractionWithMapFragment;
+import com.example.android.whereareyougo.ui.ui.messages.MessagesFragment;
 import com.example.android.whereareyougo.ui.ui.notifications.NotificationsFragment;
 import com.example.android.whereareyougo.ui.ui.profile.ProfileDialogFragment;
 import com.example.android.whereareyougo.ui.ui.searchvenue.SearchVenueFragment;
@@ -67,7 +69,8 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
         ListFriendFragment.InteractionWithListFriendFragment,
         ProfileDialogFragment.InteractionWithProfileDialog,
         SearchVenueFragment.InteractionWithSearchVenueFragment,
-        ChatDialogFragment.InteractionWithChatDialogFragment
+        ChatDialogFragment.InteractionWithChatDialogFragment,
+        MessagesFragment.InteractionWithMessagesFragment
 {
 
   @Inject
@@ -226,6 +229,10 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
           case MyKey.FAVORITE_PLACES_ITEM:
             mainMvpPresenter.onClickUserFavoriteVenueItem();
             break;
+
+          case MyKey.FOLLOWERS_ITEM:
+            mainMvpPresenter.onClickFollowersItem();
+            break;
         }
         return true;
       }
@@ -309,6 +316,10 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
       FragmentTransaction transaction = fragmentManager.beginTransaction();
       transaction.replace(R.id.fragment_container_layout, newFragment).commit();
     }
+  }
+
+  public void openFollowersFragment(){
+    replaceFragment(FollowersFragment.newInstance(),MyKey.FOLLOWERS_FRAGMENT_TAG);
   }
 
   public void openUserSettingFragment() {

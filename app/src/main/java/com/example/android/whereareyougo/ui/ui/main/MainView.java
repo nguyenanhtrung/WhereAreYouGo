@@ -15,34 +15,35 @@ import java.util.List;
 
 public interface MainView extends MvpView {
 
-  void updateUserInfo(User user);
+    void updateUserInfo(User user);
 
-  void closeUserSettingDrawer();
+    void closeUserSettingDrawer();
 
-  void openUserSettingDrawer();
+    void openUserSettingDrawer();
 
-  void openUserSettingFragment();
+    void openUserSettingFragment();
 
-  void openUserListFavoriteVenueFragment();
+    void openUserListFavoriteVenueFragment();
 
-  void openListFriendFragment();
+    void openListFriendFragment();
 
-  void openNotificationsFragment();
+    void openNotificationsFragment();
 
-  void setRequestAddFriends(ArrayList<User> userRequests);
+    void setRequestAddFriends(ArrayList<User> userRequests);
 
-  void updateBadgeNotification(int badge);
+    void updateBadgeNotification(int badge);
 
-  void resetBadgeNotification();
+    void resetBadgeNotification();
 
-  void openSearchVenueFragment();
+    void openSearchVenueFragment();
 
-  void setRequestFollows(ArrayList<User> requestFollows);
+    void setRequestFollows(ArrayList<User> requestFollows);
 
-  void setRequestFollowBadge(int requestFollowBadge);
+    void setRequestFollowBadge(int requestFollowBadge);
 
-  void setRequestAddFriendBadge(int requestAddFriendBadge);
+    void setRequestAddFriendBadge(int requestAddFriendBadge);
 
+    void openFollowersFragment();
 
-  ArrayList<String> messageNotifications();
+    ArrayList<String> messageNotifications();
 }

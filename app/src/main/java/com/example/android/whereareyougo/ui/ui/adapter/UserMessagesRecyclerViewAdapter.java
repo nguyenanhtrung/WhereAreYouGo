@@ -1,7 +1,9 @@
 package com.example.android.whereareyougo.ui.ui.adapter;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,10 +13,12 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.android.whereareyougo.R;
 import com.example.android.whereareyougo.ui.data.database.entity.UserMessage;
+import com.example.android.whereareyougo.ui.utils.MyKey;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerviewViewHolder;
 import com.marshalchen.ultimaterecyclerview.UltimateViewAdapter;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -25,10 +29,19 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class UserMessagesRecyclerViewAdapter extends UltimateViewAdapter<UserMessagesRecyclerViewAdapter.UserMessagesViewHolder> {
     private Context context;
     private ArrayList<UserMessage> userMessages;
+    private HashMap<String, Boolean> messageNotificationMap;
+    private MyClickItemListener myClickItemListener;
 
-    public UserMessagesRecyclerViewAdapter(Context context, ArrayList<UserMessage> userMessages) {
+    public UserMessagesRecyclerViewAdapter(Context context, ArrayList<UserMessage> userMessages, HashMap<String,Boolean> messageNotificationMap,
+                                           MyClickItemListener myClickItemListener) {
         this.context = context;
         this.userMessages = userMessages;
+        this.messageNotificationMap = messageNotificationMap;
+        this.myClickItemListener = myClickItemListener;
+    }
+
+    public interface MyClickItemListener{
+        void onClickItem(View v, int position);
     }
 
     @Override
@@ -79,6 +92,18 @@ public class UserMessagesRecyclerViewAdapter extends UltimateViewAdapter<UserMes
                     holder.textTimestamp.setText(userMessage.getMetaDataChats().getTimeStamp());
 
                 }
+                //
+                if (messageNotificationMap != null){
+                    Log.d(MyKey.MESSAGES_FRAGMENT_TAG,"FriendId = " + userMessage.getFriend().getUserID());
+                    if (messageNotificationMap.containsKey(userMessage.getFriend().getUserID())){
+                        holder.textMessageStatus.setText(R.string.text_not_read_message);
+                        holder.textMessageStatus.setTextColor(ContextCompat.getColor(context,R.color.primary));
+                    }else{
+                        holder.textMessageStatus.setText(R.string.text_already_read_message);
+                        holder.textMessageStatus.setTextColor(ContextCompat.getColor(context,R.color.colorSecondaryText));
+
+                    }
+                }
             }
         }
     }
@@ -93,13 +118,12 @@ public class UserMessagesRecyclerViewAdapter extends UltimateViewAdapter<UserMes
 
     }
 
-    public static class  UserMessagesViewHolder extends UltimateRecyclerviewViewHolder{
+    public class  UserMessagesViewHolder extends UltimateRecyclerviewViewHolder implements View.OnClickListener{
         CircleImageView imageFriend;
         TextView textFriendName;
         TextView textMessage;
         TextView textTimestamp;
         TextView textMessageStatus;
-        ImageButton imageButtonDelete;
 
         public UserMessagesViewHolder(View itemView) {
             super(itemView);
@@ -108,8 +132,14 @@ public class UserMessagesRecyclerViewAdapter extends UltimateViewAdapter<UserMes
             textMessage = (TextView) itemView.findViewById(R.id.text_message);
             textTimestamp = (TextView) itemView.findViewById(R.id.text_message_date);
             textMessageStatus = (TextView) itemView.findViewById(R.id.text_message_status);
-            imageButtonDelete = (ImageButton) itemView.findViewById(R.id.image_button_delete);
+            //
+            itemView.setOnClickListener(this);
 
+        }
+
+        @Override
+        public void onClick(View v) {
+            myClickItemListener.onClickItem(v,getAdapterPosition());
         }
     }
 }

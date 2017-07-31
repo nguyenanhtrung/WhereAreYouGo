@@ -109,7 +109,13 @@ public class NotificationsFragment extends BaseFragment implements Notifications
                 if (i == 0) {
                     tab.setCustomView(pagerAdapter.getTabView(i, requestAddFriendBadge));
                 } else if (i == 1) {
-                    tab.setCustomView(pagerAdapter.getTabView(i, messageNotifications.size()));
+                    if(messageNotifications != null){
+                        tab.setCustomView(pagerAdapter.getTabView(i, messageNotifications.size()));
+                    }else{
+                        tab.setCustomView(pagerAdapter.getTabView(i, 0));
+
+                    }
+
                 } else if (i == 2) {
                     //notify fragment
                 } else if (i == 3) {

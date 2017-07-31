@@ -123,6 +123,7 @@ public class MainPresenter<V extends MainView> extends BasePresenter<V> implemen
                     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                         String senderId = (String) dataSnapshot.getValue();
 
+                        Log.d(MyKey.MAIN_ACTIVITY_TAG,"senderId = " + senderId);
                         getMvpView().messageNotifications().add(senderId);
                         getMvpView().updateBadgeNotification(1);
 
@@ -212,6 +213,12 @@ public class MainPresenter<V extends MainView> extends BasePresenter<V> implemen
     public void onClickUserFavoriteVenueItem() {
         getMvpView().closeUserSettingDrawer();
         getMvpView().openUserListFavoriteVenueFragment();
+    }
+
+    @Override
+    public void onClickFollowersItem() {
+        getMvpView().openFollowersFragment();
+        getMvpView().closeUserSettingDrawer();
     }
 
     @Override

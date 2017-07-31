@@ -197,6 +197,9 @@ public class ChatDialogFragment extends DialogFragment implements ChatDialogView
         //
         adapter = new ChatMessagesAdapter(getActivity(), getCurrentUserId(), chatMessages);
         recyclerviewConversation.setAdapter(adapter);
+        //
+
+
     }
 
     public String getConversationId() {
@@ -246,6 +249,9 @@ public class ChatDialogFragment extends DialogFragment implements ChatDialogView
                 ChatMessage chatMessage = dataSnapshot.getValue(ChatMessage.class);
                 presenter.onMessagesRefChildEvent(chatMessage);
                 //
+                if(chatMessages != null || !chatMessages.isEmpty()){
+                    recyclerviewConversation.scrollVerticallyToPosition(chatMessages.size() - 1);
+                }
 
             }
 

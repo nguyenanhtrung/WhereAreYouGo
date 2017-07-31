@@ -5,6 +5,7 @@ import com.example.android.whereareyougo.ui.di.module.ActivityModule;
 import com.example.android.whereareyougo.ui.ui.addfriend.AddFriendDialogFragment;
 import com.example.android.whereareyougo.ui.ui.chat.ChatDialogFragment;
 import com.example.android.whereareyougo.ui.ui.favoritevenues.ListFavoriteVenueFragment;
+import com.example.android.whereareyougo.ui.ui.followers.FollowersFragment;
 import com.example.android.whereareyougo.ui.ui.listfriend.ListFriendFragment;
 import com.example.android.whereareyougo.ui.ui.login.LoginActivity;
 import com.example.android.whereareyougo.ui.ui.main.MainActivity;
@@ -62,4 +63,6 @@ public interface ActivityComponent {
   void inject(ListRequestFollowFragment fragment);
 
   void inject(ChatDialogFragment fragment);
+
+  void inject(FollowersFragment fragment);
 }

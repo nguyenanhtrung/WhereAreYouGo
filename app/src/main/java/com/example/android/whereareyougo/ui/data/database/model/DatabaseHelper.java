@@ -111,4 +111,8 @@ public interface DatabaseHelper {
   String getCurrentUserId();
 
   DatabaseReference getUsersRef();
+
+  void removeUserMessageNotification(String conversationId);
+
+  Query getUserFriendsHasPermissionFollow();
 }

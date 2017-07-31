@@ -59,4 +59,5 @@ public class MyKey {
   public static final String TEXT_TYPE_MESSAGE = "text";
   public static final String IMAGE_TYPE_MESSAGE = "image";
   public static final String MESSAGES_FRAGMENT_TAG = "messagesfragment";
+  public static final String FOLLOWERS_FRAGMENT_TAG = "followersfragment";
 }

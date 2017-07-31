@@ -14,6 +14,9 @@ import com.example.android.whereareyougo.ui.ui.chat.ChatDialogView;
 import com.example.android.whereareyougo.ui.ui.favoritevenues.ListFavoriteVenueMvpPresenter;
 import com.example.android.whereareyougo.ui.ui.favoritevenues.ListFavoriteVenuePresenter;
 import com.example.android.whereareyougo.ui.ui.favoritevenues.ListFavoriteVenueView;
+import com.example.android.whereareyougo.ui.ui.followers.FollowersMvpPresenter;
+import com.example.android.whereareyougo.ui.ui.followers.FollowersPresenter;
+import com.example.android.whereareyougo.ui.ui.followers.FollowersView;
 import com.example.android.whereareyougo.ui.ui.listfriend.ListFriendMvpPresenter;
 import com.example.android.whereareyougo.ui.ui.listfriend.ListFriendPresenter;
 import com.example.android.whereareyougo.ui.ui.listfriend.ListFriendView;
@@ -182,6 +185,12 @@ public class ActivityModule {
     @Provides
     @PerActivity
     ChatDialogMvpPresenter<ChatDialogView> provideChatDialogPresenter(ChatDialogPresenter<ChatDialogView> presenter) {
+        return presenter;
+    }
+
+    @Provides
+    @PerActivity
+    FollowersMvpPresenter<FollowersView> provideFollowersPresenter(FollowersPresenter<FollowersView> presenter) {
         return presenter;
     }
 }

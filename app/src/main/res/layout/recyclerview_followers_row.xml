@@ -1,48 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-  xmlns:app="http://schemas.android.com/apk/res-auto"
-  xmlns:tools="http://schemas.android.com/tools"
-  android:layout_width="match_parent"
-  android:layout_height="wrap_content">
-
-  <de.hdodenhof.circleimageview.CircleImageView
-    android:id="@+id/image_follower"
-    android:layout_width="@dimen/width_circle_image"
-    android:layout_height="@dimen/width_circle_image"
-    app:layout_constraintTop_toTopOf="parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="16dp"
+    android:layout_marginRight="16dp"
     android:layout_marginTop="8dp"
-    android:layout_marginLeft="8dp"
-    android:layout_marginStart="8dp"
-    app:layout_constraintLeft_toLeftOf="parent"
-    app:layout_constraintBottom_toBottomOf="parent"
-    android:layout_marginBottom="8dp" />
+    >
 
-  <TextView
-    android:id="@+id/text_follower_name"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="Nguyen Thanh T"
-    style="@style/TextFriendName"
-    app:layout_constraintTop_toTopOf="parent"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintLeft_toRightOf="@+id/image_follower"
-    app:layout_constraintVertical_bias="0.5"
-    android:layout_marginLeft="8dp"
-    android:layout_marginStart="8dp"
-    />
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_follower"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardUseCompatPadding="true"
+        android:layout_marginTop="8dp"
+        app:cardCornerRadius="3dp"
+        app:cardElevation="4dp">
 
-  <com.beardedhen.androidbootstrap.BootstrapButton
-    android:id="@+id/button_follow"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="@string/follow"
-    style="@style/Button"
-    app:layout_constraintTop_toTopOf="parent"
-    app:layout_constraintBottom_toBottomOf="parent"
-    android:layout_marginRight="8dp"
-    android:layout_marginEnd="8dp"
-    app:layout_constraintVertical_bias="0.5"
-    app:layout_constraintRight_toRightOf="parent"
-     />
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/image_follower"
+                android:layout_width="@dimen/width_circle_image"
+                android:layout_height="@dimen/width_circle_image"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="4dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="8dp"
+                android:src="@drawable/ic_user_default"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/text_follower_name"
+                style="@style/TextFriendName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
+                android:text="Nguyen Thanh T"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@+id/image_follower"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.5" />
+
+            <ImageButton
+                android:id="@+id/button_unfollow"
+                style="@style/Button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/ic_unfollow"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.5" />
+        </android.support.constraint.ConstraintLayout>
+
+    </android.support.v7.widget.CardView>
 
 </android.support.constraint.ConstraintLayout>

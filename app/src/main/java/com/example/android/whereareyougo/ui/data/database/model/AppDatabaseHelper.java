@@ -434,6 +434,26 @@ public class AppDatabaseHelper implements DatabaseHelper {
         return null;
     }
 
+    public Query getUserFriendsHasPermissionFollow(){
+        String userId = firebaseAuth.getCurrentUser().getUid();
+        if (userId != null){
+            DatabaseReference friendRef = databaseReference.getRef()
+                    .child("friends")
+                    .child(userId);
+            return friendRef.orderByChild("permissionFollow").equalTo(true);
+        }
+        return null;
+    }
+
+    public void removeUserMessageNotification(String conversationId){
+        String userId = firebaseAuth.getCurrentUser().getUid();
+        if (userId != null){
+            DatabaseReference messageNotificationRef = databaseReference.getRef().child("messagenotification")
+                    .child(userId).child(conversationId);
+            messageNotificationRef.removeValue();
+        }
+    }
+
     public String getCurrentUserId(){
         return firebaseAuth.getCurrentUser().getUid();
     }
