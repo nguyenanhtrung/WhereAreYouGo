@@ -493,6 +493,20 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
     return currentUser.getImageUrl();
   }
 
+  @Override
+  public void removeMessageNotificationChildEvent() {
+    if (mainMvpPresenter != null){
+      mainMvpPresenter.removeMessageNotificationChildEvent();
+    }
+  }
+
+  @Override
+  public void createMessageNotificationChildEvent() {
+    if (mainMvpPresenter != null){
+      mainMvpPresenter.updateMessageNotification();
+    }
+  }
+
 
   @Override
   public void openMapFragmentFromSearchFragment(Bundle bundleSearchVenue) {

@@ -252,6 +252,7 @@ public class ListFriendFragment extends BaseFragment implements ListFriendView, 
                     //boomButton.getTextView().setText("Huy theo doi");
                     presenter.onClickButtonFollow(users.get(position));
 
+
                 }
                 break;
             case 1: //index of button unfriend

@@ -7,6 +7,8 @@
     android:id="@+id/root_view"
     >
 
+
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -48,13 +50,38 @@
             />
     </RelativeLayout>
 
-    <com.marshalchen.ultimaterecyclerview.UltimateRecyclerView
-        android:id="@+id/recyclerview_conversation"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="6"
-        rc:recyclerviewEmptyView="@layout/recyclerview_empty"
-        />
+        android:orientation="horizontal"
+        >
+
+        <com.marshalchen.ultimaterecyclerview.UltimateRecyclerView
+            android:id="@+id/recyclerview_conversation"
+            android:layout_width="0dp"
+            android:layout_weight="5"
+            android:layout_height="match_parent"
+            rc:recyclerviewEmptyView="@layout/recyclerview_empty"
+            />
+
+        <com.marshalchen.ultimaterecyclerview.UltimateRecyclerView
+            android:id="@+id/recycler_view_chat_users"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            android:padding="2dp"
+            android:background="@drawable/background_recycleview_chatusers"
+            rc:recyclerviewEmptyView="@layout/recyclerview_empty"
+            />
+
+
+
+    </LinearLayout>
+
+
 
     <LinearLayout
         android:layout_width="match_parent"

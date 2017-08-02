@@ -1,6 +1,7 @@
 package com.example.android.whereareyougo.ui.ui.chat;
 
 import com.example.android.whereareyougo.ui.data.database.entity.ChatMessage;
+import com.example.android.whereareyougo.ui.data.database.entity.ChatUser;
 import com.example.android.whereareyougo.ui.ui.base.MvpView;
 
 import java.util.ArrayList;
@@ -41,4 +42,10 @@ public interface ChatDialogView extends MvpView {
     void dismissChatDialog();
 
     void removeChildEventListener();
+
+    void setUserBadgeNotification(int badgeNotification, int userPosition);
+
+    void addChatUserToRecyclerView(ChatUser chatUser);
+
+    void notifyDataChatUsersChange();
 }

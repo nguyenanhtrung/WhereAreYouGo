@@ -2,12 +2,14 @@ package com.example.android.whereareyougo.ui.ui.followers;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.android.whereareyougo.R;
 import com.example.android.whereareyougo.ui.data.database.entity.User;
@@ -67,6 +69,8 @@ public class FollowersFragment extends BaseFragment implements FollowersView,Fol
         return view;
     }
 
+
+
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -91,6 +95,29 @@ public class FollowersFragment extends BaseFragment implements FollowersView,Fol
 
     }
 
+    public void showDeleteFollowerDialog(final User user, final int position){
+        new MaterialDialog.Builder(getActivity())
+                .title(R.string.title_delete_follower_dialog)
+                .titleColorRes(R.color.colorAccent)
+                .content(R.string.content_delete_follower_dialog)
+                .positiveText(R.string.text_agree)
+                .negativeText(R.string.text_disagree)
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        presenter.onClickButtonAgreeDeleteDialog(user,position);
+                        dialog.dismiss();
+                    }
+                })
+                .onNegative(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+
+                    }
+                })
+                .build().show();
+    }
+
     public void dismissLoadingDialog(){
         if (loadingDialog.isShowing()){
             loadingDialog.dismiss();
@@ -110,6 +137,12 @@ public class FollowersFragment extends BaseFragment implements FollowersView,Fol
 
     }
 
+    public void removeFollowerInRecyclerView(int position){
+        if (adapter != null){
+            adapter.removeItem(position);
+        }
+    }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -118,6 +151,10 @@ public class FollowersFragment extends BaseFragment implements FollowersView,Fol
 
     @Override
     public void onItemClick(View v, int position) {
-
+        switch (v.getId()){
+            case R.id.button_unfollow:
+                presenter.onClickButtonUnfollow(followers.get(position),position);
+                break;
+        }
     }
 }

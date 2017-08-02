@@ -1,8 +1,11 @@
 package com.example.android.whereareyougo.ui.ui.chat;
 
 import com.example.android.whereareyougo.ui.data.database.entity.ChatMessage;
+import com.example.android.whereareyougo.ui.data.database.entity.ChatUser;
 import com.example.android.whereareyougo.ui.ui.base.MvpPresenter;
 import com.google.firebase.database.ChildEventListener;
+
+import java.util.ArrayList;
 
 /**
  * Created by nguyenanhtrung on 16/07/2017.
@@ -30,4 +33,8 @@ public interface ChatDialogMvpPresenter<V extends ChatDialogView> extends MvpPre
     void sendMessagePhoto(String photoUri, String photoName, final String conversationId);
 
     void onClickButtonCloseChatDialog();
+
+    void updateMessageNotifications(final ArrayList<ChatUser> chatUsers);
+
+    void onClickChatUser(ChatUser chatUser, ChatUser previousChatUser);
 }

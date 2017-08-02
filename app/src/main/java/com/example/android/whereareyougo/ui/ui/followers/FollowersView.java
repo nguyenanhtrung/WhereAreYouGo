@@ -13,4 +13,8 @@ public interface FollowersView extends MvpView {
     void setupDatasForRecyclerViewFollowers(ArrayList<User> datas);
 
     void dismissLoadingDialog();
+
+    void removeFollowerInRecyclerView(int position);
+
+    void showDeleteFollowerDialog(User user, int position);
 }

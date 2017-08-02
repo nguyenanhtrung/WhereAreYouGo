@@ -286,6 +286,11 @@ public class AppDataManager implements DataManager{
     return databaseHelper.getUserFriendsHasPermissionFollow();
   }
 
+  @Override
+  public void unfollowCurrentUser(String friendId) {
+    databaseHelper.unfollowCurrentUser(friendId);
+  }
+
 
   @Override
   public void saveUserEmail(String email) {

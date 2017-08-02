@@ -115,4 +115,6 @@ public interface DatabaseHelper {
   void removeUserMessageNotification(String conversationId);
 
   Query getUserFriendsHasPermissionFollow();
+
+  void unfollowCurrentUser(String friendId);
 }

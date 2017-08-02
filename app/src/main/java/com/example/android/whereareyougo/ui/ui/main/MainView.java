@@ -46,4 +46,6 @@ public interface MainView extends MvpView {
     void openFollowersFragment();
 
     ArrayList<String> messageNotifications();
+
+
 }

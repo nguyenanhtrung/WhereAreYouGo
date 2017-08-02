@@ -74,4 +74,16 @@ public class FollowersPresenter<V extends FollowersView> extends BasePresenter<V
                     }
                 });
     }
+
+    public void onClickButtonUnfollow(User friend, int position){
+        getMvpView().showDeleteFollowerDialog(friend, position);
+    }
+
+    public void onClickButtonAgreeDeleteDialog(User friend, int position){
+        if (friend == null){
+            return;
+        }
+        getMvpView().removeFollowerInRecyclerView(position);
+        getDataManager().unfollowCurrentUser(friend.getUserID());
+    }
 }

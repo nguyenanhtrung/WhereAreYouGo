@@ -201,18 +201,18 @@ public class AppDatabaseHelper implements DatabaseHelper {
         return conversationRef;
     }
 
-    public Task<Void> sendChatMessage(ChatMessage message, String conversationId){
+    public Task<Void> sendChatMessage(ChatMessage message, String conversationId) {
         DatabaseReference messagesRef = databaseReference.getRef()
                 .child("messages")
                 .child(conversationId);
         return messagesRef.push().setValue(message);
     }
 
-    public DatabaseReference getMembersReference(){
+    public DatabaseReference getMembersReference() {
         return databaseReference.getRef().child("members");
     }
 
-    public Task<Void> updateLastMessageConversation(MetaDataChats metaDataChats, String conversationId){
+    public Task<Void> updateLastMessageConversation(MetaDataChats metaDataChats, String conversationId) {
         DatabaseReference chatsRef = databaseReference.getRef()
                 .child("chats")
                 .child(conversationId);
@@ -220,7 +220,7 @@ public class AppDatabaseHelper implements DatabaseHelper {
         return chatsRef.setValue(metaDataChats);
     }
 
-    public DatabaseReference getMessagesReferenceByConversationId(String conversationId){
+    public DatabaseReference getMessagesReferenceByConversationId(String conversationId) {
         return databaseReference.getRef().child("messages").child(conversationId);
     }
 
@@ -234,9 +234,9 @@ public class AppDatabaseHelper implements DatabaseHelper {
         chatsRef.child(conversationId).setValue(metaDataChats);
     }
 
-    public void sendMessageNotification(String conversationId, String friendId){
+    public void sendMessageNotification(String conversationId, String friendId) {
         String userId = firebaseAuth.getCurrentUser().getUid();
-        if (userId != null){
+        if (userId != null) {
             DatabaseReference messageNotificationRef = databaseReference.getRef()
                     .child("messagenotification")
                     .child(friendId)
@@ -245,9 +245,9 @@ public class AppDatabaseHelper implements DatabaseHelper {
         }
     }
 
-    public DatabaseReference getMessageNotificationRef(){
+    public DatabaseReference getMessageNotificationRef() {
         String userId = firebaseAuth.getCurrentUser().getUid();
-        if (userId != null){
+        if (userId != null) {
             return databaseReference.getRef().child("messagenotification").child(userId);
         }
         return null;
@@ -312,7 +312,7 @@ public class AppDatabaseHelper implements DatabaseHelper {
         return userPhotosRef;
     }
 
-    public StorageReference getUserMessagePhotosReference(){
+    public StorageReference getUserMessagePhotosReference() {
         StorageReference messagePhotosRef = firebaseStorage.getReference().child("messagephotos");
         return messagePhotosRef;
     }
@@ -413,9 +413,9 @@ public class AppDatabaseHelper implements DatabaseHelper {
         return connectionRef;
     }
 
-    public void createMembers(String conversationId, String friendId){
+    public void createMembers(String conversationId, String friendId) {
         String userId = firebaseAuth.getCurrentUser().getUid();
-        if (userId != null){
+        if (userId != null) {
             DatabaseReference membersRef = databaseReference.getRef()
                     .child("members").child(conversationId);
 
@@ -424,9 +424,9 @@ public class AppDatabaseHelper implements DatabaseHelper {
         }
     }
 
-    public Query getConversationsOfCurrentUser(){
+    public Query getConversationsOfCurrentUser() {
         String userId = firebaseAuth.getCurrentUser().getUid();
-        if (userId != null){
+        if (userId != null) {
             DatabaseReference membersRef = databaseReference.getRef()
                     .child("members");
             return membersRef.orderByChild(userId).equalTo(true);
@@ -434,9 +434,9 @@ public class AppDatabaseHelper implements DatabaseHelper {
         return null;
     }
 
-    public Query getUserFriendsHasPermissionFollow(){
+    public Query getUserFriendsHasPermissionFollow() {
         String userId = firebaseAuth.getCurrentUser().getUid();
-        if (userId != null){
+        if (userId != null) {
             DatabaseReference friendRef = databaseReference.getRef()
                     .child("friends")
                     .child(userId);
@@ -445,20 +445,32 @@ public class AppDatabaseHelper implements DatabaseHelper {
         return null;
     }
 
-    public void removeUserMessageNotification(String conversationId){
+    public void removeUserMessageNotification(String conversationId) {
         String userId = firebaseAuth.getCurrentUser().getUid();
-        if (userId != null){
+        if (userId != null) {
             DatabaseReference messageNotificationRef = databaseReference.getRef().child("messagenotification")
                     .child(userId).child(conversationId);
             messageNotificationRef.removeValue();
         }
     }
 
-    public String getCurrentUserId(){
+    public void unfollowCurrentUser(String friendId) {
+        String userId = firebaseAuth.getCurrentUser().getUid();
+        if (userId != null) {
+            DatabaseReference friendRef = databaseReference.getRef()
+                    .child("friends")
+                    .child(userId)
+                    .child(friendId)
+                    .child("permissionFollow");
+            friendRef.setValue(false);
+        }
+    }
+
+    public String getCurrentUserId() {
         return firebaseAuth.getCurrentUser().getUid();
     }
 
-    public DatabaseReference getUsersRef(){
+    public DatabaseReference getUsersRef() {
         return databaseReference.getRef().child("users");
     }
 

@@ -30,4 +30,6 @@ public interface MainMvpPresenter<V extends MainView> extends MvpPresenter<V> {
   void updateListRequestFollow();
 
   void updateMessageNotification();
+
+  void removeMessageNotificationChildEvent();
 }

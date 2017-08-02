@@ -2,6 +2,7 @@ package com.example.android.whereareyougo.ui.ui.main;
 
 import android.util.Log;
 
+import com.example.android.whereareyougo.ui.data.database.entity.ChatUser;
 import com.example.android.whereareyougo.ui.data.database.entity.RequestAddFriend;
 import com.example.android.whereareyougo.ui.data.database.entity.RequestFollow;
 import com.example.android.whereareyougo.ui.data.database.entity.User;
@@ -11,6 +12,7 @@ import com.example.android.whereareyougo.ui.utils.MyKey;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -25,6 +27,9 @@ import javax.inject.Inject;
 
 public class MainPresenter<V extends MainView> extends BasePresenter<V> implements
         MainMvpPresenter<V> {
+
+    private ChildEventListener messageChildEvent;
+    private DatabaseReference messageNotificationRef;
 
     @Inject
     public MainPresenter(DataManager dataManager) {
@@ -64,6 +69,10 @@ public class MainPresenter<V extends MainView> extends BasePresenter<V> implemen
 
                     }
                 });
+    }
+
+    public void onClickChatUser(ChatUser chatUser){
+
     }
 
     @Override
@@ -117,39 +126,44 @@ public class MainPresenter<V extends MainView> extends BasePresenter<V> implemen
     }
 
     public void updateMessageNotification() {
-        getDataManager().getMessageNotificationRef()
-                .addChildEventListener(new ChildEventListener() {
-                    @Override
-                    public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                        String senderId = (String) dataSnapshot.getValue();
+        messageChildEvent = new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                String senderId = (String) dataSnapshot.getValue();
 
-                        Log.d(MyKey.MAIN_ACTIVITY_TAG,"senderId = " + senderId);
-                        getMvpView().messageNotifications().add(senderId);
-                        getMvpView().updateBadgeNotification(1);
+                Log.d(MyKey.MAIN_ACTIVITY_TAG, "senderId = " + senderId);
+                getMvpView().messageNotifications().add(senderId);
+                getMvpView().updateBadgeNotification(1);
+            }
 
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
 
-                    }
+            }
 
-                    @Override
-                    public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
 
-                    }
+            }
 
-                    @Override
-                    public void onChildRemoved(DataSnapshot dataSnapshot) {
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
 
-                    }
+            }
 
-                    @Override
-                    public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
 
-                    }
+            }
+        };
+        messageNotificationRef = getDataManager().getMessageNotificationRef();
+        messageNotificationRef.addChildEventListener(messageChildEvent);
+    }
 
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });
+    public void removeMessageNotificationChildEvent(){
+        if (messageNotificationRef != null){
+            messageNotificationRef.removeEventListener(messageChildEvent);
+        }
     }
 
 

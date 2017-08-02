@@ -9,22 +9,23 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.LinearLayoutManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.bumptech.glide.Glide;
 import com.example.android.whereareyougo.R;
 import com.example.android.whereareyougo.ui.data.database.entity.ChatMessage;
+import com.example.android.whereareyougo.ui.data.database.entity.ChatUser;
 import com.example.android.whereareyougo.ui.data.database.entity.User;
 import com.example.android.whereareyougo.ui.di.component.ActivityComponent;
 import com.example.android.whereareyougo.ui.ui.adapter.ChatMessagesAdapter;
+import com.example.android.whereareyougo.ui.ui.adapter.ChatUsersRecyclerViewAdapter;
 import com.example.android.whereareyougo.ui.utils.MyKey;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -52,7 +53,7 @@ import static android.app.Activity.RESULT_OK;
  * Created by nguyenanhtrung on 16/07/2017.
  */
 
-public class ChatDialogFragment extends DialogFragment implements ChatDialogView, View.OnClickListener {
+public class ChatDialogFragment extends DialogFragment implements ChatDialogView, View.OnClickListener,ChatUsersRecyclerViewAdapter.ChatUserClickListener {
     @Inject
     ChatDialogMvpPresenter<ChatDialogView> presenter;
     @BindView(R.id.image_user_statsus)
@@ -73,13 +74,20 @@ public class ChatDialogFragment extends DialogFragment implements ChatDialogView
     Unbinder unbinder;
     @BindView(R.id.image_button_close)
     ImageButton imageButtonClose;
+    @BindView(R.id.recycler_view_chat_users)
+    UltimateRecyclerView recyclerViewChatUsers;
+    private ChatUsersRecyclerViewAdapter chatUsersAdapter;
+    @BindView(R.id.root_view)
+    LinearLayout rootView;
     private InteractionWithChatDialogFragment interaction;
     private User friend;
     private ChatMessagesAdapter adapter;
     private List<ChatMessage> chatMessages;
+    private ArrayList<ChatUser> chatUsers;
     private MaterialDialog loadingDialog;
     private String conversationId;
     private ChildEventListener childEventListener;
+    private int previousPosition = 0;
 
 
     public static ChatDialogFragment newInstance(User friend) {
@@ -102,6 +110,7 @@ public class ChatDialogFragment extends DialogFragment implements ChatDialogView
             conversationId = presenter.getConversationId(friend.getUserID());
             presenter.createConversationId(conversationId);
         }
+        interaction.removeMessageNotificationChildEvent();
 
     }
 
@@ -120,9 +129,29 @@ public class ChatDialogFragment extends DialogFragment implements ChatDialogView
         presenter.updateFriendStatus(friend.getUserID());
         //
         showLoadingDialog(R.string.title_dialog_loading_messages, R.string.text_loading_messages);
-
+        setupChatUsersRecyclerView();
 
         return view;
+    }
+
+    private void setupChatUsersRecyclerView() {
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);
+        recyclerViewChatUsers.setLayoutManager(linearLayoutManager);
+        recyclerViewChatUsers.showEmptyView();
+        //
+        chatUsers = new ArrayList<>();
+        ChatUser currentChatUser = new ChatUser(friend,0,true);
+        chatUsers.add(currentChatUser);
+        chatUsersAdapter = new ChatUsersRecyclerViewAdapter(getActivity(),chatUsers,this);
+        recyclerViewChatUsers.setAdapter(chatUsersAdapter);
+        //
+
+    }
+
+    public void addChatUserToRecyclerView(ChatUser chatUser){
+        if (chatUsersAdapter != null){
+            chatUsersAdapter.addChatUser(chatUser);
+        }
     }
 
     private void iniUiComponents(View view) {
@@ -133,6 +162,7 @@ public class ChatDialogFragment extends DialogFragment implements ChatDialogView
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initUiEvents();
+        presenter.updateMessageNotifications(chatUsers);
 
 
     }
@@ -189,6 +219,15 @@ public class ChatDialogFragment extends DialogFragment implements ChatDialogView
         setupDatasForConvesationAdapter(new ArrayList<ChatMessage>());
         //
 
+    }
+
+    public void setUserBadgeNotification(int badgeNotification, int userPosition) {
+        if (chatUsers != null && !chatUsers.isEmpty()) {
+            int badgeNumber = chatUsers.get(userPosition).getMessageNotification();
+            badgeNumber += badgeNotification;
+            chatUsers.get(userPosition).setMessageNotification(badgeNumber);
+            adapter.notifyDataSetChanged();
+        }
     }
 
     public void setupDatasForConvesationAdapter(ArrayList<ChatMessage> datas) {
@@ -249,7 +288,7 @@ public class ChatDialogFragment extends DialogFragment implements ChatDialogView
                 ChatMessage chatMessage = dataSnapshot.getValue(ChatMessage.class);
                 presenter.onMessagesRefChildEvent(chatMessage);
                 //
-                if(chatMessages != null || !chatMessages.isEmpty()){
+                if (chatMessages != null || !chatMessages.isEmpty()) {
                     recyclerviewConversation.scrollVerticallyToPosition(chatMessages.size() - 1);
                 }
 
@@ -276,6 +315,7 @@ public class ChatDialogFragment extends DialogFragment implements ChatDialogView
             }
         };
         presenter.setMessagesReferenceChildEvent(childEventListener, conversationId);
+
 
     }
 
@@ -399,11 +439,29 @@ public class ChatDialogFragment extends DialogFragment implements ChatDialogView
         }
     }
 
+    public void notifyDataChatUsersChange(){
+        if (chatUsersAdapter != null){
+            chatUsersAdapter.notifyDataSetChanged();
+        }
+    }
+
+    @Override
+    public void onClickChatUserItem(View view, int position) {
+        if (presenter != null){
+            presenter.onClickChatUser(chatUsers.get(position),chatUsers.get(previousPosition));
+            previousPosition = position;
+        }
+    }
+
     public interface InteractionWithChatDialogFragment {
         ActivityComponent getActivityComponent();
 
         String getCurrentUserId();
 
         String getCurrentUserImageUrl();
+
+        void removeMessageNotificationChildEvent();
+
+        void createMessageNotificationChildEvent();
     }
 }

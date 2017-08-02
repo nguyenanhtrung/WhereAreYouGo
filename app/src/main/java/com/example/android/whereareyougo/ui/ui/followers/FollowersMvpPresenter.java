@@ -1,5 +1,6 @@
 package com.example.android.whereareyougo.ui.ui.followers;
 
+import com.example.android.whereareyougo.ui.data.database.entity.User;
 import com.example.android.whereareyougo.ui.ui.base.MvpPresenter;
 
 /**
@@ -8,4 +9,8 @@ import com.example.android.whereareyougo.ui.ui.base.MvpPresenter;
 
 public interface FollowersMvpPresenter<V extends FollowersView> extends MvpPresenter<V> {
     void showUserFollowers();
+
+    void onClickButtonUnfollow(User friend, int position);
+
+    void onClickButtonAgreeDeleteDialog(User friend, int position);
 }

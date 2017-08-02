@@ -48,6 +48,13 @@ public class FollowersRecyclerViewAdapter extends UltimateViewAdapter<FollowersR
         return null;
     }
 
+    public void removeItem(int position){
+        if (!followers.isEmpty()){
+            followers.remove(position);
+            notifyDataSetChanged();
+        }
+    }
+
     @Override
     public FollowersViewHolder onCreateViewHolder(ViewGroup parent) {
         View view = LayoutInflater.from(context).inflate(R.layout.recyclerview_followers_row,parent,false);

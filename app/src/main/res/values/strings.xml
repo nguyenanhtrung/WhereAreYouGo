@@ -217,4 +217,7 @@
 
   <string name="title_loading_followers_dialog">Danh sách theo dõi bạn</string>
   <string name="content_loading_followers_dialog">Đang tải...vui lòng chờ đợi</string>
+
+  <string name="title_delete_follower_dialog">Huỷ quyền theo dõi</string>
+  <string name="content_delete_follower_dialog">Bạn có muốn huỷ quyền theo dõi bạn đối với người này?</string>
 </resources>

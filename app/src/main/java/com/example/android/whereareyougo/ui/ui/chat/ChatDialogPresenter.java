@@ -3,7 +3,9 @@ package com.example.android.whereareyougo.ui.ui.chat;
 import android.support.annotation.NonNull;
 
 import com.example.android.whereareyougo.ui.data.database.entity.ChatMessage;
+import com.example.android.whereareyougo.ui.data.database.entity.ChatUser;
 import com.example.android.whereareyougo.ui.data.database.entity.MetaDataChats;
+import com.example.android.whereareyougo.ui.data.database.entity.User;
 import com.example.android.whereareyougo.ui.data.manager.DataManager;
 import com.example.android.whereareyougo.ui.ui.base.BasePresenter;
 import com.example.android.whereareyougo.ui.utils.Commons;
@@ -31,6 +33,9 @@ import javax.inject.Inject;
 public class ChatDialogPresenter<V extends ChatDialogView> extends BasePresenter<V> implements ChatDialogMvpPresenter<V> {
 
     private DatabaseReference messagesRef;
+    private ChildEventListener messageChildEvent;
+    private DatabaseReference messageNotificationRef;
+
 
     @Inject
     public ChatDialogPresenter(DataManager dataManager) {
@@ -59,6 +64,93 @@ public class ChatDialogPresenter<V extends ChatDialogView> extends BasePresenter
 
     public void onClickButtonSelectPhoto() {
         getMvpView().pickImageFromGallery();
+    }
+
+    public void updateMessageNotifications(final ArrayList<ChatUser> chatUsers) {
+        messageChildEvent = new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                String senderId = (String) dataSnapshot.getValue();
+                //get sender info by senderId
+                if (senderId != null) {
+                    updateChatUsersRecyclerView(senderId, chatUsers);
+                }
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        };
+        messageNotificationRef = getDataManager().getMessageNotificationRef();
+        messageNotificationRef.addChildEventListener(messageChildEvent);
+    }
+
+    @Override
+    public void onClickChatUser(ChatUser chatUser, ChatUser previousChatUser) {
+        if (chatUser != null){
+            previousChatUser.setCurrentUser(false);
+            chatUser.setCurrentUser(true);
+            getMvpView().notifyDataChatUsersChange();
+        }
+    }
+
+    private void updateChatUsersRecyclerView(final String senderId, ArrayList<ChatUser> chatUsers) {
+        //check if senderId exists in recyclerview
+        int chatUserPosition = isChatUserExitsInRecyclerView(senderId, chatUsers);
+        if (chatUserPosition != -1) {
+            // set text badge number of sender in recyclerview, set notifydatasetchange
+            getMvpView().setUserBadgeNotification(1, chatUserPosition);
+        } else {
+            getDataManager().getUserInfo(senderId)
+                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            User senderInfo = dataSnapshot.getValue(User.class);
+                            if (senderInfo != null) {
+                                //create new chat user object and add to chatusers in recyclerview
+                                ChatUser chatUser = new ChatUser();
+                                chatUser.setMessageNotification(1);
+                                chatUser.setUserInfo(senderInfo);
+                                //add chatUser into list in recyclerView
+                                getMvpView().addChatUserToRecyclerView(chatUser);
+
+
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+        }
+
+
+    }
+
+    private int isChatUserExitsInRecyclerView(String senderId, ArrayList<ChatUser> chatUsers) {
+        for (int index = 0; index < chatUsers.size(); index++) {
+            if (senderId.equals(chatUsers.get(index).getUserInfo().getUserID())) {
+                return index;
+            }
+        }
+        return -1;
     }
 
     public void updateFriendStatus(String friendId) {
@@ -115,7 +207,7 @@ public class ChatDialogPresenter<V extends ChatDialogView> extends BasePresenter
                             //update last message of conversation
                             updateLastMessageOfConversation(conversationId, message);
                             //send message notification include: conversationId, friendId, senderId to Firebase database
-                            getDataManager().sendMessageNotification(conversationId,getMvpView().getFriendId());
+                            getDataManager().sendMessageNotification(conversationId, getMvpView().getFriendId());
                         } else {
                             //show message: send message have some problem
                         }
@@ -188,13 +280,13 @@ public class ChatDialogPresenter<V extends ChatDialogView> extends BasePresenter
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         boolean isConversationIdExists = dataSnapshot.hasChild(conversationId);
-                         if (!isConversationIdExists){
+                        if (!isConversationIdExists) {
                             //create new conversation id between user and friend
                             // String conversationId = getConversationId(f)
                             getDataManager().createConversationId(conversationId);
 
                             //create members node by conversationID
-                             getDataManager().createMembers(conversationId,getMvpView().getFriendId());
+                            getDataManager().createMembers(conversationId, getMvpView().getFriendId());
 
                             //show recyclerview empty
                             getMvpView().setupDatasForConvesationAdapter(new ArrayList<ChatMessage>());
@@ -209,7 +301,6 @@ public class ChatDialogPresenter<V extends ChatDialogView> extends BasePresenter
                     }
                 });
     }
-
 
 
     public String getConversationId(String friendId) {
@@ -227,14 +318,13 @@ public class ChatDialogPresenter<V extends ChatDialogView> extends BasePresenter
         getMvpView().showEmojKeyboard();
     }
 
-    public void onClickButtonCloseChatDialog(){
+    public void onClickButtonCloseChatDialog() {
         getMvpView().dismissChatDialog();
-        if (messagesRef != null){
-           getMvpView().removeChildEventListener();
-           messagesRef = null;
+        if (messagesRef != null) {
+            getMvpView().removeChildEventListener();
+            messagesRef = null;
         }
     }
-
 
 
 }
