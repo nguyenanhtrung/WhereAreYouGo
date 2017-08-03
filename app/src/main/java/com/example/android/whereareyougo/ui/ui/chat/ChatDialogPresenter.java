@@ -35,6 +35,8 @@ public class ChatDialogPresenter<V extends ChatDialogView> extends BasePresenter
     private DatabaseReference messagesRef;
     private ChildEventListener messageChildEvent;
     private DatabaseReference messageNotificationRef;
+    private DatabaseReference friendStatusRef;
+    private ValueEventListener friendStatusEvent;
 
 
     @Inject
@@ -79,7 +81,11 @@ public class ChatDialogPresenter<V extends ChatDialogView> extends BasePresenter
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
+                String senderId = (String) dataSnapshot.getValue();
+                //get sender info by senderId
+                if (senderId != null) {
+                    updateChatUsersRecyclerView(senderId, chatUsers);
+                }
             }
 
             @Override
@@ -103,10 +109,52 @@ public class ChatDialogPresenter<V extends ChatDialogView> extends BasePresenter
 
     @Override
     public void onClickChatUser(ChatUser chatUser, ChatUser previousChatUser) {
-        if (chatUser != null){
+        if (chatUser.getUserInfo().getUserID().equals(getMvpView().getFriendId())) {
+            return;
+        }
+        if (chatUser != null) {
             previousChatUser.setCurrentUser(false);
             chatUser.setCurrentUser(true);
             getMvpView().notifyDataChatUsersChange();
+            //
+            //1.Remove message child event listener, get new message
+            removeMessageRef();
+            getMvpView().clearDataChatMessagesAdapter();
+            //2.Create new message Ref to conversation between user and chat user
+            createNewMessageRef(chatUser);
+            getMvpView().setConversationId(getConversationId(chatUser.getUserInfo().getUserID()));
+            //3.Set Chat User Info for friend object, text Friend name
+            getMvpView().setTextFriendName(chatUser.getUserInfo().getName());
+            getMvpView().setFriend(chatUser.getUserInfo());
+            //4.Update Friend Status
+            removeFriendStatusRef();
+            updateFriendStatus(chatUser.getUserInfo().getUserID());
+            //5.Check if chat user has badge number != 0 --> set badge number = 0
+            if (chatUser.getMessageNotification() != 0) {
+                chatUser.setMessageNotification(0);
+                getMvpView().notifyDataChatUsersChange();
+                //6.Delete message notification on firebase database
+                getDataManager().removeUserMessageNotification(getMvpView().getConversationId());
+            }
+
+        }
+    }
+
+    private void removeMessageRef() {
+        ChildEventListener messageChildEvent = getMvpView().getMessageChildEvent();
+        if (messagesRef != null && messageChildEvent != null) {
+            messagesRef.removeEventListener(messageChildEvent);
+            messagesRef = null;
+            //getMvpView().setMessageChildEvent(null);
+        }
+    }
+
+    private void createNewMessageRef(ChatUser chatUser) {
+        //get  conversation id
+        String conversationId = getConversationId(chatUser.getUserInfo().getUserID());
+        if (conversationId != null) {
+            messagesRef = getDataManager().getMessagesReferenceByConversationId(conversationId);
+            messagesRef.addChildEventListener(getMvpView().getMessageChildEvent());
         }
     }
 
@@ -115,7 +163,10 @@ public class ChatDialogPresenter<V extends ChatDialogView> extends BasePresenter
         int chatUserPosition = isChatUserExitsInRecyclerView(senderId, chatUsers);
         if (chatUserPosition != -1) {
             // set text badge number of sender in recyclerview, set notifydatasetchange
-            getMvpView().setUserBadgeNotification(1, chatUserPosition);
+            if (!senderId.equals(getMvpView().getFriendId())){
+                getMvpView().setUserBadgeNotification(1, chatUserPosition);
+            }
+
         } else {
             getDataManager().getUserInfo(senderId)
                     .addListenerForSingleValueEvent(new ValueEventListener() {
@@ -154,25 +205,39 @@ public class ChatDialogPresenter<V extends ChatDialogView> extends BasePresenter
     }
 
     public void updateFriendStatus(String friendId) {
-        getDataManager().getUserStatusRefById(friendId)
-                .addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        String status = (String) dataSnapshot.getValue();
-                        if (status != null) {
-                            getMvpView().setImageUserStatsus(status);
-                        }
+        if (friendId != null) {
+            friendStatusRef = getDataManager().getUserStatusRefById(friendId);
+            friendStatusEvent = new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    String status = (String) dataSnapshot.getValue();
+                    if (status != null) {
+                        getMvpView().setImageUserStatsus(status);
                     }
+                }
 
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
 
-                    }
-                });
+                }
+            };
+            friendStatusRef.addValueEventListener(friendStatusEvent);
+
+        }
+
+
+    }
+
+    public void removeFriendStatusRef() {
+        if (friendStatusRef != null) {
+            friendStatusRef.removeEventListener(friendStatusEvent);
+            friendStatusEvent = null;
+            friendStatusRef = null;
+        }
     }
 
     public void setMessagesReferenceChildEvent(ChildEventListener childEvent, String conversationId) {
-        DatabaseReference messagesRef = getDataManager().getMessagesReferenceByConversationId(conversationId);
+        messagesRef = getDataManager().getMessagesReferenceByConversationId(conversationId);
         messagesRef.addChildEventListener(childEvent);
     }
 

@@ -27,6 +27,7 @@ import com.example.android.whereareyougo.ui.di.component.ActivityComponent;
 import com.example.android.whereareyougo.ui.ui.adapter.ChatMessagesAdapter;
 import com.example.android.whereareyougo.ui.ui.adapter.ChatUsersRecyclerViewAdapter;
 import com.example.android.whereareyougo.ui.utils.MyKey;
+import com.example.android.whereareyougo.ui.utils.NetworkUtil;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -53,7 +54,8 @@ import static android.app.Activity.RESULT_OK;
  * Created by nguyenanhtrung on 16/07/2017.
  */
 
-public class ChatDialogFragment extends DialogFragment implements ChatDialogView, View.OnClickListener,ChatUsersRecyclerViewAdapter.ChatUserClickListener {
+public class ChatDialogFragment extends DialogFragment implements ChatDialogView, View.OnClickListener,ChatUsersRecyclerViewAdapter.ChatUserClickListener
+        {
     @Inject
     ChatDialogMvpPresenter<ChatDialogView> presenter;
     @BindView(R.id.image_user_statsus)
@@ -167,6 +169,10 @@ public class ChatDialogFragment extends DialogFragment implements ChatDialogView
 
     }
 
+    public void setFriend(User friend) {
+        this.friend = friend;
+    }
+
     public void showEmojKeyboard() {
         emojIcon.ShowEmojIcon();
     }
@@ -176,6 +182,8 @@ public class ChatDialogFragment extends DialogFragment implements ChatDialogView
         buttonSelectPhoto.setOnClickListener(this);
         buttonSendMessage.setOnClickListener(this);
         imageButtonClose.setOnClickListener(this);
+
+
     }
 
     public void pickImageFromGallery() {
@@ -222,11 +230,11 @@ public class ChatDialogFragment extends DialogFragment implements ChatDialogView
     }
 
     public void setUserBadgeNotification(int badgeNotification, int userPosition) {
-        if (chatUsers != null && !chatUsers.isEmpty()) {
+        if (chatUsers != null) {
             int badgeNumber = chatUsers.get(userPosition).getMessageNotification();
             badgeNumber += badgeNotification;
             chatUsers.get(userPosition).setMessageNotification(badgeNumber);
-            adapter.notifyDataSetChanged();
+            chatUsersAdapter.notifyDataSetChanged();
         }
     }
 
@@ -319,6 +327,30 @@ public class ChatDialogFragment extends DialogFragment implements ChatDialogView
 
     }
 
+    public void clearDataChatMessagesAdapter(){
+        if (adapter != null){
+            chatMessages.clear();
+            adapter.notifyDataSetChanged();
+        }
+    }
+
+    public void setTextFriendName(String friendName) {
+        if (friendName != null){
+            textFriendName.setText(friendName);
+        }
+
+    }
+
+
+
+    public ChildEventListener getMessageChildEvent() {
+        return childEventListener;
+    }
+
+    public void setMessageChildEvent(ChildEventListener childEvent){
+        childEventListener = childEvent;
+    }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -354,7 +386,7 @@ public class ChatDialogFragment extends DialogFragment implements ChatDialogView
 
     @Override
     public boolean isNetworkConnected() {
-        return false;
+        return NetworkUtil.isNetworkConnected(getActivity());
     }
 
     @Override
@@ -402,6 +434,8 @@ public class ChatDialogFragment extends DialogFragment implements ChatDialogView
 
 
     }
+
+
 
     public void dismissChatDialog() {
         dismissAllowingStateLoss();
@@ -452,6 +486,8 @@ public class ChatDialogFragment extends DialogFragment implements ChatDialogView
             previousPosition = position;
         }
     }
+
+
 
     public interface InteractionWithChatDialogFragment {
         ActivityComponent getActivityComponent();

@@ -2,7 +2,9 @@ package com.example.android.whereareyougo.ui.ui.chat;
 
 import com.example.android.whereareyougo.ui.data.database.entity.ChatMessage;
 import com.example.android.whereareyougo.ui.data.database.entity.ChatUser;
+import com.example.android.whereareyougo.ui.data.database.entity.User;
 import com.example.android.whereareyougo.ui.ui.base.MvpView;
+import com.google.firebase.database.ChildEventListener;
 
 import java.util.ArrayList;
 
@@ -48,4 +50,14 @@ public interface ChatDialogView extends MvpView {
     void addChatUserToRecyclerView(ChatUser chatUser);
 
     void notifyDataChatUsersChange();
+
+    ChildEventListener getMessageChildEvent();
+
+    void setMessageChildEvent(ChildEventListener childEvent);
+
+    void clearDataChatMessagesAdapter();
+
+    void setTextFriendName(String friendName);
+
+    void setFriend(User friend);
 }
