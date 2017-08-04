@@ -80,6 +80,9 @@ public class ListRequestFollowFragment extends BaseFragment implements ListReque
         recyclerviewRequestFollow.showEmptyView();
 
         //
+        if (requestFollows == null){
+            requestFollows = new ArrayList<>();
+        }
         adapter = new RequestFollowAdapter(getActivity(),requestFollows,this);
         recyclerviewRequestFollow.setAdapter(adapter);
 

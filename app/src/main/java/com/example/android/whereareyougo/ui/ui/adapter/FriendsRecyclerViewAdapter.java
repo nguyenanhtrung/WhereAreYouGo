@@ -84,6 +84,13 @@ public class FriendsRecyclerViewAdapter extends UltimateViewAdapter<FriendsRecyc
         return friends.size();
     }
 
+    public void removeItem(int position){
+        if (!friends.isEmpty()){
+            friends.remove(position);
+            notifyDataSetChanged();
+        }
+    }
+
     @Override
     public long generateHeaderId(int position) {
         return 0;

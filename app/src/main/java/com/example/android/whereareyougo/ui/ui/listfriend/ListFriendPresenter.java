@@ -19,6 +19,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -37,6 +38,10 @@ public class ListFriendPresenter<V extends ListFriendView> extends BasePresenter
     @Override
     public void onClickButtonAddFriend() {
         getMvpView().openAddFriendDialogFragment();
+    }
+
+    public void onClickButtonCall(User friend){
+        getMvpView().callPhone(friend.getPhoneNumber());
     }
 
     @Override
@@ -106,10 +111,50 @@ public class ListFriendPresenter<V extends ListFriendView> extends BasePresenter
         });
     }
 
-    public void onClickButtonUnfriend(String friendId, String currentUserId){
+    public void onClickButtonUnfriend(String friendId, int friendPosition){
         //test showing dialog
-        getMvpView().showAskUnfriendDialog();
-        System.out.println("CURRENT USER ID = " + currentUserId);
+        getMvpView().showAskUnfriendDialog(friendId, friendPosition);
+
+    }
+
+    public void onClickButtonAgreeUnfriendDialog(String friendId, int friendPosition){
+        removeFriend(friendId,friendPosition);
+    }
+
+    private void removeFriend(String friendId,int friendPostition){
+        removeMembersByFriendId(friendId);
+        removeFriendOnServer(friendId);
+        removeFriendInRecyclerView(friendPostition);
+
+    }
+
+    private void removeFriendInRecyclerView(int position){
+        getMvpView().removeFriendInRecyclerView(position);
+    }
+
+    private void removeFriendOnServer(String friendId){
+        if (friendId != null){
+            getDataManager().removeFriendByFriendId(friendId);
+        }
+    }
+
+    private void removeMembersByFriendId(String friendId){
+        //get conversationId between userId and friendId
+        String conversationId = getConversationId(friendId);
+        if (conversationId != null){
+            getDataManager().removeMembersDataByConversationId(conversationId);
+        }
+    }
+
+    private String getConversationId(String friendId){
+        String userId = getDataManager().getCurrentUserId();
+        //create conversationId between user and friend
+        StringBuilder builder = new StringBuilder();
+        builder.append(userId).append(friendId);
+
+        char[] conversationIdChar = builder.toString().toCharArray();
+        Arrays.sort(conversationIdChar);
+        return String.valueOf(conversationIdChar);
     }
 
     @Override

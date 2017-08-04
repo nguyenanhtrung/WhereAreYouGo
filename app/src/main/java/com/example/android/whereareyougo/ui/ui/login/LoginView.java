@@ -14,4 +14,8 @@ public interface LoginView extends MvpView {
   void showNotification(int messageId);
 
   boolean getValueFrormCheckRemember();
+
+  void showDisconnectNetworkDialog(String email, String password);
+
+  void dismissDisconnectNetworkDialog();
 }

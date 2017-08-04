@@ -13,16 +13,29 @@ import java.util.List;
 
 public interface VenueDetailView extends MvpView {
     void showVenueName(String venueName);
+
     void showVenueAddress(String venueAddress);
+
     void showVenuePriceLevel(int priceLevel);
+
     void showVenueRating(double rating);
+
     void showVenuePhoneNumber(String phoneNumber);
+
     void showVenueStatus(boolean status);
+
     void setDataForRecyclerViewVenuePhotos(List<VenuePhoto> venuePhotos);
+
     void setupRecyclerViewVenuePhotos();
+
     void checkCallPhonePermissions();
+
     void callPhone();
+
     void dismissDialog();
+
     void drawPolyLineOnMap(LatLng destination);
+
     void showMessage(int messageId);
+
 }

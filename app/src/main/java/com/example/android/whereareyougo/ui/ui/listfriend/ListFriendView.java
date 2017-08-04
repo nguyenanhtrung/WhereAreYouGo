@@ -24,5 +24,9 @@ public interface ListFriendView extends MvpView{
 
     void openChatDialogFragment(User friend);
 
-    void showAskUnfriendDialog();
+    void showAskUnfriendDialog(String friendId, int friendPosition);
+
+    void removeFriendInRecyclerView(int position);
+
+    void callPhone(String phoneNumber);
 }

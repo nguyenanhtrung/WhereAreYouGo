@@ -291,6 +291,16 @@ public class AppDataManager implements DataManager{
     databaseHelper.unfollowCurrentUser(friendId);
   }
 
+  @Override
+  public void removeFriendByFriendId(String friendId) {
+    databaseHelper.removeFriendByFriendId(friendId);
+  }
+
+  @Override
+  public void removeMembersDataByConversationId(String conversationId) {
+    databaseHelper.removeMembersDataByConversationId(conversationId);
+  }
+
 
   @Override
   public void saveUserEmail(String email) {

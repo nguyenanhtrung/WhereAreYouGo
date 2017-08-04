@@ -117,4 +117,8 @@ public interface DatabaseHelper {
   Query getUserFriendsHasPermissionFollow();
 
   void unfollowCurrentUser(String friendId);
+
+  void removeFriendByFriendId(String friendId);
+
+  void removeMembersDataByConversationId(String conversationId);
 }

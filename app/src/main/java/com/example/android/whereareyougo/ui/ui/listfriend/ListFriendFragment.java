@@ -1,15 +1,21 @@
 package com.example.android.whereareyougo.ui.ui.listfriend;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +29,7 @@ import com.example.android.whereareyougo.ui.data.database.entity.User;
 import com.example.android.whereareyougo.ui.ui.adapter.FriendsRecyclerViewAdapter;
 import com.example.android.whereareyougo.ui.ui.base.BaseFragment;
 import com.example.android.whereareyougo.ui.ui.custom.GridDividerItemDecoration;
+import com.example.android.whereareyougo.ui.utils.MyKey;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
@@ -82,7 +89,7 @@ public class ListFriendFragment extends BaseFragment implements ListFriendView, 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_friends, container, false);
         unbinder = ButterKnife.bind(this, view);
-
+        showLoading();
         setupFriendsRecyclerView();
         if (presenter != null) {
             presenter.getUserListFriend();
@@ -118,7 +125,7 @@ public class ListFriendFragment extends BaseFragment implements ListFriendView, 
     @Override
     public void onResume() {
         super.onResume();
-        showLoading();
+
     }
 
     private void setupFriendsRecyclerView() {
@@ -129,7 +136,6 @@ public class ListFriendFragment extends BaseFragment implements ListFriendView, 
 
         recyclerViewFriends.addItemDecoration(new GridDividerItemDecoration(8, 2));
         recyclerViewFriends.showEmptyView();
-
 
 
         //setupFriendsRecyclerViewAdapter();
@@ -145,6 +151,10 @@ public class ListFriendFragment extends BaseFragment implements ListFriendView, 
         if (loadingFriends.isShown()) {
             loadingFriends.hide();
         }
+    }
+
+    public void removeFriendInRecyclerView(int position) {
+        adapter.removeItem(position);
     }
 
     public void setupFriendsRecyclerViewAdapter(final ArrayList<User> datas) {
@@ -210,7 +220,7 @@ public class ListFriendFragment extends BaseFragment implements ListFriendView, 
         return true;
     }
 
-    public void showAskUnfriendDialog() {
+    public void showAskUnfriendDialog(final String friendId, final int friendPosition) {
         new MaterialDialog.Builder(getActivity())
                 .title(R.string.title_ask_unfriend_dialog)
                 .content(R.string.content_ask_unfriend_dialog)
@@ -221,6 +231,9 @@ public class ListFriendFragment extends BaseFragment implements ListFriendView, 
                         //if user click, then delete friend by friend id, delelete all messages between user and friend,
                         //delete all last message
                         //
+                        if (presenter != null) {
+                            presenter.onClickButtonAgreeUnfriendDialog(friendId, friendPosition);
+                        }
                     }
                 })
                 .negativeText(R.string.text_disagree)
@@ -257,7 +270,7 @@ public class ListFriendFragment extends BaseFragment implements ListFriendView, 
                 break;
             case 1: //index of button unfriend
                 if (presenter != null) {
-                    presenter.onClickButtonUnfriend(users.get(position).getUserID(),interaction.getCurrentUserId());
+                    presenter.onClickButtonUnfriend(users.get(position).getUserID(), position);
                 }
                 break;
             case 2: // index of button chat
@@ -271,10 +284,25 @@ public class ListFriendFragment extends BaseFragment implements ListFriendView, 
                 }
                 //Toast.makeText(getActivity(), "Friend Name = " + users.get(position).getName(), Toast.LENGTH_SHORT).show();
                 break;
+            case 5: // index of button call phone
+                if (presenter != null) {
+                    presenter.onClickButtonCall(users.get(position));
+                }
+                break;
 
         }
         //Toast.makeText(getActivity(), "INDEX = " + index, Toast.LENGTH_SHORT).show();
     }
+
+    public void callPhone(String phoneNumber) {
+        if (phoneNumber != null){
+            interaction.callPhone(phoneNumber);
+        }else{
+            //show message to user: friend phone number not exists
+        }
+    }
+
+
 
 
     public void showMessage(int messageId) {
@@ -290,5 +318,7 @@ public class ListFriendFragment extends BaseFragment implements ListFriendView, 
         void openChatDialogFragment(User friend);
 
         String getCurrentUserId();
+
+        void callPhone(String phoneNumber);
     }
 }

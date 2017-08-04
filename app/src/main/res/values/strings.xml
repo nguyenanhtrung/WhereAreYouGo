@@ -220,4 +220,8 @@
 
   <string name="title_delete_follower_dialog">Huỷ quyền theo dõi</string>
   <string name="content_delete_follower_dialog">Bạn có muốn huỷ quyền theo dõi bạn đối với người này?</string>
+
+  <string name="title_disconnect_network_dialog">Không có kết nối mạng</string>
+  <string name="content_disconnect_network_dialog">Bạn vui lòng kiểm tra lại kết nối WIFI hoặc 3G/4G</string>
+  <string name="text_connect_again">Kết nối lại</string>
 </resources>

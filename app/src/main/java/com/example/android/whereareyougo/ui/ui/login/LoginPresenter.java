@@ -31,31 +31,34 @@ public class LoginPresenter<V extends LoginView> extends BasePresenter<V> implem
 
   @Override
   public void onCLickButtonSignin(String email, String password) {
+    getMvpView().showLoading();
     boolean isRememberLogin = getMvpView().getValueFrormCheckRemember();
     getDataManager().saveCheckRememberLogin(isRememberLogin);
     saveEmailAndPassword(email,password);
     loginWithEmailAndPassword(email,password);
   }
 
-  private void loginWithEmailAndPassword(String email, String password){
+  private void loginWithEmailAndPassword(final String email, final String password){
     getDataManager().signInWithEmailAndPassworđ(email, password)
         .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
           @Override
           public void onComplete(@NonNull Task<AuthResult> task) {
             if (task.isSuccessful()){
-              getMvpView().showLoading();
               getMvpView().openMainActivity();
             }else {
-              getMvpView().showNotification(R.string.login_fail);
+              if (!getMvpView().isNetworkConnected()){
+                 getMvpView().showDisconnectNetworkDialog(email,password);
+              }else{
+                getMvpView().showNotification(R.string.login_fail);
+              }
+
             }
           }
-        })
-        .addOnFailureListener(new OnFailureListener() {
-          @Override
-          public void onFailure(@NonNull Exception e) {
-
-          }
         });
+  }
+
+  public void onClickConnectAgainDisconnectNetworkDialog(String email, String password){
+      loginWithEmailAndPassword(email,password);
   }
 
   private void saveEmailAndPassword(String email, String password){
@@ -84,7 +87,6 @@ public class LoginPresenter<V extends LoginView> extends BasePresenter<V> implem
     if (password.isEmpty()){
       return;
     }
-
     loginWithEmailAndPassword(email,password);
   }
 }

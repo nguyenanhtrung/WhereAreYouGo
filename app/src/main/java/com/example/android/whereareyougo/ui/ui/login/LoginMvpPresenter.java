@@ -12,4 +12,6 @@ public interface LoginMvpPresenter<V extends LoginView> extends MvpPresenter<V> 
   void onCLickButtonSignin(String email, String password);
 
   void loginWithLoginRemember();
+
+  void onClickConnectAgainDisconnectNetworkDialog(String email, String password);
 }

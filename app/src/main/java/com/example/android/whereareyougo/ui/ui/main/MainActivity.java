@@ -1,9 +1,13 @@
 package com.example.android.whereareyougo.ui.ui.main;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -507,6 +511,45 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
     }
   }
 
+  public void callPhone(String phone){
+    checkCallPhonePermissions();
+    String phoneNumber = "tel:" + phone;
+    Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse(phoneNumber));
+    try {
+      startActivity(intent);
+    }catch (SecurityException e){
+
+    }
+
+  }
+
+  public void checkCallPhonePermissions(){
+    if (ContextCompat.checkSelfPermission(this,
+            Manifest.permission.CALL_PHONE)
+            != PackageManager.PERMISSION_GRANTED) {
+
+      // Should we show an explanation?
+      if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+              Manifest.permission.CALL_PHONE)) {
+
+        // Show an explanation to the user *asynchronously* -- don't block
+        // this thread waiting for the user's response! After the user
+        // sees the explanation, try again to request the permission.
+
+      } else {
+
+        // No explanation needed, we can request the permission.
+
+        ActivityCompat.requestPermissions(this,
+                new String[]{Manifest.permission.CALL_PHONE},
+                MyKey.MY_PERMISSIONS_REQUEST_CALL_PHONE);
+
+        // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+        // app-defined int constant. The callback method gets the
+        // result of the request.
+      }
+    }
+  }
 
   @Override
   public void openMapFragmentFromSearchFragment(Bundle bundleSearchVenue) {

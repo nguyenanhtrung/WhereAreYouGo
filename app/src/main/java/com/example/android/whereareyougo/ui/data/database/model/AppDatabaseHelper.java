@@ -454,6 +454,34 @@ public class AppDatabaseHelper implements DatabaseHelper {
         }
     }
 
+    public void removeFriendByFriendId(String friendId){
+        String userId = firebaseAuth.getCurrentUser().getUid();
+        if(userId != null && friendId != null){
+            DatabaseReference friendsRef = databaseReference.getRef().child("friends")
+                    .child(userId)
+                    .child(friendId);
+            friendsRef.removeValue();
+            //
+            friendsRef = databaseReference.getRef().child("friends")
+                    .child(friendId)
+                    .child(userId);
+            friendsRef.removeValue();
+
+
+        }
+    }
+
+
+
+    public void removeMembersDataByConversationId(String conversationId){
+        if (conversationId != null){
+            DatabaseReference membersRef = databaseReference.getRef()
+                    .child("members")
+                    .child(conversationId);
+            membersRef.removeValue();
+        }
+    }
+
     public void unfollowCurrentUser(String friendId) {
         String userId = firebaseAuth.getCurrentUser().getUid();
         if (userId != null) {

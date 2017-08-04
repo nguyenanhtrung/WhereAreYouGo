@@ -3,6 +3,7 @@ package com.example.android.whereareyougo.ui.ui.login;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -10,6 +11,9 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.example.android.whereareyougo.R;
 import com.example.android.whereareyougo.ui.ui.base.BaseActivity;
@@ -41,6 +45,7 @@ public class LoginActivity extends BaseActivity implements LoginView, OnClickLis
   TextView textForgotPassword;
   @BindView(R.id.loading_login)
   AVLoadingIndicatorView loadingLogin;
+  private MaterialDialog disconnectNetworkDialog;
 
 
   @Override
@@ -55,12 +60,21 @@ public class LoginActivity extends BaseActivity implements LoginView, OnClickLis
     //
     initUiComponents();
     initEvents();
+    setVisibilityForComponents(View.INVISIBLE);
+    showLoading();
+
+    //
 
   }
+
+
+
+
 
   private void initUiComponents() {
     editTextEmail.setBackgroundResource(R.drawable.background_edittext_selector);
     editTextPassword.setBackgroundResource(R.drawable.background_edittext_selector);
+
   }
 
   private void initEvents() {
@@ -76,9 +90,7 @@ public class LoginActivity extends BaseActivity implements LoginView, OnClickLis
   @Override
   protected void onResume() {
     super.onResume();
-    if (loginMvpPresenter != null){
-      loginMvpPresenter.loginWithLoginRemember();
-    }
+    loginMvpPresenter.loginWithLoginRemember();
   }
 
   @Override
@@ -98,6 +110,30 @@ public class LoginActivity extends BaseActivity implements LoginView, OnClickLis
     }
   }
 
+  public void showDisconnectNetworkDialog(final String email, final String password){
+    disconnectNetworkDialog = new MaterialDialog.Builder(this)
+            .title(R.string.title_disconnect_network_dialog)
+            .titleColorRes(R.color.colorAccent)
+            .content(R.string.content_disconnect_network_dialog)
+            .contentColorRes(R.color.colorSecondaryText)
+            .positiveText(R.string.text_connect_again)
+            .onPositive(new MaterialDialog.SingleButtonCallback() {
+              @Override
+              public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                if (loginMvpPresenter != null){
+                  loginMvpPresenter.onClickConnectAgainDisconnectNetworkDialog(email,password);
+                }
+              }
+            }).build();
+    disconnectNetworkDialog.show();
+  }
+
+  public void dismissDisconnectNetworkDialog(){
+    if (disconnectNetworkDialog.isShowing()){
+      disconnectNetworkDialog.dismiss();
+    }
+  }
+
   private void setVisibilityForComponents(int visibility){
     editTextEmail.setVisibility(visibility);
     editTextPassword.setVisibility(visibility);
@@ -109,7 +145,6 @@ public class LoginActivity extends BaseActivity implements LoginView, OnClickLis
 
   @Override
   public void showLoading() {
-    setVisibilityForComponents(View.GONE);
     loadingLogin.show();
   }
 

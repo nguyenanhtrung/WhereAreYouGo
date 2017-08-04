@@ -130,7 +130,6 @@ public class ChatDialogPresenter<V extends ChatDialogView> extends BasePresenter
             removeFriendStatusRef();
             updateFriendStatus(chatUser.getUserInfo().getUserID());
             //5.Check if chat user has badge number != 0 --> set badge number = 0
-            if (chatUser.getMessageNotification() != 0) {
                 chatUser.setMessageNotification(0);
                 getMvpView().notifyDataChatUsersChange();
                 //6.Delete message notification on firebase database
@@ -138,7 +137,6 @@ public class ChatDialogPresenter<V extends ChatDialogView> extends BasePresenter
             }
 
         }
-    }
 
     private void removeMessageRef() {
         ChildEventListener messageChildEvent = getMvpView().getMessageChildEvent();
@@ -163,7 +161,7 @@ public class ChatDialogPresenter<V extends ChatDialogView> extends BasePresenter
         int chatUserPosition = isChatUserExitsInRecyclerView(senderId, chatUsers);
         if (chatUserPosition != -1) {
             // set text badge number of sender in recyclerview, set notifydatasetchange
-            if (!senderId.equals(getMvpView().getFriendId())){
+            if (!senderId.equals(getMvpView().getFriendId())) {
                 getMvpView().setUserBadgeNotification(1, chatUserPosition);
             }
 

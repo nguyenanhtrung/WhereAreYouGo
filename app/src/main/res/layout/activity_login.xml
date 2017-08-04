@@ -116,7 +116,6 @@
     android:layout_width="60dp"
     android:layout_height="60dp"
     app:indicatorName="PacmanIndicator"
-    android:visibility="gone"
     app:layout_constraintLeft_toLeftOf="parent"
     android:layout_marginRight="8dp"
     app:layout_constraintRight_toRightOf="parent"
