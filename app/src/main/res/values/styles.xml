@@ -237,6 +237,12 @@
 
   </style>
 
+  <style name="RadioSettingLocation" parent="RadioButton">
+    <item name="android:textAllCaps">true</item>
+    <item name="android:textColor">@color/colorSecondaryText</item>
+    <item name="android:textSize">10sp</item>
+  </style>
+
   <style name="RadioButtonClose" parent="RadioButton">
     <item name="android:background">@color/colorAccent</item>
   </style>
@@ -251,6 +257,11 @@
 
   <!-- recycler view friends row -->
   <style name="TextFriendName" parent="TextView">
+    <item name="android:textStyle">bold</item>
+  </style>
+
+  <style name="TextSettingLocation" parent="TextView">
+    <item name="android:textColor">@color/colorSecondaryText</item>
     <item name="android:textStyle">bold</item>
   </style>
 
@@ -275,6 +286,13 @@
     <item name="android:textSize">16sp</item>
   </style>
 
+  <!-- Switch -->
+  <style name="MySwitch">
+    <item name="android:textColor">@color/primary</item>
+    <item name="android:textAllCaps">true</item>
+    <item name="android:textStyle">bold</item>
+  </style>
+
   <!-- Tab Layout -->
   <style name="MyCustomTabLayout" parent="Widget.Design.TabLayout">
     <item name="tabIndicatorColor">@color/colorPrimary</item>
@@ -290,5 +308,13 @@
     <item name="android:textSize">12sp</item>
     <item name="android:textColor">@color/colorPrimaryText</item>
     <item name="textAllCaps">true</item>
+  </style>
+
+  <style name="Transparent">
+    <item name="android:windowIsTranslucent">true</item>
+    <item name="android:windowAnimationStyle">@android:style/Animation.Translucent</item>
+    <item name ="android:windowBackground">@color/transparent</item>
+    <item name="android:windowNoTitle">true</item>
+    <item name="android:colorForeground">#fff</item>
   </style>
 </resources>

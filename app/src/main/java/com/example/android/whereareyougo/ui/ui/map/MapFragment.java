@@ -116,10 +116,14 @@ public class MapFragment extends BaseFragment implements MapMvpView, OnMapReadyC
             "NONE"};
     private ClusterManager<VenueMarkerItem> clusterManager;
     private ArrayList<VenueMarkerItem> venueMarkerItems;
+    private MaterialDialog loadingDialog;
     private Bundle bundleSearchVenue;
 
-    public static MapFragment newInstance() {
+    public static MapFragment newInstance(Location currentUserLocation) {
         MapFragment mapFragment = new MapFragment();
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("currentlocation", currentUserLocation);
+        mapFragment.setArguments(bundle);
 
         return mapFragment;
     }
@@ -140,19 +144,24 @@ public class MapFragment extends BaseFragment implements MapMvpView, OnMapReadyC
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(MapFragment.this);
 
-        if (bundleSearchVenue != null){
+        if (bundleSearchVenue != null) {
             mapMvpPresenter.getVenuesByRadiusAndCategory(bundleSearchVenue);
+
         }
         return view;
 
     }
 
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         bundleSearchVenue = getArguments();
-        if (bundleSearchVenue == null){
+        if (bundleSearchVenue == null) {
             Toast.makeText(getActivity(), "Bundle Search Null", Toast.LENGTH_SHORT).show();
+        } else {
+            lastKnownLocation = bundleSearchVenue.getParcelable("currentlocation");
+            //Log.d(MyKey.MAP_FRAGMENT_TAG,"current location = " + lastKnownLocation.toString());
         }
     }
 
@@ -180,6 +189,23 @@ public class MapFragment extends BaseFragment implements MapMvpView, OnMapReadyC
         }
 
         return null;
+    }
+
+    private void showLoadingDialog() {
+        loadingDialog = new MaterialDialog.Builder(getActivity())
+                .title(R.string.title_loading_dialog)
+                .titleColorRes(R.color.colorAccent)
+                .content(R.string.content_loading_dialog)
+                .contentColorRes(R.color.colorSecondaryText)
+                .progress(true, 3)
+                .build();
+        loadingDialog.show();
+    }
+
+    private void hideLoadingDialog() {
+        if (loadingDialog.isShowing()) {
+            loadingDialog.hide();
+        }
     }
 
 
@@ -305,6 +331,7 @@ public class MapFragment extends BaseFragment implements MapMvpView, OnMapReadyC
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initUiEvents();
+        showLoadingDialog();
     }
 
 
@@ -381,13 +408,15 @@ public class MapFragment extends BaseFragment implements MapMvpView, OnMapReadyC
     @Override
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
+        hideLoadingDialog();
         // map.setMyLocationEnabled(true);
         if (ContextCompat.checkSelfPermission(getActivity(), permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
             initMap();
             turnOnMyLocationLayer();
-            buildGoogleApiClient();
-            googleApiClient.connect();
+            // buildGoogleApiClient();
+            // googleApiClient.connect();
+            showCurrentLocation();
 
         } else {
             // Show rationale and request permission.
@@ -395,8 +424,9 @@ public class MapFragment extends BaseFragment implements MapMvpView, OnMapReadyC
                     MyKey.PERMISSIONS_REQUEST_LOCATION);
             initMap();
             turnOnMyLocationLayer();
-            buildGoogleApiClient();
-            googleApiClient.connect();
+            // buildGoogleApiClient();
+            // googleApiClient.connect();
+            showCurrentLocation();
 
 
         }
@@ -442,12 +472,12 @@ public class MapFragment extends BaseFragment implements MapMvpView, OnMapReadyC
         if (locationPermissionGranted) {
 
 
-            try {
+            /*try {
                 lastKnownLocation = LocationServices.FusedLocationApi
                         .getLastLocation(googleApiClient);
             } catch (SecurityException e) {
                 e.printStackTrace();
-            }
+            }*/
 
 
         }
@@ -464,7 +494,7 @@ public class MapFragment extends BaseFragment implements MapMvpView, OnMapReadyC
             if (userImageUri == null) {
                 //xet anh mac dinh cho vi tri hien tai cua nguoi dung
                 currentLocationMarker = createMarker(new LatLng(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude()),
-                        getMarkerBitmapFromView(mCustomMarkerView, null, R.drawable.ic_user_default), "Me");
+                        Commons.getMarkerBitmapFromView(mCustomMarkerView, null, R.drawable.ic_user_default), "Me");
                 map.moveCamera(CameraUpdateFactory.newLatLngZoom(
                         new LatLng(lastKnownLocation.getLatitude(),
                                 lastKnownLocation.getLongitude()), MyKey.ZOOM_LEVEl_DEFAULT));
@@ -481,7 +511,7 @@ public class MapFragment extends BaseFragment implements MapMvpView, OnMapReadyC
                         public void onResourceReady(Bitmap bitmap,
                                                     GlideAnimation<? super Bitmap> glideAnimation) {
                             currentLocationMarker = createMarker(new LatLng(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude()),
-                                    getMarkerBitmapFromView(mCustomMarkerView, bitmap, MyKey.NO_DRAWABLE), "Me");
+                                    Commons.getMarkerBitmapFromView(mCustomMarkerView, bitmap, MyKey.NO_DRAWABLE), "Me");
 
 
                             map.moveCamera(CameraUpdateFactory.newLatLngZoom(
@@ -505,12 +535,14 @@ public class MapFragment extends BaseFragment implements MapMvpView, OnMapReadyC
     public void onStart() {
         super.onStart();
         mapView.onStart();
+        loadingDialog.show();
     }
 
     @Override
     public void onResume() {
         super.onResume();
         mapView.onResume();
+        loadingDialog.hide();
         //
 
 
@@ -532,10 +564,7 @@ public class MapFragment extends BaseFragment implements MapMvpView, OnMapReadyC
     public void onStop() {
         super.onStop();
         mapView.onStop();
-        if (googleApiClient != null && googleApiClient.isConnected()) {
-            googleApiClient.stopAutoManage(getActivity());
-            googleApiClient.disconnect();
-        }
+
     }
 
     @Override
@@ -606,7 +635,7 @@ public class MapFragment extends BaseFragment implements MapMvpView, OnMapReadyC
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
-        showCurrentLocation();
+        //showCurrentLocation();
 
     }
 
@@ -628,7 +657,6 @@ public class MapFragment extends BaseFragment implements MapMvpView, OnMapReadyC
                 .icon(BitmapDescriptorFactory.fromBitmap(imageMarker)));
     }
 
-
     public interface InteractionWithMapFragment {
         String getUserImage();
 
@@ -638,30 +666,5 @@ public class MapFragment extends BaseFragment implements MapMvpView, OnMapReadyC
 
         Context getContextOfFragment();
     }
-
-
-    private Bitmap getMarkerBitmapFromView(View view, Bitmap bitmap, int drawableId) {
-        CircleImageView mMarkerImageView = (CircleImageView) view.findViewById(R.id.image_user);
-        if (drawableId == MyKey.NO_DRAWABLE) {
-            mMarkerImageView.setImageBitmap(bitmap);
-        } else {
-            mMarkerImageView.setImageResource(drawableId);
-        }
-
-        view.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
-        view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
-        view.buildDrawingCache();
-        Bitmap returnedBitmap = Bitmap.createBitmap(view.getMeasuredWidth(), view.getMeasuredHeight(),
-                Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(returnedBitmap);
-        canvas.drawColor(Color.WHITE, PorterDuff.Mode.SRC_IN);
-        Drawable drawable = view.getBackground();
-        if (drawable != null) {
-            drawable.draw(canvas);
-        }
-        view.draw(canvas);
-        return returnedBitmap;
-    }
-
 
 }

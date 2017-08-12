@@ -2,9 +2,12 @@ package com.example.android.whereareyougo.ui.ui.login;
 
 import android.support.annotation.NonNull;
 import android.util.Log;
+import android.widget.Toast;
+
 import com.example.android.whereareyougo.R;
 import com.example.android.whereareyougo.ui.data.manager.DataManager;
 import com.example.android.whereareyougo.ui.ui.base.BasePresenter;
+import com.example.android.whereareyougo.ui.utils.MyKey;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
@@ -44,14 +47,10 @@ public class LoginPresenter<V extends LoginView> extends BasePresenter<V> implem
           @Override
           public void onComplete(@NonNull Task<AuthResult> task) {
             if (task.isSuccessful()){
+              getMvpView().hideLoading();
               getMvpView().openMainActivity();
-            }else {
-              if (!getMvpView().isNetworkConnected()){
-                 getMvpView().showDisconnectNetworkDialog(email,password);
-              }else{
-                getMvpView().showNotification(R.string.login_fail);
-              }
-
+            }else{
+              Log.d(MyKey.MAIN_ACTIVITY_TAG, " error cmnr");
             }
           }
         });
@@ -79,14 +78,11 @@ public class LoginPresenter<V extends LoginView> extends BasePresenter<V> implem
     }
 
     String email = getDataManager().getUserEmail();
-    if (email.isEmpty()){
-      return;
+    String password = getDataManager().getUserPassword();
+    if (email != "" && password != ""){
+      loginWithEmailAndPassword(email,password);
     }
 
-    String password = getDataManager().getUserPassword();
-    if (password.isEmpty()){
-      return;
-    }
-    loginWithEmailAndPassword(email,password);
+
   }
 }

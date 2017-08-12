@@ -28,4 +28,6 @@
   </color>
   <color name="color_venue_status_close">#616161</color>
   <color name="color_venue_status_empty">#689F38</color>
+  <color name="transparent">#50000000</color>
+
 </resources>

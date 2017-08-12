@@ -224,4 +224,26 @@
   <string name="title_disconnect_network_dialog">Không có kết nối mạng</string>
   <string name="content_disconnect_network_dialog">Bạn vui lòng kiểm tra lại kết nối WIFI hoặc 3G/4G</string>
   <string name="text_connect_again">Kết nối lại</string>
+
+  <string name="title_loading_dialog">Đang tải...</string>
+  <string name="content_loading_dialog">Đang tải nội dung, bạn vui lòng chờ trong giây lát</string>
+  
+  <string name="title_setting_friends_map">Cài đặt bản đồ</string>
+  <string name="text_map_mode">Chế độ bản đồ</string>
+  <string name="switch_map_day_mode">Ngày</string>
+  <string name="switch_map_night_mode">Đêm</string>
+  <string name="text_time_location_update">Thời gian cập nhật vị trí</string>
+  <string name="label_second">giây</string>
+  <string name="tex_send_notification">Gửi thông báo</string>
+  <string name="text_turn_on">Bật</string>
+  <string name="text_turn_off">Tắt</string>
+
+  <string name="label_update_location_interval">Thời gian cập nhật vị trí liên tiếp</string>
+  <string name="label_update_location">Cập nhật vị trí của bạn liên tục </string>
+  <string name="label_priority_location">Độ ưu tiên cập nhật</string>
+  <string name="balance_priority_location">Cân bằng</string>
+  <string name="high_accurancy_priority_location">Chính xác cao</string>
+  <string name="low_power_priority_location">Pin yếu</string>
+  <string name="label_update_location_by_distance">Cập nhật vị trí sau khi đi được </string>
+  <string name="meter">mét</string>
 </resources>

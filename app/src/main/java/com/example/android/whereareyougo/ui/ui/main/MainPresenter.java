@@ -1,5 +1,9 @@
 package com.example.android.whereareyougo.ui.ui.main;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 
 import com.example.android.whereareyougo.ui.data.database.entity.ChatUser;
@@ -9,6 +13,8 @@ import com.example.android.whereareyougo.ui.data.database.entity.User;
 import com.example.android.whereareyougo.ui.data.manager.DataManager;
 import com.example.android.whereareyougo.ui.ui.base.BasePresenter;
 import com.example.android.whereareyougo.ui.utils.MyKey;
+import com.example.android.whereareyougo.ui.utils.NetworkUtil;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -37,6 +43,7 @@ public class MainPresenter<V extends MainView> extends BasePresenter<V> implemen
     }
 
     public void updateUserInfo() {
+
         getDataManager().getUserInfo().addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -51,11 +58,16 @@ public class MainPresenter<V extends MainView> extends BasePresenter<V> implemen
         });
     }
 
+
+
+
+
     public void updaterUserStatus() {
         getDataManager().getConnectionRef()
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
+
                         boolean connected = dataSnapshot.getValue(Boolean.class);
                         if (connected) {
                             getDataManager().updateUserStatus("ONLINE");
@@ -71,7 +83,7 @@ public class MainPresenter<V extends MainView> extends BasePresenter<V> implemen
                 });
     }
 
-    public void onClickChatUser(ChatUser chatUser){
+    public void onClickChatUser(ChatUser chatUser) {
 
     }
 
@@ -160,8 +172,8 @@ public class MainPresenter<V extends MainView> extends BasePresenter<V> implemen
         messageNotificationRef.addChildEventListener(messageChildEvent);
     }
 
-    public void removeMessageNotificationChildEvent(){
-        if (messageNotificationRef != null){
+    public void removeMessageNotificationChildEvent() {
+        if (messageNotificationRef != null) {
             messageNotificationRef.removeEventListener(messageChildEvent);
         }
     }

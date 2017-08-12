@@ -106,7 +106,7 @@ public class AppDatabaseHelper implements DatabaseHelper {
     }
 
     public Task<AuthResult> signInWithEmailAndPassworđ(String email, String password) {
-        return firebaseAuth.signInWithEmailAndPassword(email, password);
+        return firebaseAuth.signInWithEmailAndPassword(email,password);
     }
 
     public DatabaseReference getUserInfo() {

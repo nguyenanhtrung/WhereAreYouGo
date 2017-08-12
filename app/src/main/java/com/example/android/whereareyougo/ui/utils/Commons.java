@@ -15,8 +15,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.android.whereareyougo.R;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -25,6 +28,8 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by nguyenanhtrung on 20/06/2017.
@@ -45,6 +50,7 @@ public class Commons {
 
         return time;
     }
+
 
     public static File PhotoCompressor(File photoFile) {
         Bitmap b = BitmapFactory.decodeFile(photoFile.getPath());
@@ -94,6 +100,29 @@ public class Commons {
             e.printStackTrace();
         }
         return photoFile;
+    }
+
+    public static Bitmap getMarkerBitmapFromView(View view, Bitmap bitmap, int drawableId) {
+        CircleImageView mMarkerImageView = (CircleImageView) view.findViewById(R.id.image_user);
+        if (drawableId == MyKey.NO_DRAWABLE) {
+            mMarkerImageView.setImageBitmap(bitmap);
+        } else {
+            mMarkerImageView.setImageResource(drawableId);
+        }
+
+        view.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
+        view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
+        view.buildDrawingCache();
+        Bitmap returnedBitmap = Bitmap.createBitmap(view.getMeasuredWidth(), view.getMeasuredHeight(),
+                Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(returnedBitmap);
+        canvas.drawColor(Color.WHITE, PorterDuff.Mode.SRC_IN);
+        Drawable drawable = view.getBackground();
+        if (drawable != null) {
+            drawable.draw(canvas);
+        }
+        view.draw(canvas);
+        return returnedBitmap;
     }
 
 

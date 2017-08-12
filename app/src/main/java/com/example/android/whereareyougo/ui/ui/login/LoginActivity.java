@@ -62,6 +62,7 @@ public class LoginActivity extends BaseActivity implements LoginView, OnClickLis
     initEvents();
     setVisibilityForComponents(View.INVISIBLE);
     showLoading();
+    loginMvpPresenter.loginWithLoginRemember();
 
     //
 
@@ -90,7 +91,7 @@ public class LoginActivity extends BaseActivity implements LoginView, OnClickLis
   @Override
   protected void onResume() {
     super.onResume();
-    loginMvpPresenter.loginWithLoginRemember();
+
   }
 
   @Override

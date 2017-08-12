@@ -75,6 +75,7 @@ public class AddFriendDialogFragment extends DialogFragment implements AddFriend
     private BootstrapButton buttonAddFriend;
 
 
+
     public static AddFriendDialogFragment newInstance() {
         AddFriendDialogFragment fragment = new AddFriendDialogFragment();
 
