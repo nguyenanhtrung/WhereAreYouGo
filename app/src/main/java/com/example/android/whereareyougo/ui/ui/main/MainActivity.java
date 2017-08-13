@@ -36,6 +36,7 @@ import com.example.android.whereareyougo.ui.data.database.entity.RequestFollow;
 import com.example.android.whereareyougo.ui.data.database.entity.Result;
 import com.example.android.whereareyougo.ui.data.database.entity.User;
 import com.example.android.whereareyougo.ui.ui.addfriend.AddFriendDialogFragment;
+import com.example.android.whereareyougo.ui.ui.appsetting.AppSettingFragment;
 import com.example.android.whereareyougo.ui.ui.base.BaseActivity;
 import com.example.android.whereareyougo.ui.ui.chat.ChatDialogFragment;
 import com.example.android.whereareyougo.ui.ui.favoritevenues.ListFavoriteVenueFragment;
@@ -90,7 +91,10 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
         ProfileDialogFragment.InteractionWithProfileDialog,
         SearchVenueFragment.InteractionWithSearchVenueFragment,
         ChatDialogFragment.InteractionWithChatDialogFragment,
-        MessagesFragment.InteractionWithMessagesFragment, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+        MessagesFragment.InteractionWithMessagesFragment,
+        GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener,
+        AppSettingFragment.InteractionWithAppSettingFragment{
 
     @Inject
     MainMvpPresenter<MainView> mainMvpPresenter;
@@ -271,6 +275,7 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
                 .withDrawerItems(iDrawerItems)
                 .build();
 
+
         userDrawer.setOnDrawerItemClickListener(new OnDrawerItemClickListener() {
             @Override
             public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
@@ -287,12 +292,21 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
                     case MyKey.FOLLOWERS_ITEM:
                         mainMvpPresenter.onClickFollowersItem();
                         break;
+
+                    case MyKey.APP_SETTING_ITEM:
+                        mainMvpPresenter.onClickAppSettingItemUserDrawer();
+                        break;
                 }
                 return true;
             }
         });
 
 
+    }
+
+    public void openAppSettingFragment(){
+        //
+        replaceFragmentNotVersion4(AppSettingFragment.newInstance(),MyKey.APP_SETTING_FRAGMENT_TAG);
     }
 
 
@@ -315,6 +329,8 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
                 R.drawable.ic_group_black_24dp));
         iDrawerItems.add(createPrimaryDrawerItem(MyKey.FOLLOWINGS_ITEM, R.string.following_list,
                 R.drawable.ic_group_black_24dp));
+        iDrawerItems.add(createPrimaryDrawerItem(MyKey.APP_SETTING_ITEM, R.string.app_setting,
+                R.drawable.ic_settings));
         iDrawerItems.add(createPrimaryDrawerItem(MyKey.LOG_OUT_ITEM, R.string.sign_out,
                 R.drawable.ic_exit_to_app_black_24dp));
 
@@ -367,6 +383,18 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
         if (fragment == null) {
             FragmentTransaction transaction = fragmentManager.beginTransaction();
             transaction.replace(R.id.fragment_container_layout, newFragment).commit();
+        }
+    }
+
+    private void replaceFragmentNotVersion4(android.app.Fragment fragment, String tag){
+        android.app.FragmentManager fragmentManager = getFragmentManager();
+        android.app.Fragment currentFragment = fragmentManager.findFragmentByTag(tag);
+        if (currentFragment == null) {
+            FragmentTransaction transactionV4 = getSupportFragmentManager().beginTransaction();
+            transactionV4.remove(getSupportFragmentManager().findFragmentByTag(MyKey.MAP_FRAGMENT_TAG)). commit();
+            //
+            android.app.FragmentTransaction transaction = fragmentManager.beginTransaction();
+            transaction.add(R.id.fragment_container_layout,fragment,MyKey.APP_SETTING_FRAGMENT_TAG).commit();
         }
     }
 

@@ -3,10 +3,12 @@ package com.example.android.whereareyougo.ui.di.component;
 import com.example.android.whereareyougo.ui.di.PerActivity;
 import com.example.android.whereareyougo.ui.di.module.ActivityModule;
 import com.example.android.whereareyougo.ui.ui.addfriend.AddFriendDialogFragment;
+import com.example.android.whereareyougo.ui.ui.appsetting.AppSettingFragment;
 import com.example.android.whereareyougo.ui.ui.chat.ChatDialogFragment;
 import com.example.android.whereareyougo.ui.ui.favoritevenues.ListFavoriteVenueFragment;
 import com.example.android.whereareyougo.ui.ui.followers.FollowersFragment;
 import com.example.android.whereareyougo.ui.ui.listfriend.ListFriendFragment;
+import com.example.android.whereareyougo.ui.ui.locationupdatesetting.LocationUpdateSettingFragment;
 import com.example.android.whereareyougo.ui.ui.login.LoginActivity;
 import com.example.android.whereareyougo.ui.ui.main.MainActivity;
 import com.example.android.whereareyougo.ui.ui.map.MapFragment;
@@ -65,4 +67,8 @@ public interface ActivityComponent {
   void inject(ChatDialogFragment fragment);
 
   void inject(FollowersFragment fragment);
+
+  void inject(AppSettingFragment fragment);
+
+  void inject(LocationUpdateSettingFragment fragment);
 }

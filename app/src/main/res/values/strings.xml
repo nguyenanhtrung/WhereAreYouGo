@@ -238,12 +238,23 @@
   <string name="text_turn_on">Bật</string>
   <string name="text_turn_off">Tắt</string>
 
-  <string name="label_update_location_interval">Thời gian cập nhật vị trí liên tiếp</string>
+  <string name="label_update_location_interval">Thời gian cập nhật vị trí liên tiếp (phút)</string>
   <string name="label_update_location">Cập nhật vị trí của bạn liên tục </string>
   <string name="label_priority_location">Độ ưu tiên cập nhật</string>
   <string name="balance_priority_location">Cân bằng</string>
   <string name="high_accurancy_priority_location">Chính xác cao</string>
   <string name="low_power_priority_location">Pin yếu</string>
-  <string name="label_update_location_by_distance">Cập nhật vị trí sau khi đi được </string>
+  <string name="label_update_location_by_distance">Cập nhật vị trí sau khi đi được (mét) </string>
   <string name="meter">mét</string>
+  <string name="app_setting">Cài đặt</string>
+
+  <string name="label_update_location_setting">CẬP NHẬT VỊ TRÍ CỦA BẠN</string>
+  <string name="content_update_location_setting">Bật tắt cập nhật,chỉnh sửa thời gian, khoảng cách cập nhật</string>
+  <string name="content_priority_update_location">Độ chính xác, Cân bằng, Nguồn điện thấp</string>
+  <string name="pref_key_update_location_setting">updatelocationsetting</string>
+  <string name="pref_key_request_update_location">requestupdatelocation</string>
+  <string name="pref_key_update_location_interval">updatelocationinterval</string>
+  <string name="pref_key_priority_update_location">prioritieslocation</string>
+  <string name="title_priorities_update_location">Chọn độ ưu tiên cập nhật vị trí của bạn</string>
+  <string name="pref_key_update_location_distance">updatelocationdistance</string>
 </resources>

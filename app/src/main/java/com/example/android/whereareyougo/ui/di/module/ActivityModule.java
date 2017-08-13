@@ -8,6 +8,9 @@ import com.example.android.whereareyougo.ui.di.PerActivity;
 import com.example.android.whereareyougo.ui.ui.addfriend.AddFriendMvpPresenter;
 import com.example.android.whereareyougo.ui.ui.addfriend.AddFriendPresenter;
 import com.example.android.whereareyougo.ui.ui.addfriend.AddFriendView;
+import com.example.android.whereareyougo.ui.ui.appsetting.AppSettingMvpPresenter;
+import com.example.android.whereareyougo.ui.ui.appsetting.AppSettingPresenter;
+import com.example.android.whereareyougo.ui.ui.appsetting.AppSettingView;
 import com.example.android.whereareyougo.ui.ui.chat.ChatDialogMvpPresenter;
 import com.example.android.whereareyougo.ui.ui.chat.ChatDialogPresenter;
 import com.example.android.whereareyougo.ui.ui.chat.ChatDialogView;
@@ -20,6 +23,9 @@ import com.example.android.whereareyougo.ui.ui.followers.FollowersView;
 import com.example.android.whereareyougo.ui.ui.listfriend.ListFriendMvpPresenter;
 import com.example.android.whereareyougo.ui.ui.listfriend.ListFriendPresenter;
 import com.example.android.whereareyougo.ui.ui.listfriend.ListFriendView;
+import com.example.android.whereareyougo.ui.ui.locationupdatesetting.LocationUpdateSettingMvpPresenter;
+import com.example.android.whereareyougo.ui.ui.locationupdatesetting.LocationUpdateSettingPresenter;
+import com.example.android.whereareyougo.ui.ui.locationupdatesetting.LocationUpdateSettingView;
 import com.example.android.whereareyougo.ui.ui.login.LoginMvpPresenter;
 import com.example.android.whereareyougo.ui.ui.login.LoginPresenter;
 import com.example.android.whereareyougo.ui.ui.login.LoginView;
@@ -191,6 +197,18 @@ public class ActivityModule {
     @Provides
     @PerActivity
     FollowersMvpPresenter<FollowersView> provideFollowersPresenter(FollowersPresenter<FollowersView> presenter) {
+        return presenter;
+    }
+
+    @Provides
+    @PerActivity
+    AppSettingMvpPresenter<AppSettingView> provideAppSettingPresenter(AppSettingPresenter<AppSettingView> presenter) {
+        return presenter;
+    }
+
+    @Provides
+    @PerActivity
+    LocationUpdateSettingMvpPresenter<LocationUpdateSettingView> provideLocationUpdateSettingPresenter(LocationUpdateSettingPresenter<LocationUpdateSettingView> presenter) {
         return presenter;
     }
 }

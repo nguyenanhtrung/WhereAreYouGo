@@ -10,6 +10,7 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.annotation.DrawableRes;
+import android.support.v4.content.ContextCompat;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -123,6 +124,10 @@ public class Commons {
         }
         view.draw(canvas);
         return returnedBitmap;
+    }
+
+    public static Drawable getDrawable(int drawableId, Context context){
+        return  ContextCompat.getDrawable(context,drawableId);
     }
 
 

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="pref_priority_update_location_entries">
+        <item>Độ chính xác</item>
+        <item>Cân bằng</item>
+        <item>Nguồn điện thấp</item>
+    </string-array>
+</resources>

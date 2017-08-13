@@ -22,7 +22,8 @@ public class MyKey {
   public static final int FAVORITE_PLACES_ITEM = 2;
   public static final int FOLLOWERS_ITEM = 3;
   public static final int FOLLOWINGS_ITEM = 4;
-  public static final int LOG_OUT_ITEM = 5;
+  public static final int APP_SETTING_ITEM = 5;
+  public static final int LOG_OUT_ITEM = 6;
   public static final int PERMISSIONS_REQUEST_LOCATION = 99;
   public static final float ZOOM_LEVEl_DEFAULT = 14.0f;
   public static final int PLACE_AUTOCOMPLETE_REQUEST_CODE = 248;
@@ -60,4 +61,5 @@ public class MyKey {
   public static final String IMAGE_TYPE_MESSAGE = "image";
   public static final String MESSAGES_FRAGMENT_TAG = "messagesfragment";
   public static final String FOLLOWERS_FRAGMENT_TAG = "followersfragment";
+  public static final String APP_SETTING_FRAGMENT_TAG = "appsettingfragment";
 }

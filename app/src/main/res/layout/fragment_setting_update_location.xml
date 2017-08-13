@@ -11,15 +11,15 @@
         style="@style/TextSettingLocation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
         android:drawableLeft="@drawable/ic_watch_later_green_500_24dp"
         android:drawablePadding="4dp"
         android:drawableStart="@drawable/ic_watch_later_green_500_24dp"
         android:text="@string/label_update_location_interval"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/divider_location_distance" />
 
 
     <com.rengwuxian.materialedittext.MaterialEditText
@@ -36,17 +36,16 @@
     <TextView
         android:id="@+id/label_minute"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="4dp"
+        android:layout_height="0dp"
         android:layout_marginStart="4dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginLeft="4dp"
         android:text="@string/label_minute"
         app:layout_constraintStart_toEndOf="@+id/edit_text_update_interval"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBaseline_toBaselineOf="@+id/edit_text_update_interval" />
 
 
     <View
-        android:id="@+id/divider_location_interval"
+        android:id="@+id/divider_location_distance"
         android:layout_width="0dp"
         android:layout_height="1dp"
         android:layout_marginEnd="16dp"
@@ -57,35 +56,35 @@
         android:background="@color/colorAccent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/label_update_location_interval" />
+        app:layout_constraintTop_toBottomOf="@+id/label_location_distance" />
 
     <TextView
         android:id="@+id/label_update_location"
         style="@style/TextSettingLocation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginLeft="16dp"
         android:drawableLeft="@drawable/ic_location_on"
         android:drawablePadding="4dp"
         android:drawableStart="@drawable/ic_location_on"
         android:text="@string/label_update_location"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider_location_interval" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="8dp" />
 
     <ImageButton
-        android:id="@+id/imageButton2"
+        android:id="@+id/image_button_edit_interval"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription=""
         android:src="@drawable/ic_edit"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/divider_location_distance" />
 
     <Switch
         android:id="@+id/switch_update_location"
@@ -94,10 +93,11 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="4dp"
         android:text="@string/text_turn_on"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider_location_interval" />
+        app:layout_constraintTop_toTopOf="parent"
+         />
 
     <View
         android:id="@+id/divider_update_location"
@@ -201,9 +201,9 @@
         app:layout_constraintTop_toBottomOf="@+id/radio_group_priority" />
 
     <TextView
-        android:id="@+id/textView6"
+        android:id="@+id/label_location_distance"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="23dp"
         android:text="@string/label_update_location_by_distance"
         android:drawableStart="@drawable/ic_directions_run_green"
         android:drawableLeft="@drawable/ic_directions_run_green"
@@ -221,11 +221,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="1000"
-        app:layout_constraintBaseline_toBaselineOf="@+id/textView6"
+        app:layout_constraintBaseline_toBaselineOf="@+id/label_location_distance"
         android:layout_marginStart="32dp"
         android:layout_marginLeft="32dp"
         style="@style/EditText"
-        app:layout_constraintStart_toEndOf="@+id/textView6" />
+        app:layout_constraintStart_toEndOf="@+id/label_location_distance" />
 
     <TextView
         android:id="@+id/label_meter"

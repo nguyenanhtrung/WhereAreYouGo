@@ -49,13 +49,11 @@ public interface MainView extends MvpView {
 
     void openFollowersFragment();
 
+    void openAppSettingFragment();
+
     ArrayList<String> messageNotifications();
 
-   // FusedLocationProviderClient getFusedLocationProviderClient();
-
     Activity getActivity();
-
-
 
     void setCurrentUserLocation(Location currentUserLocation);
 

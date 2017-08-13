@@ -58,9 +58,10 @@ public class MainPresenter<V extends MainView> extends BasePresenter<V> implemen
         });
     }
 
-
-
-
+    public void onClickAppSettingItemUserDrawer(){
+        getMvpView().openAppSettingFragment();
+        getMvpView().closeUserSettingDrawer();
+    }
 
     public void updaterUserStatus() {
         getDataManager().getConnectionRef()
