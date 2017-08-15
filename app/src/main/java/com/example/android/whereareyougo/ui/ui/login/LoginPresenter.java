@@ -2,6 +2,7 @@ package com.example.android.whereareyougo.ui.ui.login;
 
 import android.support.annotation.NonNull;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import com.example.android.whereareyougo.R;
@@ -74,6 +75,7 @@ public class LoginPresenter<V extends LoginView> extends BasePresenter<V> implem
     boolean isLoginRemember = getDataManager().getCheckRememberLogin();
 
     if (!isLoginRemember){
+      getMvpView().setVisibilityForComponents(View.VISIBLE);
       return;
     }
 

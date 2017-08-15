@@ -57,4 +57,6 @@ public interface MainView extends MvpView {
 
     void setCurrentUserLocation(Location currentUserLocation);
 
+    String getCurrentFragmentTag();
+
 }

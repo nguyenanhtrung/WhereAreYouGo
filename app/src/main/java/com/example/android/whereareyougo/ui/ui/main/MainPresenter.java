@@ -63,6 +63,12 @@ public class MainPresenter<V extends MainView> extends BasePresenter<V> implemen
         getMvpView().closeUserSettingDrawer();
     }
 
+    public void onUserLocationChange(String userLocation){
+        if (userLocation != null){
+            getDataManager().updateUserLocation(getDataManager().getCurrentUserId(),userLocation);
+        }
+    }
+
     public void updaterUserStatus() {
         getDataManager().getConnectionRef()
                 .addValueEventListener(new ValueEventListener() {

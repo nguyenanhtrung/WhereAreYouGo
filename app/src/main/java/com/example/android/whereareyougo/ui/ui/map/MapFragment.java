@@ -82,8 +82,7 @@ import javax.inject.Inject;
  */
 
 public class MapFragment extends BaseFragment implements MapMvpView, OnMapReadyCallback,
-        OnClickListener, GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener, ClusterManager.OnClusterItemInfoWindowClickListener<VenueMarkerItem> {
+        OnClickListener, ClusterManager.OnClusterItemInfoWindowClickListener<VenueMarkerItem> {
 
     @Inject
     MapMvpPresenter<MapMvpView> mapMvpPresenter;
@@ -151,6 +150,8 @@ public class MapFragment extends BaseFragment implements MapMvpView, OnMapReadyC
         return view;
 
     }
+
+
 
 
     @Override
@@ -317,15 +318,6 @@ public class MapFragment extends BaseFragment implements MapMvpView, OnMapReadyC
         }
     }
 
-    protected synchronized void buildGoogleApiClient() {
-        //setup google api client
-        googleApiClient = new GoogleApiClient.Builder(getActivity())
-                .enableAutoManage(getActivity() /* FragmentActivity */,
-                        this /* OnConnectionFailedListener */)
-                .addConnectionCallbacks(this)
-                .addApi(LocationServices.API)
-                .build();
-    }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -345,13 +337,14 @@ public class MapFragment extends BaseFragment implements MapMvpView, OnMapReadyC
         super.onAttach(context);
         Callback callback = (MainActivity) context;
         callback.getActivityComponent().inject(this);
+        mapMvpPresenter.onAttach(this);
         interactionWithMapFragment = (InteractionWithMapFragment) context;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mapMvpPresenter.onAttach(MapFragment.this);
+
     }
 
     public void showMessage(int messageId) {
@@ -632,23 +625,6 @@ public class MapFragment extends BaseFragment implements MapMvpView, OnMapReadyC
     public void openVenueDetailDialogFragment(String venueId) {
         interactionWithMapFragment.openVenueDetailDialogFragment(venueId);
     }
-
-    @Override
-    public void onConnected(@Nullable Bundle bundle) {
-        //showCurrentLocation();
-
-    }
-
-    @Override
-    public void onConnectionSuspended(int i) {
-
-    }
-
-    @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
-    }
-
 
     private Marker createMarker(LatLng position, Bitmap imageMarker, String title) {
         return map.addMarker(new MarkerOptions().position(position)

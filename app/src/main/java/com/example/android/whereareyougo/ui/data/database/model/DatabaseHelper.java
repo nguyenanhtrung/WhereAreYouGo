@@ -121,4 +121,6 @@ public interface DatabaseHelper {
   void removeFriendByFriendId(String friendId);
 
   void removeMembersDataByConversationId(String conversationId);
+
+  void updateUserLocation(String userId, String userLocation);
 }

@@ -18,4 +18,6 @@ public interface LoginView extends MvpView {
   void showDisconnectNetworkDialog(String email, String password);
 
   void dismissDisconnectNetworkDialog();
+
+  void setVisibilityForComponents(int visibility);
 }

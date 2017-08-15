@@ -20,8 +20,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.LayoutInflater;
+
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -31,8 +30,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import com.example.android.whereareyougo.R;
-import com.example.android.whereareyougo.ui.data.database.entity.RequestAddFriend;
-import com.example.android.whereareyougo.ui.data.database.entity.RequestFollow;
+
 import com.example.android.whereareyougo.ui.data.database.entity.Result;
 import com.example.android.whereareyougo.ui.data.database.entity.User;
 import com.example.android.whereareyougo.ui.ui.addfriend.AddFriendDialogFragment;
@@ -58,6 +56,8 @@ import com.example.android.whereareyougo.ui.utils.MyKey;
 //import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
 import com.mikepenz.materialdrawer.AccountHeader;
@@ -94,7 +94,8 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
         MessagesFragment.InteractionWithMessagesFragment,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
-        AppSettingFragment.InteractionWithAppSettingFragment{
+        AppSettingFragment.InteractionWithAppSettingFragment,
+        LocationListener {
 
     @Inject
     MainMvpPresenter<MainView> mainMvpPresenter;
@@ -121,6 +122,8 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
     // private FusedLocationProviderClient fusedLocationProviderClient;
     private Location currentUserLocation;
     private GoogleApiClient googleApiClient;
+    private LocationRequest locationRequest;
+    private String currentFragmentTag = "";
 
 
     @Override
@@ -147,7 +150,7 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
     @Override
     protected void onStart() {
         super.onStart();
-        if (googleApiClient != null){
+        if (googleApiClient != null) {
             googleApiClient.connect();
         }
     }
@@ -193,6 +196,7 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
     protected void onResume() {
         super.onResume();
         mainMvpPresenter.updaterUserStatus();
+
     }
 
     public void setRequestFollowBadge(int requestFollowBadge) {
@@ -304,9 +308,9 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
 
     }
 
-    public void openAppSettingFragment(){
+    public void openAppSettingFragment() {
         //
-        replaceFragmentNotVersion4(AppSettingFragment.newInstance(),MyKey.APP_SETTING_FRAGMENT_TAG);
+        replaceFragmentNotVersion4(AppSettingFragment.newInstance(locationRequest), MyKey.APP_SETTING_FRAGMENT_TAG);
     }
 
 
@@ -379,27 +383,41 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
 
     private void replaceFragment(Fragment newFragment, String tag) {
         FragmentManager fragmentManager = getSupportFragmentManager();
+        Fragment currentFragment = fragmentManager.findFragmentByTag(tag);
+        if (currentFragment == null) {
+            FragmentTransaction transaction = fragmentManager.beginTransaction();
+            transaction.replace(R.id.fragment_container_layout, newFragment, tag).commit();
+            currentFragmentTag = tag;
+        }
+
+
+       /* FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment fragment = fragmentManager.findFragmentByTag(tag);
         if (fragment == null) {
-            FragmentTransaction transaction = fragmentManager.beginTransaction();
-            transaction.replace(R.id.fragment_container_layout, newFragment).commit();
-        }
+            android.app.FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+            fragmentTransaction.remove(getFragmentManager().findFragmentByTag()).commit();
+
+            FragmentTransaction transactionV4 = fragmentManager.beginTransaction();
+            transactionV4.add(R.id.fragment_container_layout, newFragment,tag).commit();
+        }*/
     }
 
-    private void replaceFragmentNotVersion4(android.app.Fragment fragment, String tag){
+    private void replaceFragmentNotVersion4(android.app.Fragment fragment, String tag) {
         android.app.FragmentManager fragmentManager = getFragmentManager();
         android.app.Fragment currentFragment = fragmentManager.findFragmentByTag(tag);
         if (currentFragment == null) {
             FragmentTransaction transactionV4 = getSupportFragmentManager().beginTransaction();
-            transactionV4.remove(getSupportFragmentManager().findFragmentByTag(MyKey.MAP_FRAGMENT_TAG)). commit();
+            transactionV4.remove(getSupportFragmentManager().findFragmentById(R.id.fragment_container_layout)).commit();
             //
             android.app.FragmentTransaction transaction = fragmentManager.beginTransaction();
-            transaction.add(R.id.fragment_container_layout,fragment,MyKey.APP_SETTING_FRAGMENT_TAG).commit();
+            transaction.add(R.id.fragment_container_layout, fragment, MyKey.APP_SETTING_FRAGMENT_TAG).commit();
+            currentFragmentTag = tag;
         }
     }
 
     public void openFollowersFragment() {
-        replaceFragment(FollowersFragment.newInstance(), MyKey.FOLLOWERS_FRAGMENT_TAG);
+
+
     }
 
     public void openUserSettingFragment() {
@@ -410,7 +428,6 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
         MapFragment mapFragment = MapFragment.newInstance(currentLocation);
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().add(R.id.fragment_container_layout, mapFragment, MyKey.MAP_FRAGMENT_TAG)
-                .addToBackStack(null)
                 .commit();
     }
 
@@ -527,7 +544,15 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
     public void openNotificationsFragment() {
         NotificationsFragment fragment = NotificationsFragment.newInstance(userRequests, requestFollows
                 , messageNotifications, requestAddFriendBadge, requestFollowBadge);
-        replaceFragment(fragment, MyKey.NOTIFICATIONS_FRAGMENT_TAG);
+        openFragmentVersionFour(fragment, MyKey.NOTIFICATIONS_FRAGMENT_TAG);
+    }
+
+    private void openFragmentVersionFour(Fragment newFragment, String tag) {
+        if (currentFragmentTag.equals(MyKey.APP_SETTING_FRAGMENT_TAG)) {
+            replaceAppSettingFragment(newFragment,tag);
+        } else {
+            replaceFragment(newFragment, tag);
+        }
     }
 
     @Override
@@ -537,7 +562,7 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
 
     public void openListFriendFragment() {
         ListFriendFragment friendFragment = ListFriendFragment.newInstance();
-        replaceFragment(friendFragment, MyKey.LIST_FRIEND_FRAGMENT_TAG);
+        openFragmentVersionFour(friendFragment, MyKey.LIST_FRIEND_FRAGMENT_TAG);
     }
 
     public void openProfileDialogFragment(User user) {
@@ -551,10 +576,24 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
         fragment.show(getSupportFragmentManager(), MyKey.CHAT_DIALOG_FRAGMENT_TAG);
     }
 
-    public void openSearchVenueFragment() {
-        SearchVenueFragment fragment = SearchVenueFragment.newInstance();
-        replaceFragment(fragment, MyKey.SEARCH_VENUE_FRAGMENT_TAG);
+    private void replaceAppSettingFragment(Fragment newFragment, String tag) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        Fragment fragment = fragmentManager.findFragmentByTag(tag);
+        if (fragment == null) {
+            android.app.FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+            fragmentTransaction.remove(getFragmentManager().findFragmentById(R.id.fragment_container_layout)).commit();
+
+            FragmentTransaction transactionV4 = fragmentManager.beginTransaction();
+            transactionV4.add(R.id.fragment_container_layout, newFragment, tag).commit();
+            currentFragmentTag = MyKey.SEARCH_VENUE_FRAGMENT_TAG;
+        }
     }
+
+    public void openSearchVenueFragment() {
+        SearchVenueFragment venueFragment = SearchVenueFragment.newInstance();
+        openFragmentVersionFour(venueFragment,MyKey.SEARCH_VENUE_FRAGMENT_TAG);
+    }
+
 
     @Override
     public void openAddFriendDialogFragment() {
@@ -577,6 +616,10 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
         if (mainMvpPresenter != null) {
             mainMvpPresenter.removeMessageNotificationChildEvent();
         }
+    }
+
+    public String getCurrentFragmentTag() {
+        return currentFragmentTag;
     }
 
     @Override
@@ -638,7 +681,7 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
     public void openMapFragmentFromSearchFragment(Bundle bundleSearchVenue) {
         MapFragment fragment = MapFragment.newInstance(currentUserLocation);
         fragment.setArguments(bundleSearchVenue);
-        replaceFragment(fragment, "MapFragment2");
+        openFragmentVersionFour(fragment, "MapFragment2");
     }
 
     @Override
@@ -659,10 +702,10 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
 
     }
 
-    public void displayCurrentUserLocation(Location currentLocation){
-        if (currentLocation != null){
+    public void displayCurrentUserLocation(Location currentLocation) {
+        if (currentLocation != null) {
             setupMapFragment(currentLocation);
-        }else{
+        } else {
             setupMapFragment(null);
         }
     }
@@ -674,6 +717,44 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+    }
+
+    @Override
+    public void turnOnLocationUpdate(LocationRequest locationRequest) {
+        if (locationRequest != null) {
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+                return;
+            }
+            this.locationRequest = locationRequest;
+            LocationServices.FusedLocationApi.requestLocationUpdates(
+                    googleApiClient, locationRequest, this);
+        }
+    }
+
+    @Override
+    public void turnOffLocationUpdate() {
+        LocationServices.FusedLocationApi.removeLocationUpdates(
+                googleApiClient, this);
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        // Toast.makeText(this, "Lat: " + location.getLatitude() + " - Log: " + location.getLongitude(), Toast.LENGTH_SHORT).show();
+        StringBuilder locationBuilder = new StringBuilder();
+        locationBuilder.append(location.getLatitude())
+                .append(",")
+                .append(location.getLongitude());
+        if (mainMvpPresenter != null) {
+            mainMvpPresenter.onUserLocationChange(locationBuilder.toString());
+        }
 
     }
 }

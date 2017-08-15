@@ -257,4 +257,10 @@
   <string name="pref_key_priority_update_location">prioritieslocation</string>
   <string name="title_priorities_update_location">Chọn độ ưu tiên cập nhật vị trí của bạn</string>
   <string name="pref_key_update_location_distance">updatelocationdistance</string>
+  <string name="title_error_dialog">Lỗi rồi!</string>
+  <string name="error_max_value">Dữ liệu nhập vào đã vượt quá giá trị lớn nhất!Mời nhập lại!</string>
+  <string name="error_min_value">Dữ liệu nhập vào nhỏ hơn giá trị thấp nhất!Mời nhập lại!</string>
+  <string name="error_number_format">Dữ liệu nhập vào có chứa kí tự! Mời nhập lại</string>
+  <string name="error_input">Lỗi dữ liệu nhập vào</string>
+  <string name="summary_priority_update_location">Độ ưu tiên: </string>
 </resources>

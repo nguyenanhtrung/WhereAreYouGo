@@ -22,6 +22,10 @@ import com.example.android.whereareyougo.R;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 
+import org.apache.commons.lang3.math.NumberUtils;
+import org.apache.commons.validator.ValidatorResult;
+import org.apache.commons.validator.util.ValidatorUtils;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -29,6 +33,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -53,56 +58,6 @@ public class Commons {
     }
 
 
-    public static File PhotoCompressor(File photoFile) {
-        Bitmap b = BitmapFactory.decodeFile(photoFile.getPath());
-
-
-        int originalWidth = b.getWidth();
-        int originalHeight = b.getHeight();
-        int boundWidth = 60;
-        int boundHeight = 60;
-        int newWidth = originalWidth;
-        int newHeight = originalHeight;
-
-        //check if the image needs to be scale width
-        if (originalWidth > boundWidth) {
-            //scale width to fit
-            newWidth = boundWidth;
-            //scale height to maintain aspect ratio
-            newHeight = (newWidth * originalHeight) / originalWidth;
-        }
-
-        //now check if we need to scale even the new height
-        if (newHeight > boundHeight) {
-            //scale height to fit instead
-            newHeight = boundHeight;
-            //scale width to maintain aspect ratio
-            newWidth = (newHeight * originalWidth) / originalHeight;
-        }
-        // Log.i(TAG, "Original Image:" + originalHeight + " x" + originalWidth);
-        //Log.i(TAG, "New Image:" + newHeight + " x" + newWidth);
-        try {
-            Bitmap out = Bitmap.createScaledBitmap(b, newWidth, newHeight, true);
-            FileOutputStream fOut;
-            fOut = new FileOutputStream(photoFile);
-            out.compress(Bitmap.CompressFormat.JPEG, 100, fOut);
-            fOut.flush();
-            fOut.close();
-            b.recycle();
-            out.recycle();
-        } catch (OutOfMemoryError exception) {
-            // Log.e(TAG, "OutofMemory excpetion" + exception);
-            exception.printStackTrace();
-        } catch (FileNotFoundException e) {
-            // Log.e(TAG, "File not found excpetion" + e);
-            e.printStackTrace();
-        } catch (IOException e) {
-            // Log.e(TAG, "IO exception excpetion" + e);
-            e.printStackTrace();
-        }
-        return photoFile;
-    }
-
     public static Bitmap getMarkerBitmapFromView(View view, Bitmap bitmap, int drawableId) {
         CircleImageView mMarkerImageView = (CircleImageView) view.findViewById(R.id.image_user);
         if (drawableId == MyKey.NO_DRAWABLE) {
@@ -126,9 +81,24 @@ public class Commons {
         return returnedBitmap;
     }
 
-    public static Drawable getDrawable(int drawableId, Context context){
-        return  ContextCompat.getDrawable(context,drawableId);
+    public static Drawable getDrawable(int drawableId, Context context) {
+
+        return ContextCompat.getDrawable(context, drawableId);
     }
+
+    public static long convertMinuteToMillis(long minute) {
+        return TimeUnit.MINUTES.toMillis(minute);
+    }
+
+    public static long convertMillisToMinute(long millis) {
+        return TimeUnit.MILLISECONDS.toMinutes(millis);
+    }
+
+    public static boolean checkIsNumber(String value){
+        return NumberUtils.isDigits(value);
+    }
+
+
 
 
 }

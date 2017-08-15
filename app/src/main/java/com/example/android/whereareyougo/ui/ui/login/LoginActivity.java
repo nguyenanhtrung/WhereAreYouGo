@@ -135,7 +135,7 @@ public class LoginActivity extends BaseActivity implements LoginView, OnClickLis
     }
   }
 
-  private void setVisibilityForComponents(int visibility){
+  public void setVisibilityForComponents(int visibility){
     editTextEmail.setVisibility(visibility);
     editTextPassword.setVisibility(visibility);
     textForgotPassword.setVisibility(visibility);

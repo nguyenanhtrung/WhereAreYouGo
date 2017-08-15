@@ -10,12 +10,12 @@
             android:summary="@string/content_update_location_setting"
             />
         <EditTextPreference
-            android:defaultValue="0"
+            android:defaultValue="1"
             android:title="@string/label_update_location_interval"
             android:key="@string/pref_key_update_location_interval"
             />
         <ListPreference
-            android:defaultValue="false"
+            android:defaultValue="Độ chính xác"
             android:dialogTitle="@string/title_priorities_update_location"
             android:title="@string/label_priority_location"
             android:summary="@string/content_priority_update_location"

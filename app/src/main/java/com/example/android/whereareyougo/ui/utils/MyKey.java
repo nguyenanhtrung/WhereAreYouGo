@@ -62,4 +62,10 @@ public class MyKey {
   public static final String MESSAGES_FRAGMENT_TAG = "messagesfragment";
   public static final String FOLLOWERS_FRAGMENT_TAG = "followersfragment";
   public static final String APP_SETTING_FRAGMENT_TAG = "appsettingfragment";
+  public static final String KEY_SWITCH_UPDATE_LOCATION = "switchupdatelocation";
+  public static final String KEY_INTERVAL_UPDATE_LOCATION = "intervalupdatelocation";
+  public static final int MAX_INTERVAL_UPDATE_LOCATION = 10800000;
+  public static final int MIN_INTERVAL_UPDATE_LOCATION = 60000;
+  public static final int MIN_DISTANCE_UPDATE_LOCATION = 0;
+  public static final int MAX_DISTANCE_UPDATE_LOCATION = 50000;
 }

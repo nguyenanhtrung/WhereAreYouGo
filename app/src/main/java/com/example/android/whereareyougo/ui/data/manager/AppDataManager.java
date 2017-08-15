@@ -301,6 +301,11 @@ public class AppDataManager implements DataManager{
     databaseHelper.removeMembersDataByConversationId(conversationId);
   }
 
+  @Override
+  public void updateUserLocation(String userId, String userLocation) {
+    databaseHelper.updateUserLocation(userId,userLocation);
+  }
+
 
   @Override
   public void saveUserEmail(String email) {

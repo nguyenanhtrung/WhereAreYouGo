@@ -1,5 +1,6 @@
 package com.example.android.whereareyougo.ui.data.database.model;
 
+import android.preference.Preference;
 import android.support.annotation.NonNull;
 
 
@@ -119,12 +120,22 @@ public class AppDatabaseHelper implements DatabaseHelper {
         return null;
     }
 
+
+
     public void removeRequestAddFriend(String requestId) {
         String userId = firebaseAuth.getCurrentUser().getUid();
         if (userId != null) {
             DatabaseReference requestRef = databaseReference.getRef().child("requestfriend").child(userId)
                     .child(requestId);
             requestRef.removeValue();
+        }
+    }
+
+    public void updateUserLocation(String userId, String userLocation){
+        if (userId != null && userLocation != null){
+            DatabaseReference usersRef = databaseReference.getRef().child("users")
+                    .child(userId).child("currentlocation");
+            usersRef.setValue(userLocation);
         }
     }
 
