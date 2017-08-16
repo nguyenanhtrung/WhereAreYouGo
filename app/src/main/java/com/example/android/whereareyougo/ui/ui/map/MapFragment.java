@@ -101,7 +101,6 @@ public class MapFragment extends BaseFragment implements MapMvpView, OnMapReadyC
     FloatingActionButton buttonMapType;
     private GoogleMap map;
     private MapView mapView;
-    private GoogleApiClient googleApiClient;
     private Location lastKnownLocation;
     private Marker currentLocationMarker;
     private MaterialDialog searchLoadingDialog;
@@ -569,7 +568,9 @@ public class MapFragment extends BaseFragment implements MapMvpView, OnMapReadyC
     @Override
     public void onDestroy() {
         super.onDestroy();
+
         mapView.onDestroy();
+
 
     }
 
@@ -577,7 +578,9 @@ public class MapFragment extends BaseFragment implements MapMvpView, OnMapReadyC
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        mapView.removeAllViews();
         unbinder.unbind();
+
     }
 
 
@@ -621,6 +624,8 @@ public class MapFragment extends BaseFragment implements MapMvpView, OnMapReadyC
 
         return null;
     }
+
+
 
     public void openVenueDetailDialogFragment(String venueId) {
         interactionWithMapFragment.openVenueDetailDialogFragment(venueId);

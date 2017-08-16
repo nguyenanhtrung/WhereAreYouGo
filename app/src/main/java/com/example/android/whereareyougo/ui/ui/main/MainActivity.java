@@ -2,6 +2,7 @@ package com.example.android.whereareyougo.ui.ui.main;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -15,12 +16,12 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
+
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -29,6 +30,7 @@ import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import com.blankj.utilcode.util.FragmentUtils;
 import com.example.android.whereareyougo.R;
 
 import com.example.android.whereareyougo.ui.data.database.entity.Result;
@@ -52,6 +54,7 @@ import com.example.android.whereareyougo.ui.ui.signup.SignupDialogFragment.Inter
 import com.example.android.whereareyougo.ui.ui.usersetting.UserSettingFragment;
 import com.example.android.whereareyougo.ui.ui.venuedetail.VenueDetailDialogFragment;
 import com.example.android.whereareyougo.ui.utils.Commons;
+import com.example.android.whereareyougo.ui.utils.MyFragmentUtil;
 import com.example.android.whereareyougo.ui.utils.MyKey;
 //import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.common.ConnectionResult;
@@ -124,6 +127,7 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
     private GoogleApiClient googleApiClient;
     private LocationRequest locationRequest;
     private String currentFragmentTag = "";
+    private boolean checkRequestUpdateLocation = false;
 
 
     @Override
@@ -310,7 +314,9 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
 
     public void openAppSettingFragment() {
         //
-        replaceFragmentNotVersion4(AppSettingFragment.newInstance(locationRequest), MyKey.APP_SETTING_FRAGMENT_TAG);
+        MyFragmentUtil.replaceFragment(getFragmentManager(), R.id.fragment_container_layout, AppSettingFragment.newInstance(locationRequest, checkRequestUpdateLocation),
+                MyKey.FOLLOWERS_FRAGMENT_TAG);
+
     }
 
 
@@ -378,57 +384,23 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
 
 
     public void openUserListFavoriteVenueFragment() {
-        replaceFragment(ListFavoriteVenueFragment.newInstance(), MyKey.LIST_FAVORITE_VENUE_FRAGMENT_TAG);
+        MyFragmentUtil.replaceFragment(getFragmentManager(), R.id.fragment_container_layout, ListFavoriteVenueFragment.newInstance(),
+                MyKey.LIST_FAVORITE_VENUE_FRAGMENT_TAG);
     }
 
-    private void replaceFragment(Fragment newFragment, String tag) {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        Fragment currentFragment = fragmentManager.findFragmentByTag(tag);
-        if (currentFragment == null) {
-            FragmentTransaction transaction = fragmentManager.beginTransaction();
-            transaction.replace(R.id.fragment_container_layout, newFragment, tag).commit();
-            currentFragmentTag = tag;
-        }
-
-
-       /* FragmentManager fragmentManager = getSupportFragmentManager();
-        Fragment fragment = fragmentManager.findFragmentByTag(tag);
-        if (fragment == null) {
-            android.app.FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-            fragmentTransaction.remove(getFragmentManager().findFragmentByTag()).commit();
-
-            FragmentTransaction transactionV4 = fragmentManager.beginTransaction();
-            transactionV4.add(R.id.fragment_container_layout, newFragment,tag).commit();
-        }*/
-    }
-
-    private void replaceFragmentNotVersion4(android.app.Fragment fragment, String tag) {
-        android.app.FragmentManager fragmentManager = getFragmentManager();
-        android.app.Fragment currentFragment = fragmentManager.findFragmentByTag(tag);
-        if (currentFragment == null) {
-            FragmentTransaction transactionV4 = getSupportFragmentManager().beginTransaction();
-            transactionV4.remove(getSupportFragmentManager().findFragmentById(R.id.fragment_container_layout)).commit();
-            //
-            android.app.FragmentTransaction transaction = fragmentManager.beginTransaction();
-            transaction.add(R.id.fragment_container_layout, fragment, MyKey.APP_SETTING_FRAGMENT_TAG).commit();
-            currentFragmentTag = tag;
-        }
-    }
 
     public void openFollowersFragment() {
-
-
+        MyFragmentUtil.replaceFragment(getFragmentManager(), R.id.fragment_container_layout, FollowersFragment.newInstance(), MyKey.FOLLOWERS_FRAGMENT_TAG);
     }
 
     public void openUserSettingFragment() {
-        replaceFragment(UserSettingFragment.getInstance(currentUser), MyKey.USER_SETTING_FRAGMENT_TAG);
+        MyFragmentUtil.replaceFragment(getFragmentManager(), R.id.fragment_container_layout, UserSettingFragment.getInstance(currentUser), MyKey.USER_SETTING_FRAGMENT_TAG);
+
     }
 
     private void setupMapFragment(Location currentLocation) {
         MapFragment mapFragment = MapFragment.newInstance(currentLocation);
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().add(R.id.fragment_container_layout, mapFragment, MyKey.MAP_FRAGMENT_TAG)
-                .commit();
+        MyFragmentUtil.addFragment(getFragmentManager(), R.id.fragment_container_layout, mapFragment, MyKey.MAP_FRAGMENT_TAG);
     }
 
 
@@ -478,13 +450,13 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
 
     @Override
     public void openListVenueDialogFragment(ArrayList<Result> results) {
-        ListVenueDialogFragment.newInstance(results).show(getSupportFragmentManager(), "ListVenueDialogFragment");
+        ListVenueDialogFragment.newInstance(results).show(getFragmentManager(), "ListVenueDialogFragment");
     }
 
 
     @Override
     public void openVenueDetailDialogFragment(String venueId) {
-        VenueDetailDialogFragment.newInstance(venueId).show(getSupportFragmentManager(), "VenueDetailDialogFragment");
+        VenueDetailDialogFragment.newInstance(venueId).show(getFragmentManager(), "VenueDetailDialogFragment");
     }
 
     @Override
@@ -493,7 +465,7 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
     }
 
     private void dismissListVenueDialogFragment() {
-        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentManager fragmentManager = getFragmentManager();
         ListVenueDialogFragment dialogFragment = (ListVenueDialogFragment) fragmentManager.findFragmentByTag("ListVenueDialogFragment");
         MapFragment mapFragment = (MapFragment) fragmentManager.findFragmentById(R.id.fragment_container_layout);
 
@@ -513,7 +485,7 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
 
     @Override
     public void drawPolyLineOnMap(LatLng destination) {
-        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentManager fragmentManager = getFragmentManager();
         MapFragment mapFragment = (MapFragment) fragmentManager.findFragmentByTag(MyKey.MAP_FRAGMENT_TAG);
         if (mapFragment != null) {
             mapFragment.drawPolyLineOnMap(destination);
@@ -538,22 +510,21 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
                     mainMvpPresenter.onSelectSearchVenueTab();
                 }
                 break;
+            case R.id.tab_home:
+                if (mainMvpPresenter != null) {
+                    mainMvpPresenter.onSelectMapTab();
+                }
+                break;
+
         }
     }
 
     public void openNotificationsFragment() {
         NotificationsFragment fragment = NotificationsFragment.newInstance(userRequests, requestFollows
                 , messageNotifications, requestAddFriendBadge, requestFollowBadge);
-        openFragmentVersionFour(fragment, MyKey.NOTIFICATIONS_FRAGMENT_TAG);
+        MyFragmentUtil.replaceFragment(getFragmentManager(), R.id.fragment_container_layout, fragment, MyKey.NOTIFICATIONS_FRAGMENT_TAG);
     }
 
-    private void openFragmentVersionFour(Fragment newFragment, String tag) {
-        if (currentFragmentTag.equals(MyKey.APP_SETTING_FRAGMENT_TAG)) {
-            replaceAppSettingFragment(newFragment,tag);
-        } else {
-            replaceFragment(newFragment, tag);
-        }
-    }
 
     @Override
     public void setRequestAddFriends(ArrayList<User> userRequests) {
@@ -562,43 +533,33 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
 
     public void openListFriendFragment() {
         ListFriendFragment friendFragment = ListFriendFragment.newInstance();
-        openFragmentVersionFour(friendFragment, MyKey.LIST_FRIEND_FRAGMENT_TAG);
+        MyFragmentUtil.replaceFragment(getFragmentManager(), R.id.fragment_container_layout, ListFriendFragment.newInstance(), MyKey.LIST_FRIEND_FRAGMENT_TAG);
+
     }
 
     public void openProfileDialogFragment(User user) {
         ProfileDialogFragment fragment = ProfileDialogFragment.newInstance(user);
-        fragment.show(getSupportFragmentManager(), MyKey.PROFILE_DIALOG_FRAGMENT_TAG);
+        fragment.show(getFragmentManager(), MyKey.PROFILE_DIALOG_FRAGMENT_TAG);
     }
 
     @Override
     public void openChatDialogFragment(User friend) {
         ChatDialogFragment fragment = ChatDialogFragment.newInstance(friend);
-        fragment.show(getSupportFragmentManager(), MyKey.CHAT_DIALOG_FRAGMENT_TAG);
+        fragment.show(getFragmentManager(), MyKey.CHAT_DIALOG_FRAGMENT_TAG);
     }
 
-    private void replaceAppSettingFragment(Fragment newFragment, String tag) {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        Fragment fragment = fragmentManager.findFragmentByTag(tag);
-        if (fragment == null) {
-            android.app.FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-            fragmentTransaction.remove(getFragmentManager().findFragmentById(R.id.fragment_container_layout)).commit();
-
-            FragmentTransaction transactionV4 = fragmentManager.beginTransaction();
-            transactionV4.add(R.id.fragment_container_layout, newFragment, tag).commit();
-            currentFragmentTag = MyKey.SEARCH_VENUE_FRAGMENT_TAG;
-        }
-    }
 
     public void openSearchVenueFragment() {
         SearchVenueFragment venueFragment = SearchVenueFragment.newInstance();
-        openFragmentVersionFour(venueFragment,MyKey.SEARCH_VENUE_FRAGMENT_TAG);
+        MyFragmentUtil.replaceFragment(getFragmentManager(), R.id.fragment_container_layout, SearchVenueFragment.newInstance(), MyKey.SEARCH_VENUE_FRAGMENT_TAG);
+
     }
 
 
     @Override
     public void openAddFriendDialogFragment() {
         AddFriendDialogFragment fragment = AddFriendDialogFragment.newInstance();
-        fragment.show(getSupportFragmentManager(), MyKey.ADD_FRIEND_DIALOG_FRAGMENT_TAG);
+        fragment.show(getFragmentManager(), MyKey.ADD_FRIEND_DIALOG_FRAGMENT_TAG);
     }
 
     @Override
@@ -677,11 +638,30 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
         }
     }
 
+    public void openMapFragment() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        if (googleApiClient != null) {
+            currentUserLocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
+        }
+        MyFragmentUtil.replaceFragment(getFragmentManager(), R.id.fragment_container_layout, MapFragment.newInstance(currentUserLocation), MyKey.MAP_FRAGMENT_TAG);
+
+    }
+
     @Override
     public void openMapFragmentFromSearchFragment(Bundle bundleSearchVenue) {
         MapFragment fragment = MapFragment.newInstance(currentUserLocation);
         fragment.setArguments(bundleSearchVenue);
-        openFragmentVersionFour(fragment, "MapFragment2");
+        openMapFragment();
+
     }
 
     @Override
@@ -736,13 +716,19 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
             this.locationRequest = locationRequest;
             LocationServices.FusedLocationApi.requestLocationUpdates(
                     googleApiClient, locationRequest, this);
+            checkRequestUpdateLocation = true;
         }
     }
 
     @Override
     public void turnOffLocationUpdate() {
-        LocationServices.FusedLocationApi.removeLocationUpdates(
-                googleApiClient, this);
+        if (checkRequestUpdateLocation) {
+            LocationServices.FusedLocationApi.removeLocationUpdates(
+                    googleApiClient, this);
+            checkRequestUpdateLocation = false;
+        }
+
+
     }
 
     @Override

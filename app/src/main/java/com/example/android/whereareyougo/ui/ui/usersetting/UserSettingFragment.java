@@ -10,6 +10,7 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -214,7 +215,7 @@ public class UserSettingFragment extends BaseFragment implements UserSettingView
   }
 
   public void pickImageFromGallery(){
-    Matisse.from(this)
+    Matisse.from(getActivity())
             .choose(MimeType.allOf())
             .countable(true)
             .maxSelectable(1)
@@ -280,8 +281,10 @@ public class UserSettingFragment extends BaseFragment implements UserSettingView
   public void checkPermisstionsRead(){
     if (ContextCompat.checkSelfPermission(getActivity(),permission.READ_EXTERNAL_STORAGE)
         != PackageManager.PERMISSION_GRANTED ) {
-      requestPermissions(new String[]{permission.READ_EXTERNAL_STORAGE},
-          MyKey.REQUEST_PERMISSION_READ_EXTERNAL);
+      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        requestPermissions(new String[]{permission.READ_EXTERNAL_STORAGE},
+            MyKey.REQUEST_PERMISSION_READ_EXTERNAL);
+      }
 
       // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
       // app-defined int constant

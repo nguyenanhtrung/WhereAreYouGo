@@ -1,6 +1,7 @@
 package com.example.android.whereareyougo.ui.ui.base;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,7 +11,7 @@ import com.example.android.whereareyougo.ui.di.component.ActivityComponent;
  * Created by nguyenanhtrung on 09/06/2017.
  */
 
-public class BaseFragment extends android.support.v4.app.Fragment implements MvpView {
+public class BaseFragment extends Fragment implements MvpView {
 
   private BaseActivity activity;
 

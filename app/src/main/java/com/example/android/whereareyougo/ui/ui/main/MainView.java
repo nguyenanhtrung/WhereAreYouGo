@@ -59,4 +59,6 @@ public interface MainView extends MvpView {
 
     String getCurrentFragmentTag();
 
+    void openMapFragment();
+
 }

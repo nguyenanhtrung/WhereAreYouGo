@@ -99,6 +99,10 @@ public class MainPresenter<V extends MainView> extends BasePresenter<V> implemen
         getMvpView().openSearchVenueFragment();
     }
 
+    public void onSelectMapTab(){
+        getMvpView().openMapFragment();
+    }
+
     @Override
     public void updateListRequestFollow() {
         getDataManager().getListRequestFollow()

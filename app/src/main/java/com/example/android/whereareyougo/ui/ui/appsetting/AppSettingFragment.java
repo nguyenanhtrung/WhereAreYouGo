@@ -38,6 +38,7 @@ public class AppSettingFragment extends PreferenceFragment implements AppSetting
     private LocationRequest locationRequest;
     private boolean isReset = false;
     private SwitchPreference switchPreference;
+    private boolean checkRequestLocationUpdate = false;
 
 
     public static final long DEFAULT_UPDATE_INTERVAL = 1;
@@ -48,10 +49,11 @@ public class AppSettingFragment extends PreferenceFragment implements AppSetting
 
     }
 
-    public static AppSettingFragment newInstance(LocationRequest locationRequest) {
+    public static AppSettingFragment newInstance(LocationRequest locationRequest, boolean checkRequestLocationUpdate) {
         AppSettingFragment fragment = new AppSettingFragment();
         Bundle bundle = new Bundle();
         bundle.putParcelable("locationrequest", locationRequest);
+        bundle.putBoolean("requestlocationupdate",checkRequestLocationUpdate);
         fragment.setArguments(bundle);
 
         return fragment;
@@ -77,12 +79,12 @@ public class AppSettingFragment extends PreferenceFragment implements AppSetting
         interaction = (InteractionWithAppSettingFragment) getActivity();
         interaction.getActivityComponent().inject(this);
         initPreferences();
-        initSwitchUpdateLocationPref();
-        //
 
+        //
         Bundle bundle = getArguments();
         if (bundle != null) {
             locationRequest = bundle.getParcelable("locationrequest");
+            checkRequestLocationUpdate = bundle.getBoolean("requestlocationupdate");
             if (locationRequest == null) {
                 createLocationRequest();
 
@@ -93,6 +95,7 @@ public class AppSettingFragment extends PreferenceFragment implements AppSetting
             //create new location request with location setting default
             createLocationRequest();
         }
+        initSwitchUpdateLocationPref();
         //
 
     }
@@ -102,14 +105,18 @@ public class AppSettingFragment extends PreferenceFragment implements AppSetting
     }
 
     private void initSwitchUpdateLocationPref() {
-        SharedPreferences connectionPref = getPreferenceScreen().getSharedPreferences();
-        if (connectionPref != null) {
-            boolean isTurnOn = connectionPref.getBoolean(getString(R.string.pref_key_request_update_location), false);
-            if (isTurnOn) {
-                connectionPref.edit().putBoolean(getString(R.string.pref_key_request_update_location), false).apply();
-                switchPreference.setChecked(false);
+        if (!checkRequestLocationUpdate){
+            SharedPreferences connectionPref = getPreferenceScreen().getSharedPreferences();
+            if (connectionPref != null) {
+                boolean isTurnOn = connectionPref.getBoolean(getString(R.string.pref_key_request_update_location), false);
+                if (isTurnOn) {
+                    connectionPref.edit().putBoolean(getString(R.string.pref_key_request_update_location), false).apply();
+                }
             }
         }
+        switchPreference.setChecked(checkRequestLocationUpdate);
+        //
+
     }
 
 

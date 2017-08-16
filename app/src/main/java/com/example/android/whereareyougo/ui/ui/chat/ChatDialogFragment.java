@@ -1,13 +1,14 @@
 package com.example.android.whereareyougo.ui.ui.chat;
 
 import android.app.Activity;
+import android.app.DialogFragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
+
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -187,7 +188,7 @@ public class ChatDialogFragment extends DialogFragment implements ChatDialogView
     }
 
     public void pickImageFromGallery() {
-        Matisse.from(this)
+        Matisse.from(getActivity())
                 .choose(MimeType.allOf())
                 .countable(true)
                 .maxSelectable(1)
@@ -426,7 +427,7 @@ public class ChatDialogFragment extends DialogFragment implements ChatDialogView
     }
 
     public void showLoadingDialog(int titleId, int contentId) {
-        loadingDialog = new MaterialDialog.Builder(getContext())
+        loadingDialog = new MaterialDialog.Builder(getActivity())
                 .title(titleId)
                 .content(contentId)
                 .progress(true, 3)
