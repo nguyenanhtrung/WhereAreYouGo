@@ -123,4 +123,10 @@ public interface DatabaseHelper {
   void removeMembersDataByConversationId(String conversationId);
 
   void updateUserLocation(String userId, String userLocation);
+
+  DatabaseReference getUserLocationRef(String userId);
+
+  void saveUserFollowing(String senderId);
+
+  DatabaseReference getFollowingsOfUser(String userId);
 }

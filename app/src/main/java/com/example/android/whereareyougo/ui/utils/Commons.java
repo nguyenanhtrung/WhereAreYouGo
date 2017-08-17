@@ -8,6 +8,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.location.Location;
 import android.net.Uri;
 import android.support.annotation.DrawableRes;
 import android.support.v4.content.ContextCompat;
@@ -55,6 +56,16 @@ public class Commons {
         String time = dateFormat.format(Calendar.getInstance().getTime());
 
         return time;
+    }
+
+    public static String convertLocationToString(Location location){
+        if (location != null){
+            return String.valueOf(location.getLatitude()) +
+                    "," +
+                    location.getLongitude();
+        }
+
+        return null;
     }
 
 

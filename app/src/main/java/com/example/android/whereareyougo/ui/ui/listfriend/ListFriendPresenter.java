@@ -40,7 +40,7 @@ public class ListFriendPresenter<V extends ListFriendView> extends BasePresenter
         getMvpView().openAddFriendDialogFragment();
     }
 
-    public void onClickButtonCall(User friend){
+    public void onClickButtonCall(User friend) {
         getMvpView().callPhone(friend.getPhoneNumber());
     }
 
@@ -111,42 +111,42 @@ public class ListFriendPresenter<V extends ListFriendView> extends BasePresenter
         });
     }
 
-    public void onClickButtonUnfriend(String friendId, int friendPosition){
+    public void onClickButtonUnfriend(String friendId, int friendPosition) {
         //test showing dialog
         getMvpView().showAskUnfriendDialog(friendId, friendPosition);
 
     }
 
-    public void onClickButtonAgreeUnfriendDialog(String friendId, int friendPosition){
-        removeFriend(friendId,friendPosition);
+    public void onClickButtonAgreeUnfriendDialog(String friendId, int friendPosition) {
+        removeFriend(friendId, friendPosition);
     }
 
-    private void removeFriend(String friendId,int friendPostition){
+    private void removeFriend(String friendId, int friendPostition) {
         removeMembersByFriendId(friendId);
         removeFriendOnServer(friendId);
         removeFriendInRecyclerView(friendPostition);
 
     }
 
-    private void removeFriendInRecyclerView(int position){
+    private void removeFriendInRecyclerView(int position) {
         getMvpView().removeFriendInRecyclerView(position);
     }
 
-    private void removeFriendOnServer(String friendId){
-        if (friendId != null){
+    private void removeFriendOnServer(String friendId) {
+        if (friendId != null) {
             getDataManager().removeFriendByFriendId(friendId);
         }
     }
 
-    private void removeMembersByFriendId(String friendId){
+    private void removeMembersByFriendId(String friendId) {
         //get conversationId between userId and friendId
         String conversationId = getConversationId(friendId);
-        if (conversationId != null){
+        if (conversationId != null) {
             getDataManager().removeMembersDataByConversationId(conversationId);
         }
     }
 
-    private String getConversationId(String friendId){
+    private String getConversationId(String friendId) {
         String userId = getDataManager().getCurrentUserId();
         //create conversationId between user and friend
         StringBuilder builder = new StringBuilder();
@@ -187,25 +187,5 @@ public class ListFriendPresenter<V extends ListFriendView> extends BasePresenter
         }
     }
 
-    /*
-    //test memebers reference
-    public void getConversationIdsByMembersRef(String userId){
-        DatabaseReference membersRef = getDataManager().getMembersReference();
-        membersRef.orderByChild("userId").equalTo(userId)
-                .addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        for(DataSnapshot snapshot : dataSnapshot.getChildren()){
-                            String myKey = snapshot.getKey();
-                            Log.d(MyKey.LIST_FRIEND_FRAGMENT_TAG, "My key = " + myKey);
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });
-    }*/
 
 }

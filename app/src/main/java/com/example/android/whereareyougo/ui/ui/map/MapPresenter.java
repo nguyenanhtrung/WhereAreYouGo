@@ -10,6 +10,10 @@ import com.example.android.whereareyougo.ui.data.remote.ApiHelper;
 import com.example.android.whereareyougo.ui.data.remote.RetrofitClient;
 import com.example.android.whereareyougo.ui.ui.base.BasePresenter;
 import com.example.android.whereareyougo.ui.utils.MyKey;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,11 +30,14 @@ import retrofit2.Response;
 
 public class MapPresenter<V extends MapMvpView> extends BasePresenter<V> implements
         MapMvpPresenter<V> {
+    private DatabaseReference userLocationRef;
 
     @Inject
     public MapPresenter(DataManager dataManager) {
         super(dataManager);
     }
+
+
 
 
     @Override

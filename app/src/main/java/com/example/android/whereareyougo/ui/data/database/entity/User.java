@@ -21,7 +21,7 @@ public class User implements android.os.Parcelable {
   private String phoneNumber;
   private String imageUrl;
   private String status;
-  private String currentPosition;
+  private String currentLocation;
 
   public User(String name, String email, String password) {
     this.name = name;
@@ -89,12 +89,12 @@ public class User implements android.os.Parcelable {
     this.status = status;
   }
 
-  public String getCurrentPosition() {
-    return currentPosition;
+  public String getCurrentLocation() {
+    return currentLocation;
   }
 
-  public void setCurrentPosition(String currentPosition) {
-    this.currentPosition = currentPosition;
+  public void setCurrentLocation(String currentLocation) {
+    this.currentLocation = currentLocation;
   }
 
   public Map<String,Object> toMap(){
@@ -124,7 +124,7 @@ public class User implements android.os.Parcelable {
     dest.writeString(this.phoneNumber);
     dest.writeString(this.imageUrl);
     dest.writeString(this.status);
-    dest.writeString(this.currentPosition);
+    dest.writeString(this.currentLocation);
   }
 
   protected User(Parcel in) {
@@ -135,7 +135,7 @@ public class User implements android.os.Parcelable {
     this.phoneNumber = in.readString();
     this.imageUrl = in.readString();
     this.status = in.readString();
-    this.currentPosition = in.readString();
+    this.currentLocation = in.readString();
   }
 
   public static final Creator<User> CREATOR = new Creator<User>() {

@@ -5,6 +5,7 @@ import android.app.FragmentManager;
 import android.content.Context;
 
 import android.support.v13.app.FragmentPagerAdapter;
+import android.support.v13.app.FragmentStatePagerAdapter;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,7 +27,7 @@ import java.util.HashMap;
  * Created by nguyenanhtrung on 05/07/2017.
  */
 
-public class NotificationsFragmentPagerAdapter extends FragmentPagerAdapter {
+public class NotificationsFragmentPagerAdapter extends FragmentStatePagerAdapter {
     private final int PAGE_COUNT = 4;
     private Context context;
     private ArrayList<User> userRequests;

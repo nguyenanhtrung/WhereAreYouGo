@@ -41,6 +41,7 @@ import com.example.android.whereareyougo.ui.ui.base.BaseActivity;
 import com.example.android.whereareyougo.ui.ui.chat.ChatDialogFragment;
 import com.example.android.whereareyougo.ui.ui.favoritevenues.ListFavoriteVenueFragment;
 import com.example.android.whereareyougo.ui.ui.followers.FollowersFragment;
+import com.example.android.whereareyougo.ui.ui.followings.FollowingsFragment;
 import com.example.android.whereareyougo.ui.ui.listfriend.ListFriendFragment;
 import com.example.android.whereareyougo.ui.ui.map.ListVenueDialogFragment;
 import com.example.android.whereareyougo.ui.ui.map.MapFragment;
@@ -304,6 +305,10 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
                     case MyKey.APP_SETTING_ITEM:
                         mainMvpPresenter.onClickAppSettingItemUserDrawer();
                         break;
+                    case MyKey.FOLLOWINGS_ITEM:
+                        mainMvpPresenter.onClickFollowingsItemUserDrawer();
+                        break;
+
                 }
                 return true;
             }
@@ -317,6 +322,11 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
         MyFragmentUtil.replaceFragment(getFragmentManager(), R.id.fragment_container_layout, AppSettingFragment.newInstance(locationRequest, checkRequestUpdateLocation),
                 MyKey.FOLLOWERS_FRAGMENT_TAG);
 
+    }
+
+    public void openFollowingsFragment() {
+        MyFragmentUtil.replaceFragment(getFragmentManager(), R.id.fragment_container_layout, FollowingsFragment.newInstance(),
+                MyKey.FOLLOWINGS_FRAGMENT_TAG);
     }
 
 
@@ -462,6 +472,11 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
     @Override
     public Context getContextOfFragment() {
         return this;
+    }
+
+    @Override
+    public boolean getCheckRequestLocationUpdate() {
+        return checkRequestUpdateLocation;
     }
 
     private void dismissListVenueDialogFragment() {
@@ -678,15 +693,17 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
         }
         currentUserLocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
         //
-        displayCurrentUserLocation(currentUserLocation);
+        if (mainMvpPresenter != null) {
+            mainMvpPresenter.onGoogleApiClientConnected();
+        }
 
     }
 
-    public void displayCurrentUserLocation(Location currentLocation) {
-        if (currentLocation != null) {
-            setupMapFragment(currentLocation);
-        } else {
-            setupMapFragment(null);
+    public void displayCurrentUserLocation(Location location) {
+        if (location != null) {
+            Toast.makeText(this, "userLocation = " + location.getLatitude(), Toast.LENGTH_SHORT).show();
+
+            setupMapFragment(location);
         }
     }
 
@@ -727,19 +744,23 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
                     googleApiClient, this);
             checkRequestUpdateLocation = false;
         }
-
-
     }
+
+    public void updateUserLocationOnMap(Location location) {
+        FragmentManager fragmentManager = getFragmentManager();
+        MapFragment mapFragment = (MapFragment) fragmentManager.findFragmentByTag(MyKey.MAP_FRAGMENT_TAG);
+        if (mapFragment != null) {
+            mapFragment.updateUserLocationOnMap(location);
+        }
+    }
+
 
     @Override
     public void onLocationChanged(Location location) {
         // Toast.makeText(this, "Lat: " + location.getLatitude() + " - Log: " + location.getLongitude(), Toast.LENGTH_SHORT).show();
-        StringBuilder locationBuilder = new StringBuilder();
-        locationBuilder.append(location.getLatitude())
-                .append(",")
-                .append(location.getLongitude());
+
         if (mainMvpPresenter != null) {
-            mainMvpPresenter.onUserLocationChange(locationBuilder.toString());
+            mainMvpPresenter.onUserLocationChange(location);
         }
 
     }

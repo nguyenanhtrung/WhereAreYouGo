@@ -24,6 +24,8 @@ public class ListRequestFollowPresenter<V extends ListRequestFollowView> extends
 
         //remove request follow on firebase database
         getDataManager().deleteRequestFollowById(senderId);
+        //add senderId and userId to following node on firebase database
+        getDataManager().saveUserFollowing(senderId);
     }
 
     public void onClickButtonCancel(String senderId, int position){

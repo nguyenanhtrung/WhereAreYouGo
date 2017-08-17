@@ -306,6 +306,21 @@ public class AppDataManager implements DataManager{
     databaseHelper.updateUserLocation(userId,userLocation);
   }
 
+  @Override
+  public DatabaseReference getUserLocationRef(String userId) {
+    return databaseHelper.getUserLocationRef(userId);
+  }
+
+  @Override
+  public void saveUserFollowing(String senderId) {
+    databaseHelper.saveUserFollowing(senderId);
+  }
+
+  @Override
+  public DatabaseReference getFollowingsOfUser(String userId) {
+    return databaseHelper.getFollowingsOfUser(userId);
+  }
+
 
   @Override
   public void saveUserEmail(String email) {

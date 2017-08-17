@@ -20,6 +20,9 @@ import com.example.android.whereareyougo.ui.ui.favoritevenues.ListFavoriteVenueV
 import com.example.android.whereareyougo.ui.ui.followers.FollowersMvpPresenter;
 import com.example.android.whereareyougo.ui.ui.followers.FollowersPresenter;
 import com.example.android.whereareyougo.ui.ui.followers.FollowersView;
+import com.example.android.whereareyougo.ui.ui.followings.FollowingsMvpPresenter;
+import com.example.android.whereareyougo.ui.ui.followings.FollowingsPresenter;
+import com.example.android.whereareyougo.ui.ui.followings.FollowingsView;
 import com.example.android.whereareyougo.ui.ui.listfriend.ListFriendMvpPresenter;
 import com.example.android.whereareyougo.ui.ui.listfriend.ListFriendPresenter;
 import com.example.android.whereareyougo.ui.ui.listfriend.ListFriendView;
@@ -209,6 +212,12 @@ public class ActivityModule {
     @Provides
     @PerActivity
     LocationUpdateSettingMvpPresenter<LocationUpdateSettingView> provideLocationUpdateSettingPresenter(LocationUpdateSettingPresenter<LocationUpdateSettingView> presenter) {
+        return presenter;
+    }
+
+    @Provides
+    @PerActivity
+    FollowingsMvpPresenter<FollowingsView> provideFollowingsPresenter(FollowingsPresenter<FollowingsView> presenter) {
         return presenter;
     }
 }

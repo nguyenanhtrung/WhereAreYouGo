@@ -13,6 +13,6 @@ public class MyFragmentUtil {
     }
 
     public static void addFragment(FragmentManager fragmentManager, int containerId, Fragment newFragment, String tag){
-        fragmentManager.beginTransaction().add(containerId,newFragment,tag);
+        fragmentManager.beginTransaction().add(containerId,newFragment,tag).commit();
     }
 }

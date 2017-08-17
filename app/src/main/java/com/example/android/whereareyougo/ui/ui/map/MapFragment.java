@@ -12,6 +12,7 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.DrawableRes;
@@ -68,7 +69,7 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.maps.android.clustering.Cluster;
 import com.google.maps.android.clustering.ClusterItem;
 import com.google.maps.android.clustering.ClusterManager;
-import com.wang.avi.AVLoadingIndicatorView;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -116,6 +117,7 @@ public class MapFragment extends BaseFragment implements MapMvpView, OnMapReadyC
     private ArrayList<VenueMarkerItem> venueMarkerItems;
     private MaterialDialog loadingDialog;
     private Bundle bundleSearchVenue;
+    private boolean checkRequestLocationUpdate = false;
 
     public static MapFragment newInstance(Location currentUserLocation) {
         MapFragment mapFragment = new MapFragment();
@@ -142,27 +144,44 @@ public class MapFragment extends BaseFragment implements MapMvpView, OnMapReadyC
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(MapFragment.this);
 
-        if (bundleSearchVenue != null) {
+        /*if (bundleSearchVenue != null) {
             mapMvpPresenter.getVenuesByRadiusAndCategory(bundleSearchVenue);
 
-        }
+        }*/
         return view;
 
     }
 
+    public void updateUserLocationOnMap(Location location) {
+        lastKnownLocation = location;
+        if (currentLocationMarker == null) {
+            showCurrentLocation();
+        } else {
+            currentLocationMarker.setPosition(new LatLng(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude()));
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(
+                    new LatLng(lastKnownLocation.getLatitude(),
+                            lastKnownLocation.getLongitude()), MyKey.ZOOM_LEVEl_DEFAULT));
+        }
 
+
+    }
 
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        bundleSearchVenue = getArguments();
+        /*bundleSearchVenue = getArguments();
         if (bundleSearchVenue == null) {
             Toast.makeText(getActivity(), "Bundle Search Null", Toast.LENGTH_SHORT).show();
         } else {
-            lastKnownLocation = bundleSearchVenue.getParcelable("currentlocation");
             //Log.d(MyKey.MAP_FRAGMENT_TAG,"current location = " + lastKnownLocation.toString());
+        }*/
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            lastKnownLocation = bundle.getParcelable("currentlocation");
+            //Toast.makeText(getActivity(), "UserLocation = " + lastKnownLocation.getLatitude(), Toast.LENGTH_SHORT).show();
         }
+        //
     }
 
     public void drawPolyLineOnMap(LatLng destination) {
@@ -381,7 +400,7 @@ public class MapFragment extends BaseFragment implements MapMvpView, OnMapReadyC
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
                     // Permission was granted.
-                    if (ContextCompat.checkSelfPermission(getContext(),
+                    if (ContextCompat.checkSelfPermission(getActivity(),
                             permission.ACCESS_FINE_LOCATION)
                             == PackageManager.PERMISSION_GRANTED) {
 
@@ -391,7 +410,7 @@ public class MapFragment extends BaseFragment implements MapMvpView, OnMapReadyC
                 } else {
 
                     // Permission denied, Disable the functionality that depends on this permission.
-                    Toast.makeText(getContext(), "permission denied", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(), "permission denied", Toast.LENGTH_LONG).show();
                 }
                 return;
         }
@@ -405,17 +424,19 @@ public class MapFragment extends BaseFragment implements MapMvpView, OnMapReadyC
         if (ContextCompat.checkSelfPermission(getActivity(), permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
             initMap();
-            turnOnMyLocationLayer();
+           // turnOnMyLocationLayer();
             // buildGoogleApiClient();
             // googleApiClient.connect();
             showCurrentLocation();
 
         } else {
             // Show rationale and request permission.
-            requestPermissions(new String[]{permission.ACCESS_FINE_LOCATION},
-                    MyKey.PERMISSIONS_REQUEST_LOCATION);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                requestPermissions(new String[]{permission.ACCESS_FINE_LOCATION},
+                        MyKey.PERMISSIONS_REQUEST_LOCATION);
+            }
             initMap();
-            turnOnMyLocationLayer();
+         //   turnOnMyLocationLayer();
             // buildGoogleApiClient();
             // googleApiClient.connect();
             showCurrentLocation();
@@ -424,11 +445,12 @@ public class MapFragment extends BaseFragment implements MapMvpView, OnMapReadyC
         }
 
 
+
     }
 
     private void initMap() {
 
-        map.getUiSettings().setMyLocationButtonEnabled(true);
+        map.getUiSettings().setMyLocationButtonEnabled(false);
         map.setPadding(0, 80, 0, 0);
         setupClusterManager();
 
@@ -459,21 +481,7 @@ public class MapFragment extends BaseFragment implements MapMvpView, OnMapReadyC
         }
     }
 
-    private void showCurrentLocation() {
-
-        if (locationPermissionGranted) {
-
-
-            /*try {
-                lastKnownLocation = LocationServices.FusedLocationApi
-                        .getLastLocation(googleApiClient);
-            } catch (SecurityException e) {
-                e.printStackTrace();
-            }*/
-
-
-        }
-
+    public void showCurrentLocation() {
         if (lastKnownLocation != null) {
 
             LayoutInflater inflater = (LayoutInflater) interactionWithMapFragment.getContextOfFragment()
@@ -614,17 +622,15 @@ public class MapFragment extends BaseFragment implements MapMvpView, OnMapReadyC
 
     public String getCurrentUserLocation() {
         if (lastKnownLocation != null) {
-            StringBuilder builder = new StringBuilder();
-            builder.append(String.valueOf(lastKnownLocation.getLatitude()))
-                    .append(",")
-                    .append(String.valueOf(lastKnownLocation.getLongitude()));
+            String builder = String.valueOf(lastKnownLocation.getLatitude()) +
+                    "," +
+                    String.valueOf(lastKnownLocation.getLongitude());
 
-            return builder.toString();
+            return builder;
         }
 
         return null;
     }
-
 
 
     public void openVenueDetailDialogFragment(String venueId) {
@@ -646,6 +652,8 @@ public class MapFragment extends BaseFragment implements MapMvpView, OnMapReadyC
         void openVenueDetailDialogFragment(String venueId);
 
         Context getContextOfFragment();
+
+        boolean getCheckRequestLocationUpdate();
     }
 
 }

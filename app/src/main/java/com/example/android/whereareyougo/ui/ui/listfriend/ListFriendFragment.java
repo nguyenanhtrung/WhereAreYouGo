@@ -163,12 +163,11 @@ public class ListFriendFragment extends BaseFragment implements ListFriendView, 
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                if (loadingFriends.isShown()) {
-                    hideLoading();
-                    users = datas;
-                    adapter = new FriendsRecyclerViewAdapter(getActivity(), users, ListFriendFragment.this);
-                    recyclerViewFriends.setAdapter(adapter);
-                }
+                hideLoading();
+                users = datas;
+                adapter = new FriendsRecyclerViewAdapter(getActivity(), users, ListFriendFragment.this);
+                recyclerViewFriends.setAdapter(adapter);
+
             }
         }, 3000);
 
@@ -181,8 +180,9 @@ public class ListFriendFragment extends BaseFragment implements ListFriendView, 
         super.onAttach(context);
         Callback callback = (Callback) context;
         callback.getActivityComponent().inject(this);
-        interaction = (InteractionWithListFriendFragment) context;
         presenter.onAttach(this);
+        interaction = (InteractionWithListFriendFragment) context;
+
     }
 
     @Override
@@ -295,14 +295,12 @@ public class ListFriendFragment extends BaseFragment implements ListFriendView, 
     }
 
     public void callPhone(String phoneNumber) {
-        if (phoneNumber != null){
+        if (phoneNumber != null) {
             interaction.callPhone(phoneNumber);
-        }else{
+        } else {
             //show message to user: friend phone number not exists
         }
     }
-
-
 
 
     public void showMessage(int messageId) {

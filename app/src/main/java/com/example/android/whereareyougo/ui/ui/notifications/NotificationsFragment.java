@@ -1,6 +1,7 @@
 package com.example.android.whereareyougo.ui.ui.notifications;
 
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
@@ -94,8 +95,10 @@ public class NotificationsFragment extends BaseFragment implements Notifications
     }
 
     private void setupViewPager() {
-        pagerAdapter = new NotificationsFragmentPagerAdapter(getFragmentManager(), getActivity(), userRequests, requestFollows
-        ,messageNotifications);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            pagerAdapter = new NotificationsFragmentPagerAdapter(getChildFragmentManager(), getActivity(), userRequests, requestFollows
+            ,messageNotifications);
+        }
         viewPager.setAdapter(pagerAdapter);
         viewPager.setCurrentItem(0);
         tabLayout.setupWithViewPager(viewPager);

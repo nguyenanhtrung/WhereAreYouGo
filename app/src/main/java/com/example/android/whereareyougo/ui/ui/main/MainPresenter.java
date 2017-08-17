@@ -12,6 +12,7 @@ import com.example.android.whereareyougo.ui.data.database.entity.RequestFollow;
 import com.example.android.whereareyougo.ui.data.database.entity.User;
 import com.example.android.whereareyougo.ui.data.manager.DataManager;
 import com.example.android.whereareyougo.ui.ui.base.BasePresenter;
+import com.example.android.whereareyougo.ui.utils.Commons;
 import com.example.android.whereareyougo.ui.utils.MyKey;
 import com.example.android.whereareyougo.ui.utils.NetworkUtil;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -58,15 +59,36 @@ public class MainPresenter<V extends MainView> extends BasePresenter<V> implemen
         });
     }
 
-    public void onClickAppSettingItemUserDrawer(){
+    public void onClickAppSettingItemUserDrawer() {
         getMvpView().openAppSettingFragment();
         getMvpView().closeUserSettingDrawer();
     }
 
-    public void onUserLocationChange(String userLocation){
-        if (userLocation != null){
-            getDataManager().updateUserLocation(getDataManager().getCurrentUserId(),userLocation);
+    public void onUserLocationChange(Location userLocation) {
+        if (userLocation != null) {
+            //update user location on firebase database
+            StringBuilder locationBuilder = new StringBuilder();
+            locationBuilder.append(userLocation.getLatitude())
+                    .append(",")
+                    .append(userLocation.getLongitude());
+            getDataManager().updateUserLocation(getDataManager().getCurrentUserId(), locationBuilder.toString());
+            //update user location on Map
+            getMvpView().updateUserLocationOnMap(userLocation);
+
         }
+    }
+
+    public void onClickFollowingsItemUserDrawer() {
+        getMvpView().closeUserSettingDrawer();
+        getMvpView().openFollowingsFragment();
+    }
+
+    public void onGoogleApiClientConnected() {
+        //
+        getMvpView().displayCurrentUserLocation(getMvpView().getCurrentUserLocation());
+        //update user location on firebase database
+        getDataManager().updateUserLocation(getDataManager().getCurrentUserId(),
+                Commons.convertLocationToString(getMvpView().getCurrentUserLocation()));
     }
 
     public void updaterUserStatus() {
@@ -99,7 +121,7 @@ public class MainPresenter<V extends MainView> extends BasePresenter<V> implemen
         getMvpView().openSearchVenueFragment();
     }
 
-    public void onSelectMapTab(){
+    public void onSelectMapTab() {
         getMvpView().openMapFragment();
     }
 

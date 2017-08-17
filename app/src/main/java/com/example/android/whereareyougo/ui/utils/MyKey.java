@@ -68,4 +68,5 @@ public class MyKey {
   public static final int MIN_INTERVAL_UPDATE_LOCATION = 60000;
   public static final int MIN_DISTANCE_UPDATE_LOCATION = 0;
   public static final int MAX_DISTANCE_UPDATE_LOCATION = 50000;
+  public static final String FOLLOWINGS_FRAGMENT_TAG = "followingsfragment";
 }

@@ -139,6 +139,16 @@ public class AppDatabaseHelper implements DatabaseHelper {
         }
     }
 
+    public DatabaseReference getUserLocationRef(String userId){
+        if (userId != null){
+            DatabaseReference locationRef = databaseReference.getRef().child("users")
+                    .child(userId)
+                    .child("currentlocation");
+            return locationRef;
+        }
+        return null;
+    }
+
     public DatabaseReference getUserInfo(String userId) {
         if (userId != null) {
             DatabaseReference userRef = databaseReference.getRef().child("users").child(userId);
@@ -479,6 +489,31 @@ public class AppDatabaseHelper implements DatabaseHelper {
             friendsRef.removeValue();
 
 
+        }
+    }
+
+    public DatabaseReference getFollowingsOfUser(String userId){
+        if (userId != null){
+            DatabaseReference followingsRef=  databaseReference.getRef()
+                    .child("followings")
+                    .child(userId);
+            return followingsRef;
+
+
+        }
+        return null;
+    }
+
+    public void saveUserFollowing(String senderId){
+        String userId = firebaseAuth.getCurrentUser().getUid();
+        if (senderId != null && userId != null){
+            DatabaseReference followingRef = databaseReference.getRef()
+                    .child("followings")
+                    .child(senderId)
+                    .child(userId)
+                    .child("followingid");
+
+            followingRef.setValue(userId);
         }
     }
 

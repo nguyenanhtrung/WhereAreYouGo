@@ -61,4 +61,12 @@ public interface MainView extends MvpView {
 
     void openMapFragment();
 
+    void updateUserLocationOnMap(Location location);
+
+    void openFollowingsFragment();
+
+    void displayCurrentUserLocation(Location location);
+
+    Location getCurrentUserLocation();
+
 }
