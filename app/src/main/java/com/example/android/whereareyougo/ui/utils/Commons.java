@@ -69,6 +69,8 @@ public class Commons {
     }
 
 
+
+
     public static Bitmap getMarkerBitmapFromView(View view, Bitmap bitmap, int drawableId) {
         CircleImageView mMarkerImageView = (CircleImageView) view.findViewById(R.id.image_user);
         if (drawableId == MyKey.NO_DRAWABLE) {

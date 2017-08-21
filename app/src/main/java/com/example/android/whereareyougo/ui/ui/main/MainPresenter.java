@@ -78,6 +78,10 @@ public class MainPresenter<V extends MainView> extends BasePresenter<V> implemen
         }
     }
 
+    public void onSelectFriendsMapTab(){
+        getMvpView().openFriendsMapFragment();
+    }
+
     public void onClickFollowingsItemUserDrawer() {
         getMvpView().closeUserSettingDrawer();
         getMvpView().openFollowingsFragment();

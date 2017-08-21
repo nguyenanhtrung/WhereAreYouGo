@@ -13,10 +13,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.beardedhen.androidbootstrap.BootstrapButton;
+
 import com.example.android.whereareyougo.R;
 import com.example.android.whereareyougo.ui.data.database.entity.Result;
 import com.example.android.whereareyougo.ui.ui.adapter.VenuesRecyclerViewAdapter;
@@ -42,7 +43,7 @@ public class ListVenueDialogFragment extends DialogFragment implements View.OnCl
     TextView textNumOfResult;
     Unbinder unbinder;
     @BindView(R.id.button_okay)
-    BootstrapButton buttonOkay;
+    Button buttonOkay;
 
     private ArrayList<Result> venues;
     private ArrayList<Result> venuesSelected;

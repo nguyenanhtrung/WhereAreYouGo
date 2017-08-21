@@ -69,4 +69,5 @@ public interface MainView extends MvpView {
 
     Location getCurrentUserLocation();
 
+    void openFriendsMapFragment();
 }

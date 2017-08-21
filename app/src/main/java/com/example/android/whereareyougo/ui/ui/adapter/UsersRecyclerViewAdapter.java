@@ -5,9 +5,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
-import com.beardedhen.androidbootstrap.BootstrapButton;
+
 import com.bumptech.glide.Glide;
 import com.example.android.whereareyougo.R;
 import com.example.android.whereareyougo.ui.data.database.entity.User;
@@ -101,12 +102,12 @@ public class UsersRecyclerViewAdapter extends UltimateViewAdapter<UsersRecyclerV
     public class UserViewHolder extends UltimateRecyclerviewViewHolder implements View.OnClickListener{
         CircleImageView imageUser;
         TextView textUserName;
-        BootstrapButton buttonAdd;
+        Button buttonAdd;
         public UserViewHolder(View itemView) {
             super(itemView);
             imageUser = (CircleImageView) itemView.findViewById(R.id.circle_image_friend);
             textUserName = (TextView) itemView.findViewById(R.id.text_friend_name);
-            buttonAdd = (BootstrapButton) itemView.findViewById(R.id.button_add_friend);
+            buttonAdd = (Button) itemView.findViewById(R.id.button_add_friend);
             //itemView.setOnClickListener(this);
             buttonAdd.setOnClickListener(this);
         }

@@ -67,6 +67,7 @@ public class AddFriendPresenter<V extends AddFriendView> extends BasePresenter<V
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         Friend friend = dataSnapshot.getValue(Friend.class);
                         if (friend != null) {
+
                             //set button add friend --> button already add friend
                             getMvpView().setButtonAddFriendEnable(R.string.text_already_add_friend, false);
                         } else {
@@ -112,7 +113,10 @@ public class AddFriendPresenter<V extends AddFriendView> extends BasePresenter<V
                         List<User> users = new ArrayList<>();
                         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                             User user = snapshot.getValue(User.class);
-                            users.add(user);
+                            if (!user.getUserID().equals(getDataManager().getCurrentUserId())){
+                                users.add(user);
+                            }
+
                         }
                         //set data for recyclerview adapter
                         getMvpView().setupUsersRecyclerViewAdapter(users);
@@ -136,7 +140,9 @@ public class AddFriendPresenter<V extends AddFriendView> extends BasePresenter<V
                         List<User> users = new ArrayList<>();
                         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                             User user = snapshot.getValue(User.class);
-                            users.add(user);
+                            if (!user.getUserID().equals(getDataManager().getCurrentUserId())){
+                                users.add(user);
+                            }
                         }
                         //set data for recyclerview adapter
                         getMvpView().setupUsersRecyclerViewAdapter(users);

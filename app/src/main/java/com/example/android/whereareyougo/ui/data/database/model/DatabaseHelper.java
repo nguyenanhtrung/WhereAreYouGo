@@ -129,4 +129,6 @@ public interface DatabaseHelper {
   void saveUserFollowing(String senderId);
 
   DatabaseReference getFollowingsOfUser(String userId);
+
+  DatabaseReference getFollowingsRefById(String userId);
 }

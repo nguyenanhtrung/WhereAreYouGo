@@ -71,7 +71,7 @@
     app:layout_constraintRight_toRightOf="parent"
     app:layout_constraintHorizontal_bias="0.6" />
 
-  <com.beardedhen.androidbootstrap.BootstrapButton
+  <Button
     android:id="@+id/button_sign_up"
     android:layout_width="@dimen/width_button"
     android:layout_height="@dimen/height_button"
@@ -84,7 +84,7 @@
     android:layout_marginStart="66dp"
     />
 
-  <com.beardedhen.androidbootstrap.BootstrapButton
+  <Button
     android:id="@+id/button_close_dialog"
     android:layout_width="@dimen/width_button"
     android:layout_height="@dimen/height_button"

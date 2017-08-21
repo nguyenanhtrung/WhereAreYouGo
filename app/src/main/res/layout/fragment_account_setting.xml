@@ -231,12 +231,13 @@
     </android.support.constraint.ConstraintLayout>
 
 
-    <com.beardedhen.androidbootstrap.BootstrapButton
+    <Button
         android:id="@+id/button_save"
         android:layout_width="@dimen/width_button"
         android:layout_height="@dimen/height_button"
         android:layout_marginTop="16dp"
         android:text="@string/button_save"
+        android:textColor="#FFFFFF"
         android:visibility="invisible"
         style="@style/Button"
         app:layout_constraintHorizontal_bias="0.5"
@@ -244,12 +245,13 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view" />
 
-    <com.beardedhen.androidbootstrap.BootstrapButton
+    <Button
         android:id="@+id/button_edit"
         android:layout_width="@dimen/width_button"
         android:layout_height="@dimen/height_button"
         android:layout_marginTop="20dp"
         android:text="@string/button_edit"
+        android:textColor="#FFFFFF"
         android:visibility="visible"
         style="@style/Button"
         app:layout_constraintHorizontal_bias="0.5"

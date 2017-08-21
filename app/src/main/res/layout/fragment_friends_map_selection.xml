@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:rc="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/text_title_dialog"
+            style="@style/TitleDialog"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorAccent"
+            android:text="@string/title_following_selection_dialog" />
+
+        <TextView
+            android:id="@+id/text_num_of_following"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="0/5"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <com.marshalchen.ultimaterecyclerview.UltimateRecyclerView
+            android:id="@+id/recycler_view_friends"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="8dp"
+            android:layout_weight="9"
+            rc:recyclerviewEmptyView="@layout/recyclerview_empty" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_weight="1">
+
+            <Button
+                android:id="@+id/button_add_following"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@id/button_cancel"
+                android:layout_toStartOf="@id/button_cancel"
+                android:background="?attr/selectableItemBackground"
+                android:text="@string/add"
+                android:textColor="@color/colorAccent"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/button_cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:background="?attr/selectableItemBackground"
+                android:text="@string/button_close_dialog"
+                android:textColor="@color/colorAccent"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <com.wang.avi.AVLoadingIndicatorView
+        android:id="@+id/loading_followings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        rc:indicatorColor="@color/colorAccent"
+        android:layout_gravity="center"
+        />
+
+
+</FrameLayout>

@@ -101,9 +101,8 @@
 
   <!-- Button -->
   <style name="Button">
-    <item name="buttonMode">regular</item>
-    <item name="roundedCorners">true</item>
-    <item name="bootstrapBrand">success</item>
+    <item name="android:background">@color/colorAccent</item>
+    <item name="android:textColor">#FFFFFF</item>
     <item name="android:elevation">2dp</item>
   </style>
 
@@ -117,7 +116,8 @@
 
   <style name="ButtonLogin" parent="Button">
     <item name="android:width">100dp</item>
-    <item name="bootstrapBrand">secondary</item>
+    <item name="android:textColor">@color/colorPrimaryText</item>
+    <item name="android:background">#FFFFFF</item>
   </style>
 
   <style name="ButtonSignup" parent="ButtonLogin">

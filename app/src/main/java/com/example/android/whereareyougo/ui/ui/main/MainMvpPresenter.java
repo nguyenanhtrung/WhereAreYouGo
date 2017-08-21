@@ -44,4 +44,6 @@ public interface MainMvpPresenter<V extends MainView> extends MvpPresenter<V> {
   void onClickFollowingsItemUserDrawer();
 
   void onGoogleApiClientConnected();
+
+  void onSelectFriendsMapTab();
 }

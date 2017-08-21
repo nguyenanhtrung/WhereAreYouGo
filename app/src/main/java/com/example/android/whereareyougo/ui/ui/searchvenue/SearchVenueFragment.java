@@ -8,9 +8,9 @@ import android.support.v7.widget.GridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
-import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.example.android.whereareyougo.R;
 import com.example.android.whereareyougo.ui.data.database.entity.VenueCategory;
 import com.example.android.whereareyougo.ui.ui.adapter.VenueCategoryAdapter;
@@ -40,7 +40,7 @@ public class SearchVenueFragment extends BaseFragment implements SearchVenueView
     @BindView(R.id.recycler_view_category)
     UltimateRecyclerView recyclerViewCategory;
     @BindView(R.id.button_search)
-    BootstrapButton buttonSearch;
+    Button buttonSearch;
     Unbinder unbinder;
     private VenueCategoryAdapter adapter;
     private List<VenueCategory> venueCategories;

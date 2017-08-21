@@ -492,6 +492,16 @@ public class AppDatabaseHelper implements DatabaseHelper {
         }
     }
 
+    public DatabaseReference getFollowingsRefById(String userId){
+        if (userId != null){
+            DatabaseReference followingsRef = databaseReference.getRef()
+                    .child("followings")
+                    .child(userId);
+            return followingsRef;
+        }
+        return null;
+    }
+
     public DatabaseReference getFollowingsOfUser(String userId){
         if (userId != null){
             DatabaseReference followingsRef=  databaseReference.getRef()

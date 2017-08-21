@@ -43,7 +43,7 @@
         android:gravity="center_horizontal"
         >
 
-        <com.beardedhen.androidbootstrap.BootstrapButton
+        <Button
             android:id="@+id/button_delete_all"
             style="@style/Button"
             android:layout_width="wrap_content"

@@ -11,11 +11,20 @@ import java.util.List;
 
 public interface AddFriendView extends MvpView {
     void showMessage(int messageId);
+
     void setupUsersRecyclerViewAdapter(List<User> userList);
+
     void clearDataForFriendsRecyclerView();
+
     void clearEditTextName();
+
     void clearEditTextPhone();
+
     boolean checkSearchByName();
+
     void closeDialog();
+
     void setButtonAddFriendEnable(int idContent, boolean isEnable);
+
+    void setButtonAddFriendVisibility(boolean isVisible);
 }

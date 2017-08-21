@@ -51,7 +51,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:fab_label="@string/label_add_friend"
-            app:fab_colorNormal="@color/bootstrap_brand_warning"
+            app:fab_colorNormal="@color/md_red_400"
             app:fab_size="mini" />
     </com.github.clans.fab.FloatingActionMenu>
 

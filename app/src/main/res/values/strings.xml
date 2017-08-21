@@ -263,4 +263,8 @@
   <string name="error_number_format">Dữ liệu nhập vào có chứa kí tự! Mời nhập lại</string>
   <string name="error_input">Lỗi dữ liệu nhập vào</string>
   <string name="summary_priority_update_location">Độ ưu tiên: </string>
+  <string name="add">Thêm</string>
+  <string name="title_following_selection_dialog">Danh sách có thể theo dõi</string>
+  <string name="title_max_following_selected_dialog">Số người theo dõi đã đủ</string>
+  <string name="content_max_following_selected_dialog">Số người tối đa bạn theo dõi đã đủ!Vui lòng xoá 1 người để có thể thêm vào danh  sách!</string>
 </resources>

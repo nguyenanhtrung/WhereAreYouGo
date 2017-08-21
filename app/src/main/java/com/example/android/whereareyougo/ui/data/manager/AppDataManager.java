@@ -321,6 +321,11 @@ public class AppDataManager implements DataManager{
     return databaseHelper.getFollowingsOfUser(userId);
   }
 
+  @Override
+  public DatabaseReference getFollowingsRefById(String userId) {
+    return databaseHelper.getFollowingsRefById(userId);
+  }
+
 
   @Override
   public void saveUserEmail(String email) {

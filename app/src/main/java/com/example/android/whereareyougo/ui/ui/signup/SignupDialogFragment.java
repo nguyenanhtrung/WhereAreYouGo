@@ -11,10 +11,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.example.android.whereareyougo.R;
 import com.example.android.whereareyougo.ui.ui.base.BaseFragment.Callback;
 import com.example.android.whereareyougo.ui.utils.NetworkUtil;
@@ -33,10 +34,10 @@ public class SignupDialogFragment extends DialogFragment implements SignupView, 
   @BindView(R.id.text_signup_name)
   MaterialEditText textSignupName;
   @BindView(R.id.button_sign_up)
-  BootstrapButton buttonSignUp;
+  Button buttonSignUp;
   Unbinder unbinder;
   @BindView(R.id.button_close_dialog)
-  BootstrapButton buttonCloseDialog;
+  Button buttonCloseDialog;
 
   private InteractionWithSignupFragment interactWithLoginActivty;
 

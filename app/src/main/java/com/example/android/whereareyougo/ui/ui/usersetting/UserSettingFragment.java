@@ -19,11 +19,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import com.beardedhen.androidbootstrap.BootstrapButton;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.animation.GlideAnimation;
@@ -57,7 +58,7 @@ public class UserSettingFragment extends BaseFragment implements UserSettingView
   @BindView(R.id.image_user)
   CircleImageView imageUser;
   @BindView(R.id.button_select_image)
-  BootstrapButton buttonSelectImage;
+  Button buttonSelectImage;
   @BindView(R.id.edit_text_user_name)
   MaterialEditText editTextUserName;
   @BindView(R.id.edit_text_phone)
@@ -67,9 +68,9 @@ public class UserSettingFragment extends BaseFragment implements UserSettingView
   @BindView(R.id.edit_text_password)
   MaterialEditText editTextPassword;
   @BindView(R.id.button_save)
-  BootstrapButton buttonSave;
+  Button buttonSave;
   @BindView(R.id.button_edit)
-  BootstrapButton buttonEdit;
+  Button buttonEdit;
 
   private User currentUser;
   private String oldPassword;

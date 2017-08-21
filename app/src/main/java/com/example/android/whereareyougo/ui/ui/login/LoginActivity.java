@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
 import butterknife.BindView;
@@ -14,7 +15,7 @@ import butterknife.ButterKnife;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.beardedhen.androidbootstrap.BootstrapButton;
+
 import com.example.android.whereareyougo.R;
 import com.example.android.whereareyougo.ui.ui.base.BaseActivity;
 import com.example.android.whereareyougo.ui.ui.main.MainActivity;
@@ -36,9 +37,9 @@ public class LoginActivity extends BaseActivity implements LoginView, OnClickLis
   @BindView(R.id.edit_text_password)
   MaterialEditText editTextPassword;
   @BindView(R.id.button_sign_in)
-  BootstrapButton buttonSignIn;
+  Button buttonSignIn;
   @BindView(R.id.button_sign_up)
-  BootstrapButton buttonSignUp;
+  Button buttonSignUp;
   @BindView(R.id.check_save_account)
   CheckBox checkSaveAccount;
   @BindView(R.id.text_forgot_password)
@@ -61,7 +62,6 @@ public class LoginActivity extends BaseActivity implements LoginView, OnClickLis
     initUiComponents();
     initEvents();
     setVisibilityForComponents(View.INVISIBLE);
-    showLoading();
     loginMvpPresenter.loginWithLoginRemember();
 
     //
@@ -73,6 +73,7 @@ public class LoginActivity extends BaseActivity implements LoginView, OnClickLis
 
 
   private void initUiComponents() {
+    hideLoading();
     editTextEmail.setBackgroundResource(R.drawable.background_edittext_selector);
     editTextPassword.setBackgroundResource(R.drawable.background_edittext_selector);
 

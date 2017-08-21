@@ -8,6 +8,8 @@ import com.example.android.whereareyougo.ui.ui.chat.ChatDialogFragment;
 import com.example.android.whereareyougo.ui.ui.favoritevenues.ListFavoriteVenueFragment;
 import com.example.android.whereareyougo.ui.ui.followers.FollowersFragment;
 import com.example.android.whereareyougo.ui.ui.followings.FollowingsFragment;
+import com.example.android.whereareyougo.ui.ui.followingselection.FollowingsSelectionDialogFragment;
+import com.example.android.whereareyougo.ui.ui.friendsmap.FriendsMapFragment;
 import com.example.android.whereareyougo.ui.ui.listfriend.ListFriendFragment;
 import com.example.android.whereareyougo.ui.ui.locationupdatesetting.LocationUpdateSettingFragment;
 import com.example.android.whereareyougo.ui.ui.login.LoginActivity;
@@ -74,4 +76,8 @@ public interface ActivityComponent {
   void inject(LocationUpdateSettingFragment fragment);
 
   void inject(FollowingsFragment fragment);
+
+  void inject(FriendsMapFragment fragment);
+
+  void inject(FollowingsSelectionDialogFragment fragment);
 }

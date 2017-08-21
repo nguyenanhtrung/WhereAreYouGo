@@ -11,8 +11,7 @@ import com.bumptech.glide.Glide;
 import com.example.android.whereareyougo.R;
 import com.example.android.whereareyougo.ui.data.database.entity.VenuePhoto;
 import com.example.android.whereareyougo.ui.utils.MyKey;
-import com.github.chrisbanes.photoview.OnPhotoTapListener;
-import com.github.chrisbanes.photoview.PhotoView;
+
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerviewViewHolder;
 import com.marshalchen.ultimaterecyclerview.UltimateViewAdapter;
 
@@ -97,11 +96,11 @@ public class VenuePhotosRecyclerViewAdapter extends UltimateViewAdapter<VenuePho
     }
 
     public class VenuePhotosViewHolder extends UltimateRecyclerviewViewHolder{
-        PhotoView imageVenuePhoto;
+        ImageView imageVenuePhoto;
 
         public VenuePhotosViewHolder(View itemView) {
             super(itemView);
-            imageVenuePhoto = (PhotoView) itemView.findViewById(R.id.image_venue_photo);
+            imageVenuePhoto = (ImageView) itemView.findViewById(R.id.image_venue_photo);
 
         }
     }

@@ -22,7 +22,7 @@
         app:fab_colorNormal="@color/md_amber_500"
         android:src="@drawable/ic_people_outline"
         app:fab_size="mini"
-        android:layout_gravity="right"
+        android:layout_gravity="end"
         />
 
     <LinearLayout
@@ -32,7 +32,6 @@
         android:orientation="vertical"
         android:background="@drawable/background_friends_map"
         android:layout_marginTop="8dp"
-        android:visibility="gone"
         android:layout_gravity="center_horizontal"
         android:padding="4dp"
         >
@@ -54,7 +53,7 @@
         android:id="@+id/button_add_friends_map"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|right"
+        android:layout_gravity="bottom|end"
         android:layout_marginBottom="24dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"

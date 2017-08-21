@@ -69,4 +69,9 @@ public class MyKey {
   public static final int MIN_DISTANCE_UPDATE_LOCATION = 0;
   public static final int MAX_DISTANCE_UPDATE_LOCATION = 50000;
   public static final String FOLLOWINGS_FRAGMENT_TAG = "followingsfragment";
+  public static final String USER_STATUS_ONLINE = "ONLINE";
+  public static final String USER_STATUS_OFFLINE = "OFFLINE";
+  public static final String FRIENDS_MAP_FRAGMENT_TAG = "friendsmapfragment";
+  public static final String FOLLOWING_SELECTION_FRAGMENT_TAG = "followingsselectionfragment";
+  public static final int MAX_FOLLOWING_SELECT = 5;
 }

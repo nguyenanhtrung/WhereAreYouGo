@@ -35,10 +35,11 @@ public class LoginPresenter<V extends LoginView> extends BasePresenter<V> implem
 
   @Override
   public void onCLickButtonSignin(String email, String password) {
-    getMvpView().showLoading();
     boolean isRememberLogin = getMvpView().getValueFrormCheckRemember();
     getDataManager().saveCheckRememberLogin(isRememberLogin);
     saveEmailAndPassword(email,password);
+    getMvpView().showLoading();
+    getMvpView().setVisibilityForComponents(View.INVISIBLE);
     loginWithEmailAndPassword(email,password);
   }
 
@@ -50,7 +51,10 @@ public class LoginPresenter<V extends LoginView> extends BasePresenter<V> implem
             if (task.isSuccessful()){
               getMvpView().hideLoading();
               getMvpView().openMainActivity();
-            }else{
+            }
+            else{
+              getMvpView().hideLoading();
+              getMvpView().setVisibilityForComponents(View.VISIBLE);
               Log.d(MyKey.MAIN_ACTIVITY_TAG, " error cmnr");
             }
           }

@@ -18,10 +18,10 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.example.android.whereareyougo.R;
 import com.example.android.whereareyougo.ui.data.database.entity.FavoriteVenue;
 import com.example.android.whereareyougo.ui.data.database.entity.VenuePhoto;
@@ -70,7 +70,7 @@ public class VenueDetailDialogFragment extends DialogFragment implements VenueDe
     @BindView(R.id.image_button_save)
     ImageButton imageButtonSave;
     @BindView(R.id.button_close)
-    BootstrapButton buttonClose;
+    Button buttonClose;
     Unbinder unbinder;
 
     private List<VenuePhoto> venuePhotos;
@@ -208,7 +208,6 @@ public class VenueDetailDialogFragment extends DialogFragment implements VenueDe
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        venueDetailPresenter.onAttach(VenueDetailDialogFragment.this);
         initEvents();
 
     }
@@ -225,6 +224,7 @@ public class VenueDetailDialogFragment extends DialogFragment implements VenueDe
         super.onAttach(context);
         interaction = (InteractionWithVenueDetailFragment) context;
         interaction.getActivityComponent().inject(this);
+        venueDetailPresenter.onAttach(VenueDetailDialogFragment.this);
 
     }
 

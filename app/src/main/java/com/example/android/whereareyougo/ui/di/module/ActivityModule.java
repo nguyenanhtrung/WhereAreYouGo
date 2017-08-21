@@ -23,6 +23,12 @@ import com.example.android.whereareyougo.ui.ui.followers.FollowersView;
 import com.example.android.whereareyougo.ui.ui.followings.FollowingsMvpPresenter;
 import com.example.android.whereareyougo.ui.ui.followings.FollowingsPresenter;
 import com.example.android.whereareyougo.ui.ui.followings.FollowingsView;
+import com.example.android.whereareyougo.ui.ui.followingselection.FollowingSelectionMvpPresenter;
+import com.example.android.whereareyougo.ui.ui.followingselection.FollowingSelectionPresenter;
+import com.example.android.whereareyougo.ui.ui.followingselection.FollowingSelectionView;
+import com.example.android.whereareyougo.ui.ui.friendsmap.FriendsMapMvpPresenter;
+import com.example.android.whereareyougo.ui.ui.friendsmap.FriendsMapPresenter;
+import com.example.android.whereareyougo.ui.ui.friendsmap.FriendsMapView;
 import com.example.android.whereareyougo.ui.ui.listfriend.ListFriendMvpPresenter;
 import com.example.android.whereareyougo.ui.ui.listfriend.ListFriendPresenter;
 import com.example.android.whereareyougo.ui.ui.listfriend.ListFriendView;
@@ -220,4 +226,17 @@ public class ActivityModule {
     FollowingsMvpPresenter<FollowingsView> provideFollowingsPresenter(FollowingsPresenter<FollowingsView> presenter) {
         return presenter;
     }
+
+    @Provides
+    @PerActivity
+    FriendsMapMvpPresenter<FriendsMapView> provideFriendsMapPresenter(FriendsMapPresenter<FriendsMapView> presenter) {
+        return presenter;
+    }
+
+    @Provides
+    @PerActivity
+    FollowingSelectionMvpPresenter<FollowingSelectionView> provideFollowingsSelectionPresenter(FollowingSelectionPresenter<FollowingSelectionView> presenter) {
+        return presenter;
+    }
+
 }

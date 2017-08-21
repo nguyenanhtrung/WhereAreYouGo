@@ -36,7 +36,7 @@
     style="@style/TextLabel"
     />
 
-  <com.beardedhen.androidbootstrap.BootstrapButton
+  <Button
     android:id="@+id/button_okay"
     android:layout_width="@dimen/width_button"
     android:layout_height="@dimen/height_button"

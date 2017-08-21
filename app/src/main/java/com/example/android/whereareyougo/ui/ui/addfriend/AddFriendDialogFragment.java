@@ -24,8 +24,7 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.beardedhen.androidbootstrap.BootstrapButton;
-import com.beardedhen.androidbootstrap.api.attributes.BootstrapBrand;
+
 import com.example.android.whereareyougo.R;
 import com.example.android.whereareyougo.ui.data.database.entity.User;
 import com.example.android.whereareyougo.ui.di.component.ActivityComponent;
@@ -58,7 +57,7 @@ public class AddFriendDialogFragment extends DialogFragment implements AddFriend
     @BindView(R.id.edit_text_search_phone)
     MaterialEditText editTextSearchPhone;
     @BindView(R.id.button_search)
-    BootstrapButton buttonSearch;
+    Button buttonSearch;
     @BindView(R.id.radio_button_name)
     RadioButton radioButtonName;
     @BindView(R.id.radio_button_phone)
@@ -73,7 +72,7 @@ public class AddFriendDialogFragment extends DialogFragment implements AddFriend
     private InteractionWithAddFriendFragment interaction;
     private UsersRecyclerViewAdapter adapter;
     private List<User> users;
-    private BootstrapButton buttonAddFriend;
+    private Button buttonAddFriend;
 
 
 
@@ -308,7 +307,7 @@ public class AddFriendDialogFragment extends DialogFragment implements AddFriend
     //onClick button Them ban
     @Override
     public void onButtonClick(View view,int position) {
-        buttonAddFriend = (BootstrapButton) view;
+        buttonAddFriend = (Button) view;
         //
         if (presenter != null){
             presenter.onClickButtonAddFriend(users.get(position).getUserID());
@@ -319,6 +318,16 @@ public class AddFriendDialogFragment extends DialogFragment implements AddFriend
         if (buttonAddFriend != null){
             buttonAddFriend.setText(idContent);
             buttonAddFriend.setEnabled(isEnable);
+        }
+    }
+
+    public void setButtonAddFriendVisibility(boolean isVisible){
+        if (buttonAddFriend != null){
+            if (isVisible){
+                buttonAddFriend.setVisibility(View.VISIBLE);
+            }else{
+                buttonAddFriend.setVisibility(View.INVISIBLE);
+            }
         }
     }
 

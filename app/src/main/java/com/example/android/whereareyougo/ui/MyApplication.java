@@ -6,7 +6,6 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.widget.ImageView;
 
-import com.blankj.utilcode.util.Utils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.android.whereareyougo.R;
@@ -73,7 +72,7 @@ public class MyApplication extends Application {
       }
     });
 
-    Utils.init(getApplicationContext());
+
 
 
 

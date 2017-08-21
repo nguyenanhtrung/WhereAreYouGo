@@ -11,11 +11,12 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.beardedhen.androidbootstrap.BootstrapButton;
+
 import com.example.android.whereareyougo.R;
 import com.example.android.whereareyougo.ui.data.database.entity.FavoriteVenue;
 import com.example.android.whereareyougo.ui.ui.adapter.FavoriteVenuesRecyclerViewAdapter;
@@ -51,7 +52,7 @@ public class ListFavoriteVenueFragment extends BaseFragment implements ListFavor
     FavoriteVenuesRecyclerViewAdapter adapter;
     List<FavoriteVenue> favoriteVenues;
     @BindView(R.id.button_delete_all)
-    BootstrapButton buttonDeleteAll;
+    Button buttonDeleteAll;
 
     public List<FavoriteVenue> getFavoriteVenues() {
         return favoriteVenues;

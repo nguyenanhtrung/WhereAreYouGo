@@ -30,7 +30,6 @@ import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import com.blankj.utilcode.util.FragmentUtils;
 import com.example.android.whereareyougo.R;
 
 import com.example.android.whereareyougo.ui.data.database.entity.Result;
@@ -42,6 +41,8 @@ import com.example.android.whereareyougo.ui.ui.chat.ChatDialogFragment;
 import com.example.android.whereareyougo.ui.ui.favoritevenues.ListFavoriteVenueFragment;
 import com.example.android.whereareyougo.ui.ui.followers.FollowersFragment;
 import com.example.android.whereareyougo.ui.ui.followings.FollowingsFragment;
+import com.example.android.whereareyougo.ui.ui.followingselection.FollowingsSelectionDialogFragment;
+import com.example.android.whereareyougo.ui.ui.friendsmap.FriendsMapFragment;
 import com.example.android.whereareyougo.ui.ui.listfriend.ListFriendFragment;
 import com.example.android.whereareyougo.ui.ui.map.ListVenueDialogFragment;
 import com.example.android.whereareyougo.ui.ui.map.MapFragment;
@@ -99,7 +100,9 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
         AppSettingFragment.InteractionWithAppSettingFragment,
-        LocationListener {
+        LocationListener,
+        FriendsMapFragment.InteractionWithFriendsMapFragment,
+        FollowingsSelectionDialogFragment.InteractionWithFFollowingSelection {
 
     @Inject
     MainMvpPresenter<MainView> mainMvpPresenter;
@@ -304,6 +307,7 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
 
                     case MyKey.APP_SETTING_ITEM:
                         mainMvpPresenter.onClickAppSettingItemUserDrawer();
+                        //
                         break;
                     case MyKey.FOLLOWINGS_ITEM:
                         mainMvpPresenter.onClickFollowingsItemUserDrawer();
@@ -438,7 +442,6 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
         switch (v.getId()) {
             case R.id.button_user_setting:
                 if (mainMvpPresenter != null) {
-
                     mainMvpPresenter.onClickUserSettingButton();
                     Toast.makeText(this, "userDrawer is open = " + userDrawer.isDrawerOpen(),
                             Toast.LENGTH_SHORT).show();
@@ -459,6 +462,14 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
     }
 
     @Override
+    public void openFollowingsSelectionDialogFragment(ArrayList<String> followingIds) {
+        FollowingsSelectionDialogFragment fragment = FollowingsSelectionDialogFragment.newInstance(followingIds);
+        fragment.show(getFragmentManager(), MyKey.FOLLOWING_SELECTION_FRAGMENT_TAG);
+
+
+    }
+
+    @Override
     public void openListVenueDialogFragment(ArrayList<Result> results) {
         ListVenueDialogFragment.newInstance(results).show(getFragmentManager(), "ListVenueDialogFragment");
     }
@@ -467,6 +478,11 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
     @Override
     public void openVenueDetailDialogFragment(String venueId) {
         VenueDetailDialogFragment.newInstance(venueId).show(getFragmentManager(), "VenueDetailDialogFragment");
+    }
+
+    public void openFriendsMapFragment() {
+        MyFragmentUtil.replaceFragment(getFragmentManager(), R.id.fragment_container_layout,
+                FriendsMapFragment.newInstance(currentUserLocation), MyKey.FRIENDS_MAP_FRAGMENT_TAG);
     }
 
     @Override
@@ -528,6 +544,11 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
             case R.id.tab_home:
                 if (mainMvpPresenter != null) {
                     mainMvpPresenter.onSelectMapTab();
+                }
+                break;
+            case R.id.tab_friends_on_map:
+                if (mainMvpPresenter != null) {
+                    mainMvpPresenter.onSelectFriendsMapTab();
                 }
                 break;
 
@@ -763,5 +784,16 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
             mainMvpPresenter.onUserLocationChange(location);
         }
 
+    }
+
+    @Override
+    public void sendFollowingsToFriendMapFragment() {
+        FollowingsSelectionDialogFragment dialogFragment = (FollowingsSelectionDialogFragment) getFragmentManager().findFragmentByTag(MyKey.FOLLOWING_SELECTION_FRAGMENT_TAG);
+        if (dialogFragment != null) {
+            FriendsMapFragment friendsMapFragment = (FriendsMapFragment) getFragmentManager().findFragmentByTag(MyKey.FRIENDS_MAP_FRAGMENT_TAG);
+            if (friendsMapFragment != null) {
+                friendsMapFragment.setFollowingsSelected(dialogFragment.getFollowingsAfterSelected());
+            }
+        }
     }
 }
