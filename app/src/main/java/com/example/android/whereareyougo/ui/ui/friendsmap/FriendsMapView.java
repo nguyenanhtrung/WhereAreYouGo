@@ -17,4 +17,12 @@ public interface FriendsMapView extends MvpView {
     ArrayList<User> getFollowingsSelected();
 
     void showMaxFollowingSelectedDialog();
+
+    void showDeleteFollowingDialog(String userId, int position);
+
+    void removeFollowingSelected(int position);
+
+    ArrayList<String> getFollowings();
+
+    void setVisibleRecyclerViewFriendsMap();
 }

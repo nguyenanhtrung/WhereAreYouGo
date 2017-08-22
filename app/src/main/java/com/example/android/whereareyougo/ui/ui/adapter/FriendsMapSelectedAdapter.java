@@ -5,6 +5,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -25,10 +27,16 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class FriendsMapSelectedAdapter extends UltimateViewAdapter<FriendsMapSelectedAdapter.FriendsMapSelectedHolder> {
     private Context context;
     private ArrayList<User> followings;
+    private FriendMapSelectedOnClickListener onClickListener;
 
-    public FriendsMapSelectedAdapter(Context context, ArrayList<User> followings) {
+    public FriendsMapSelectedAdapter(Context context, ArrayList<User> followings,FriendMapSelectedOnClickListener onClickListener) {
         this.context = context;
         this.followings = followings;
+        this.onClickListener = onClickListener;
+    }
+
+    public interface FriendMapSelectedOnClickListener{
+        void onItemClick(View v, int position);
     }
 
     @Override
@@ -55,6 +63,11 @@ public class FriendsMapSelectedAdapter extends UltimateViewAdapter<FriendsMapSel
     @Override
     public long generateHeaderId(int position) {
         return 0;
+    }
+
+    public void removeItem(int position){
+        followings.remove(position);
+        notifyDataSetChanged();
     }
 
     @Override
@@ -103,14 +116,22 @@ public class FriendsMapSelectedAdapter extends UltimateViewAdapter<FriendsMapSel
 
     }
 
-    public class FriendsMapSelectedHolder extends UltimateRecyclerviewViewHolder {
+    public class FriendsMapSelectedHolder extends UltimateRecyclerviewViewHolder implements View.OnClickListener{
         CircleImageView imageUser;
         CircleImageView imageUserStatus;
-
+        ImageButton buttonDelete;
         public FriendsMapSelectedHolder(View itemView) {
             super(itemView);
             imageUser = (CircleImageView) itemView.findViewById(R.id.image_user);
             imageUserStatus = (CircleImageView) itemView.findViewById(R.id.image_user_status);
+            buttonDelete = (ImageButton) itemView.findViewById(R.id.button_delete);
+            //
+            buttonDelete.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            onClickListener.onItemClick(v,getAdapterPosition());
         }
     }
 }

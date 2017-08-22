@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,8 +18,10 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.example.android.whereareyougo.R;
@@ -53,7 +56,8 @@ import butterknife.Unbinder;
  * Created by nguyenanhtrung on 18/08/2017.
  */
 
-public class FriendsMapFragment extends BaseFragment implements FriendsMapView, OnMapReadyCallback, View.OnClickListener {
+public class FriendsMapFragment extends BaseFragment implements FriendsMapView, OnMapReadyCallback, View.OnClickListener,
+        FriendsMapSelectedAdapter.FriendMapSelectedOnClickListener {
 
     @Inject
     FriendsMapMvpPresenter<FriendsMapView> presenter;
@@ -72,6 +76,8 @@ public class FriendsMapFragment extends BaseFragment implements FriendsMapView, 
     private Location currentUserLocation;
     private Marker currentUserLocationMarker;
     private InteractionWithFriendsMapFragment interaction;
+
+
     private ArrayList<String> followings;
     private ArrayList<User> followingsSelected;
     private FriendsMapSelectedAdapter adapter;
@@ -134,6 +140,16 @@ public class FriendsMapFragment extends BaseFragment implements FriendsMapView, 
         }
     }
 
+    public ArrayList<String> getFollowings() {
+        return followings;
+    }
+
+    public void removeFollowingSelected(int position) {
+        if (adapter != null) {
+            adapter.removeItem(position);
+        }
+    }
+
     public void setFollowingsSelected(HashMap<String, User> users) {
         if (followingsSelected == null) {
             followingsSelected = new ArrayList<>();
@@ -157,7 +173,7 @@ public class FriendsMapFragment extends BaseFragment implements FriendsMapView, 
         if (followingsSelected == null) {
             followingsSelected = new ArrayList<>();
         }
-        adapter = new FriendsMapSelectedAdapter(getActivity(), followingsSelected);
+        adapter = new FriendsMapSelectedAdapter(getActivity(), followingsSelected, this);
         recyclerViewFriendsMap.setAdapter(adapter);
     }
 
@@ -250,55 +266,30 @@ public class FriendsMapFragment extends BaseFragment implements FriendsMapView, 
     }
 
 
-    private Marker createMarker(LatLng position, Bitmap imageMarker, String title) {
-        return map.addMarker(new MarkerOptions().position(position)
+    private MarkerOptions createMarker(LatLng position, String userImage, String title) {
+        MarkerOptions markerOptions = new MarkerOptions().position(position)
                 .title(title)
-                .anchor(0.5f, 0.5f)
-                .icon(BitmapDescriptorFactory.fromBitmap(imageMarker)));
+                .anchor(0.5f, 0.5f);
+        return markerOptions;
     }
 
     public void showCurrentLocation() {
         if (currentUserLocation != null) {
-
-            LayoutInflater inflater = (LayoutInflater) getActivity()
-                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            final View mCustomMarkerView = inflater.inflate(R.layout.custom_user_marker, null);
-
             //
             String userImageUri = interaction.getUserImage();
-
             if (userImageUri == null) {
                 //xet anh mac dinh cho vi tri hien tai cua nguoi dung
-                currentUserLocationMarker = createMarker(new LatLng(currentUserLocation.getLatitude(), currentUserLocation.getLongitude()),
-                        Commons.getMarkerBitmapFromView(mCustomMarkerView, null, R.drawable.ic_user_default), "Me");
-                map.moveCamera(CameraUpdateFactory.newLatLngZoom(
-                        new LatLng(currentUserLocation.getLatitude(),
-                                currentUserLocation.getLongitude()), MyKey.ZOOM_LEVEl_DEFAULT));
-                return;
+                currentUserLocationMarker = addUserMarkerOnMap(new LatLng(currentUserLocation.getLatitude(), currentUserLocation.getLongitude()),
+                        "Tôi", null);
+
+            } else {
+                currentUserLocationMarker = addUserMarkerOnMap(new LatLng(currentUserLocation.getLatitude(), currentUserLocation.getLongitude()),
+                        "Tôi", userImageUri);
             }
-
-
-            Glide.with(getActivity()).
-                    load(userImageUri)
-                    .asBitmap()
-                    .fitCenter()
-                    .into(new SimpleTarget<Bitmap>() {
-                        @Override
-                        public void onResourceReady(Bitmap bitmap,
-                                                    GlideAnimation<? super Bitmap> glideAnimation) {
-                            currentUserLocationMarker = createMarker(new LatLng(currentUserLocation.getLatitude(), currentUserLocation.getLongitude()),
-                                    Commons.getMarkerBitmapFromView(mCustomMarkerView, bitmap, MyKey.NO_DRAWABLE), "Me");
-
-
-                            map.moveCamera(CameraUpdateFactory.newLatLngZoom(
-                                    new LatLng(currentUserLocation.getLatitude(),
-                                            currentUserLocation.getLongitude()), MyKey.ZOOM_LEVEl_DEFAULT));
-
-
-                        }
-                    });
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(
+                    new LatLng(currentUserLocation.getLatitude(),
+                            currentUserLocation.getLongitude()), MyKey.ZOOM_LEVEl_DEFAULT));
             //
-
         } else {
             Log.d(MyKey.MAP_FRAGMENT_TAG, "Current location is null. Using defaults.");
             //map.moveCamera(CameraUpdateFactory.newLatLngZoom(mDefaultLocation, DEFAULT_ZOOM));
@@ -306,15 +297,55 @@ public class FriendsMapFragment extends BaseFragment implements FriendsMapView, 
         }
     }
 
+    public Marker addUserMarkerOnMap(LatLng latLng, String title, String userImage) {
+        MarkerOptions markerOptions = createMarker(latLng,userImage,title);
+        return  loadImageUserMarker(markerOptions,userImage);
+    }
+
+    private Marker loadImageUserMarker(final MarkerOptions userMarkerOption, String userImage) {
+        final Marker[] newMarker = new Marker[1];
+        if (userMarkerOption != null) {
+            if (userImage == null) {
+                userMarkerOption.icon(BitmapDescriptorFactory
+                        .fromBitmap(Commons.getMarkerBitmapFromView(getCustomViewUserMarker(), null, R.drawable.ic_user_default)));
+            } else {
+                Glide.with(getActivity()).
+                        load(userImage)
+                        .asBitmap()
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .into(new SimpleTarget<Bitmap>() {
+                            @Override
+                            public void onResourceReady(Bitmap bitmap,
+                                                        GlideAnimation<? super Bitmap> glideAnimation) {
+                                userMarkerOption.icon(BitmapDescriptorFactory
+                                        .fromBitmap(Commons.getMarkerBitmapFromView(getCustomViewUserMarker(), bitmap, MyKey.NO_DRAWABLE)));
+                                newMarker[0] = map.addMarker(userMarkerOption);
+                            }
+                        });
+            }
+            return newMarker[0];
+        }
+        return null;
+    }
+
+    private View getCustomViewUserMarker() {
+        LayoutInflater inflater = (LayoutInflater) getActivity()
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        final View mCustomMarkerView = inflater.inflate(R.layout.custom_user_marker, null);
+
+        return mCustomMarkerView;
+    }
+
+
     private void initMap() {
 
     }
 
-    public ArrayList<User> getFollowingsSelected(){
+    public ArrayList<User> getFollowingsSelected() {
         return followingsSelected;
     }
 
-    public void showMaxFollowingSelectedDialog(){
+    public void showMaxFollowingSelectedDialog() {
         new MaterialDialog.Builder(getActivity())
                 .titleColorRes(R.color.colorAccent)
                 .title(R.string.title_max_following_selected_dialog)
@@ -333,6 +364,14 @@ public class FriendsMapFragment extends BaseFragment implements FriendsMapView, 
         }
     }
 
+    public void setVisibleRecyclerViewFriendsMap() {
+        if (layoutRecyclerviewFriendsMap.getVisibility() != View.VISIBLE) {
+            layoutRecyclerviewFriendsMap.setVisibility(View.VISIBLE);
+        } else {
+            layoutRecyclerviewFriendsMap.setVisibility(View.INVISIBLE);
+        }
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -343,8 +382,43 @@ public class FriendsMapFragment extends BaseFragment implements FriendsMapView, 
                 }
                 break;
             case R.id.button_show_friends_map:
+                if (presenter != null) {
+                    presenter.onClickButtonShowRecyclerViewFriendsMap();
+                }
                 break;
         }
+    }
+
+    //Click item on Recycler View
+    @Override
+    public void onItemClick(View v, int position) {
+        switch (v.getId()) {
+            case R.id.button_delete:
+                if (presenter != null) {
+                    presenter.onClickButtonDeleteFollowingSelected(followingsSelected.get(position).getUserID(), position);
+                }
+                break;
+        }
+    }
+
+    public void showDeleteFollowingDialog(final String userId, final int position) {
+        new MaterialDialog.Builder(getActivity())
+                .titleColorRes(R.color.colorAccent)
+                .title(R.string.title_delete_following_dialog)
+                .contentColorRes(R.color.colorSecondaryText)
+                .content(R.string.content_delete_following_dialog)
+                .positiveText(R.string.text_agree)
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        //delete following from following selected recyclerview
+                        if (presenter != null) {
+                            presenter.onClickButtonAgreeDeleteFollowingDialog(userId, position);
+                        }
+                    }
+                })
+                .negativeText(R.string.text_disagree)
+                .build().show();
     }
 
     public interface InteractionWithFriendsMapFragment {

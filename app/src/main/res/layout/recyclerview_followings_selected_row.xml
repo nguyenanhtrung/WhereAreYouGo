@@ -13,14 +13,23 @@
         android:src="@drawable/ic_user_default"
         />
 
+    <ImageButton
+        android:id="@+id/button_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:src="@drawable/ic_delete"
+        android:layout_marginLeft="50dp"
+        android:layout_gravity="center_vertical"
+        />
+
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/image_user_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_online"
-        android:layout_marginLeft="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_gravity="bottom|end"
+        android:layout_marginTop="16dp"
+        android:layout_gravity="bottom|center_horizontal"
         />
 
 </FrameLayout>

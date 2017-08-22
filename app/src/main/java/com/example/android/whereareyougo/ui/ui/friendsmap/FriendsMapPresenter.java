@@ -2,6 +2,7 @@ package com.example.android.whereareyougo.ui.ui.friendsmap;
 
 import android.util.Log;
 
+import com.example.android.whereareyougo.ui.data.database.entity.User;
 import com.example.android.whereareyougo.ui.data.manager.DataManager;
 import com.example.android.whereareyougo.ui.ui.base.BasePresenter;
 import com.example.android.whereareyougo.ui.utils.MyKey;
@@ -10,6 +11,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 import javax.inject.Inject;
 
@@ -20,6 +23,8 @@ import javax.inject.Inject;
 public class FriendsMapPresenter<V extends FriendsMapView> extends BasePresenter<V> implements FriendsMapMvpPresenter<V> {
     private DatabaseReference followingsRef;
     private ChildEventListener followingsChildEvent;
+    private ArrayList<DatabaseReference> followingReferences;
+    private ValueEventListener locationEventListener;
 
     @Inject
     public FriendsMapPresenter(DataManager dataManager) {
@@ -71,20 +76,82 @@ public class FriendsMapPresenter<V extends FriendsMapView> extends BasePresenter
 
     public void onClickButtonAddFollowings() {
         //check if followingSelecteds = MAX(5), if MAX then show message to user and not open following selection dialog
-        if (!checkMaxFollowingSelected()) {
+        if (checkFollowingSelectedValid()) {
             getMvpView().openFollowingsSelectionDialog();
         }
 
     }
 
-    private boolean checkMaxFollowingSelected() {
+    private void createFollowingLocationReferences(ArrayList<User> followingsSelected) {
+        if (followingsSelected != null) {
+            if (followingReferences == null) {
+                followingReferences = new ArrayList<>();
+                for (User currentFollowing : followingsSelected) {
+                    DatabaseReference followingLocationRef = getDataManager().getUserLocationRef(currentFollowing.getUserID());
+                    if (followingLocationRef != null) {
+                        followingReferences.add(followingLocationRef);
+                    }
+                }
+            }
+        }
+    }
+
+    private void setLocationEventListenerForReferences(ArrayList<DatabaseReference> followingReferences){
+        if (followingReferences != null){
+            if (locationEventListener == null){
+                locationEventListener = new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                };
+                for(DatabaseReference followingRef : followingReferences){
+                    followingRef.addValueEventListener(locationEventListener);
+                }
+            }
+            //
+        }
+    }
+
+    public void removeFollowingReference(int position){
+        if (followingReferences != null && !followingReferences.isEmpty()){
+            followingReferences.get(position).removeEventListener(locationEventListener);
+            followingReferences.remove(position);
+        }
+    }
+
+    private boolean checkFollowingSelectedValid() {
         if (getMvpView().getFollowingsSelected() != null) {
             if (getMvpView().getFollowingsSelected().size() == MyKey.MAX_FOLLOWING_SELECT) {
                 getMvpView().showMaxFollowingSelectedDialog();
-                return true;
+                return false;
+            } else if (getMvpView().getFollowings().size() == 0) {
+                //show dialog to user: not exists following to select
+                return false;
             }
         }
-        return false;
+        return true;
     }
 
+
+    public void onClickButtonDeleteFollowingSelected(String userId, int position) {
+        //1. Show Dialog ask if user delete following from followingSeleccted RecyclerView
+        getMvpView().showDeleteFollowingDialog(userId, position);
+    }
+
+    public void onClickButtonAgreeDeleteFollowingDialog(String userId, int position) {
+        //2.Delete followng in recycler view
+        getMvpView().removeFollowingSelected(position);
+        //3.Add following Id to followings
+        getMvpView().getFollowings().add(userId);
+    }
+
+    public void onClickButtonShowRecyclerViewFriendsMap() {
+        getMvpView().setVisibleRecyclerViewFriendsMap();
+    }
 }

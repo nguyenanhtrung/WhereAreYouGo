@@ -35,8 +35,6 @@
         android:layout_gravity="center_horizontal"
         android:padding="4dp"
         >
-
-
         <com.marshalchen.ultimaterecyclerview.UltimateRecyclerView
             android:id="@+id/recycler_view_friends_map"
             android:layout_width="match_parent"

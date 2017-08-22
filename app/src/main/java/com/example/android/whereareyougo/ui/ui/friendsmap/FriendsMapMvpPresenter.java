@@ -12,4 +12,10 @@ public interface FriendsMapMvpPresenter<V extends FriendsMapView> extends MvpPre
     void removeFollowingsChildEvent();
 
     void onClickButtonAddFollowings();
+
+    void onClickButtonDeleteFollowingSelected(String userId, int position);
+
+    void onClickButtonAgreeDeleteFollowingDialog(String userId, int position);
+
+    void onClickButtonShowRecyclerViewFriendsMap();
 }
