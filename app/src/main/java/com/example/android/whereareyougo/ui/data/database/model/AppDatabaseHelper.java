@@ -134,7 +134,7 @@ public class AppDatabaseHelper implements DatabaseHelper {
     public void updateUserLocation(String userId, String userLocation){
         if (userId != null && userLocation != null){
             DatabaseReference usersRef = databaseReference.getRef().child("users")
-                    .child(userId).child("currentlocation");
+                    .child(userId).child("currentLocation");
             usersRef.setValue(userLocation);
         }
     }

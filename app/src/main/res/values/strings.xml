@@ -169,7 +169,7 @@
   <string name="venue_saved">Địa điểm đã được lưu thành công! </string>
   <string name="button_delele_all">Xoá tất cả</string>
   <string name="recycler_view_venue_empty">Danh sách địa điểm đang trống</string>
-  <string name="recylcer_view_empty">Danh sách đang trống</string>
+  <string name="recycler_view_empty">Danh sách rỗng</string>
   <string name="label_add_friend">Thêm bạn</string>
   <string name="label_search_friend">Tìm kiếm bạn</string>
   <string name="label_search_result_empty">Kết quả tìm kiếm không tồn tại!</string>

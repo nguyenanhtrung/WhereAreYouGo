@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.example.android.whereareyougo.R;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.maps.model.LatLng;
 
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.validator.ValidatorResult;
@@ -64,12 +65,17 @@ public class Commons {
                     "," +
                     location.getLongitude();
         }
-
         return null;
     }
 
-
-
+    public static LatLng convertStringToLocation(String location){
+        if (location != null && !location.isEmpty()){
+            String[] latlog = location.split(",");
+            LatLng newLatLng = new LatLng(Double.parseDouble(latlog[0]),Double.parseDouble(latlog[1]));
+            return newLatLng;
+        }
+        return null;
+    }
 
     public static Bitmap getMarkerBitmapFromView(View view, Bitmap bitmap, int drawableId) {
         CircleImageView mMarkerImageView = (CircleImageView) view.findViewById(R.id.image_user);

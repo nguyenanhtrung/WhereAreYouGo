@@ -1,12 +1,21 @@
 package com.example.android.whereareyougo.ui.ui.base;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.TextView;
+
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.example.android.whereareyougo.R;
 import com.example.android.whereareyougo.ui.MyApplication;
 import com.example.android.whereareyougo.ui.di.component.ActivityComponent;
 import com.example.android.whereareyougo.ui.di.component.DaggerActivityComponent;
@@ -20,7 +29,7 @@ import com.example.android.whereareyougo.ui.utils.NetworkUtil;
 public abstract class BaseActivity extends AppCompatActivity implements MvpView,BaseFragment.Callback {
 
   private ActivityComponent activityComponent;
-
+  private MaterialDialog loadingDialog;
 
   @Override
   protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -38,16 +47,40 @@ public abstract class BaseActivity extends AppCompatActivity implements MvpView,
   }
 
 
+  @TargetApi(Build.VERSION_CODES.M)
+  public void requestPermissionSafely(String[] permission, int requestCode){
+    requestPermissions(permission,requestCode);
+  }
 
+  @TargetApi(Build.VERSION_CODES.M)
+  public boolean hasPermission(String permission) {
+    return Build.VERSION.SDK_INT < Build.VERSION_CODES.M ||
+            checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED;
+  }
 
   @Override
   public void showLoading() {
-
+      loadingDialog = new MaterialDialog.Builder(this)
+              .progress(true,10)
+              .build();
+      loadingDialog.show();
   }
 
   @Override
   public void hideLoading() {
+    if (loadingDialog != null && loadingDialog.isShowing()){
+      loadingDialog.cancel();
+    }
+  }
 
+  private void showSnackBar(String message){
+    Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content),
+            message, Snackbar.LENGTH_SHORT);
+    View sbView = snackbar.getView();
+    TextView textView = (TextView) sbView
+            .findViewById(android.support.design.R.id.snackbar_text);
+    textView.setTextColor(ContextCompat.getColor(this, R.color.md_white_1000));
+    snackbar.show();
   }
 
   @Override
@@ -58,6 +91,9 @@ public abstract class BaseActivity extends AppCompatActivity implements MvpView,
   @Override
   public void onError(String message,Activity activity) {
     //Commons.showErrorOnSnackBar(message,activity);
+    if (message != null){
+      showSnackBar(message);
+    }
   }
 
   @Override

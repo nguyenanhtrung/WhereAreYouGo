@@ -26,13 +26,6 @@ public class MyKey {
   public static final int LOG_OUT_ITEM = 6;
   public static final int PERMISSIONS_REQUEST_LOCATION = 99;
   public static final float ZOOM_LEVEl_DEFAULT = 14.0f;
-  public static final int PLACE_AUTOCOMPLETE_REQUEST_CODE = 248;
-  public static final String FOURSQUARE_CLIENT_ID = "QKSQ5CNHTZNBTPLGIPIURRL5QZWLBBNS3BZZS0YXYVF21WMH";
-  public static final String FOURSQUARE_CLIENT_SECRET = "HOKRADV01ZHVORTQSGLWUQ45KKA31IUC3XAQ13FB3J1ZXIXK";
-  public static final String MINI_VENUES_DIALOG_TAG = "minivenues";
-  public static final int MAX_VENUE_PHOTOS = 30;
-  public static final int WIDTH_VENUE_PHOTO = 200;
-  public static final int HEIGHT_VENUE_PHOTO = 120;
   public static final String VENUE_DETAIL_DIALOG_TAG = "venuedetaildialog";
   public static final int PROFILE_IDENTIFY_DRAWER = 199;
   public static final int MAP_TYPE_NORMAL = GoogleMap.MAP_TYPE_NORMAL;
@@ -74,4 +67,6 @@ public class MyKey {
   public static final String FRIENDS_MAP_FRAGMENT_TAG = "friendsmapfragment";
   public static final String FOLLOWING_SELECTION_FRAGMENT_TAG = "followingsselectionfragment";
   public static final int MAX_FOLLOWING_SELECT = 5;
+  public static final int VIEW_TYPE_EMPTY = 0;
+  public static final int VIEW_TYPE_NORMAL = 1;
 }

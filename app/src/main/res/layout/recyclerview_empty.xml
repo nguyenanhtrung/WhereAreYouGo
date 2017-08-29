@@ -14,8 +14,8 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/recylcer_view_empty"
-        android:textColor="@color/accent"
+        android:text="@string/recycler_view_empty"
+        android:textColor="@color/colorPrimaryDark"
         android:textStyle="bold"
         android:textAllCaps="true"
         android:layout_centerInParent="true"

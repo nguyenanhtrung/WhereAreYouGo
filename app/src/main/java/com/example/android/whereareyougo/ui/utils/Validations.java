@@ -12,7 +12,6 @@ import org.apache.commons.validator.routines.EmailValidator;
 public class Validations {
 
   public static boolean checkEmail(String email) {
-
     return EmailValidator.getInstance().isValid(email);
   }
 

@@ -1,6 +1,9 @@
 package com.example.android.whereareyougo.ui.ui.friendsmap;
 
+import com.example.android.whereareyougo.ui.data.database.entity.User;
 import com.example.android.whereareyougo.ui.ui.base.MvpPresenter;
+
+import java.util.ArrayList;
 
 /**
  * Created by nguyenanhtrung on 18/08/2017.
@@ -18,4 +21,8 @@ public interface FriendsMapMvpPresenter<V extends FriendsMapView> extends MvpPre
     void onClickButtonAgreeDeleteFollowingDialog(String userId, int position);
 
     void onClickButtonShowRecyclerViewFriendsMap();
+
+    void onClickButtonUserLocation();
+
+    void setupUpdateFollowingRealTime(User following);
 }

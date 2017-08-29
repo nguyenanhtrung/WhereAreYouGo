@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-     android:layout_width="wrap_content"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="8dp"
-    android:layout_marginRight="8dp"
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/image_user"
         android:layout_width="@dimen/width_circle_image"
         android:layout_height="@dimen/height_circle_image"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        app:civ_border_width="2dp"
+        app:civ_border_color="@color/colorAccent"
         android:src="@drawable/ic_user_default"
         />
 
@@ -18,9 +20,24 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/contentDescriptor"
         android:src="@drawable/ic_delete"
-        android:layout_marginLeft="50dp"
-        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="4dp"
+        android:layout_marginStart="4dp"
+        android:layout_toRightOf="@id/image_user"
+        />
+
+    <ImageButton
+        android:id="@+id/button_find_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        android:layout_toRightOf="@id/image_user"
+        android:layout_marginLeft="4dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="4dp"
+        android:layout_below="@id/button_delete"
+        android:src="@drawable/ic_find_location"
         />
 
     <de.hdodenhof.circleimageview.CircleImageView
@@ -28,8 +45,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_online"
-        android:layout_marginTop="16dp"
-        android:layout_gravity="bottom|center_horizontal"
+        android:layout_below="@id/image_user"
+        android:layout_marginLeft="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="4dp"
         />
 
-</FrameLayout>
+</RelativeLayout>

@@ -53,7 +53,10 @@ public class FollowingSelectionPresenter<V extends FollowingSelectionView> exten
     public void onClickFollowingsRecyclerViewItem(User user, View view) {
         if (getMvpView().getFollowingsSelected().size() == getMvpView().getMaxSelectFollowing()) {
             //show message to user: max select following = 5
-            return;
+            if (!getMvpView().getFollowingsSelected().containsKey(user.getUserID())){
+                return;
+            }
+
         }
 
         if (!getMvpView().getFollowingsSelected().containsKey(user.getUserID())) {

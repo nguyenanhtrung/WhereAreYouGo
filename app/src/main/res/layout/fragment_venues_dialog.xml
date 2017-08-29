@@ -14,9 +14,9 @@
     style="@style/TitleDialog"
     />
   
-  <com.marshalchen.ultimaterecyclerview.UltimateRecyclerView
+  <android.support.v7.widget.RecyclerView
     android:id="@+id/recycler_view_venues"
-    android:layout_width="300dp"
+    android:layout_width="match_parent"
     android:layout_height="0dp"
     android:layout_weight="8"
     android:layout_marginLeft="16dp"

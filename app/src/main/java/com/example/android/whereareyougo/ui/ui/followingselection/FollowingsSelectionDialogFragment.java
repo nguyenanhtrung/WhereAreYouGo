@@ -267,6 +267,7 @@ public class FollowingsSelectionDialogFragment extends DialogFragment implements
         switch (v.getId()) {
             case R.id.button_add_following:
                 if (presenter != null) {
+                    //followingsSelected null
                     presenter.onClickButtonAddFollowings(followingsSelected.size());
                 }
                 break;

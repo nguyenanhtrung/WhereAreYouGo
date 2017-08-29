@@ -1,21 +1,14 @@
 package com.example.android.whereareyougo.ui.ui.map;
 
 import android.Manifest.permission;
-import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
 import android.location.Location;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -28,18 +21,12 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.MaterialDialog.ListCallbackSingleChoice;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.example.android.whereareyougo.R;
@@ -51,10 +38,6 @@ import com.example.android.whereareyougo.ui.utils.Commons;
 import com.example.android.whereareyougo.ui.utils.MyKey;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -66,17 +49,16 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
-import com.google.maps.android.clustering.Cluster;
-import com.google.maps.android.clustering.ClusterItem;
 import com.google.maps.android.clustering.ClusterManager;
-
 
 import java.util.ArrayList;
 import java.util.List;
 
-import de.hdodenhof.circleimageview.CircleImageView;
-
 import javax.inject.Inject;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * Created by nguyenanhtrung on 15/06/2017.
@@ -85,6 +67,11 @@ import javax.inject.Inject;
 public class MapFragment extends BaseFragment implements MapMvpView, OnMapReadyCallback,
         OnClickListener, ClusterManager.OnClusterItemInfoWindowClickListener<VenueMarkerItem> {
 
+    private final String[] mapType = new String[]{"NORMAL",
+            "HYBRID",
+            "SATELLITE",
+            "TERRAIN",
+            "NONE"};
     @Inject
     MapMvpPresenter<MapMvpView> mapMvpPresenter;
     @BindView(R.id.edit_text_search_venue)
@@ -108,11 +95,6 @@ public class MapFragment extends BaseFragment implements MapMvpView, OnMapReadyC
     private InteractionWithMapFragment interactionWithMapFragment;
     private boolean locationPermissionGranted = false;
     private VenueMarkerItem clickedClusterItem;
-    private final String[] mapType = new String[]{"NORMAL",
-            "HYBRID",
-            "SATELLITE",
-            "TERRAIN",
-            "NONE"};
     private ClusterManager<VenueMarkerItem> clusterManager;
     private ArrayList<VenueMarkerItem> venueMarkerItems;
     private MaterialDialog loadingDialog;
@@ -151,6 +133,7 @@ public class MapFragment extends BaseFragment implements MapMvpView, OnMapReadyC
         return view;
 
     }
+
 
     public void updateUserLocationOnMap(Location location) {
         lastKnownLocation = location;
@@ -253,32 +236,6 @@ public class MapFragment extends BaseFragment implements MapMvpView, OnMapReadyC
         mapMvpPresenter.onClusterItemInfoWindowClick(venueMarkerItem.getVenueId());
     }
 
-    public class VenueClusterInfoWindow implements GoogleMap.InfoWindowAdapter {
-
-        private final View myContentsView;
-
-        VenueClusterInfoWindow() {
-            myContentsView = getActivity().getLayoutInflater().inflate(
-                    R.layout.custom_venue_info_window, null);
-        }
-
-        @Override
-        public View getInfoWindow(Marker marker) {
-            return null;
-
-        }
-
-        @Override
-        public View getInfoContents(Marker marker) {
-            TextView title = ((TextView) myContentsView
-                    .findViewById(R.id.text_venue_name));
-            title.setText(clickedClusterItem.getTitle());
-
-
-            return myContentsView;
-        }
-    }
-
     public void addVenueMarkerItems(ArrayList<Result> results) {
         if (clusterManager == null) {
             return;
@@ -315,7 +272,6 @@ public class MapFragment extends BaseFragment implements MapMvpView, OnMapReadyC
         }
     }
 
-
     private void initUiComponents() {
 
     }
@@ -336,14 +292,12 @@ public class MapFragment extends BaseFragment implements MapMvpView, OnMapReadyC
         }
     }
 
-
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initUiEvents();
         showLoadingDialog();
     }
-
 
     private void initUiEvents() {
         buttonMapType.setOnClickListener(this);
@@ -369,7 +323,6 @@ public class MapFragment extends BaseFragment implements MapMvpView, OnMapReadyC
         Snackbar.make(getView(), messageId, 2000).show();
     }
 
-
     public void showDialogChooseMapType() {
         new MaterialDialog.Builder(getActivity())
                 .title(R.string.title_dialog_map_type)
@@ -387,7 +340,6 @@ public class MapFragment extends BaseFragment implements MapMvpView, OnMapReadyC
                 .positiveText(R.string.text_choose)
                 .show();
     }
-
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
@@ -424,7 +376,7 @@ public class MapFragment extends BaseFragment implements MapMvpView, OnMapReadyC
         if (ContextCompat.checkSelfPermission(getActivity(), permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
             initMap();
-           // turnOnMyLocationLayer();
+            // turnOnMyLocationLayer();
             // buildGoogleApiClient();
             // googleApiClient.connect();
             showCurrentLocation();
@@ -436,14 +388,13 @@ public class MapFragment extends BaseFragment implements MapMvpView, OnMapReadyC
                         MyKey.PERMISSIONS_REQUEST_LOCATION);
             }
             initMap();
-         //   turnOnMyLocationLayer();
+            //   turnOnMyLocationLayer();
             // buildGoogleApiClient();
             // googleApiClient.connect();
             showCurrentLocation();
 
 
         }
-
 
 
     }
@@ -530,7 +481,6 @@ public class MapFragment extends BaseFragment implements MapMvpView, OnMapReadyC
         }
     }
 
-
     @Override
     public void onStart() {
         super.onStart();
@@ -582,7 +532,6 @@ public class MapFragment extends BaseFragment implements MapMvpView, OnMapReadyC
 
     }
 
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -590,7 +539,6 @@ public class MapFragment extends BaseFragment implements MapMvpView, OnMapReadyC
         unbinder.unbind();
 
     }
-
 
     @Override
     public void onClick(View v) {
@@ -632,7 +580,6 @@ public class MapFragment extends BaseFragment implements MapMvpView, OnMapReadyC
         return null;
     }
 
-
     public void openVenueDetailDialogFragment(String venueId) {
         interactionWithMapFragment.openVenueDetailDialogFragment(venueId);
     }
@@ -654,6 +601,32 @@ public class MapFragment extends BaseFragment implements MapMvpView, OnMapReadyC
         Context getContextOfFragment();
 
         boolean getCheckRequestLocationUpdate();
+    }
+
+    public class VenueClusterInfoWindow implements GoogleMap.InfoWindowAdapter {
+
+        private final View myContentsView;
+
+        VenueClusterInfoWindow() {
+            myContentsView = getActivity().getLayoutInflater().inflate(
+                    R.layout.custom_venue_info_window, null);
+        }
+
+        @Override
+        public View getInfoWindow(Marker marker) {
+            return null;
+
+        }
+
+        @Override
+        public View getInfoContents(Marker marker) {
+            TextView title = ((TextView) myContentsView
+                    .findViewById(R.id.text_venue_name));
+            title.setText(clickedClusterItem.getTitle());
+
+
+            return myContentsView;
+        }
     }
 
 }

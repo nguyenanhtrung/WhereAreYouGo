@@ -54,7 +54,6 @@ public class LoginActivity extends BaseActivity implements LoginView, OnClickLis
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_login);
     ButterKnife.bind(this);
-
     getActivityComponent().inject(this);
     loginMvpPresenter.onAttach(this);
 

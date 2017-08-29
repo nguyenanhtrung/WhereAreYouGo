@@ -28,7 +28,6 @@ import com.example.android.whereareyougo.R;
 import com.example.android.whereareyougo.ui.data.database.entity.User;
 import com.example.android.whereareyougo.ui.ui.adapter.FriendsMapSelectedAdapter;
 import com.example.android.whereareyougo.ui.ui.base.BaseFragment;
-import com.example.android.whereareyougo.ui.ui.map.MapFragment;
 import com.example.android.whereareyougo.ui.utils.Commons;
 import com.example.android.whereareyougo.ui.utils.MyKey;
 import com.github.clans.fab.FloatingActionButton;
@@ -51,6 +50,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by nguyenanhtrung on 18/08/2017.
@@ -72,21 +72,26 @@ public class FriendsMapFragment extends BaseFragment implements FriendsMapView, 
     @BindView(R.id.button_add_friends_map)
     FloatingActionButton buttonAddFriendsMap;
     Unbinder unbinder;
+    @BindView(R.id.button_user_location)
+    FloatingActionButton buttonUserLocation;
     private GoogleMap map;
     private Location currentUserLocation;
     private Marker currentUserLocationMarker;
     private InteractionWithFriendsMapFragment interaction;
-
-
     private ArrayList<String> followings;
     private ArrayList<User> followingsSelected;
     private FriendsMapSelectedAdapter adapter;
+    private ArrayList<Marker> followingMarkers;
+    private boolean checkLocationUpdate = false;
+    private boolean isFollowCurrentUser = false;
+    private HashMap<String, Integer> followingSelectedIndexs;
 
 
-    public static FriendsMapFragment newInstance(Location location) {
+    public static FriendsMapFragment newInstance(Location location, boolean checkLocationUpdate) {
         FriendsMapFragment friendsMapFragment = new FriendsMapFragment();
         Bundle bundle = new Bundle();
         bundle.putParcelable("currentlocation", location);
+        bundle.putBoolean("checklocationupdate", checkLocationUpdate);
         friendsMapFragment.setArguments(bundle);
 
         return friendsMapFragment;
@@ -107,8 +112,9 @@ public class FriendsMapFragment extends BaseFragment implements FriendsMapView, 
         Bundle bundle = getArguments();
         if (bundle != null) {
             currentUserLocation = bundle.getParcelable("currentlocation");
-
+            checkLocationUpdate = bundle.getBoolean("checklocationupdate");
         }
+        isFollowCurrentUser = true;
     }
 
     @Nullable
@@ -128,16 +134,21 @@ public class FriendsMapFragment extends BaseFragment implements FriendsMapView, 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        initUiComponents();
         initUiEvents();
+    }
+
+    private void initUiComponents() {
+        if (isFollowCurrentUser) {
+            buttonUserLocation.setImageResource(R.drawable.ic_unfollow);
+        }
     }
 
     public void addFollowing(String followingId) {
         if (followings == null) {
             followings = new ArrayList<>();
         }
-        if (followingId != null) {
-            followings.add(followingId);
-        }
+        followings.add(followingId);
     }
 
     public ArrayList<String> getFollowings() {
@@ -147,22 +158,6 @@ public class FriendsMapFragment extends BaseFragment implements FriendsMapView, 
     public void removeFollowingSelected(int position) {
         if (adapter != null) {
             adapter.removeItem(position);
-        }
-    }
-
-    public void setFollowingsSelected(HashMap<String, User> users) {
-        if (followingsSelected == null) {
-            followingsSelected = new ArrayList<>();
-        }
-        int numberOfFollowingId = followings.size();
-        for (int i = 0; i < numberOfFollowingId; i++) {
-            String followingId = followings.get(i);
-            if (users.containsKey(followingId)) {
-                addFollowingToAdapter(users.get(followingId));
-                followings.remove(followingId);
-                numberOfFollowingId--;
-                i--;
-            }
         }
     }
 
@@ -183,9 +178,22 @@ public class FriendsMapFragment extends BaseFragment implements FriendsMapView, 
         }
     }
 
+    public void notifyFollowingSelectedAdapterChange() {
+        if (adapter != null) {
+            adapter.notifyDataSetChanged();
+        }
+    }
+
+    public void setFollowingMarker(int index, LatLng location) {
+        if (location != null && followingMarkers != null) {
+
+        }
+    }
+
     private void initUiEvents() {
         buttonAddFriendsMap.setOnClickListener(this);
         buttonShowFriendsMap.setOnClickListener(this);
+        buttonUserLocation.setOnClickListener(this);
     }
 
     @Override
@@ -265,84 +273,187 @@ public class FriendsMapFragment extends BaseFragment implements FriendsMapView, 
         }
     }
 
-
-    private MarkerOptions createMarker(LatLng position, String userImage, String title) {
-        MarkerOptions markerOptions = new MarkerOptions().position(position)
+    private MarkerOptions createMarker(LatLng position, String title) {
+        return new MarkerOptions().position(position)
                 .title(title)
                 .anchor(0.5f, 0.5f);
-        return markerOptions;
     }
 
     public void showCurrentLocation() {
         if (currentUserLocation != null) {
-            //
             String userImageUri = interaction.getUserImage();
             if (userImageUri == null) {
                 //xet anh mac dinh cho vi tri hien tai cua nguoi dung
-                currentUserLocationMarker = addUserMarkerOnMap(new LatLng(currentUserLocation.getLatitude(), currentUserLocation.getLongitude()),
-                        "Tôi", null);
-
+                addUserMarkerOnMap(interaction.getCurrentUser(),
+                        true);
             } else {
-                currentUserLocationMarker = addUserMarkerOnMap(new LatLng(currentUserLocation.getLatitude(), currentUserLocation.getLongitude()),
-                        "Tôi", userImageUri);
+                addUserMarkerOnMap(interaction.getCurrentUser(),
+                        true);
             }
-            map.moveCamera(CameraUpdateFactory.newLatLngZoom(
-                    new LatLng(currentUserLocation.getLatitude(),
-                            currentUserLocation.getLongitude()), MyKey.ZOOM_LEVEl_DEFAULT));
+            moveCamera(currentUserLocation);
+            //  Log.d(MyKey.FRIENDS_MAP_FRAGMENT_TAG, "showCurrentLocation null =  "  + currentUserLocationMarker.getTitle());
             //
         } else {
             Log.d(MyKey.MAP_FRAGMENT_TAG, "Current location is null. Using defaults.");
-            //map.moveCamera(CameraUpdateFactory.newLatLngZoom(mDefaultLocation, DEFAULT_ZOOM));
             map.getUiSettings().setMyLocationButtonEnabled(false);
         }
     }
 
-    public Marker addUserMarkerOnMap(LatLng latLng, String title, String userImage) {
-        MarkerOptions markerOptions = createMarker(latLng,userImage,title);
-        return  loadImageUserMarker(markerOptions,userImage);
+    public void addUserMarkerOnMap(User following, boolean isCurrentUser) {
+        if (following != null) {
+            MarkerOptions markerOptions = createMarker(Commons.convertStringToLocation(following.getCurrentLocation()), following.getName());
+            loadImageUserMarker(markerOptions, following, isCurrentUser);
+        }
+
     }
 
-    private Marker loadImageUserMarker(final MarkerOptions userMarkerOption, String userImage) {
-        final Marker[] newMarker = new Marker[1];
+    private void moveCamera(Location location) {
+        if (location != null) {
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), MyKey.ZOOM_LEVEl_DEFAULT));
+        }
+    }
+
+    public void moveCameraToCurrentUserLocation() {
+        moveCamera(currentUserLocation);
+    }
+
+    private void loadImageUserMarker(final MarkerOptions userMarkerOption, final User following, final boolean isCurrentUser) {
+        if (following == null) {
+            return;
+        }
         if (userMarkerOption != null) {
-            if (userImage == null) {
+            if (following.getImageUrl() == null) {
                 userMarkerOption.icon(BitmapDescriptorFactory
                         .fromBitmap(Commons.getMarkerBitmapFromView(getCustomViewUserMarker(), null, R.drawable.ic_user_default)));
             } else {
                 Glide.with(getActivity()).
-                        load(userImage)
+                        load(following.getImageUrl())
                         .asBitmap()
                         .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .dontAnimate()
                         .into(new SimpleTarget<Bitmap>() {
                             @Override
                             public void onResourceReady(Bitmap bitmap,
                                                         GlideAnimation<? super Bitmap> glideAnimation) {
                                 userMarkerOption.icon(BitmapDescriptorFactory
                                         .fromBitmap(Commons.getMarkerBitmapFromView(getCustomViewUserMarker(), bitmap, MyKey.NO_DRAWABLE)));
-                                newMarker[0] = map.addMarker(userMarkerOption);
+                                if (isCurrentUser) {
+                                    setCurrentUserLocationMarker(map.addMarker(userMarkerOption));
+                                } else {
+                                    followingMarkers.add(map.addMarker(userMarkerOption));
+                                    //
+                                    presenter.setupUpdateFollowingRealTime(following);
+                                    Log.d(MyKey.FRIENDS_MAP_FRAGMENT_TAG, "FollowingMarkerSize Glide = " + followingMarkers.size());
+                                }
+
                             }
                         });
             }
-            return newMarker[0];
+
         }
-        return null;
+
+    }
+
+    private void setCurrentUserLocationMarker(Marker marker) {
+        currentUserLocationMarker = marker;
     }
 
     private View getCustomViewUserMarker() {
-        LayoutInflater inflater = (LayoutInflater) getActivity()
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        final View mCustomMarkerView = inflater.inflate(R.layout.custom_user_marker, null);
-
-        return mCustomMarkerView;
+        LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        return inflater != null ? inflater.inflate(R.layout.custom_user_marker, null) : null;
     }
 
+    public void setButtonUserLocationIcon(int iconId) {
+        if (buttonUserLocation != null) {
+            buttonUserLocation.setImageResource(iconId);
+        }
+    }
+
+    public void addFollowingsSelectedOnMap() {
+        if (followingsSelected != null) {
+            if (followingMarkers == null) {
+                followingMarkers = new ArrayList<>();
+            }
+            for (int index = 0; index < followingsSelected.size(); index++) {
+                User following = followingsSelected.get(index);
+                if (following.getCurrentLocation() != null) {
+                    // Log.d(MyKey.FRIENDS_MAP_FRAGMENT_TAG, "FollowingLocation = " + followingLocation.latitude);
+                    addUserMarkerOnMap(following,false);
+                    Log.d(MyKey.FRIENDS_MAP_FRAGMENT_TAG, "FollowingMarkerSize = " + followingMarkers.size());
+                    addFollowingSelectedIndexs(following.getUserID(), index);
+                } else {
+                    Log.d(MyKey.FRIENDS_MAP_FRAGMENT_TAG, "FollowingLocation null");
+                }
+                // else show message: current following not update location
+            }
+            //
+        }
+    }
 
     private void initMap() {
 
     }
 
+    public boolean isCheckLocationUpdate() {
+        return checkLocationUpdate;
+    }
+
+    public boolean isFollowCurrentUser() {
+        return isFollowCurrentUser;
+    }
+
+    public void setFollowCurrentUser(boolean followCurrentUser) {
+        isFollowCurrentUser = followCurrentUser;
+    }
+
+    public void updateUserLocation(Location location) {
+        if (location != null) {
+            currentUserLocation = location;
+            if (currentUserLocationMarker == null) {
+                showCurrentLocation();
+            } else {
+                currentUserLocationMarker.setPosition(new LatLng(currentUserLocation.getLatitude(), currentUserLocation.getLongitude()));
+                if (isFollowCurrentUser) {
+                    moveCamera(currentUserLocation);
+                }
+            }
+        }
+    }
+
     public ArrayList<User> getFollowingsSelected() {
         return followingsSelected;
+    }
+
+    public void setFollowingsSelected(HashMap<String, User> users) {
+        if (followingsSelected == null) {
+            followingsSelected = new ArrayList<>();
+        }
+        if (followingMarkers == null) {
+            followingMarkers = new ArrayList<>();
+        }
+
+        int numberOfFollowingId = followings.size();
+        for (int i = 0; i < numberOfFollowingId; i++) {
+            String followingId = followings.get(i);
+            if (users.containsKey(followingId)) {
+                addFollowingToAdapter(users.get(followingId));
+                followings.remove(i);
+                numberOfFollowingId--;
+                i--;
+            }
+        }
+        addFollowingsSelectedOnMap();
+    }
+
+    private void addFollowingSelectedIndexs(String followingId, int index) {
+        if (followingSelectedIndexs == null) {
+            followingSelectedIndexs = new HashMap<>();
+        }
+        followingSelectedIndexs.put(followingId, index);
+    }
+
+    public HashMap<String, Integer> getFollowingSelectedIndexs() {
+        return followingSelectedIndexs;
     }
 
     public void showMaxFollowingSelectedDialog() {
@@ -386,7 +497,16 @@ public class FriendsMapFragment extends BaseFragment implements FriendsMapView, 
                     presenter.onClickButtonShowRecyclerViewFriendsMap();
                 }
                 break;
+            case R.id.button_user_location:
+                if (presenter != null) {
+                    presenter.onClickButtonUserLocation();
+                }
+                break;
         }
+    }
+
+    public ArrayList<Marker> getFollowingMarkers() {
+        return followingMarkers;
     }
 
     //Click item on Recycler View
@@ -398,6 +518,12 @@ public class FriendsMapFragment extends BaseFragment implements FriendsMapView, 
                     presenter.onClickButtonDeleteFollowingSelected(followingsSelected.get(position).getUserID(), position);
                 }
                 break;
+            case R.id.button_find_location:
+                break;
+            case R.id.image_user:
+                ((CircleImageView) v).setBorderColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary));
+                break;
+
         }
     }
 
@@ -425,5 +551,7 @@ public class FriendsMapFragment extends BaseFragment implements FriendsMapView, 
         String getUserImage();
 
         void openFollowingsSelectionDialogFragment(ArrayList<String> followingIds);
+
+        User getCurrentUser();
     }
 }

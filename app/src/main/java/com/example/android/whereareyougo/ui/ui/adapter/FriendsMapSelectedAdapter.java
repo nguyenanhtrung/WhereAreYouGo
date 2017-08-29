@@ -120,13 +120,17 @@ public class FriendsMapSelectedAdapter extends UltimateViewAdapter<FriendsMapSel
         CircleImageView imageUser;
         CircleImageView imageUserStatus;
         ImageButton buttonDelete;
+        ImageButton buttonFindLocation;
         public FriendsMapSelectedHolder(View itemView) {
             super(itemView);
             imageUser = (CircleImageView) itemView.findViewById(R.id.image_user);
             imageUserStatus = (CircleImageView) itemView.findViewById(R.id.image_user_status);
             buttonDelete = (ImageButton) itemView.findViewById(R.id.button_delete);
+            buttonFindLocation = (ImageButton) itemView.findViewById(R.id.button_find_location);
             //
             buttonDelete.setOnClickListener(this);
+            buttonFindLocation.setOnClickListener(this);
+            imageUser.setOnClickListener(this);
         }
 
         @Override

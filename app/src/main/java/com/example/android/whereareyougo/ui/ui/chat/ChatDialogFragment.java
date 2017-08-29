@@ -37,6 +37,7 @@ import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
 import com.zhihu.matisse.engine.impl.GlideEngine;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,9 +52,7 @@ import hani.momanii.supernova_emoji_library.Helper.EmojiconEditText;
 
 import static android.app.Activity.RESULT_OK;
 
-/**
- * Created by nguyenanhtrung on 16/07/2017.
- */
+
 
 public class ChatDialogFragment extends DialogFragment implements ChatDialogView, View.OnClickListener,ChatUsersRecyclerViewAdapter.ChatUserClickListener
         {
@@ -110,7 +109,7 @@ public class ChatDialogFragment extends DialogFragment implements ChatDialogView
         Bundle bundle = getArguments();
         if (bundle != null) {
             friend = bundle.getParcelable("friend");
-            conversationId = presenter.getConversationId(friend.getUserID());
+            conversationId = presenter.getConversationId(friend != null ? friend.getUserID() : null);
             presenter.createConversationId(conversationId);
         }
         interaction.removeMessageNotificationChildEvent();
@@ -188,7 +187,7 @@ public class ChatDialogFragment extends DialogFragment implements ChatDialogView
     }
 
     public void pickImageFromGallery() {
-        Matisse.from(getActivity())
+       Matisse.from(getActivity())
                 .choose(MimeType.allOf())
                 .countable(true)
                 .maxSelectable(1)
@@ -204,7 +203,7 @@ public class ChatDialogFragment extends DialogFragment implements ChatDialogView
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == MyKey.REQUEST_CODE_PICK_IMAGE && resultCode == RESULT_OK) {
             List<Uri> path = Matisse.obtainResult(data);
-            if (!path.isEmpty() || path != null) {
+            if (!path.isEmpty()) {
                 //get path image and upload to firebase storage
                 Uri imageUri = path.get(0);
 
@@ -297,8 +296,11 @@ public class ChatDialogFragment extends DialogFragment implements ChatDialogView
                 ChatMessage chatMessage = dataSnapshot.getValue(ChatMessage.class);
                 presenter.onMessagesRefChildEvent(chatMessage);
                 //
-                if (chatMessages != null || !chatMessages.isEmpty()) {
-                    recyclerviewConversation.scrollVerticallyToPosition(chatMessages.size() - 1);
+                if (chatMessages != null) {
+                    if (!chatMessages.isEmpty()){
+                        recyclerviewConversation.scrollVerticallyToPosition(chatMessages.size() - 1);
+                    }
+
                 }
 
             }

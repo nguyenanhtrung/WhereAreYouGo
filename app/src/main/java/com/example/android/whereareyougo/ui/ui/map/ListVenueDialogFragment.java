@@ -1,18 +1,14 @@
 package com.example.android.whereareyougo.ui.ui.map;
 
-import android.app.Dialog;
-import android.app.DialogFragment;
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,9 +16,8 @@ import android.widget.Toast;
 
 import com.example.android.whereareyougo.R;
 import com.example.android.whereareyougo.ui.data.database.entity.Result;
-import com.example.android.whereareyougo.ui.ui.adapter.VenuesRecyclerViewAdapter;
+import com.example.android.whereareyougo.ui.ui.base.BaseDialogFragment;
 import com.example.android.whereareyougo.ui.ui.custom.DividerItemDecoration;
-import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 
 import java.util.ArrayList;
 
@@ -34,11 +29,11 @@ import butterknife.Unbinder;
  * Created by nguyenanhtrung on 26/06/2017.
  */
 
-public class ListVenueDialogFragment extends DialogFragment implements View.OnClickListener {
+public class ListVenueDialogFragment extends BaseDialogFragment implements View.OnClickListener {
 
 
     @BindView(R.id.recycler_view_venues)
-    UltimateRecyclerView recyclerViewVenues;
+    RecyclerView recyclerViewVenues;
     @BindView(R.id.text_num_of_result)
     TextView textNumOfResult;
     Unbinder unbinder;
@@ -63,19 +58,20 @@ public class ListVenueDialogFragment extends DialogFragment implements View.OnCl
         return fragment;
     }
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            venues = bundle.getParcelableArrayList("result");
+        }
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_venues_dialog, container, false);
         unbinder = ButterKnife.bind(this, view);
-
-        getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-        getDialog().setCanceledOnTouchOutside(true);
-
-        Bundle bundle = getArguments();
-        if (bundle != null) {
-            venues = bundle.getParcelableArrayList("result");
-        }
 
         return view;
     }
@@ -89,14 +85,14 @@ public class ListVenueDialogFragment extends DialogFragment implements View.OnCl
     @Override
     public void onResume() {
         super.onResume();
-        setSizeOfDialog();
+
     }
 
     private void initEvents(){
         buttonOkay.setOnClickListener(this);
     }
 
-    private void setSizeOfDialog() {
+    /*private void setSizeOfDialog() {
         int width = 750;
         int height = 1090;
         getDialog().getWindow().setLayout(
@@ -104,7 +100,7 @@ public class ListVenueDialogFragment extends DialogFragment implements View.OnCl
         );
         getDialog().getWindow().setGravity(Gravity.CENTER);
 
-    }
+    }*/
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -124,11 +120,8 @@ public class ListVenueDialogFragment extends DialogFragment implements View.OnCl
 
     private void setupRecyclerViewVenues() {
         if (venues == null) {
-            return;
+            venues = new ArrayList<>();
         }
-
-        venuesSelected = new ArrayList<>();
-
         RecyclerView.ItemDecoration dividerItemDecoration = new DividerItemDecoration(getResources().getDrawable(R.drawable.divider_recycler_view));
         recyclerViewVenues.addItemDecoration(dividerItemDecoration);
 
@@ -146,7 +139,6 @@ public class ListVenueDialogFragment extends DialogFragment implements View.OnCl
         });
 
         recyclerViewVenues.setLayoutManager(new LinearLayoutManager(getActivity()));
-
         recyclerViewVenues.setAdapter(adapter);
     }
 
@@ -167,6 +159,11 @@ public class ListVenueDialogFragment extends DialogFragment implements View.OnCl
                 interactionWithFragment.onClickButtonOkay();
                 break;
         }
+    }
+
+    @Override
+    public void onError(String message, Activity activity) {
+
     }
 
     public interface InteractionWithVenuesDialogFragment{

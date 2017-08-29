@@ -6,7 +6,6 @@ import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.net.ConnectivityManager;
@@ -16,22 +15,14 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
-
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
-
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 import com.example.android.whereareyougo.R;
-
 import com.example.android.whereareyougo.ui.data.database.entity.Result;
 import com.example.android.whereareyougo.ui.data.database.entity.User;
 import com.example.android.whereareyougo.ui.ui.addfriend.AddFriendDialogFragment;
@@ -52,13 +43,11 @@ import com.example.android.whereareyougo.ui.ui.notifications.NotificationsFragme
 import com.example.android.whereareyougo.ui.ui.profile.ProfileDialogFragment;
 import com.example.android.whereareyougo.ui.ui.receiver.NetworkReceiver;
 import com.example.android.whereareyougo.ui.ui.searchvenue.SearchVenueFragment;
-import com.example.android.whereareyougo.ui.ui.signup.SignupDialogFragment.InteractionWithSignupFragment;
 import com.example.android.whereareyougo.ui.ui.usersetting.UserSettingFragment;
 import com.example.android.whereareyougo.ui.ui.venuedetail.VenueDetailDialogFragment;
 import com.example.android.whereareyougo.ui.utils.Commons;
 import com.example.android.whereareyougo.ui.utils.MyFragmentUtil;
 import com.example.android.whereareyougo.ui.utils.MyKey;
-//import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
@@ -71,7 +60,6 @@ import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.Drawer.OnDrawerItemClickListener;
 import com.mikepenz.materialdrawer.DrawerBuilder;
-import com.mikepenz.materialdrawer.holder.StringHolder;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
@@ -81,10 +69,14 @@ import com.roughike.bottombar.BottomBarTab;
 import com.roughike.bottombar.OnTabSelectListener;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import javax.inject.Inject;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
+//import com.google.android.gms.location.FusedLocationProviderClient;
 
 public class MainActivity extends BaseActivity implements MainView, View.OnClickListener,
         InteractionWithMapFragment,
@@ -155,6 +147,7 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
         mainMvpPresenter.updateMessageNotification();
     }
 
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -181,6 +174,10 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
         return currentUserLocation;
     }
 
+    public User getCurrentUser(){
+        return currentUser;
+    }
+
     public void setCurrentUserLocation(Location currentUserLocation) {
         this.currentUserLocation = currentUserLocation;
     }
@@ -199,6 +196,14 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
         return this;
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        UserSettingFragment fragment = (UserSettingFragment) getFragmentManager().findFragmentByTag(MyKey.USER_SETTING_FRAGMENT_TAG);
+        if (fragment != null) {
+            fragment.onActivityResult(requestCode, resultCode, data);
+        }
+    }
 
     @Override
     protected void onResume() {
@@ -482,7 +487,7 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
 
     public void openFriendsMapFragment() {
         MyFragmentUtil.replaceFragment(getFragmentManager(), R.id.fragment_container_layout,
-                FriendsMapFragment.newInstance(currentUserLocation), MyKey.FRIENDS_MAP_FRAGMENT_TAG);
+                FriendsMapFragment.newInstance(currentUserLocation,checkRequestUpdateLocation), MyKey.FRIENDS_MAP_FRAGMENT_TAG);
     }
 
     @Override
@@ -772,6 +777,11 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
         MapFragment mapFragment = (MapFragment) fragmentManager.findFragmentByTag(MyKey.MAP_FRAGMENT_TAG);
         if (mapFragment != null) {
             mapFragment.updateUserLocationOnMap(location);
+        } else {
+            FriendsMapFragment friendsMapFragment = (FriendsMapFragment) fragmentManager.findFragmentByTag(MyKey.FRIENDS_MAP_FRAGMENT_TAG);
+            if (friendsMapFragment != null) {
+                friendsMapFragment.updateUserLocation(location);
+            }
         }
     }
 
@@ -785,6 +795,8 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
         }
 
     }
+
+
 
     @Override
     public void sendFollowingsToFriendMapFragment() {

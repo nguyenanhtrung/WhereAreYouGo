@@ -97,6 +97,14 @@ public class User implements android.os.Parcelable {
     this.currentLocation = currentLocation;
   }
 
+  public void setAllData(User user){
+    setName(user.getName());
+    setStatus(user.getStatus());
+    setImageUrl(user.getImageUrl());
+    setCurrentLocation(user.getCurrentLocation());
+    setPhoneNumber(user.getPhoneNumber());
+  }
+
   public Map<String,Object> toMap(){
     HashMap<String,Object> result = new HashMap<>();
     result.put("userID",userID);
