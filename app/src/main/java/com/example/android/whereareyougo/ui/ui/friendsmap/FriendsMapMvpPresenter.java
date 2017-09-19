@@ -25,4 +25,6 @@ public interface FriendsMapMvpPresenter<V extends FriendsMapView> extends MvpPre
     void onClickButtonUserLocation();
 
     void setupUpdateFollowingRealTime(User following);
+
+    void onClickFollowingSelectedItem(int position);
 }

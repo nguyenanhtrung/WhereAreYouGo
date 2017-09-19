@@ -67,6 +67,6 @@ public class MyKey {
   public static final String FRIENDS_MAP_FRAGMENT_TAG = "friendsmapfragment";
   public static final String FOLLOWING_SELECTION_FRAGMENT_TAG = "followingsselectionfragment";
   public static final int MAX_FOLLOWING_SELECT = 5;
-  public static final int VIEW_TYPE_EMPTY = 0;
+  public static final int VIEW_TYPE_EMPTY = 10;
   public static final int VIEW_TYPE_NORMAL = 1;
 }

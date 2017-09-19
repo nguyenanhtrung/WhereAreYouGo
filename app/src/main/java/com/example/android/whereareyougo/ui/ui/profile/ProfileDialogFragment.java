@@ -2,7 +2,6 @@ package com.example.android.whereareyougo.ui.ui.profile;
 
 
 import android.app.Activity;
-import android.app.DialogFragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -17,6 +16,7 @@ import com.bumptech.glide.Glide;
 import com.example.android.whereareyougo.R;
 import com.example.android.whereareyougo.ui.data.database.entity.User;
 import com.example.android.whereareyougo.ui.di.component.ActivityComponent;
+import com.example.android.whereareyougo.ui.ui.base.BaseDialogFragment;
 
 import javax.inject.Inject;
 
@@ -29,7 +29,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * Created by nguyenanhtrung on 10/07/2017.
  */
 
-public class ProfileDialogFragment extends DialogFragment implements ProfileView,View.OnClickListener {
+public class ProfileDialogFragment extends BaseDialogFragment implements ProfileView,View.OnClickListener {
     @Inject
     ProfileMvpPresenter<ProfileView> presenter;
     @BindView(R.id.circle_user_image)
@@ -132,11 +132,11 @@ public class ProfileDialogFragment extends DialogFragment implements ProfileView
 
     private void showUserImage(String userImageUrl) {
         if (userImageUrl == null) {
-            Glide.with(getContext())
+            Glide.with(getActivity())
                     .load(R.drawable.ic_user_default)
                     .into(circleUserImage);
         } else {
-            Glide.with(getContext())
+            Glide.with(getActivity())
                     .load(userImageUrl)
                     .into(circleUserImage);
         }
@@ -191,15 +191,7 @@ public class ProfileDialogFragment extends DialogFragment implements ProfileView
         return false;
     }
 
-    @Override
-    public void onError(String message, Activity activity) {
 
-    }
-
-    @Override
-    public void hideKeyboard() {
-
-    }
 
     @Override
     public void onDestroyView() {

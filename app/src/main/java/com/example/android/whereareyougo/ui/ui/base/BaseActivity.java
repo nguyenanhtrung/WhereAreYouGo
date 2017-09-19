@@ -89,11 +89,15 @@ public abstract class BaseActivity extends AppCompatActivity implements MvpView,
   }
 
   @Override
-  public void onError(String message,Activity activity) {
+  public void onError(String message) {
     //Commons.showErrorOnSnackBar(message,activity);
     if (message != null){
       showSnackBar(message);
     }
+  }
+
+  public void onError(int messageId){
+    showSnackBar(getResources().getString(messageId));
   }
 
   @Override

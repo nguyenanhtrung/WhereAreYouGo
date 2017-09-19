@@ -8,7 +8,9 @@ import android.widget.Toast;
 import com.example.android.whereareyougo.R;
 import com.example.android.whereareyougo.ui.data.manager.DataManager;
 import com.example.android.whereareyougo.ui.ui.base.BasePresenter;
+import com.example.android.whereareyougo.ui.utils.Commons;
 import com.example.android.whereareyougo.ui.utils.MyKey;
+import com.example.android.whereareyougo.ui.utils.StringUtil;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
@@ -38,6 +40,7 @@ public class LoginPresenter<V extends LoginView> extends BasePresenter<V> implem
     boolean isRememberLogin = getMvpView().getValueFrormCheckRemember();
     getDataManager().saveCheckRememberLogin(isRememberLogin);
     saveEmailAndPassword(email,password);
+    getMvpView().hideKeyboard();
     getMvpView().showLoading();
     getMvpView().setVisibilityForComponents(View.INVISIBLE);
     loginWithEmailAndPassword(email,password);
@@ -53,9 +56,9 @@ public class LoginPresenter<V extends LoginView> extends BasePresenter<V> implem
               getMvpView().openMainActivity();
             }
             else{
+              getMvpView().onError(R.string.login_fail);
               getMvpView().hideLoading();
               getMvpView().setVisibilityForComponents(View.VISIBLE);
-              Log.d(MyKey.MAIN_ACTIVITY_TAG, " error cmnr");
             }
           }
         });

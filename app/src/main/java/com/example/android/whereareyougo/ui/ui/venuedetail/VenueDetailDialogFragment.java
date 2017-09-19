@@ -2,7 +2,6 @@ package com.example.android.whereareyougo.ui.ui.venuedetail;
 
 import android.Manifest;
 import android.app.Activity;
-import android.app.DialogFragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -11,10 +10,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
-
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,14 +20,14 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.android.whereareyougo.R;
-import com.example.android.whereareyougo.ui.data.database.entity.FavoriteVenue;
 import com.example.android.whereareyougo.ui.data.database.entity.VenuePhoto;
 import com.example.android.whereareyougo.ui.di.component.ActivityComponent;
-import com.example.android.whereareyougo.ui.ui.adapter.VenuePhotosRecyclerViewAdapter;
+import com.example.android.whereareyougo.ui.ui.base.BaseDialogFragment;
 import com.example.android.whereareyougo.ui.utils.MyKey;
 import com.example.android.whereareyougo.ui.utils.NetworkUtil;
 import com.google.android.gms.maps.model.LatLng;
-import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
+import com.malinskiy.superrecyclerview.SuperRecyclerView;
+
 
 import java.util.List;
 
@@ -44,13 +41,13 @@ import butterknife.Unbinder;
  * Created by nguyenanhtrung on 28/06/2017.
  */
 
-public class VenueDetailDialogFragment extends DialogFragment implements VenueDetailView,View.OnClickListener {
+public class VenueDetailDialogFragment extends BaseDialogFragment implements VenueDetailView, View.OnClickListener {
 
     @Inject
     VenueDetailMvpPresenter<VenueDetailView> venueDetailPresenter;
     InteractionWithVenueDetailFragment interaction;
     @BindView(R.id.recycler_venue_photos)
-    UltimateRecyclerView recyclerVenuePhotos;
+    SuperRecyclerView recyclerVenuePhotos;
     @BindView(R.id.text_venue_name)
     TextView textVenueName;
     @BindView(R.id.text_venue_address)
@@ -76,8 +73,6 @@ public class VenueDetailDialogFragment extends DialogFragment implements VenueDe
     private List<VenuePhoto> venuePhotos;
 
 
-
-
     private String venueId;
 
 
@@ -93,65 +88,65 @@ public class VenueDetailDialogFragment extends DialogFragment implements VenueDe
     public void showVenueName(String venueName) {
         if (venueName == null | venueName.isEmpty()) {
             textVenueName.setText("");
-        }else{
+        } else {
             textVenueName.setText(venueName);
         }
     }
 
-    public void showVenueAddress(String venueAddress){
+    public void showVenueAddress(String venueAddress) {
         if (venueAddress == null | venueAddress.isEmpty()) {
             textVenueAddress.setText("");
-        }else{
+        } else {
             textVenueAddress.setText(venueAddress);
         }
     }
 
-    public void setupRecyclerViewVenuePhotos(){
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false);
+    public void setupRecyclerViewVenuePhotos() {
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         recyclerVenuePhotos.setLayoutManager(linearLayoutManager);
 
-        VenuePhotosRecyclerViewAdapter adapter = new VenuePhotosRecyclerViewAdapter(getActivity(),venuePhotos);
+        VenuePhotosRecyclerViewAdapter adapter = new VenuePhotosRecyclerViewAdapter(getActivity(), venuePhotos);
         recyclerVenuePhotos.setAdapter(adapter);
     }
 
-    public void setDataForRecyclerViewVenuePhotos(List<VenuePhoto> venuePhotos){
+    public void setDataForRecyclerViewVenuePhotos(List<VenuePhoto> venuePhotos) {
         this.venuePhotos = venuePhotos;
 
         //set image empty if venuePhotos is empty or null
-        if (venuePhotos.isEmpty()){
-            
+        if (venuePhotos.isEmpty()) {
+
         }
     }
 
-    public void showVenuePriceLevel(int priceLevel){
-        if (priceLevel == -1){
+    public void showVenuePriceLevel(int priceLevel) {
+        if (priceLevel == -1) {
             textPriceLevel.setText("");
-        }else if (priceLevel == 0){
+        } else if (priceLevel == 0) {
             textPriceLevel.setText(R.string.price_level_free);
-        }else if (priceLevel == 1){
+        } else if (priceLevel == 1) {
             textPriceLevel.setText(R.string.price_level_inexpensive);
-        }else if (priceLevel == 2){
+        } else if (priceLevel == 2) {
             textPriceLevel.setText(R.string.price_level_moderate);
-        }else if (priceLevel == 3){
+        } else if (priceLevel == 3) {
             textPriceLevel.setText(R.string.price_level_expensive);
-        }else if (priceLevel == 4){
+        } else if (priceLevel == 4) {
             textPriceLevel.setText(R.string.price_level_veryexpensive);
         }
     }
 
-    public void showVenueRating(double rating){
-        if (rating == -1){
+    public void showVenueRating(double rating) {
+        if (rating == -1) {
             textPoint.setText("");
-        }else{
+        } else {
             textPoint.setText(String.valueOf(rating));
         }
     }
 
-    public void showVenuePhoneNumber(String phoneNumber){
+    public void showVenuePhoneNumber(String phoneNumber) {
         if (phoneNumber == null) {
             textVenuePhone.setText("");
-        }else{
-            if (phoneNumber.isEmpty()){
+        } else {
+            if (phoneNumber.isEmpty()) {
                 textVenuePhone.setText("");
                 return;
             }
@@ -159,18 +154,18 @@ public class VenueDetailDialogFragment extends DialogFragment implements VenueDe
         }
     }
 
-    public void showVenueStatus(boolean status){
-        if (status){
+    public void showVenueStatus(boolean status) {
+        if (status) {
             textVenueStatus.setText(R.string.text_venue_open_time);
-            textVenueStatus.setTextColor(ContextCompat.getColor(getActivity(),R.color.color_venue_status_open));
-        }else{
+            textVenueStatus.setTextColor(ContextCompat.getColor(getActivity(), R.color.color_venue_status_open));
+        } else {
             textVenueStatus.setText(R.string.text_venue_close_time);
-            textVenueStatus.setTextColor(ContextCompat.getColor(getActivity(),R.color.color_venue_status_close));
+            textVenueStatus.setTextColor(ContextCompat.getColor(getActivity(), R.color.color_venue_status_close));
         }
     }
 
-    private void showVenueDetail(String venueId){
-        if (venueDetailPresenter != null){
+    private void showVenueDetail(String venueId) {
+        if (venueDetailPresenter != null) {
             venueDetailPresenter.showVenueDetailByVenueId(venueId);
         }
     }
@@ -179,11 +174,11 @@ public class VenueDetailDialogFragment extends DialogFragment implements VenueDe
     @Override
     public void onResume() {
         super.onResume();
-        setSizeOfDialog();
+        // setSizeOfDialog();
         showVenueDetail(venueId);
     }
 
-    private void setSizeOfDialog() {
+   /* private void setSizeOfDialog() {
         int width = 750;
         int height = 1100;
         getDialog().getWindow().setLayout(
@@ -191,17 +186,22 @@ public class VenueDetailDialogFragment extends DialogFragment implements VenueDe
         );
         getDialog().getWindow().setGravity(Gravity.CENTER);
 
+    }*/
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Bundle bundle = getArguments();
+        venueId = bundle.getString("venueid");
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_venue_detail_dialog, container, false);
-
-        Bundle bundle = getArguments();
-        venueId = bundle.getString("venueid");
-
         unbinder = ButterKnife.bind(this, view);
+        //
+
         return view;
     }
 
@@ -243,15 +243,8 @@ public class VenueDetailDialogFragment extends DialogFragment implements VenueDe
         return NetworkUtil.isNetworkConnected(getActivity());
     }
 
-    @Override
-    public void onError(String message, Activity activity) {
 
-    }
 
-    @Override
-    public void hideKeyboard() {
-
-    }
 
     @Override
     public void onDestroyView() {
@@ -259,41 +252,40 @@ public class VenueDetailDialogFragment extends DialogFragment implements VenueDe
         unbinder.unbind();
     }
 
-    public void drawPolyLineOnMap(LatLng destination){
+    public void drawPolyLineOnMap(LatLng destination) {
         interaction.drawPolyLineOnMap(destination);
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.image_button_call:
-                if (venueDetailPresenter != null){
+                if (venueDetailPresenter != null) {
                     venueDetailPresenter.onClickImageButtonCallPhone();
                 }
                 break;
             case R.id.image_button_find_way:
-                if(venueDetailPresenter != null){
+                if (venueDetailPresenter != null) {
                     venueDetailPresenter.onClickButtonFindWay();
                 }
                 break;
             case R.id.image_button_save:
-                if (venueDetailPresenter != null){
+                if (venueDetailPresenter != null) {
                     venueDetailPresenter.onClickButtonSaveVenue();
                 }
                 break;
             case R.id.button_close:
-                if (venueDetailPresenter != null){
+                if (venueDetailPresenter != null) {
                     venueDetailPresenter.onClickButtonCloseDialog();
                 }
                 break;
         }
     }
 
-    public void showMessage(int messageId){
-        Snackbar snackbar = Snackbar.make(getView(),messageId,2000);
+    public void showMessage(int messageId) {
+        Snackbar snackbar = Snackbar.make(getView(), messageId, 2000);
         snackbar.show();
     }
-
 
 
     @Override
@@ -301,7 +293,7 @@ public class VenueDetailDialogFragment extends DialogFragment implements VenueDe
         dismiss();
     }
 
-    public void checkCallPhonePermissions(){
+    public void checkCallPhonePermissions() {
         if (ContextCompat.checkSelfPermission(getActivity(),
                 Manifest.permission.CALL_PHONE)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -329,7 +321,7 @@ public class VenueDetailDialogFragment extends DialogFragment implements VenueDe
         }
     }
 
-    public void callPhone(){
+    public void callPhone() {
         String phoneNumber = "tel:" + textVenuePhone.getText().toString(); // fake data
         Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse(phoneNumber));
         startActivity(intent);
@@ -337,6 +329,7 @@ public class VenueDetailDialogFragment extends DialogFragment implements VenueDe
 
     public interface InteractionWithVenueDetailFragment {
         ActivityComponent getActivityComponent();
+
         void drawPolyLineOnMap(LatLng destination);
     }
 }

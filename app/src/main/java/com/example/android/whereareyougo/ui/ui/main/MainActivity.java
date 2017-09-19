@@ -17,6 +17,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -506,8 +507,11 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
         MapFragment mapFragment = (MapFragment) fragmentManager.findFragmentById(R.id.fragment_container_layout);
 
         ArrayList<Result> results = dialogFragment.getVenuesSelected();
-        if (results != null || !results.isEmpty()) {
-            mapFragment.addVenueMarkerItems(results);
+        if (results != null) {
+            if (!results.isEmpty()){
+                mapFragment.addVenueMarkerItems(results);
+            }
+
         }
         dialogFragment.dismiss();
 
@@ -718,10 +722,13 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
             return;
         }
         currentUserLocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
-        //
-        if (mainMvpPresenter != null) {
-            mainMvpPresenter.onGoogleApiClientConnected();
+        if (currentUserLocation != null){
+            if (mainMvpPresenter != null) {
+                mainMvpPresenter.onGoogleApiClientConnected();
+            }
         }
+        //
+
 
     }
 

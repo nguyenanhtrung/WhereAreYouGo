@@ -40,6 +40,7 @@ public class FollowingSelectionPresenter<V extends FollowingSelectionView> exten
                                 }
                             }
                             getMvpView().setupDatasForRecyclerViewFollowings(followings);
+                            getMvpView().hideLoading();
                         }
 
                         @Override

@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -17,13 +16,15 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import com.example.android.whereareyougo.R;
+import com.example.android.whereareyougo.ui.ui.base.BaseDialogFragment;
 import com.example.android.whereareyougo.ui.ui.base.BaseFragment.Callback;
+import com.example.android.whereareyougo.ui.utils.MyKey;
 import com.example.android.whereareyougo.ui.utils.NetworkUtil;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import javax.inject.Inject;
 
 
-public class SignupDialogFragment extends DialogFragment implements SignupView, OnClickListener {
+public class SignupDialogFragment extends BaseDialogFragment implements SignupView, OnClickListener {
 
   @Inject
   SignupMvpPresenter<SignupView> signupMvpPresenter;
@@ -39,7 +40,7 @@ public class SignupDialogFragment extends DialogFragment implements SignupView, 
   @BindView(R.id.button_close_dialog)
   Button buttonCloseDialog;
 
-  private InteractionWithSignupFragment interactWithLoginActivty;
+  private InteractionWithSignupFragment interactWithLoginActivity;
 
   public static SignupDialogFragment newInstance() {
     SignupDialogFragment fragment = new SignupDialogFragment();
@@ -114,7 +115,6 @@ public class SignupDialogFragment extends DialogFragment implements SignupView, 
 
   }
 
-
   @Override
   public void onAttach(Context context) {
     super.onAttach(context);
@@ -123,33 +123,9 @@ public class SignupDialogFragment extends DialogFragment implements SignupView, 
     signupMvpPresenter.onAttach(SignupDialogFragment.this);
 
     //
-    interactWithLoginActivty = (InteractionWithSignupFragment) context;
+    interactWithLoginActivity = (InteractionWithSignupFragment) context;
   }
 
-  @Override
-  public void showLoading() {
-
-  }
-
-  @Override
-  public void hideLoading() {
-
-  }
-
-  @Override
-  public boolean isNetworkConnected() {
-    return NetworkUtil.isNetworkConnected(getContext());
-  }
-
-  @Override
-  public void onError(String message, Activity activity) {
-
-  }
-
-  @Override
-  public void hideKeyboard() {
-
-  }
 
   @Override
   public void onClick(View v) {
@@ -207,18 +183,23 @@ public class SignupDialogFragment extends DialogFragment implements SignupView, 
 
   @Override
   public void closeDialog() {
-    Handler handler = new Handler();
-    handler.postDelayed(new Runnable() {
-      @Override
-      public void run() {
-        dismiss();
-      }
-    },2000);
+    dismissDialog(MyKey.SIGNUP_DIALOG_FRAGMENT_TAG);
   }
+
 
   @Override
   public void updateUserInfoForLoginActivity(String email, String password) {
-    interactWithLoginActivty.updateUserInfoLogin(email,password);
+    interactWithLoginActivity.updateUserInfoLogin(email,password);
+  }
+
+  @Override
+  public void onError(String message) {
+
+  }
+
+  @Override
+  public void onError(int messageId) {
+
   }
 
   public interface InteractionWithSignupFragment{

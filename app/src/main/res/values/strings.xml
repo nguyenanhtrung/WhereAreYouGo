@@ -35,7 +35,7 @@
   <string name="label_hour">giờ</string>
   <string name="label_minute">phút</string>
   <string name="text_tab_message">Tin nhắn</string>
-  <string name="text_tab_notification">Thông báo</string>
+  <string name="text_tab_notification">Notify</string>
   <string name="text_tab_invite">Lời mời</string>
   <string name="button_accept">Chấp nhận</string>
   <string name="button_cancel">Từ chối</string>

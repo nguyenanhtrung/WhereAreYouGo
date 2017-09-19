@@ -32,7 +32,7 @@
         android:textAllCaps="true"
         />
 
-    <com.marshalchen.ultimaterecyclerview.UltimateRecyclerView
+    <com.malinskiy.superrecyclerview.SuperRecyclerView
         android:id="@+id/recycler_view_category"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -40,6 +40,7 @@
         android:layout_marginLeft="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        app:layout_empty="@layout/recyclerview_empty"
         />
 
     <Button

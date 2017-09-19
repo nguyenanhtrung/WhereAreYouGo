@@ -18,6 +18,7 @@ import com.example.android.whereareyougo.R;
 import com.example.android.whereareyougo.ui.data.database.entity.Result;
 import com.example.android.whereareyougo.ui.ui.base.BaseDialogFragment;
 import com.example.android.whereareyougo.ui.ui.custom.DividerItemDecoration;
+import com.malinskiy.superrecyclerview.SuperRecyclerView;
 
 import java.util.ArrayList;
 
@@ -29,11 +30,11 @@ import butterknife.Unbinder;
  * Created by nguyenanhtrung on 26/06/2017.
  */
 
-public class ListVenueDialogFragment extends BaseDialogFragment implements View.OnClickListener {
+public class ListVenueDialogFragment extends BaseDialogFragment implements View.OnClickListener,VenuesRecyclerViewAdapter.OnItemCheckListener {
 
 
     @BindView(R.id.recycler_view_venues)
-    RecyclerView recyclerViewVenues;
+    SuperRecyclerView recyclerViewVenues;
     @BindView(R.id.text_num_of_result)
     TextView textNumOfResult;
     Unbinder unbinder;
@@ -65,6 +66,7 @@ public class ListVenueDialogFragment extends BaseDialogFragment implements View.
         if (bundle != null) {
             venues = bundle.getParcelableArrayList("result");
         }
+        venuesSelected = new ArrayList<>();
     }
 
     @Nullable
@@ -72,6 +74,8 @@ public class ListVenueDialogFragment extends BaseDialogFragment implements View.
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_venues_dialog, container, false);
         unbinder = ButterKnife.bind(this, view);
+        setupRecyclerViewVenues();
+        setNumberOfVenuesFound();
 
         return view;
     }
@@ -106,8 +110,7 @@ public class ListVenueDialogFragment extends BaseDialogFragment implements View.
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initEvents();
-        setupRecyclerViewVenues();
-        setNumberOfVenuesFound();
+
     }
 
     private void setNumberOfVenuesFound() {
@@ -122,23 +125,12 @@ public class ListVenueDialogFragment extends BaseDialogFragment implements View.
         if (venues == null) {
             venues = new ArrayList<>();
         }
+        recyclerViewVenues.setLayoutManager(new LinearLayoutManager(getActivity()));
         RecyclerView.ItemDecoration dividerItemDecoration = new DividerItemDecoration(getResources().getDrawable(R.drawable.divider_recycler_view));
         recyclerViewVenues.addItemDecoration(dividerItemDecoration);
 
-        VenuesRecyclerViewAdapter adapter = new VenuesRecyclerViewAdapter(venues, getActivity(), new VenuesRecyclerViewAdapter.OnItemCheckListener() {
-            @Override
-            public void onItemCheck(Result result) {
-                venuesSelected.add(result);
-                Toast.makeText(getActivity(), "" + result.getName(), Toast.LENGTH_SHORT).show();
-            }
+        VenuesRecyclerViewAdapter adapter = new VenuesRecyclerViewAdapter(venues, getActivity(), this);
 
-            @Override
-            public void onItemUncheck(Result result) {
-                venuesSelected.remove(result);
-            }
-        });
-
-        recyclerViewVenues.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerViewVenues.setAdapter(adapter);
     }
 
@@ -161,8 +153,29 @@ public class ListVenueDialogFragment extends BaseDialogFragment implements View.
         }
     }
 
+
+
     @Override
-    public void onError(String message, Activity activity) {
+    public void onError(int messageId) {
+
+    }
+
+    @Override
+    public void onItemCheck(Result result) {
+        if (venuesSelected != null){
+            venuesSelected.add(result);
+        }
+
+    }
+
+    @Override
+    public void onItemUncheck(Result result) {
+        if (venuesSelected != null){
+            if (!venuesSelected.isEmpty()){
+                venuesSelected.remove(result);
+            }
+
+        }
 
     }
 

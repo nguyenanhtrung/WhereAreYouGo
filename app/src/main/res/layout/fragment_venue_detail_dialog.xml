@@ -16,14 +16,16 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.marshalchen.ultimaterecyclerview.UltimateRecyclerView
+    <com.malinskiy.superrecyclerview.SuperRecyclerView
         android:id="@+id/recycler_venue_photos"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_marginTop="8dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_title_dialog" />
+        app:layout_constraintTop_toBottomOf="@+id/text_title_dialog"
+        app:layout_empty="@layout/recyclerview_empty"
+        />
 
 
     <android.support.constraint.ConstraintLayout
@@ -377,11 +379,11 @@
 
     </RelativeLayout>
 
-    <com.beardedhen.androidbootstrap.BootstrapButton
+    <Button
         android:id="@+id/button_close"
         style="@style/Button"
         android:layout_width="@dimen/width_button"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/height_button"
         android:layout_marginBottom="8dp"
         android:layout_marginTop="8dp"
         android:text="@string/button_close_dialog"

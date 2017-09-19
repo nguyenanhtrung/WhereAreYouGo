@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:rc="http://schemas.android.com/apk/res-auto">
+    >
 
-    <com.marshalchen.ultimaterecyclerview.UltimateRecyclerView
+    <com.malinskiy.superrecyclerview.SuperRecyclerView
         android:id="@+id/recycler_view_friends"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        rc:recyclerviewEmptyView="@layout/recyclerview_empty"
+        app:layout_empty="@layout/recyclerview_empty"
         />
 
     <android.support.v7.widget.SearchView

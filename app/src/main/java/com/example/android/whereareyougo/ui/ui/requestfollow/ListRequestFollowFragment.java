@@ -12,12 +12,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.android.whereareyougo.R;
-import com.example.android.whereareyougo.ui.data.database.entity.RequestFollow;
 import com.example.android.whereareyougo.ui.data.database.entity.User;
-import com.example.android.whereareyougo.ui.ui.adapter.RequestFollowAdapter;
 import com.example.android.whereareyougo.ui.ui.base.BaseFragment;
 import com.example.android.whereareyougo.ui.ui.custom.DividerItemDecoration;
-import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
+import com.malinskiy.superrecyclerview.SuperRecyclerView;
 
 import java.util.ArrayList;
 
@@ -36,7 +34,7 @@ public class ListRequestFollowFragment extends BaseFragment implements ListReque
     @Inject
     ListRequestFollowMvpPresenter<ListRequestFollowView> presenter;
     @BindView(R.id.recyclerview_request_follow)
-    UltimateRecyclerView recyclerviewRequestFollow;
+    SuperRecyclerView recyclerViewRequestFollow;
     Unbinder unbinder;
     private ArrayList<User> requestFollows;
     private RequestFollowAdapter adapter;
@@ -52,6 +50,7 @@ public class ListRequestFollowFragment extends BaseFragment implements ListReque
     }
 
 
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -59,10 +58,7 @@ public class ListRequestFollowFragment extends BaseFragment implements ListReque
         unbinder = ButterKnife.bind(this, view);
         //
 
-        Bundle bundle = getArguments();
-        if (bundle != null){
-            requestFollows = bundle.getParcelableArrayList("requestfollow");
-        }
+
 
         //setup recyclerview
         setupRequestFollowRecyclerView();
@@ -74,23 +70,25 @@ public class ListRequestFollowFragment extends BaseFragment implements ListReque
 
         Drawable divider = ContextCompat.getDrawable(getActivity(), R.drawable.divider_recycler_view);
         RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(divider);
-        recyclerviewRequestFollow.addItemDecoration(itemDecoration);
+        recyclerViewRequestFollow.addItemDecoration(itemDecoration);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        recyclerviewRequestFollow.setLayoutManager(layoutManager);
-        recyclerviewRequestFollow.showEmptyView();
-
+        recyclerViewRequestFollow.setLayoutManager(layoutManager);
         //
         if (requestFollows == null){
             requestFollows = new ArrayList<>();
         }
         adapter = new RequestFollowAdapter(getActivity(),requestFollows,this);
-        recyclerviewRequestFollow.setAdapter(adapter);
+        recyclerViewRequestFollow.setAdapter(adapter);
 
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Bundle bundle = getArguments();
+        if (bundle != null){
+            requestFollows = bundle.getParcelableArrayList("requestfollow");
+        }
     }
 
     @Override

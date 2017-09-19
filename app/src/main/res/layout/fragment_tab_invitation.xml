@@ -5,9 +5,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
-    <com.marshalchen.ultimaterecyclerview.UltimateRecyclerView
+    <com.malinskiy.superrecyclerview.SuperRecyclerView
         android:id="@+id/recycler_view_invitations"
-        app:recyclerviewEmptyView="@layout/recyclerview_empty"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        app:layout_empty="@layout/recyclerview_empty"
+        />
 </LinearLayout>

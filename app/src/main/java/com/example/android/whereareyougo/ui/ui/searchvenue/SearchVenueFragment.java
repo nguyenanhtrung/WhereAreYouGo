@@ -3,20 +3,18 @@ package com.example.android.whereareyougo.ui.ui.searchvenue;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 
 import com.example.android.whereareyougo.R;
 import com.example.android.whereareyougo.ui.data.database.entity.VenueCategory;
-import com.example.android.whereareyougo.ui.ui.adapter.VenueCategoryAdapter;
 import com.example.android.whereareyougo.ui.ui.base.BaseFragment;
 import com.example.android.whereareyougo.ui.ui.custom.GridDividerItemDecoration;
-import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
+import com.malinskiy.superrecyclerview.SuperRecyclerView;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
 import java.util.ArrayList;
@@ -38,7 +36,7 @@ public class SearchVenueFragment extends BaseFragment implements SearchVenueView
     @BindView(R.id.edit_text_radius)
     MaterialEditText editTextRadius;
     @BindView(R.id.recycler_view_category)
-    UltimateRecyclerView recyclerViewCategory;
+    SuperRecyclerView recyclerViewCategory;
     @BindView(R.id.button_search)
     Button buttonSearch;
     Unbinder unbinder;
@@ -48,16 +46,11 @@ public class SearchVenueFragment extends BaseFragment implements SearchVenueView
     private InteractionWithSearchVenueFragment interaction;
 
 
-
-
     public static SearchVenueFragment newInstance() {
         SearchVenueFragment fragment = new SearchVenueFragment();
 
         return fragment;
     }
-
-
-
 
     @Nullable
     @Override

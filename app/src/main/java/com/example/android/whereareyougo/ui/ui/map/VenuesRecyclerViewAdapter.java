@@ -15,7 +15,6 @@ import com.example.android.whereareyougo.R;
 import com.example.android.whereareyougo.ui.data.database.entity.OpeningHour;
 import com.example.android.whereareyougo.ui.data.database.entity.Result;
 import com.example.android.whereareyougo.ui.ui.base.BaseRecyclerViewAdapter;
-import com.example.android.whereareyougo.ui.utils.MyKey;
 
 import java.util.List;
 
@@ -37,62 +36,56 @@ public class VenuesRecyclerViewAdapter extends BaseRecyclerViewAdapter<Result, R
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        switch (viewType) {
-            case MyKey.VIEW_TYPE_NORMAL:
-                return new VenueViewHolder(
-                        LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_venues_row, parent, false));
-            case MyKey.VIEW_TYPE_EMPTY:
-            default:
-                return new EmptyViewHolder(
-                        LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_empty, parent, false));
-        }
+        return new VenueViewHolder(LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.recyclerview_venues_row, parent, false));
     }
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
         final Result result = getItem(position);
+
         if (result != null) {
 
-            ((VenueViewHolder)holder).textVenueName.setText(result.getName());
+            ((VenueViewHolder) holder).textVenueName.setText(result.getName());
 
             //
             OpeningHour openingHour = result.getOpeningHour();
             if (openingHour == null) {
-                ((VenueViewHolder)holder).textVenueStatus.setText(R.string.opening_hour_null);
-                ((VenueViewHolder)holder).textVenueStatus.setTextColor(ContextCompat.getColor(context, R.color.color_venue_status_empty));
+                ((VenueViewHolder) holder).textVenueStatus.setText(R.string.opening_hour_null);
+                ((VenueViewHolder) holder).textVenueStatus.setTextColor(ContextCompat.getColor(context, R.color.color_venue_status_empty));
             } else {
                 if (openingHour.isOpenNow()) {
-                    ((VenueViewHolder)holder).textVenueStatus.setText(R.string.text_venue_open_time);
-                    ((VenueViewHolder)holder).textVenueStatus.setTextColor(ContextCompat.getColor(context, R.color.color_venue_status_open));
+                    ((VenueViewHolder) holder).textVenueStatus.setText(R.string.text_venue_open_time);
+                    ((VenueViewHolder) holder).textVenueStatus.setTextColor(ContextCompat.getColor(context, R.color.color_venue_status_open));
                 } else {
-                    ((VenueViewHolder)holder).textVenueStatus.setText(R.string.text_venue_close_time);
-                    ((VenueViewHolder)holder).textVenueStatus.setTextColor(ContextCompat.getColor(context, R.color.color_venue_status_close));
+                    ((VenueViewHolder) holder).textVenueStatus.setText(R.string.text_venue_close_time);
+                    ((VenueViewHolder) holder).textVenueStatus.setTextColor(ContextCompat.getColor(context, R.color.color_venue_status_close));
                 }
             }
             //
             Glide.with(context)
                     .load(result.getIcon())
-                    .into(((VenueViewHolder)holder).imageVenueCategory);
+                    .into(((VenueViewHolder) holder).imageVenueCategory);
 
             if (result.isChecked()) {
-                ((VenueViewHolder)holder).checkChooseVenue.setChecked(true);
-                ((VenueViewHolder)holder).checkChooseVenue.setVisibility(View.VISIBLE);
+                ((VenueViewHolder) holder).checkChooseVenue.setChecked(true);
+                ((VenueViewHolder) holder).checkChooseVenue.setVisibility(View.VISIBLE);
             } else {
-                ((VenueViewHolder)holder).checkChooseVenue.setChecked(false);
-                ((VenueViewHolder)holder).checkChooseVenue.setVisibility(View.INVISIBLE);
+                ((VenueViewHolder) holder).checkChooseVenue.setChecked(false);
+                ((VenueViewHolder) holder).checkChooseVenue.setVisibility(View.INVISIBLE);
             }
 
-            ((VenueViewHolder)holder).setOnClickListener(new View.OnClickListener() {
+            ((VenueViewHolder) holder).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ((VenueViewHolder)holder).checkChooseVenue.setChecked(
-                            !((VenueViewHolder)holder).checkChooseVenue.isChecked());
-                    if (((VenueViewHolder)holder).checkChooseVenue.isChecked()) {
-                        ((VenueViewHolder)holder).checkChooseVenue.setVisibility(View.VISIBLE);
+                    ((VenueViewHolder) holder).checkChooseVenue.setChecked(
+                            !((VenueViewHolder) holder).checkChooseVenue.isChecked());
+                    if (((VenueViewHolder) holder).checkChooseVenue.isChecked()) {
+                        ((VenueViewHolder) holder).checkChooseVenue.setVisibility(View.VISIBLE);
                         result.setChecked(true);
                         onItemCheckListener.onItemCheck(result);
                     } else {
-                        ((VenueViewHolder)holder).checkChooseVenue.setVisibility(View.INVISIBLE);
+                        ((VenueViewHolder) holder).checkChooseVenue.setVisibility(View.INVISIBLE);
                         result.setChecked(false);
                         onItemCheckListener.onItemUncheck(result);
                     }
@@ -127,4 +120,5 @@ public class VenuesRecyclerViewAdapter extends BaseRecyclerViewAdapter<Result, R
             itemView.setOnClickListener(onClickListener);
         }
     }
+
 }

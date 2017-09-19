@@ -1,4 +1,4 @@
-package com.example.android.whereareyougo.ui.ui.adapter;
+package com.example.android.whereareyougo.ui.ui.notifications;
 
 import android.app.Fragment;
 import android.app.FragmentManager;

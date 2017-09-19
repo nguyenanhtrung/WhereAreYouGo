@@ -12,7 +12,6 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -27,8 +26,9 @@ import android.widget.Toast;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.MaterialDialog.ListCallbackSingleChoice;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.RequestBuilder;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.example.android.whereareyougo.R;
 import com.example.android.whereareyougo.ui.data.database.entity.Result;
 import com.example.android.whereareyougo.ui.ui.base.BaseFragment;
@@ -193,20 +193,22 @@ public class MapFragment extends BaseFragment implements MapMvpView, OnMapReadyC
         return null;
     }
 
-    private void showLoadingDialog() {
-        loadingDialog = new MaterialDialog.Builder(getActivity())
-                .title(R.string.title_loading_dialog)
-                .titleColorRes(R.color.colorAccent)
-                .content(R.string.content_loading_dialog)
-                .contentColorRes(R.color.colorSecondaryText)
-                .progress(true, 3)
-                .build();
+    private void showLoadingMapDialog() {
+        if (loadingDialog == null){
+            loadingDialog = new MaterialDialog.Builder(getActivity())
+                    .title(R.string.title_loading_dialog)
+                    .titleColorRes(R.color.colorAccent)
+                    .content(R.string.content_loading_dialog)
+                    .contentColorRes(R.color.colorSecondaryText)
+                    .progress(true, 3)
+                    .build();
+        }
         loadingDialog.show();
     }
 
     private void hideLoadingDialog() {
         if (loadingDialog.isShowing()) {
-            loadingDialog.hide();
+            loadingDialog.dismiss();
         }
     }
 
@@ -286,9 +288,10 @@ public class MapFragment extends BaseFragment implements MapMvpView, OnMapReadyC
 
     }
 
+
     private void dismissSearchLoadingDialog() {
         if (searchLoadingDialog != null && searchLoadingDialog.isShowing()) {
-            searchLoadingDialog.dismiss();
+            searchLoadingDialog.cancel();
         }
     }
 
@@ -296,7 +299,6 @@ public class MapFragment extends BaseFragment implements MapMvpView, OnMapReadyC
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initUiEvents();
-        showLoadingDialog();
     }
 
     private void initUiEvents() {
@@ -371,14 +373,12 @@ public class MapFragment extends BaseFragment implements MapMvpView, OnMapReadyC
     @Override
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
-        hideLoadingDialog();
+
         // map.setMyLocationEnabled(true);
         if (ContextCompat.checkSelfPermission(getActivity(), permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
             initMap();
-            // turnOnMyLocationLayer();
-            // buildGoogleApiClient();
-            // googleApiClient.connect();
+
             showCurrentLocation();
 
         } else {
@@ -388,49 +388,20 @@ public class MapFragment extends BaseFragment implements MapMvpView, OnMapReadyC
                         MyKey.PERMISSIONS_REQUEST_LOCATION);
             }
             initMap();
-            //   turnOnMyLocationLayer();
-            // buildGoogleApiClient();
-            // googleApiClient.connect();
             showCurrentLocation();
-
-
         }
 
 
     }
 
     private void initMap() {
-
+        hideLoadingDialog();
         map.getUiSettings().setMyLocationButtonEnabled(false);
         map.setPadding(0, 80, 0, 0);
         setupClusterManager();
 
     }
 
-    private void turnOnMyLocationLayer() {
-        if (map == null) {
-            return;
-        }
-
-        if (ActivityCompat.checkSelfPermission(getActivity(),
-                android.Manifest.permission.ACCESS_FINE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED) {
-            locationPermissionGranted = true;
-        } else {
-            ActivityCompat.requestPermissions(getActivity(),
-                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
-                    MyKey.REQUEST_PERMISSION_ACCESS_FINE);
-        }
-
-        if (locationPermissionGranted) {
-            map.setMyLocationEnabled(true);
-            map.getUiSettings().setMyLocationButtonEnabled(true);
-        } else {
-            map.setMyLocationEnabled(false);
-            map.getUiSettings().setMyLocationButtonEnabled(false);
-            lastKnownLocation = null;
-        }
-    }
 
     public void showCurrentLocation() {
         if (lastKnownLocation != null) {
@@ -453,25 +424,24 @@ public class MapFragment extends BaseFragment implements MapMvpView, OnMapReadyC
             }
 
 
-            Glide.with(interactionWithMapFragment.getContextOfFragment()).
-                    load(userImageUri)
-                    .asBitmap()
-                    .fitCenter()
-                    .into(new SimpleTarget<Bitmap>() {
-                        @Override
-                        public void onResourceReady(Bitmap bitmap,
-                                                    GlideAnimation<? super Bitmap> glideAnimation) {
-                            currentLocationMarker = createMarker(new LatLng(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude()),
-                                    Commons.getMarkerBitmapFromView(mCustomMarkerView, bitmap, MyKey.NO_DRAWABLE), "Me");
+            //
+            RequestBuilder<Bitmap> requestBuilder = Glide.with(this).asBitmap();
+            requestBuilder.load(userImageUri).into(new SimpleTarget<Bitmap>() {
+                @Override
+                public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
+                    currentLocationMarker = createMarker(new LatLng(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude()),
+                            Commons.getMarkerBitmapFromView(mCustomMarkerView, resource, MyKey.NO_DRAWABLE), "Me");
 
 
-                            map.moveCamera(CameraUpdateFactory.newLatLngZoom(
-                                    new LatLng(lastKnownLocation.getLatitude(),
-                                            lastKnownLocation.getLongitude()), MyKey.ZOOM_LEVEl_DEFAULT));
+                    map.moveCamera(CameraUpdateFactory.newLatLngZoom(
+                            new LatLng(lastKnownLocation.getLatitude(),
+                                    lastKnownLocation.getLongitude()), MyKey.ZOOM_LEVEl_DEFAULT));
+                }
+            });
+
+            //
 
 
-                        }
-                    });
             //
 
         } else {
@@ -484,15 +454,16 @@ public class MapFragment extends BaseFragment implements MapMvpView, OnMapReadyC
     @Override
     public void onStart() {
         super.onStart();
+        showLoadingMapDialog();
         mapView.onStart();
-        loadingDialog.show();
+
     }
 
     @Override
     public void onResume() {
         super.onResume();
         mapView.onResume();
-        loadingDialog.hide();
+
         //
 
 

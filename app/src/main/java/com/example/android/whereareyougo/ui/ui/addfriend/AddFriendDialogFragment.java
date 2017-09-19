@@ -1,36 +1,30 @@
 package com.example.android.whereareyougo.ui.ui.addfriend;
 
 import android.app.Activity;
-import android.app.DialogFragment;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
-
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.RadioButton;
 import android.widget.TextView;
-import android.widget.Toast;
-
 
 import com.example.android.whereareyougo.R;
 import com.example.android.whereareyougo.ui.data.database.entity.User;
 import com.example.android.whereareyougo.ui.di.component.ActivityComponent;
 import com.example.android.whereareyougo.ui.ui.adapter.UsersRecyclerViewAdapter;
+import com.example.android.whereareyougo.ui.ui.base.BaseDialogFragment;
 import com.example.android.whereareyougo.ui.ui.custom.DividerItemDecoration;
-import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
 import java.util.ArrayList;
@@ -47,11 +41,11 @@ import butterknife.Unbinder;
  * Created by nguyenanhtrung on 02/07/2017.
  */
 
-public class AddFriendDialogFragment extends DialogFragment implements AddFriendView,UsersRecyclerViewAdapter.OnItemClickListener {
+public class AddFriendDialogFragment extends BaseDialogFragment implements AddFriendView, UsersRecyclerViewAdapter.OnItemClickListener {
     @Inject
     AddFriendMvpPresenter<AddFriendView> presenter;
     @BindView(R.id.recycler_view_seach_friends)
-    UltimateRecyclerView recyclerViewSeachFriends;
+    RecyclerView recyclerViewSeachFriends;
     @BindView(R.id.edit_text_search_name)
     MaterialEditText editTextSearchName;
     @BindView(R.id.edit_text_search_phone)
@@ -73,7 +67,6 @@ public class AddFriendDialogFragment extends DialogFragment implements AddFriend
     private UsersRecyclerViewAdapter adapter;
     private List<User> users;
     private Button buttonAddFriend;
-
 
 
     public static AddFriendDialogFragment newInstance() {
@@ -103,9 +96,6 @@ public class AddFriendDialogFragment extends DialogFragment implements AddFriend
         users = new ArrayList<>();
         //
         recyclerViewSeachFriends.setLayoutManager(new LinearLayoutManager(getActivity()));
-
-
-        recyclerViewSeachFriends.showEmptyView();
         Drawable divider = ContextCompat.getDrawable(getActivity(), R.drawable.divider_recycler_view);
         RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(divider);
         recyclerViewSeachFriends.addItemDecoration(itemDecoration);
@@ -117,10 +107,10 @@ public class AddFriendDialogFragment extends DialogFragment implements AddFriend
 
     public void setupUsersRecyclerViewAdapter(List<User> userList) {
         users = userList;
-        if (adapter == null){
-            adapter = new UsersRecyclerViewAdapter(getActivity(), users,this);
-        }else{
-            adapter.swapDatas(users);
+        if (adapter == null) {
+            adapter = new UsersRecyclerViewAdapter(getActivity(), users, this);
+        } else {
+            adapter.addAllItem(users);
         }
 
         recyclerViewSeachFriends.setAdapter(adapter);
@@ -129,26 +119,23 @@ public class AddFriendDialogFragment extends DialogFragment implements AddFriend
 
     }
 
-    public void clearDataForFriendsRecyclerView(){
-        if (users != null || !users.isEmpty()){
-
-            if (adapter != null){
-                adapter.removeAllInternal(users);
-                adapter.notifyDataSetChanged();
-                users.clear();
+    public void clearDataForFriendsRecyclerView() {
+        if (users != null || !users.isEmpty()) {
+            if (adapter != null) {
+                adapter.clear();
             }
         }
     }
 
-    public void clearEditTextName(){
+    public void clearEditTextName() {
         editTextSearchName.setText("");
     }
 
-    public void clearEditTextPhone(){
+    public void clearEditTextPhone() {
         editTextSearchPhone.setText("");
     }
 
-    public boolean checkSearchByName(){
+    public boolean checkSearchByName() {
         return radioButtonName.isChecked();
     }
 
@@ -246,10 +233,7 @@ public class AddFriendDialogFragment extends DialogFragment implements AddFriend
         return false;
     }
 
-    @Override
-    public void onError(String message, Activity activity) {
 
-    }
 
     @Override
     public void hideKeyboard() {
@@ -292,49 +276,49 @@ public class AddFriendDialogFragment extends DialogFragment implements AddFriend
                 }
                 break;
             case R.id.button_close_dialog:
-                if (presenter != null){
+                if (presenter != null) {
                     presenter.onClickButtonCloseDialog();
                 }
                 break;
         }
     }
 
-    public void closeDialog(){
+    public void closeDialog() {
         dismiss();
     }
 
 
     //onClick button Them ban
     @Override
-    public void onButtonClick(View view,int position) {
+    public void onButtonClick(View view, int position) {
         buttonAddFriend = (Button) view;
         //
-        if (presenter != null){
+        if (presenter != null) {
             presenter.onClickButtonAddFriend(users.get(position).getUserID());
         }
     }
 
-    public void setButtonAddFriendEnable(int idContent, boolean isEnable){
-        if (buttonAddFriend != null){
+    public void setButtonAddFriendEnable(int idContent, boolean isEnable) {
+        if (buttonAddFriend != null) {
             buttonAddFriend.setText(idContent);
             buttonAddFriend.setEnabled(isEnable);
         }
     }
 
-    public void setButtonAddFriendVisibility(boolean isVisible){
-        if (buttonAddFriend != null){
-            if (isVisible){
+    public void setButtonAddFriendVisibility(boolean isVisible) {
+        if (buttonAddFriend != null) {
+            if (isVisible) {
                 buttonAddFriend.setVisibility(View.VISIBLE);
-            }else{
+            } else {
                 buttonAddFriend.setVisibility(View.INVISIBLE);
             }
         }
     }
 
 
-
     public interface InteractionWithAddFriendFragment {
         ActivityComponent getActivityComponent();
+
         String getCurrentUserId();
     }
 }

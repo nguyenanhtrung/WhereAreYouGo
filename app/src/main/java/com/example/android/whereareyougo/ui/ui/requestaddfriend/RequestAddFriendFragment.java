@@ -11,15 +11,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.example.android.whereareyougo.R;
-import com.example.android.whereareyougo.ui.data.database.entity.RequestAddFriend;
 import com.example.android.whereareyougo.ui.data.database.entity.User;
-import com.example.android.whereareyougo.ui.ui.adapter.RequestAddFriendAdapter;
 import com.example.android.whereareyougo.ui.ui.base.BaseFragment;
 import com.example.android.whereareyougo.ui.ui.custom.DividerItemDecoration;
-import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
+import com.malinskiy.superrecyclerview.SuperRecyclerView;
 
 import java.util.ArrayList;
 
@@ -37,7 +34,7 @@ public class RequestAddFriendFragment extends BaseFragment implements RequestAdd
     @Inject
     RequestAddFriendMvpPresenter<RequestAddFriendView> presenter;
     @BindView(R.id.recycler_view_invitations)
-    UltimateRecyclerView recyclerViewInvitations;
+    SuperRecyclerView recyclerViewInvitations;
     Unbinder unbinder;
     //private ArrayList<RequestAddFriend> requestAddFriends;
     private ArrayList<User> userRequests;
@@ -47,7 +44,6 @@ public class RequestAddFriendFragment extends BaseFragment implements RequestAdd
         RequestAddFriendFragment fragment = new RequestAddFriendFragment();
         Bundle bundle = new Bundle();
         bundle.putParcelableArrayList("requests", userRequests);
-
         fragment.setArguments(bundle);
 
         return fragment;
@@ -56,7 +52,13 @@ public class RequestAddFriendFragment extends BaseFragment implements RequestAdd
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            userRequests = bundle.getParcelableArrayList("requests");
+        }
+        if (userRequests == null){
+            userRequests = new ArrayList<>();
+        }
     }
 
     public void setUserRequests(ArrayList<User> userRequests) {
@@ -68,14 +70,9 @@ public class RequestAddFriendFragment extends BaseFragment implements RequestAdd
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_tab_invitation, container, false);
         unbinder = ButterKnife.bind(this, view);
-
-        Bundle bundle = getArguments();
-        if (bundle != null) {
-            userRequests = bundle.getParcelableArrayList("requests");
-            setupRequestFriendsRecyclerView();
-            setupDatasForRequestFriendsRecyclerView();
-        }
-
+        //
+        setupRequestFriendsRecyclerView();
+        setupDatasForRequestFriendsRecyclerView();
 
         return view;
     }
@@ -88,27 +85,15 @@ public class RequestAddFriendFragment extends BaseFragment implements RequestAdd
     }
 
     private void setupRequestFriendsRecyclerView() {
-
-
         Drawable divider = ContextCompat.getDrawable(getActivity(), R.drawable.divider_recycler_view);
         RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(divider);
         recyclerViewInvitations.addItemDecoration(itemDecoration);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        recyclerViewInvitations.setLayoutManager(layoutManager);
-        recyclerViewInvitations.showEmptyView();
-
-
+        recyclerViewInvitations.setLayoutManager(new LinearLayoutManager(getActivity()));
         //
-
-
     }
 
     public void setupDatasForRequestFriendsRecyclerView() {
-        if (userRequests == null) {
-            userRequests = new ArrayList<>();
-        }
         adapter = new RequestAddFriendAdapter(userRequests, getActivity(), this);
-
         recyclerViewInvitations.setAdapter(adapter);
     }
 
@@ -131,7 +116,7 @@ public class RequestAddFriendFragment extends BaseFragment implements RequestAdd
     }
 
     public void removeRequestInRecyclerView(int position) {
-        adapter.removeElement(position);
+        adapter.removeItem(position);
     }
 
     @Override
@@ -145,8 +130,8 @@ public class RequestAddFriendFragment extends BaseFragment implements RequestAdd
                 break;
             case R.id.button_cancel:
                 //Toast.makeText(getActivity(), "Button Cancel", Toast.LENGTH_SHORT).show();
-                if (presenter != null){
-                    presenter.onClickButtonCancel(userRequests.get(position).getUserID(),position);
+                if (presenter != null) {
+                    presenter.onClickButtonCancel(userRequests.get(position).getUserID(), position);
                 }
                 break;
         }

@@ -3,24 +3,21 @@ package com.example.android.whereareyougo.ui.ui.notifications;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.android.whereareyougo.R;
-import com.example.android.whereareyougo.ui.data.database.entity.RequestAddFriend;
-import com.example.android.whereareyougo.ui.data.database.entity.RequestFollow;
 import com.example.android.whereareyougo.ui.data.database.entity.User;
-import com.example.android.whereareyougo.ui.ui.adapter.NotificationsFragmentPagerAdapter;
 import com.example.android.whereareyougo.ui.ui.base.BaseFragment;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 import javax.inject.Inject;
 
@@ -68,7 +65,14 @@ public class NotificationsFragment extends BaseFragment implements Notifications
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_user_notification, container, false);
         unbinder = ButterKnife.bind(this, view);
+        setupViewPager();
 
+        return view;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         Bundle bundle = getArguments();
         if (bundle != null) {
             userRequests = bundle.getParcelableArrayList("requestaddfriend");
@@ -77,22 +81,55 @@ public class NotificationsFragment extends BaseFragment implements Notifications
             requestFollowBadge = bundle.getInt("requestfollowbadge");
             requestAddFriendBadge = bundle.getInt("requestaddfriendbadge");
         }
-
-
-        return view;
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        setupViewPager();
+        initUiEvents();
+
     }
+
+    private void initUiEvents() {
+        setupTabLayoutEvent();
+
+    }
+
+    private void setupTabLayoutEvent() {
+        if (tabLayout != null){
+            tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+                @Override
+                public void onTabSelected(TabLayout.Tab tab) {
+                    View view = tab.getCustomView();
+                    if (view != null){
+                        TextView textBadge = (TextView) view.findViewById(R.id.text_badge_number);
+                        TextView textTabName = (TextView) view.findViewById(R.id.text_tab_name);
+                        //
+                        textTabName.setTextColor(ContextCompat.getColor(getActivity(),R.color.md_white_1000));
+                        textBadge.setVisibility(View.GONE);
+                    }
+
+
+                }
+
+                @Override
+                public void onTabUnselected(TabLayout.Tab tab) {
+                    View view = tab.getCustomView();
+                    if (view != null){
+                        TextView textTabName = (TextView) view.findViewById(R.id.text_tab_name);
+                        //
+                        textTabName.setTextColor(ContextCompat.getColor(getActivity(),R.color.colorPrimaryText));
+                    }
+                }
+
+                @Override
+                public void onTabReselected(TabLayout.Tab tab) {
+
+                }
+            });
+        }
+    }
+
 
     private void setupViewPager() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
@@ -100,7 +137,6 @@ public class NotificationsFragment extends BaseFragment implements Notifications
             ,messageNotifications);
         }
         viewPager.setAdapter(pagerAdapter);
-        viewPager.setCurrentItem(0);
         tabLayout.setupWithViewPager(viewPager);
         setupTabCustomView();
     }
@@ -115,7 +151,7 @@ public class NotificationsFragment extends BaseFragment implements Notifications
                     if(messageNotifications != null){
                         tab.setCustomView(pagerAdapter.getTabView(i, messageNotifications.size()));
                     }else{
-                        tab.setCustomView(pagerAdapter.getTabView(i, 0));
+                        tab.setCustomView(pagerAdapter.getTabView(i, 1));
 
                     }
 

@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:rc="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/root_view"
-    >
+    android:id="@+id/root_view">
 
 
 
@@ -57,15 +56,15 @@
         android:orientation="horizontal"
         >
 
-        <com.marshalchen.ultimaterecyclerview.UltimateRecyclerView
+        <com.malinskiy.superrecyclerview.SuperRecyclerView
             android:id="@+id/recyclerview_conversation"
             android:layout_width="0dp"
             android:layout_weight="5"
             android:layout_height="match_parent"
-            rc:recyclerviewEmptyView="@layout/recyclerview_empty"
+            app:layout_empty="@layout/recyclerview_empty"
             />
 
-        <com.marshalchen.ultimaterecyclerview.UltimateRecyclerView
+        <com.malinskiy.superrecyclerview.SuperRecyclerView
             android:id="@+id/recycler_view_chat_users"
             android:layout_width="0dp"
             android:layout_weight="1"
@@ -74,7 +73,6 @@
             android:layout_marginStart="8dp"
             android:padding="2dp"
             android:background="@drawable/background_recycleview_chatusers"
-            rc:recyclerviewEmptyView="@layout/recyclerview_empty"
             />
 
 

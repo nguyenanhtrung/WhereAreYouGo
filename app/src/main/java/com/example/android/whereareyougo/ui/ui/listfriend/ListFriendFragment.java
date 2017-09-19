@@ -1,40 +1,29 @@
 package com.example.android.whereareyougo.ui.ui.listfriend;
 
-import android.Manifest;
 import android.content.Context;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.android.whereareyougo.R;
 import com.example.android.whereareyougo.ui.data.database.entity.Friend;
 import com.example.android.whereareyougo.ui.data.database.entity.User;
-import com.example.android.whereareyougo.ui.ui.adapter.FriendsRecyclerViewAdapter;
 import com.example.android.whereareyougo.ui.ui.base.BaseFragment;
 import com.example.android.whereareyougo.ui.ui.custom.GridDividerItemDecoration;
-import com.example.android.whereareyougo.ui.utils.MyKey;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
-import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
+import com.malinskiy.superrecyclerview.SuperRecyclerView;
 import com.nightonke.boommenu.BoomButtons.BoomButton;
-import com.nightonke.boommenu.OnBoomListener;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import java.util.ArrayList;
@@ -55,7 +44,7 @@ public class ListFriendFragment extends BaseFragment implements ListFriendView, 
     @Inject
     ListFriendPresenter<ListFriendView> presenter;
     @BindView(R.id.recycler_view_friends)
-    UltimateRecyclerView recyclerViewFriends;
+    SuperRecyclerView recyclerViewFriends;
 
     Unbinder unbinder;
 
@@ -130,13 +119,8 @@ public class ListFriendFragment extends BaseFragment implements ListFriendView, 
 
     private void setupFriendsRecyclerView() {
         recyclerViewFriends.setLayoutManager(new GridLayoutManager(getActivity(), 2));
-
         //Drawable divider1 = ContextCompat.getDrawable(getActivity(), R.drawable.divider_recycler_view);
-
-
         recyclerViewFriends.addItemDecoration(new GridDividerItemDecoration(8, 2));
-        recyclerViewFriends.showEmptyView();
-
 
         //setupFriendsRecyclerViewAdapter();
     }

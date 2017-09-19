@@ -6,6 +6,7 @@ import android.view.View;
 
 import com.example.android.whereareyougo.ui.utils.MyKey;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -33,6 +34,11 @@ public abstract class BaseRecyclerViewAdapter<T, VH extends RecyclerView.ViewHol
         notifyItemInserted(getItemCount() - 1);
     }
 
+    public void addAllItem(List<T> items){
+        datas.addAll(items);
+        notifyDataSetChanged();
+    }
+
     public void clear() {
         final int size = getItemCount();
         datas.clear();
@@ -48,14 +54,7 @@ public abstract class BaseRecyclerViewAdapter<T, VH extends RecyclerView.ViewHol
         return datas.get(position);
     }
 
-    @Override
-    public int getItemViewType(int position) {
-        if (datas != null && datas.size() > 0) {
-            return MyKey.VIEW_TYPE_NORMAL;
-        } else {
-            return MyKey.VIEW_TYPE_EMPTY;
-        }
-    }
+
 
     public int getPosition(final T item) {
         return datas.indexOf(item);
@@ -66,12 +65,7 @@ public abstract class BaseRecyclerViewAdapter<T, VH extends RecyclerView.ViewHol
         notifyItemRangeChanged(0, getItemCount());
     }
 
-    public static class EmptyViewHolder extends RecyclerView.ViewHolder{
 
-        public EmptyViewHolder(View itemView) {
-            super(itemView);
-        }
-    }
 
 
 }

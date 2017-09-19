@@ -159,6 +159,7 @@ public class AppSettingFragment extends PreferenceFragment implements AppSetting
         super.onDestroy();
     }
 
+
     @Override
     public void showLoading() {
 
@@ -175,7 +176,7 @@ public class AppSettingFragment extends PreferenceFragment implements AppSetting
     }
 
     @Override
-    public void onError(String message, Activity activity) {
+    public void onError(String message) {
 
     }
 
@@ -183,6 +184,12 @@ public class AppSettingFragment extends PreferenceFragment implements AppSetting
     public void hideKeyboard() {
 
     }
+
+    @Override
+    public void onError(int messageId) {
+
+    }
+
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {

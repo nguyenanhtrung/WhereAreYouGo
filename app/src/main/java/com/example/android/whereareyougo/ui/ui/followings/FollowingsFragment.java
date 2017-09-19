@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,10 +13,8 @@ import android.view.ViewGroup;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.android.whereareyougo.R;
 import com.example.android.whereareyougo.ui.data.database.entity.User;
-import com.example.android.whereareyougo.ui.ui.adapter.FollowersRecyclerViewAdapter;
-import com.example.android.whereareyougo.ui.ui.adapter.FollowingsRecyclerViewAdapter;
 import com.example.android.whereareyougo.ui.ui.base.BaseFragment;
-import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
+import com.malinskiy.superrecyclerview.SuperRecyclerView;
 
 import java.util.ArrayList;
 
@@ -36,14 +35,13 @@ public class FollowingsFragment extends BaseFragment implements FollowingsView {
     @BindView(R.id.search_view_following)
     SearchView searchViewFollowing;
     @BindView(R.id.recycler_view_followings)
-    UltimateRecyclerView recyclerViewFollowings;
+    SuperRecyclerView recyclerViewFollowings;
+    Unbinder unbinder;
     private FollowingsRecyclerViewAdapter adapter;
     private ArrayList<User> followings;
     private MaterialDialog loadingDialog;
-    Unbinder unbinder;
 
-
-    public static FollowingsFragment newInstance(){
+    public static FollowingsFragment newInstance() {
         FollowingsFragment followingsFragment = new FollowingsFragment();
 
         return followingsFragment;
@@ -70,7 +68,7 @@ public class FollowingsFragment extends BaseFragment implements FollowingsView {
         //
         setupFollowingsRecyclerView();
         showLoadingDialog();
-        if (presenter != null){
+        if (presenter != null) {
             presenter.showUserFollowings();
         }
 
@@ -79,30 +77,29 @@ public class FollowingsFragment extends BaseFragment implements FollowingsView {
 
     private void setupFollowingsRecyclerView() {
         recyclerViewFollowings.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerViewFollowings.showEmptyView();
         //
 
     }
 
-    public void setDataForFollowingsRecyclerViewAdapter(ArrayList<User> datas){
-        followings  = datas;
-        adapter = new FollowingsRecyclerViewAdapter(getActivity(),followings);
+    public void setDataForFollowingsRecyclerViewAdapter(ArrayList<User> datas) {
+        followings = datas;
+        adapter = new FollowingsRecyclerViewAdapter(getActivity(), followings);
         recyclerViewFollowings.setAdapter(adapter);
     }
 
-    public void showLoadingDialog(){
+    public void showLoadingDialog() {
         loadingDialog = new MaterialDialog.Builder(getActivity())
-                    .titleColorRes(R.color.colorAccent)
-                    .title(R.string.title_loading_dialog)
-                    .contentColorRes(R.color.colorSecondaryText)
-                    .content(R.string.content_loading_dialog)
-                    .progress(true,4)
-                    .build();
+                .titleColorRes(R.color.colorAccent)
+                .title(R.string.title_loading_dialog)
+                .contentColorRes(R.color.colorSecondaryText)
+                .content(R.string.content_loading_dialog)
+                .progress(true, 4)
+                .build();
         loadingDialog.show();
     }
 
-    public void hideLoadingDialog(){
-        if (loadingDialog.isShowing()){
+    public void hideLoadingDialog() {
+        if (loadingDialog.isShowing()) {
             loadingDialog.dismiss();
         }
     }

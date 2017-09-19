@@ -27,6 +27,8 @@ public class FriendsMapPresenter<V extends FriendsMapView> extends BasePresenter
     private ChildEventListener followingsChildEvent;
     private ArrayList<DatabaseReference> followingReferences;
     private ValueEventListener locationEventListener;
+    private int followingSelectPosition = -1;
+    private int followingPreviousPosition = -2;
 
     @Inject
     public FriendsMapPresenter(DataManager dataManager) {
@@ -76,9 +78,21 @@ public class FriendsMapPresenter<V extends FriendsMapView> extends BasePresenter
         }
     }
 
-    public void onClickFollowingSelectedItem() {
-
+    public void onClickFollowingSelectedItem(int position) {
+        if (followingSelectPosition != position) {
+            followingSelectPosition = position;
+            if (followingPreviousPosition >= 0) {
+                getMvpView().setBorderColorForFollowingSelected(followingPreviousPosition, R.color.colorAccent);
+            }
+            getMvpView().setBorderColorForFollowingSelected(followingSelectPosition, R.color.colorPrimary);
+            followingPreviousPosition = followingSelectPosition;
+        }
+        getMvpView().moveCamera(getMvpView().getFollowingMarkers().get(position).getPosition());
+        if (getMvpView().isFollowCurrentUser()){
+            getMvpView().setFollowCurrentUser(false);
+        }
     }
+
 
     public void onClickButtonAddFollowings() {
         //check if followingSelecteds = MAX(5), if MAX then show message to user and not open following selection dialog
@@ -93,12 +107,13 @@ public class FriendsMapPresenter<V extends FriendsMapView> extends BasePresenter
         getMvpView().getFollowingsSelected().get(followingIndex).setAllData(following);
         getMvpView().notifyFollowingSelectedAdapterChange();
         getMvpView().setFollowingMarker(followingIndex, Commons.convertStringToLocation(following.getCurrentLocation()));
+
     }
 
     public void setupUpdateFollowingRealTime(User following) {
         //  createFollowingLocationReferences(followingsSelected);
         //  setLocationEventListenerForReferences(followingReferences);
-        if (following != null){
+        if (following != null) {
             createFollowingLocationReference(following);
         }
 
@@ -149,6 +164,7 @@ public class FriendsMapPresenter<V extends FriendsMapView> extends BasePresenter
                     }
                 };
             }
+            followingRef.addValueEventListener(locationEventListener);
         }
     }
 
@@ -180,6 +196,13 @@ public class FriendsMapPresenter<V extends FriendsMapView> extends BasePresenter
         if (followingReferences != null && !followingReferences.isEmpty()) {
             followingReferences.get(position).removeEventListener(locationEventListener);
             followingReferences.remove(position);
+            //
+            if (followingSelectPosition == position){
+                followingPreviousPosition = -1;
+            }else{
+                followingSelectPosition--;
+                followingPreviousPosition--;
+            }
         }
     }
 

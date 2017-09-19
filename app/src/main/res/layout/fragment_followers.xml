@@ -3,14 +3,16 @@
     xmlns:rc="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
 
-    <com.marshalchen.ultimaterecyclerview.UltimateRecyclerView
+    <com.malinskiy.superrecyclerview.SuperRecyclerView
         android:id="@+id/recycler_view_followers"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        rc:recyclerviewEmptyView="@layout/recyclerview_empty" />
+        app:layout_empty="@layout/recyclerview_empty"
+         />
 
 
 </LinearLayout>

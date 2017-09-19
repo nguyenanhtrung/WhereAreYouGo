@@ -48,4 +48,10 @@ public interface FriendsMapView extends MvpView {
     void notifyFollowingSelectedAdapterChange();
 
     void setFollowingMarker(int index, LatLng location);
+
+    void setBorderColorForFollowingSelected(int position, int colorId);
+
+    void moveCamera(LatLng latLng);
+
+
 }

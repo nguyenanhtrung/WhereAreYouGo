@@ -1,6 +1,7 @@
 package com.example.android.whereareyougo.ui.ui.addfriend;
 
 import com.example.android.whereareyougo.ui.data.database.entity.User;
+import com.example.android.whereareyougo.ui.ui.base.DialogMvpView;
 import com.example.android.whereareyougo.ui.ui.base.MvpView;
 
 import java.util.List;
@@ -9,7 +10,7 @@ import java.util.List;
  * Created by nguyenanhtrung on 02/07/2017.
  */
 
-public interface AddFriendView extends MvpView {
+public interface AddFriendView extends DialogMvpView {
     void showMessage(int messageId);
 
     void setupUsersRecyclerViewAdapter(List<User> userList);

@@ -1,31 +1,24 @@
 package com.example.android.whereareyougo.ui.ui.followingselection;
 
 import android.app.Activity;
-import android.app.DialogFragment;
 import android.content.Context;
-import android.graphics.Point;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
-import android.view.Display;
+import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.android.whereareyougo.R;
 import com.example.android.whereareyougo.ui.data.database.entity.User;
 import com.example.android.whereareyougo.ui.di.component.ActivityComponent;
-import com.example.android.whereareyougo.ui.ui.adapter.FriendsMapSelectionAdapter;
+import com.example.android.whereareyougo.ui.ui.base.BaseDialogFragment;
 import com.example.android.whereareyougo.ui.utils.MyKey;
-import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
+import com.malinskiy.superrecyclerview.SuperRecyclerView;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import java.util.ArrayList;
@@ -41,7 +34,7 @@ import butterknife.Unbinder;
  * Created by nguyenanhtrung on 20/08/2017.
  */
 
-public class FollowingsSelectionDialogFragment extends DialogFragment implements FollowingSelectionView, FriendsMapSelectionAdapter.FriendsMapClickListener,
+public class FollowingsSelectionDialogFragment extends BaseDialogFragment implements FollowingSelectionView, FriendsMapSelectionAdapter.FriendsMapClickListener,
         View.OnClickListener {
 
     @Inject
@@ -49,14 +42,12 @@ public class FollowingsSelectionDialogFragment extends DialogFragment implements
     @BindView(R.id.text_num_of_following)
     TextView textNumOfFollowing;
     @BindView(R.id.recycler_view_friends)
-    UltimateRecyclerView recyclerViewFriends;
+    SuperRecyclerView recyclerViewFriends;
     @BindView(R.id.button_add_following)
     Button buttonAddFollowing;
     @BindView(R.id.button_cancel)
     Button buttonCancel;
     Unbinder unbinder;
-    @BindView(R.id.loading_followings)
-    AVLoadingIndicatorView loadingFollowings;
     private InteractionWithFFollowingSelection interaction;
     private ArrayList<String> followingIds;
     private FriendsMapSelectionAdapter adapter;
@@ -112,7 +103,7 @@ public class FollowingsSelectionDialogFragment extends DialogFragment implements
         View view = inflater.inflate(R.layout.fragment_friends_map_selection, container, false);
         unbinder = ButterKnife.bind(this, view);
         //
-        loadingFollowings.hide();
+
         setupRecyclerViewFollowings();
         if (presenter != null) {
             presenter.getFollowingsInfo(followingIds);
@@ -139,9 +130,10 @@ public class FollowingsSelectionDialogFragment extends DialogFragment implements
     @Override
     public void onStart() {
         super.onStart();
+        showLoading();
     }
 
-    private void setSizeOfDialog() {
+   /* private void setSizeOfDialog() {
         int width = 1000;
         int height = 1100;
         getDialog().getWindow().setLayout(
@@ -150,11 +142,10 @@ public class FollowingsSelectionDialogFragment extends DialogFragment implements
         getDialog().getWindow().setGravity(Gravity.CENTER);
 
 
-    }
+    }*/
 
     private void setupRecyclerViewFollowings() {
         recyclerViewFriends.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerViewFriends.showEmptyView();
         //
 
     }
@@ -169,36 +160,20 @@ public class FollowingsSelectionDialogFragment extends DialogFragment implements
 
     @Override
     public void onResume() {
-        setSizeOfDialog();
         super.onResume();
 
 
     }
 
-    @Override
-    public void showLoading() {
 
-    }
-
-    @Override
-    public void hideLoading() {
-
-    }
 
     @Override
     public boolean isNetworkConnected() {
         return false;
     }
 
-    @Override
-    public void onError(String message, Activity activity) {
 
-    }
 
-    @Override
-    public void hideKeyboard() {
-
-    }
 
     public void setTextNumOfFollowing(String numOfFollowing) {
         if (numOfFollowing != null) {

@@ -146,18 +146,19 @@ public class LoginActivity extends BaseActivity implements LoginView, OnClickLis
 
   @Override
   public void showLoading() {
-    loadingLogin.show();
+    loadingLogin.smoothToShow();
   }
 
   @Override
   public void hideLoading() {
     loadingLogin.hide();
+
   }
 
   @Override
   public void openSignupFragment() {
     SignupDialogFragment dialogFragment = SignupDialogFragment.newInstance();
-    dialogFragment.show(getSupportFragmentManager(), MyKey.SIGNUP_DIALOG_FRAGMENT_TAG);
+    dialogFragment.show(getFragmentManager(),MyKey.SIGNUP_DIALOG_FRAGMENT_TAG);
 
   }
 
@@ -173,7 +174,7 @@ public class LoginActivity extends BaseActivity implements LoginView, OnClickLis
         startActivity(intent);
         finish();
       }
-    },3000);
+    },1000);
 
   }
 

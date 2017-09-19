@@ -11,6 +11,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,12 +22,11 @@ import android.widget.Toast;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.RequestBuilder;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.example.android.whereareyougo.R;
 import com.example.android.whereareyougo.ui.data.database.entity.User;
-import com.example.android.whereareyougo.ui.ui.adapter.FriendsMapSelectedAdapter;
 import com.example.android.whereareyougo.ui.ui.base.BaseFragment;
 import com.example.android.whereareyougo.ui.utils.Commons;
 import com.example.android.whereareyougo.ui.utils.MyKey;
@@ -40,7 +40,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
+import com.malinskiy.superrecyclerview.SuperRecyclerView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -66,7 +66,7 @@ public class FriendsMapFragment extends BaseFragment implements FriendsMapView, 
     @BindView(R.id.button_show_friends_map)
     FloatingActionButton buttonShowFriendsMap;
     @BindView(R.id.recycler_view_friends_map)
-    UltimateRecyclerView recyclerViewFriendsMap;
+    SuperRecyclerView recyclerViewFriendsMap;
     @BindView(R.id.layout_recyclerview_friends_map)
     LinearLayout layoutRecyclerviewFriendsMap;
     @BindView(R.id.button_add_friends_map)
@@ -136,7 +136,10 @@ public class FriendsMapFragment extends BaseFragment implements FriendsMapView, 
         super.onViewCreated(view, savedInstanceState);
         initUiComponents();
         initUiEvents();
+
     }
+
+
 
     private void initUiComponents() {
         if (isFollowCurrentUser) {
@@ -163,7 +166,6 @@ public class FriendsMapFragment extends BaseFragment implements FriendsMapView, 
 
     private void setupFriendsMapRecyclerView() {
         recyclerViewFriendsMap.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
-        recyclerViewFriendsMap.showEmptyView();
         //
         if (followingsSelected == null) {
             followingsSelected = new ArrayList<>();
@@ -174,7 +176,7 @@ public class FriendsMapFragment extends BaseFragment implements FriendsMapView, 
 
     private void addFollowingToAdapter(User user) {
         if (user != null) {
-            adapter.addFollowing(user);
+            adapter.addItem(user);
         }
     }
 
@@ -186,7 +188,10 @@ public class FriendsMapFragment extends BaseFragment implements FriendsMapView, 
 
     public void setFollowingMarker(int index, LatLng location) {
         if (location != null && followingMarkers != null) {
-
+            followingMarkers.get(index).setPosition(location);
+            if (!isFollowCurrentUser){
+                moveCamera(location);
+            }
         }
     }
 
@@ -199,6 +204,7 @@ public class FriendsMapFragment extends BaseFragment implements FriendsMapView, 
     @Override
     public void onStart() {
         super.onStart();
+        showLoading();
         mapViewFriends.onStart();
         presenter.getUserFollowings();
     }
@@ -250,6 +256,7 @@ public class FriendsMapFragment extends BaseFragment implements FriendsMapView, 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
+
 
         // map.setMyLocationEnabled(true);
         if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
@@ -313,6 +320,12 @@ public class FriendsMapFragment extends BaseFragment implements FriendsMapView, 
         }
     }
 
+    public void moveCamera(LatLng latLng){
+        if (latLng != null){
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,MyKey.ZOOM_LEVEl_DEFAULT));
+        }
+    }
+
     public void moveCameraToCurrentUserLocation() {
         moveCamera(currentUserLocation);
     }
@@ -326,17 +339,13 @@ public class FriendsMapFragment extends BaseFragment implements FriendsMapView, 
                 userMarkerOption.icon(BitmapDescriptorFactory
                         .fromBitmap(Commons.getMarkerBitmapFromView(getCustomViewUserMarker(), null, R.drawable.ic_user_default)));
             } else {
-                Glide.with(getActivity()).
-                        load(following.getImageUrl())
-                        .asBitmap()
-                        .diskCacheStrategy(DiskCacheStrategy.ALL)
-                        .dontAnimate()
+                RequestBuilder<Bitmap> requestBuilder = Glide.with(this).asBitmap();
+                requestBuilder.load(following.getImageUrl())
                         .into(new SimpleTarget<Bitmap>() {
                             @Override
-                            public void onResourceReady(Bitmap bitmap,
-                                                        GlideAnimation<? super Bitmap> glideAnimation) {
+                            public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
                                 userMarkerOption.icon(BitmapDescriptorFactory
-                                        .fromBitmap(Commons.getMarkerBitmapFromView(getCustomViewUserMarker(), bitmap, MyKey.NO_DRAWABLE)));
+                                        .fromBitmap(Commons.getMarkerBitmapFromView(getCustomViewUserMarker(), resource, MyKey.NO_DRAWABLE)));
                                 if (isCurrentUser) {
                                     setCurrentUserLocationMarker(map.addMarker(userMarkerOption));
                                 } else {
@@ -345,7 +354,6 @@ public class FriendsMapFragment extends BaseFragment implements FriendsMapView, 
                                     presenter.setupUpdateFollowingRealTime(following);
                                     Log.d(MyKey.FRIENDS_MAP_FRAGMENT_TAG, "FollowingMarkerSize Glide = " + followingMarkers.size());
                                 }
-
                             }
                         });
             }
@@ -378,7 +386,7 @@ public class FriendsMapFragment extends BaseFragment implements FriendsMapView, 
                 User following = followingsSelected.get(index);
                 if (following.getCurrentLocation() != null) {
                     // Log.d(MyKey.FRIENDS_MAP_FRAGMENT_TAG, "FollowingLocation = " + followingLocation.latitude);
-                    addUserMarkerOnMap(following,false);
+                    addUserMarkerOnMap(following, false);
                     Log.d(MyKey.FRIENDS_MAP_FRAGMENT_TAG, "FollowingMarkerSize = " + followingMarkers.size());
                     addFollowingSelectedIndexs(following.getUserID(), index);
                 } else {
@@ -391,7 +399,7 @@ public class FriendsMapFragment extends BaseFragment implements FriendsMapView, 
     }
 
     private void initMap() {
-
+        hideLoading();
     }
 
     public boolean isCheckLocationUpdate() {
@@ -509,6 +517,14 @@ public class FriendsMapFragment extends BaseFragment implements FriendsMapView, 
         return followingMarkers;
     }
 
+    public void setBorderColorForFollowingSelected(int position, int colorId){
+        if (recyclerViewFriendsMap != null){
+            CircleImageView followingImageSelected = (CircleImageView) recyclerViewFriendsMap.getRecyclerView()
+                    .findViewHolderForAdapterPosition(position).itemView.findViewById(R.id.image_user);
+            followingImageSelected.setBorderColor(ContextCompat.getColor(getActivity(), colorId));
+        }
+    }
+
     //Click item on Recycler View
     @Override
     public void onItemClick(View v, int position) {
@@ -521,7 +537,9 @@ public class FriendsMapFragment extends BaseFragment implements FriendsMapView, 
             case R.id.button_find_location:
                 break;
             case R.id.image_user:
-                ((CircleImageView) v).setBorderColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary));
+                if (presenter != null) {
+                    presenter.onClickFollowingSelectedItem(position);
+                }
                 break;
 
         }

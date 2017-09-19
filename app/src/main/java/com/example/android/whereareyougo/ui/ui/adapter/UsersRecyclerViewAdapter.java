@@ -8,12 +8,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-
 import com.bumptech.glide.Glide;
 import com.example.android.whereareyougo.R;
 import com.example.android.whereareyougo.ui.data.database.entity.User;
-import com.marshalchen.ultimaterecyclerview.UltimateRecyclerviewViewHolder;
-import com.marshalchen.ultimaterecyclerview.UltimateViewAdapter;
+import com.example.android.whereareyougo.ui.ui.base.BaseRecyclerViewAdapter;
 
 import java.util.List;
 
@@ -23,86 +21,52 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * Created by nguyenanhtrung on 03/07/2017.
  */
 
-public class UsersRecyclerViewAdapter extends UltimateViewAdapter<UsersRecyclerViewAdapter.UserViewHolder> {
+public class UsersRecyclerViewAdapter extends BaseRecyclerViewAdapter<User, RecyclerView.ViewHolder> {
     private Context context;
-    private List<User> users;
     private OnItemClickListener onItemClickListener;
 
     public UsersRecyclerViewAdapter(Context context, List<User> users, OnItemClickListener onItemClickListener) {
+        super(users);
         this.context = context;
-        this.users = users;
         this.onItemClickListener = onItemClickListener;
     }
 
-    public interface OnItemClickListener{
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        return new UserViewHolder(LayoutInflater.from(context)
+                .inflate(R.layout.recycler_view_add_friends_row, parent, false));
 
-        void onButtonClick(View view, int position);
     }
 
     @Override
-    public UserViewHolder newFooterHolder(View view) {
-        return null;
-    }
-
-    @Override
-    public UserViewHolder newHeaderHolder(View view) {
-        return null;
-    }
-
-    @Override
-    public UserViewHolder onCreateViewHolder(ViewGroup parent) {
-        View view = LayoutInflater.from(context).inflate(R.layout.recycler_view_add_friends_row,parent,false);
-        return new UserViewHolder(view);
-    }
-
-    public void swapDatas(List<User> newDatas){
-        users.addAll(newDatas);
-        notifyDataSetChanged();
-    }
-
-    @Override
-    public int getAdapterItemCount() {
-        return users.size();
-    }
-
-    @Override
-    public long generateHeaderId(int position) {
-        return 0;
-    }
-
-    @Override
-    public void onBindViewHolder(UserViewHolder holder, int position) {
-        User currentUser = users.get(position);
-        if(currentUser != null){
-            holder.textUserName.setText(currentUser.getName());
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        User currentUser = getItem(position);
+        if (currentUser != null) {
+            UserViewHolder viewHolder = (UserViewHolder) holder;
+            viewHolder.textUserName.setText(currentUser.getName());
             //
-            if (currentUser.getImageUrl() == null){
+            if (currentUser.getImageUrl() == null) {
                 Glide.with(context)
-                     .load(R.drawable.ic_user_default)
-                     .into(holder.imageUser);
-            }else{
+                        .load(R.drawable.ic_user_default)
+                        .into(viewHolder.imageUser);
+            } else {
                 Glide.with(context)
-                     .load(currentUser.getImageUrl())
-                     .into(holder.imageUser);
+                        .load(currentUser.getImageUrl())
+                        .into(viewHolder.imageUser);
             }
 
         }
     }
 
-    @Override
-    public RecyclerView.ViewHolder onCreateHeaderViewHolder(ViewGroup parent) {
-        return null;
+    public interface OnItemClickListener {
+        void onButtonClick(View view, int position);
     }
 
-    @Override
-    public void onBindHeaderViewHolder(RecyclerView.ViewHolder holder, int position) {
-
-    }
-
-    public class UserViewHolder extends UltimateRecyclerviewViewHolder implements View.OnClickListener{
+    public class UserViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         CircleImageView imageUser;
         TextView textUserName;
         Button buttonAdd;
+
         public UserViewHolder(View itemView) {
             super(itemView);
             imageUser = (CircleImageView) itemView.findViewById(R.id.circle_image_friend);
@@ -114,7 +78,8 @@ public class UsersRecyclerViewAdapter extends UltimateViewAdapter<UsersRecyclerV
 
         @Override
         public void onClick(View v) {
-            onItemClickListener.onButtonClick(buttonAdd,getAdapterPosition());
+            onItemClickListener.onButtonClick(buttonAdd, getAdapterPosition());
         }
     }
+
 }

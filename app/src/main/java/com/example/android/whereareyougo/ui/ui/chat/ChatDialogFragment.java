@@ -1,7 +1,6 @@
 package com.example.android.whereareyougo.ui.ui.chat;
 
 import android.app.Activity;
-import android.app.DialogFragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -10,6 +9,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,14 +25,13 @@ import com.example.android.whereareyougo.ui.data.database.entity.ChatMessage;
 import com.example.android.whereareyougo.ui.data.database.entity.ChatUser;
 import com.example.android.whereareyougo.ui.data.database.entity.User;
 import com.example.android.whereareyougo.ui.di.component.ActivityComponent;
-import com.example.android.whereareyougo.ui.ui.adapter.ChatMessagesAdapter;
-import com.example.android.whereareyougo.ui.ui.adapter.ChatUsersRecyclerViewAdapter;
+import com.example.android.whereareyougo.ui.ui.base.BaseDialogFragment;
 import com.example.android.whereareyougo.ui.utils.MyKey;
 import com.example.android.whereareyougo.ui.utils.NetworkUtil;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
+import com.malinskiy.superrecyclerview.SuperRecyclerView;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
 import com.zhihu.matisse.engine.impl.GlideEngine;
@@ -54,7 +53,7 @@ import static android.app.Activity.RESULT_OK;
 
 
 
-public class ChatDialogFragment extends DialogFragment implements ChatDialogView, View.OnClickListener,ChatUsersRecyclerViewAdapter.ChatUserClickListener
+public class ChatDialogFragment extends BaseDialogFragment implements ChatDialogView, View.OnClickListener,ChatUsersRecyclerViewAdapter.ChatUserClickListener
         {
     @Inject
     ChatDialogMvpPresenter<ChatDialogView> presenter;
@@ -63,7 +62,7 @@ public class ChatDialogFragment extends DialogFragment implements ChatDialogView
     @BindView(R.id.text_friend_name)
     TextView textFriendName;
     @BindView(R.id.recyclerview_conversation)
-    UltimateRecyclerView recyclerviewConversation;
+    SuperRecyclerView recyclerviewConversation;
     @BindView(R.id.button_select_emoj)
     ImageButton buttonSelectEmoj;
     @BindView(R.id.button_select_photo)
@@ -77,7 +76,7 @@ public class ChatDialogFragment extends DialogFragment implements ChatDialogView
     @BindView(R.id.image_button_close)
     ImageButton imageButtonClose;
     @BindView(R.id.recycler_view_chat_users)
-    UltimateRecyclerView recyclerViewChatUsers;
+    SuperRecyclerView recyclerViewChatUsers;
     private ChatUsersRecyclerViewAdapter chatUsersAdapter;
     @BindView(R.id.root_view)
     LinearLayout rootView;
@@ -139,7 +138,6 @@ public class ChatDialogFragment extends DialogFragment implements ChatDialogView
     private void setupChatUsersRecyclerView() {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);
         recyclerViewChatUsers.setLayoutManager(linearLayoutManager);
-        recyclerViewChatUsers.showEmptyView();
         //
         chatUsers = new ArrayList<>();
         ChatUser currentChatUser = new ChatUser(friend,0,true);
@@ -152,7 +150,7 @@ public class ChatDialogFragment extends DialogFragment implements ChatDialogView
 
     public void addChatUserToRecyclerView(ChatUser chatUser){
         if (chatUsersAdapter != null){
-            chatUsersAdapter.addChatUser(chatUser);
+            chatUsersAdapter.addItem(chatUser);
         }
     }
 
@@ -222,7 +220,6 @@ public class ChatDialogFragment extends DialogFragment implements ChatDialogView
 
     private void setupConversationRecyclerView() {
         recyclerviewConversation.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerviewConversation.showEmptyView();
 
         setupDatasForConvesationAdapter(new ArrayList<ChatMessage>());
         //
@@ -298,7 +295,7 @@ public class ChatDialogFragment extends DialogFragment implements ChatDialogView
                 //
                 if (chatMessages != null) {
                     if (!chatMessages.isEmpty()){
-                        recyclerviewConversation.scrollVerticallyToPosition(chatMessages.size() - 1);
+                        recyclerviewConversation.setVerticalScrollbarPosition(chatMessages.size() - 1);
                     }
 
                 }
@@ -392,15 +389,7 @@ public class ChatDialogFragment extends DialogFragment implements ChatDialogView
         return NetworkUtil.isNetworkConnected(getActivity());
     }
 
-    @Override
-    public void onError(String message, Activity activity) {
 
-    }
-
-    @Override
-    public void hideKeyboard() {
-
-    }
 
     public void setTextInputMessage(String content) {
         textInputMessage.setText(content);

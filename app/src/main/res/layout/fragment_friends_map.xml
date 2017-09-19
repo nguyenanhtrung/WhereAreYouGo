@@ -21,11 +21,12 @@
         android:orientation="vertical"
         android:padding="4dp">
 
-        <com.marshalchen.ultimaterecyclerview.UltimateRecyclerView
+        <com.malinskiy.superrecyclerview.SuperRecyclerView
             android:id="@+id/recycler_view_friends_map"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            rc:recyclerviewEmptyView="@layout/recyclerview_empty" />
+            app:layout_empty="@layout/recyclerview_empty"
+             />
 
 
     </LinearLayout>

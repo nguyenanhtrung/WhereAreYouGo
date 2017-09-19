@@ -2,6 +2,7 @@ package com.example.android.whereareyougo.ui.ui.venuedetail;
 
 import com.example.android.whereareyougo.ui.data.database.entity.FavoriteVenue;
 import com.example.android.whereareyougo.ui.data.database.entity.VenuePhoto;
+import com.example.android.whereareyougo.ui.ui.base.DialogMvpView;
 import com.example.android.whereareyougo.ui.ui.base.MvpView;
 import com.google.android.gms.maps.model.LatLng;
 
@@ -11,7 +12,7 @@ import java.util.List;
  * Created by nguyenanhtrung on 28/06/2017.
  */
 
-public interface VenueDetailView extends MvpView {
+public interface VenueDetailView extends DialogMvpView {
     void showVenueName(String venueName);
 
     void showVenueAddress(String venueAddress);

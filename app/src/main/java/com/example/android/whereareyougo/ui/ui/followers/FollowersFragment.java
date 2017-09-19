@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,10 +14,8 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.android.whereareyougo.R;
 import com.example.android.whereareyougo.ui.data.database.entity.User;
-import com.example.android.whereareyougo.ui.ui.adapter.FollowersRecyclerViewAdapter;
 import com.example.android.whereareyougo.ui.ui.base.BaseFragment;
-import com.example.android.whereareyougo.ui.ui.base.MvpView;
-import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
+import com.malinskiy.superrecyclerview.SuperRecyclerView;
 
 import java.util.ArrayList;
 
@@ -35,7 +34,7 @@ public class FollowersFragment extends BaseFragment implements FollowersView,Fol
     @Inject
     FollowersMvpPresenter<FollowersView> presenter;
     @BindView(R.id.recycler_view_followers)
-    UltimateRecyclerView recyclerViewFollowers;
+    SuperRecyclerView recyclerViewFollowers;
     Unbinder unbinder;
     private ArrayList<User> followers;
     private FollowersRecyclerViewAdapter adapter;
@@ -65,7 +64,6 @@ public class FollowersFragment extends BaseFragment implements FollowersView,Fol
         setupRecyclerViewFollowers();
         showLoadingDialog();
 
-
         return view;
     }
 
@@ -79,8 +77,6 @@ public class FollowersFragment extends BaseFragment implements FollowersView,Fol
 
     private void setupRecyclerViewFollowers() {
         recyclerViewFollowers.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerViewFollowers.showEmptyView();
-
         //
     }
 

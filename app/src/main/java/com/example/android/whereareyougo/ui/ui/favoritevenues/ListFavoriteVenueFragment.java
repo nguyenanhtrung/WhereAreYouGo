@@ -19,13 +19,11 @@ import com.afollestad.materialdialogs.MaterialDialog;
 
 import com.example.android.whereareyougo.R;
 import com.example.android.whereareyougo.ui.data.database.entity.FavoriteVenue;
-import com.example.android.whereareyougo.ui.ui.adapter.FavoriteVenuesRecyclerViewAdapter;
 import com.example.android.whereareyougo.ui.ui.base.BaseFragment;
 import com.example.android.whereareyougo.ui.ui.custom.GridDividerItemDecoration;
 import com.example.android.whereareyougo.ui.utils.MyKey;
-import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
-import com.marshalchen.ultimaterecyclerview.UltimateViewAdapter;
-import com.marshalchen.ultimaterecyclerview.itemTouchHelper.SimpleItemTouchHelperCallback;
+import com.malinskiy.superrecyclerview.SuperRecyclerView;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +41,7 @@ import butterknife.Unbinder;
 public class ListFavoriteVenueFragment extends BaseFragment implements ListFavoriteVenueView, FavoriteVenuesRecyclerViewAdapter.MyItemClickListener,View.OnClickListener {
 
     @BindView(R.id.recycler_view_favorite_venues)
-    UltimateRecyclerView recyclerViewFavoriteVenues;
+    SuperRecyclerView recyclerViewFavoriteVenues;
     @BindView(R.id.text_recycler_view_empty)
     TextView textRecyclerViewEmpty;
     Unbinder unbinder;
@@ -106,40 +104,18 @@ public class ListFavoriteVenueFragment extends BaseFragment implements ListFavor
 
         recyclerViewFavoriteVenues.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         recyclerViewFavoriteVenues.addItemDecoration(new GridDividerItemDecoration(8, 2));
-        recyclerViewFavoriteVenues.showEmptyView();
     }
 
-    private void setSwipetoDismissRecyclerView() {
-    }
 
-    public void dragList() {
-        ItemTouchHelper.Callback callback =
-                new SimpleItemTouchHelperCallback(adapter);
-        final ItemTouchHelper mItemTouchHelper = new ItemTouchHelper(callback);
-        mItemTouchHelper.attachToRecyclerView(recyclerViewFavoriteVenues.mRecyclerView);
-        adapter.setOnDragStartListener
-                (new FavoriteVenuesRecyclerViewAdapter.OnStartDragListener() {
-                    @Override
-                    public void onStartDrag(RecyclerView.ViewHolder viewHolder) {
-                        mItemTouchHelper.startDrag(viewHolder);
-                    }
-                });
-    }
+
+
 
     public void setupFavoriteVenuesRecyclerViewAdapter(List<FavoriteVenue> venues) {
         favoriteVenues = new ArrayList<>();
         favoriteVenues = venues;
-        if (favoriteVenues.isEmpty()) {
-            textRecyclerViewEmpty.setVisibility(View.VISIBLE);
-            return;
-        }
+
         adapter = new FavoriteVenuesRecyclerViewAdapter(getActivity(), favoriteVenues, this);
         recyclerViewFavoriteVenues.setAdapter(adapter);
-
-        dragList();
-
-        //adapter.setS
-
 
     }
 
@@ -220,7 +196,7 @@ public class ListFavoriteVenueFragment extends BaseFragment implements ListFavor
     }
 
     public void removeAllFavoriteVenuesRecyclerView(){
-        adapter.removeAllItems();
+        adapter.clear();
     }
 
 
