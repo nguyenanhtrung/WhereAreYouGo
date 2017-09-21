@@ -2,6 +2,7 @@ package com.example.android.whereareyougo.ui.ui.searchvenue;
 
 import android.os.Bundle;
 
+import com.example.android.whereareyougo.ui.data.database.entity.VenueSearchCondition;
 import com.example.android.whereareyougo.ui.ui.base.MvpView;
 
 /**
@@ -13,8 +14,8 @@ public interface SearchVenueView extends MvpView {
 
     void setPreviousPosition(int previousPosition);
 
-    void openMapFragment(Bundle bundle);
-
     double getSearchVenueRadius();
+
+    void openMapFragmentBySearchCondition(VenueSearchCondition searchCondition);
 
 }

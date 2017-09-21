@@ -44,7 +44,6 @@ public class MainPresenter<V extends MainView> extends BasePresenter<V> implemen
     }
 
     public void updateUserInfo() {
-
         getDataManager().getUserInfo().addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

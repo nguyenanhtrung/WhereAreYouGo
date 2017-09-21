@@ -39,6 +39,7 @@ import com.rengwuxian.materialedittext.MaterialEditText;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
 import com.zhihu.matisse.engine.impl.GlideEngine;
+import com.zhihu.matisse.engine.impl.PicassoEngine;
 
 
 import de.hdodenhof.circleimageview.CircleImageView;

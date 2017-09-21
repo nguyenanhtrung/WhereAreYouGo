@@ -12,6 +12,7 @@ import android.widget.Button;
 
 import com.example.android.whereareyougo.R;
 import com.example.android.whereareyougo.ui.data.database.entity.VenueCategory;
+import com.example.android.whereareyougo.ui.data.database.entity.VenueSearchCondition;
 import com.example.android.whereareyougo.ui.ui.base.BaseFragment;
 import com.example.android.whereareyougo.ui.ui.custom.GridDividerItemDecoration;
 import com.malinskiy.superrecyclerview.SuperRecyclerView;
@@ -118,8 +119,9 @@ public class SearchVenueFragment extends BaseFragment implements SearchVenueView
         adapter.notifyDataSetChanged();
     }
 
-    public void openMapFragment(Bundle bundle){
-        interaction.openMapFragmentFromSearchFragment(bundle);
+
+    public void openMapFragmentBySearchCondition(VenueSearchCondition searchCondition){
+        interaction.openMapFragmentFromSearchFragment(searchCondition);
     }
 
     @Override
@@ -164,6 +166,6 @@ public class SearchVenueFragment extends BaseFragment implements SearchVenueView
     }
 
     public interface InteractionWithSearchVenueFragment{
-        void openMapFragmentFromSearchFragment(Bundle bundleSearchVenue);
+        void openMapFragmentFromSearchFragment(VenueSearchCondition searchCondition);
     }
 }

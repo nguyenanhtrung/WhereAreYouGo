@@ -31,6 +31,7 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.example.android.whereareyougo.R;
 import com.example.android.whereareyougo.ui.data.database.entity.Result;
+import com.example.android.whereareyougo.ui.data.database.entity.VenueSearchCondition;
 import com.example.android.whereareyougo.ui.ui.base.BaseFragment;
 import com.example.android.whereareyougo.ui.ui.main.MainActivity;
 import com.example.android.whereareyougo.ui.ui.map.clusteritem.VenueMarkerItem;
@@ -98,7 +99,7 @@ public class MapFragment extends BaseFragment implements MapMvpView, OnMapReadyC
     private ClusterManager<VenueMarkerItem> clusterManager;
     private ArrayList<VenueMarkerItem> venueMarkerItems;
     private MaterialDialog loadingDialog;
-    private Bundle bundleSearchVenue;
+    private VenueSearchCondition venueSearchCondition;
     private boolean checkRequestLocationUpdate = false;
 
     public static MapFragment newInstance(Location currentUserLocation) {
@@ -126,10 +127,12 @@ public class MapFragment extends BaseFragment implements MapMvpView, OnMapReadyC
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(MapFragment.this);
 
-        /*if (bundleSearchVenue != null) {
-            mapMvpPresenter.getVenuesByRadiusAndCategory(bundleSearchVenue);
+        venueSearchCondition = getArguments().getParcelable("searchcondition");
 
-        }*/
+        if (venueSearchCondition != null){
+            mapMvpPresenter.getVenuesByRadiusAndCategory(venueSearchCondition);
+            Toast.makeText(getActivity(), "venueSearchCondition not null", Toast.LENGTH_SHORT).show();
+        }
         return view;
 
     }
@@ -153,18 +156,15 @@ public class MapFragment extends BaseFragment implements MapMvpView, OnMapReadyC
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        /*bundleSearchVenue = getArguments();
-        if (bundleSearchVenue == null) {
-            Toast.makeText(getActivity(), "Bundle Search Null", Toast.LENGTH_SHORT).show();
-        } else {
-            //Log.d(MyKey.MAP_FRAGMENT_TAG,"current location = " + lastKnownLocation.toString());
-        }*/
+
         Bundle bundle = getArguments();
         if (bundle != null) {
             lastKnownLocation = bundle.getParcelable("currentlocation");
+
             //Toast.makeText(getActivity(), "UserLocation = " + lastKnownLocation.getLatitude(), Toast.LENGTH_SHORT).show();
         }
         //
+
     }
 
     public void drawPolyLineOnMap(LatLng destination) {
@@ -282,6 +282,7 @@ public class MapFragment extends BaseFragment implements MapMvpView, OnMapReadyC
         searchLoadingDialog = new MaterialDialog.Builder(getActivity())
                 .title(titleId)
                 .content(contentId)
+                .cancelable(false)
                 .progress(true, 3)
                 .show();
 
@@ -454,7 +455,6 @@ public class MapFragment extends BaseFragment implements MapMvpView, OnMapReadyC
     @Override
     public void onStart() {
         super.onStart();
-        showLoadingMapDialog();
         mapView.onStart();
 
     }
@@ -462,6 +462,7 @@ public class MapFragment extends BaseFragment implements MapMvpView, OnMapReadyC
     @Override
     public void onResume() {
         super.onResume();
+        showLoadingMapDialog();
         mapView.onResume();
 
         //

@@ -7,11 +7,15 @@ import com.example.android.whereareyougo.ui.ui.base.MvpPresenter;
  */
 
 public interface LoginMvpPresenter<V extends LoginView> extends MvpPresenter<V> {
-  void onClickButtonSignup();
+    void onClickButtonSignup();
 
-  void onCLickButtonSignin(String email, String password);
+    void onCLickButtonSignin(String email, String password);
 
-  void loginWithLoginRemember();
+    void loginWithLoginRemember();
 
-  void onClickConnectAgainDisconnectNetworkDialog(String email, String password);
+    void onClickConnectAgainDisconnectNetworkDialog(String email, String password);
+
+    void onClickImageShowPassword();
+
+
 }

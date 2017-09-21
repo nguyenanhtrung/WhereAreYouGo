@@ -2,6 +2,7 @@ package com.example.android.whereareyougo.ui.ui.main;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
@@ -26,6 +27,7 @@ import android.widget.Toast;
 import com.example.android.whereareyougo.R;
 import com.example.android.whereareyougo.ui.data.database.entity.Result;
 import com.example.android.whereareyougo.ui.data.database.entity.User;
+import com.example.android.whereareyougo.ui.data.database.entity.VenueSearchCondition;
 import com.example.android.whereareyougo.ui.ui.addfriend.AddFriendDialogFragment;
 import com.example.android.whereareyougo.ui.ui.appsetting.AppSettingFragment;
 import com.example.android.whereareyougo.ui.ui.base.BaseActivity;
@@ -140,9 +142,11 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
         initUiEvents();
         registerNetworkReceiver();
         buildGoogleApiClient();
+        //setupMapFragment(null);
 
 
         mainMvpPresenter.updateUserInfo();
+        mainMvpPresenter.updaterUserStatus();
         mainMvpPresenter.updateListRequestAddFriend();
         mainMvpPresenter.updateListRequestFollow();
         mainMvpPresenter.updateMessageNotification();
@@ -209,7 +213,7 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
     @Override
     protected void onResume() {
         super.onResume();
-        mainMvpPresenter.updaterUserStatus();
+
 
     }
 
@@ -697,15 +701,33 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
         if (googleApiClient != null) {
             currentUserLocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
         }
-        MyFragmentUtil.replaceFragment(getFragmentManager(), R.id.fragment_container_layout, MapFragment.newInstance(currentUserLocation), MyKey.MAP_FRAGMENT_TAG);
+
+        Fragment mapFragment = getFragmentManager().findFragmentByTag(MyKey.MAP_FRAGMENT_TAG);
+        if (mapFragment == null){
+            MyFragmentUtil.replaceFragment(getFragmentManager(), R.id.fragment_container_layout, MapFragment.newInstance(currentUserLocation), MyKey.MAP_FRAGMENT_TAG);
+        }else{
+            MyFragmentUtil.replaceFragment(getFragmentManager(), R.id.fragment_container_layout, mapFragment, MyKey.MAP_FRAGMENT_TAG);
+
+        }
 
     }
 
     @Override
-    public void openMapFragmentFromSearchFragment(Bundle bundleSearchVenue) {
-        MapFragment fragment = MapFragment.newInstance(currentUserLocation);
-        fragment.setArguments(bundleSearchVenue);
-        openMapFragment();
+    public void openMapFragmentFromSearchFragment(VenueSearchCondition searchCondition) {
+        Fragment mapFragment = getFragmentManager().findFragmentByTag(MyKey.MAP_FRAGMENT_TAG);
+        if (mapFragment != null){
+
+            if (searchCondition != null){
+                mapFragment.getArguments().putParcelable("searchcondition",searchCondition);
+            }
+            Log.d(MyKey.MAP_FRAGMENT_TAG,"My Map Fragment");
+            MyFragmentUtil.replaceFragment(getFragmentManager(), R.id.fragment_container_layout,
+                    mapFragment, MyKey.MAP_FRAGMENT_TAG);
+        }else{
+            MyFragmentUtil.replaceFragment(getFragmentManager(), R.id.fragment_container_layout,
+                    MapFragment.newInstance(currentUserLocation), MyKey.MAP_FRAGMENT_TAG);
+        }
+
 
     }
 

@@ -20,4 +20,14 @@ public interface LoginView extends MvpView {
   void dismissDisconnectNetworkDialog();
 
   void setVisibilityForComponents(int visibility);
+
+  String getUserPassword();
+
+  void setEditTextPassword(String password);
+
+  void setImageShowPassword(int imageId);
+
+  void showUserPassword();
+
+  void hideUserPassword();
 }

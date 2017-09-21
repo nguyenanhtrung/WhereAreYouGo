@@ -1,10 +1,13 @@
 package com.example.android.whereareyougo.ui.ui.searchvenue;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import com.example.android.whereareyougo.ui.data.database.entity.VenueCategory;
+import com.example.android.whereareyougo.ui.data.database.entity.VenueSearchCondition;
 import com.example.android.whereareyougo.ui.data.manager.DataManager;
 import com.example.android.whereareyougo.ui.ui.base.BasePresenter;
+import com.example.android.whereareyougo.ui.utils.MyKey;
 
 import java.util.List;
 
@@ -50,14 +53,11 @@ public class SearchVenuePresenter<V extends SearchVenueView> extends BasePresent
         //get radius from edit text radius
         radius = getMvpView().getSearchVenueRadius();
 
-        //save venue category choose and radius to bundle
-        Bundle bundle = new Bundle();
-        bundle.putString("categoryid",categoryIdChoose);
-        bundle.putDouble("radius",radius);
-        //
-
+        VenueSearchCondition searchCondition = new VenueSearchCondition(categoryIdChoose,radius);
+        Log.d(MyKey.SEARCH_VENUE_FRAGMENT_TAG,"Radius = " + radius + " - CategoryId = " + categoryIdChoose);
+        getMvpView().openMapFragmentBySearchCondition(searchCondition);
 
         //open map Fragment and send venue category choose, radius to map fragment
-        getMvpView().openMapFragment(bundle);
+       // getMvpView().openMapFragment(bundle);
     }
 }

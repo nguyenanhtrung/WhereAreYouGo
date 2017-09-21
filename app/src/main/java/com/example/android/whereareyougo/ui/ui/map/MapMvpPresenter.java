@@ -2,6 +2,7 @@ package com.example.android.whereareyougo.ui.ui.map;
 
 import android.os.Bundle;
 
+import com.example.android.whereareyougo.ui.data.database.entity.VenueSearchCondition;
 import com.example.android.whereareyougo.ui.ui.base.MvpPresenter;
 
 /**
@@ -13,5 +14,5 @@ public interface MapMvpPresenter<V extends MapMvpView> extends MvpPresenter<V> {
   void onClickFloatButtonMapType();
   void onClickButtonSearchVenue(String venueName);
   void onClusterItemInfoWindowClick(String venueid);
-  void getVenuesByRadiusAndCategory(Bundle bundle);
+  void getVenuesByRadiusAndCategory(VenueSearchCondition venueSearchCondition);
 }

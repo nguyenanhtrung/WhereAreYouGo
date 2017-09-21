@@ -5,6 +5,7 @@ import android.os.Bundle;
 import com.example.android.whereareyougo.R;
 import com.example.android.whereareyougo.ui.data.database.entity.Result;
 import com.example.android.whereareyougo.ui.data.database.entity.VenueResponse;
+import com.example.android.whereareyougo.ui.data.database.entity.VenueSearchCondition;
 import com.example.android.whereareyougo.ui.data.manager.DataManager;
 import com.example.android.whereareyougo.ui.data.remote.ApiHelper;
 import com.example.android.whereareyougo.ui.data.remote.RetrofitClient;
@@ -73,6 +74,8 @@ public class MapPresenter<V extends MapMvpView> extends BasePresenter<V> impleme
             getMvpView().showMessage(R.string.text_search_venue_empty);
             return;
         }
+        getMvpView().showLoadingDialog(R.string.title_loading_search_venue, R.string.content_loading_search_venue);
+        getMvpView().hideKeyboard();
 
         ApiHelper.getAPIService()
                 .getVenueByName(MyKey.GOOGLE_PLACES_KEY,
@@ -83,7 +86,6 @@ public class MapPresenter<V extends MapMvpView> extends BasePresenter<V> impleme
                     @Override
                     public void onResponse(Call<VenueResponse> call, Response<VenueResponse> response) {
                         getMvpView().removeAllVenueMarkerItems();
-                        getMvpView().showLoadingDialog(R.string.title_loading_search_venue, R.string.content_loading_search_venue);
                         VenueResponse venueResponse = response.body();
                         if (venueResponse != null) {
                             ArrayList<Result> results = venueResponse.getResults();
@@ -101,16 +103,16 @@ public class MapPresenter<V extends MapMvpView> extends BasePresenter<V> impleme
                 });
     }
 
-    public void getVenuesByRadiusAndCategory(Bundle bundle) {
+    public void getVenuesByRadiusAndCategory(VenueSearchCondition venueSearchCondition) {
         //get radius from bundle
-        double radius = bundle.getDouble("radius");
+        double radius = venueSearchCondition.getRadius();
         //check if radius = -1 => set radius default = 10000
         if (radius == -1) {
             radius = 10000;
         }
         //
         //get venue category id from bundle
-        String venueCategoryId = bundle.getString("categoryid");
+        String venueCategoryId = venueSearchCondition.getCategoryId();
         if (venueCategoryId == null) {
             return;
         }
